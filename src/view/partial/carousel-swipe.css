@@ -9,22 +9,22 @@
 }
 
 .swiper-container {
-  width: 40%;
-  margin: 1.5rem;
-  padding-left: 2rem;
+  width: 30%;
 }
 
 .swiper-wrapper {
+  display: flex;
   height: 100%;
 }
 
 .swiper-container img {
-  width: 100%; /* Set your desired width */
-  height: 100%; /* Set your desired height */
+  width: 33rem; /* Set your desired width */
+  height: 20rem; /* Set your desired height */
 }
 
 .swiper-slide {
-  width: 100%;
+  flex: 0 0 auto;
+  width: auto;
   height: 100%;
   border-radius: 0.8rem;
   overflow: hidden;

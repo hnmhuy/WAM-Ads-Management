@@ -33,7 +33,14 @@ app.get('/ad-detail', function (req, res) {
   let componentData = {
     cssPath: ['/partial/ad-detail.css', '/partial/carousel-swipe.css'],
   };
-  res.render('partial/ad-detail', componentData); // Specify the correct path to the view
+  res.render('partial/ad-detail', { componentData }); // Specify the correct path to the view
+});
+
+app.get('/carousel', function (req, res) {
+  let componentData = {
+    cssPath: ['/partial/carousel-swipe.css'],
+  };
+  res.render('partial/carousel-swipe', { componentData }); // Specify the correct path to the view
 });
 
 app.use(
