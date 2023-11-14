@@ -1,0 +1,103 @@
+#map {
+    height: 100%;
+    width: 100%;
+    
+}
+
+.map-container {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.zoomContainer {
+    background-color: #fff;
+    height: 90px;
+    width: 40px;
+    overflow: hidden;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 20px 80px 20px;
+    gap: 0px;
+}
+
+.zoomButton {
+    width: 40px;
+    height: 50px;
+    margin: 0px;
+    display: flex;
+    justify-content: center;
+    background-color: #fff;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,.3);
+    color: rgb(25,25,25);
+    cursor: pointer;
+
+}
+
+
+.filterContainer {
+    display: flex;
+    justify-content: space-around;
+    position: absolute;
+    right: 20px;
+    bottom: 30px;
+    gap: 10px;
+}
+
+.zoomButton img {
+    width: 80%;
+    height: 80%;
+}
+
+
+.switchContainer {
+    width: 165px;
+    height: 50px;
+    background-color: rgba(255, 243, 240, 0.9);
+    display: flex;
+    border-radius: 12px;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.switchContainer p {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0px;
+    overflow: hidden;
+}
+
+.switch {
+    background-color: rgba(120, 120, 128, 0.16);
+    width: 62px;
+    height: 34px;
+    border-radius: 15px;
+    cursor: pointer;
+    position: relative;
+    transition: 0.2s;
+}
+.switch::before {
+    position: absolute;
+    content: "";
+    background-color: #fff;
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    margin: 2px;
+    transition: 0.2s;
+}
+input:checked + .switch {
+    background-color: rgb(254,175,157);
+}
+input:checked + .switch::before {
+    transform: translateX(28px);
+}
+input {
+    display: none;
+}
