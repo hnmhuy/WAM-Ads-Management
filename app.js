@@ -43,9 +43,32 @@ app.get('/carousel', function (req, res) {
   res.render('partial/carousel-swipe', { componentData }); // Specify the correct path to the view
 });
 
+app.get('/side-no', function (req, res) {
+  let componentData = {
+    cssPath: ['/partial/sidepeek-noAd.css'],
+  };
+  res.render('partial/sidepeek-noAd', { componentData }); // Specify the correct path to the view
+});
+
+app.get('/side', function (req, res) {
+  let componentData = {
+    cssPath: [
+      '/partial/sidepeek-ad.css',
+      '/partial/carousel.css',
+      '/partial/ad-card.css',
+    ],
+  };
+  res.render('partial/sidepeek-ad', { componentData }); // Specify the correct path to the view
+});
+
 app.use(
   '/partial',
   express.static(path.join(__dirname, 'src', 'view', 'partial'))
+);
+
+app.use(
+  '/images',
+  express.static(path.join(__dirname, 'src', 'public', 'images'))
 );
 
 app.listen(3000, () => {
