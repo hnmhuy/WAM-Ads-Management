@@ -1,15 +1,20 @@
 import express from "express";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
-import hbs from 'express-handlebars';
 const __dirname = dirname(fileURLToPath(import.meta.url));
+import hbs from 'express-handlebars';
+
+// Import router for district
+import homeRouterDistrict from './src/routes/district/home.route.js';
+import locationRouterDistrict from './src/routes/district/location.route.js';
+import loginRouterDistrict from './src/routes/district/login.route.js';
+import permissionRouterDistrict from './src/routes/district/permission.route.js';
+import reportsRouterDistrict from './src/routes/district/reports.route.js';
 
 // Configuration
 const config = {
-    port: 3000,
+    port: process.env.PORT || 3000,
     viewEngine: 'hbs',
-    layoutsDir: __dirname + '/views/layouts',
-    partialsDir: __dirname + '/views/partials'
 };
 
 const app = express();
@@ -23,9 +28,13 @@ app.engine(config.viewEngine, hbs.engine({
 app.set('view engine', config.viewEngine);
 
 // Routes
-app.get("/", function (req, res) {
-    res.send("Hello world");
-});
+app.use('/', homeRouterDistrict)
+app.use('/location', locationRouterDistrict)
+app.use('/login', loginRouterDistrict)
+app.use('/permission', permissionRouterDistrict)
+app.use('/reports', reportsRouterDistrict)
+
+
 
 // Error handling
 app.use(function (err, req, res, next) {
