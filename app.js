@@ -12,4 +12,9 @@ app.get("/", function (req, res) {
     res.sendFile(__dirname + "/testmap.html");
 });
 
+app.get("/testing", (req, res) => {
+    res.sendFile(__dirname + "/markerBuild.html");
+});
+
 app.listen(3000);
+
