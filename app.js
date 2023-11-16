@@ -1,39 +1,34 @@
-import express from "express";
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-const __dirname = dirname(fileURLToPath(import.meta.url));
-import hbs from 'express-handlebars';
+const express = require("express");
+const hbs = require('express-handlebars');
+const port = 3000 | process.env.port
 
 // Import router for district
-import homeRouterDistrict from './src/routes/district/home.route.js';
-import locationRouterDistrict from './src/routes/district/location.route.js';
-import loginRouterDistrict from './src/routes/district/login.route.js';
-import permissionRouterDistrict from './src/routes/district/permission.route.js';
-import reportsRouterDistrict from './src/routes/district/reports.route.js';
+const homeRouterDistrict = require('./src/routes/district/home.route.js');
+const locationRouterDistrict = require('./src/routes/district/location.route.js');
+const loginRouterDistrict = require('./src/routes/district/login.route.js');
+const permissionRouterDistrict = require('./src/routes/district/permission.route.js');
+const reportsRouterDistrict = require('./src/routes/district/reports.route.js');
 
-// Configuration
-const config = {
-    port: process.env.PORT || 3000,
-    viewEngine: 'hbs',
-};
 
 const app = express();
 
-app.engine(config.viewEngine, hbs.engine({
-    extname: config.viewEngine,
-    defaultLayout: 'layout',
-    layoutsDir: config.layoutsDir,
-    partialsDir: config.partialsDir
-}));
-app.set('view engine', config.viewEngine);
+
+app.engine("hbs", hbs.engine({
+    layoutsDir: __dirname + "/views/layouts",
+    partialsDir: __dirname + "/views/partials",
+    extname: "hbs",
+    defaultLayout: "layout"
+}))
+app.set("view engine", "hbs")
+
 
 // Routes
-app.use('/', homeRouterDistrict)
-app.use('/location', locationRouterDistrict)
+// app.use('/', homeRouterDistrict)
+// app.use('/location', locationRouterDistrict)
 app.use('/login', loginRouterDistrict)
-app.use('/permission', permissionRouterDistrict)
-app.use('/reports', reportsRouterDistrict)
-
+// app.use('/permission', permissionRouterDistrict)
+// app.use('/reports', reportsRouterDistrict)
+// app.use("/public", express.static(path.join(__dirname, "src", "public")));
 
 
 // Error handling
@@ -42,6 +37,6 @@ app.use(function (err, req, res, next) {
     res.status(500).send('Something broke!');
 });
 
-app.listen(config.port, () => {
-    console.log(`Server is running on port ${config.port}`);
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
 });
