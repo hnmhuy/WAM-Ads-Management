@@ -22,7 +22,7 @@
   <body>
     {{>nav}}
     {{{body}}}
-        <script>
+      <script>
       let sidebar = document.querySelector(".sidebar");
       let logOutBtn = document.querySelector("#log_out");
 
@@ -30,13 +30,16 @@
         window.location.href = "/";
       });
 
-      ["mouseenter", "mouseleave"].forEach((eventType) => {
-        sidebar.addEventListener(eventType, toggleSidebar);
-      });
-
-      function toggleSidebar() {
+      sidebar.addEventListener("mouseenter", () =>
+      {
         sidebar.classList.toggle("open");
-      }
+      })
+
+      sidebar.addEventListener("mouseleave", () =>
+      {
+        sidebar.classList.remove("open");
+      })
+
     </script>
   </body>
 </html>
