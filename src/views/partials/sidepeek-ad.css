@@ -5,19 +5,31 @@
 }
 
 .sidepeek-container {
-  height: 54rem;
+  height: calc(100vh - 5.5rem);
   width: 26rem;
   background-color: #f9fafd;
-  padding: 0.75rem 2rem 0.5rem 1.25rem;
   border-radius: 12px;
   overflow: auto;
+  /* display: none; */
+  position: absolute;
+  top: 4.5rem;
+  left: 1.5rem;
+}
+
+.sidepeek-container-data {
+  padding: 0rem 2rem 0.5rem 1.25rem;
 }
 
 .area-icon {
   display: flex;
   align-items: center;
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  background-color: #f9fafd;
+  top: 0;
+  z-index: 10;
+  padding: 0.75rem 0.6rem 0.5rem 0.6rem;
 }
-
 .area-icon h3 {
   width: 85%;
   margin: 0;
@@ -30,6 +42,16 @@
 .bi-x-lg {
   font-size: 1.5rem;
 }
+
+.bi-x-circle {
+  font-size: 1.6rem;
+}
+
+.bi-x-circle:hover {
+  color: red;
+  font-weight: bold;
+}
+
 .location-img p {
   margin-top: 0.5rem;
   margin-bottom: 0.1rem;

@@ -100,10 +100,6 @@ input {
     display: none;
 }
 
-.hidden {
-    display: none !important;
-}
-
 .marker {
     display: flex;
     flex-direction: column;

@@ -1,9 +1,8 @@
-import express from 'express';
-import { dirname } from 'path';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import hbs from 'express-handlebars';
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const express = require('express');
+const { dirname } = require('path');
+const path = require('path');
+const { fileURLToPath } = require('url');
+const hbs = require('express-handlebars');
 
 const port = 3000;
 const app = express();
@@ -44,4 +43,9 @@ app.get('/', (req, res) => {
 
 app.listen(port, () => {
   console.log(`Sever is running on http://localhost:${port}`);
+});
+
+app.use('/testing', express.static(path.join(__dirname, 'testing')));
+app.get('/testing', (req, res) => {
+  res.sendFile(__dirname + '/testing/test.html');
 });

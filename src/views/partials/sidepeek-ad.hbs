@@ -1,50 +1,57 @@
-<div class="sidepeek-container">
-  <div class="area-icon">
+<div class="sidepeek-container hidden">
+  <div class="area-icon shadow-sm">
     <i class="bi bi-pin-map"></i>
     <h3 id="area">Phường 4, Quận 5</h3>
-    <i class="bi bi-x-lg"></i>
+    <i class="bi bi-x-circle"></i>    
   </div>
-  <div class="location-img">
-    <p>Hình ảnh điểm đặt quảng cáo</p>
-    {{>carousel}}
-  </div>
-  <div class="address">
-    <i class="bi bi-geo-alt-fill"></i>
-    <p id="format-address">
-      Đồng Khởi - Nguyễn Du (Sở Văn hóa và Thể thao), Phường Bến Nghé, Quận 1
-    </p>
-  </div>
-  <div class="location-content">
-    <h4 id="type-ad">trụ/cụm pano</h4>
-    <div>
-      <p class="title">Số lượng bảng (bảng/vị trí)</p>
-      <p class="content" id="capacity">2 bảng</p>
+  <div class="sidepeek-container-data">
+    <div class="location-img">
+      <p>Hình ảnh điểm đặt quảng cáo</p>
+      {{>carousel}}
     </div>
-    <div>
-      <p class="title">Hình thức quảng cáo</p>
-      <p class="content" id="'purpose">Cổ động chính trị</p>
+    <div class="address">
+      <i class="bi bi-geo-alt-fill"></i>
+      <p id="format-address">
+        Đồng Khởi - Nguyễn Du (Sở Văn hóa và Thể thao), Phường Bến Nghé, Quận 1
+      </p>
     </div>
-    <div>
-      <p class="title">Loại vị trí</p>
-      <p class="content" id="type-location">Hành lang an toàn giao thông</p>
-    </div>
+    <div class="location-content">
+      <h4 id="type-ad">trụ/cụm pano</h4>
+      <div>
+        <p class="title">Số lượng bảng (bảng/vị trí)</p>
+        <p class="content" id="capacity">2 bảng</p>
+      </div>
+      <div>
+        <p class="title">Hình thức quảng cáo</p>
+        <p class="content" id="'purpose">Cổ động chính trị</p>
+      </div>
+      <div>
+        <p class="title">Loại vị trí</p>
+        <p class="content" id="type-location">Hành lang an toàn giao thông</p>
+      </div>
 
-    <button type="button" class="btn btn-primary">
-      <i class="bi bi-send-fill"></i>
-      Phản hồi
-    </button>
-    <button type="button" class="btn btn-primary">
-      <i class="bi bi-file-text-fill"></i> Xem phản hồi
-    </button>
-  </div>
-  <div class="ad-content">
-    <h5 id="num-ad">Thông tin bảng quảng cáo (4)</h5>
-    {{> ad-card}} {{> ad-card}} {{> ad-card}} {{> ad-card}}
-  </div>
+      <button type="button" class="btn btn-primary">
+        <i class="bi bi-send-fill"></i>
+        Phản hồi
+      </button>
+      <button type="button" class="btn btn-primary">
+        <i class="bi bi-file-text-fill"></i> Xem phản hồi
+      </button>
+    </div>
+    <div class="ad-content">
+      <h5 id="num-ad">Thông tin bảng quảng cáo (4)</h5>
+      {{> ad-card}} {{> ad-card}} {{> ad-card}} {{> ad-card}}
+    </div>
+  </div>  
 </div>
 <script
   src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
   integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
   crossorigin="anonymous"
 ></script>
+<script>
+    document.querySelector(".bi-x-circle").addEventListener('click', () => {
+        document.querySelector(".sidepeek-container").classList.add('hidden')
+    });
+</script>
 <script src="/partials/data.js"></script>

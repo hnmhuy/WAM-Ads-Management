@@ -3,19 +3,18 @@
   <head>
     {{> head}}
     <link rel="stylesheet" href="/public/css/maps.css">
+    <link rel="stylesheet" href="/public/css/citizens.css">
+    <link rel="stylesheet" href="/public/css/globalStyle.css">
     <script type="module" defer src="/public/js/maps.js"></script>
-    <style>
-      body {
-        width: 100vw;
-        height: 100vh;
-      }
-    </style>
   </head>
   <body>
-    <div class="map-container" style="width: 100%; height: 100% ">
-        <div id="map"></div>
-    </div>
-    {{>sidepeek-ad}}
+    <main>
+      <div class="header-citizens"></div>
+      <div class="map-container" style="width: 100%; height: calc(100vh - 3.5rem)">
+          <div id="map"></div>
+      </div>
+      {{>sidepeek-ad}}
+    </main>
     <script>
         ((g) => {
             var h,
