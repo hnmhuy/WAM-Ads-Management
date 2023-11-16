@@ -4,6 +4,132 @@ const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 const { PlacesService } = await google.maps.importLibrary("places");
 const { MapTypeControlStyle } = await google.maps.importLibrary("maps");
 
+const RANDOM_LOCATION = 1;
+const AD_LOCATION = 2;
+const ad_markers = [];
+const random_markers = [];
+// Testing data
+
+const data = [
+    {
+        place_id: "1111",
+        type: AD_LOCATION,
+        properties: {
+            address: "181/37, Âu Dương Lân, Phường 2, Quận 8",
+            location: {
+                lat: 10.740453,
+                lng: 106.6869059,
+            },
+            status: true, //Đã quy hoạch
+            status_text: "Đã quy hoạch",
+            purpose: "Cổ động chính trị",
+            type_of_ad: "Màn hình led",
+            number_feedback: 0,
+        },
+    },
+    {
+        place_id: "1111",
+        type: AD_LOCATION,
+        properties: {
+            address: "181/37, Âu Dương Lân, Phường 2, Quận 8",
+            location: {
+                lat: 10.745289,
+                lng: 106.684242,
+            },
+            status: true, //Đã quy hoạch
+            status_text: "Đã quy hoạch",
+            purpose: "Cổ động chính trị",
+            type_of_ad: "Màn hình led",
+            number_feedback: 1,
+        },
+    },
+    {
+        place_id: "1111",
+        type: AD_LOCATION,
+        properties: {
+            address: "181/37, Âu Dương Lân, Phường 2, Quận 8",
+            location: {
+                lat: 10.7461741,
+                lng: 106.6835541,
+            },
+            status: false, //Đã quy hoạch
+            status_text: "Chưa quy hoạch",
+            purpose: "Cổ động chính trị",
+            type_of_ad: "Màn hình led",
+            number_feedback: 0,
+        },
+    },
+    {
+        place_id: "1111",
+        type: AD_LOCATION,
+        properties: {
+            address: "181/37, Âu Dương Lân, Phường 2, Quận 8",
+            location: {
+                lat: 10.125773,
+                lng: 107.245741,
+            },
+            status: false, //Đã quy hoạch
+            status_text: "Chưa quy hoạch",
+            purpose: "Cổ động chính trị",
+            type_of_ad: "Màn hình led",
+            number_feedback: 1,
+        },
+    },
+    {
+        place_id: "1111",
+        type: RANDOM_LOCATION,
+        properties: {
+            feedback_id: "F001",
+            feedback_type_EN: "report",
+            feedback_type_VN: "Tố giác sai phạm",
+            status: "inprocess", //"done" or "sent",
+            status_VN: "Đang xử lý",
+            location: {
+                lat: 10.750008,
+                lng: 106.685537,
+            },
+        },
+    },
+    {
+        place_id: "1111",
+        type: RANDOM_LOCATION,
+        properties: {
+            feedback_id: "F001",
+            feedback_type_EN: "feedback",
+            feedback_type_VN: "Đóng góp ý kiến",
+            status: "done", //"done" or "sent",
+            status_VN: "Đã xử lý",
+            location: { lat: 10.748959, lng: 106.683081 },
+        },
+    },
+    {
+        place_id: "1111",
+        type: RANDOM_LOCATION,
+        properties: {
+            feedback_id: "F001",
+            feedback_type_EN: "registry",
+            feedback_type_VN: "Đăng ký nội dung",
+            status: "sent", //"done" or "sent",
+            status_VN: "Đã gửi",
+            location: { lat: 10.744827, lng: 106.675366 },
+        },
+    },
+    {
+        place_id: "1111",
+        type: RANDOM_LOCATION,
+        properties: {
+            feedback_id: "F001",
+            feedback_type_EN: "question",
+            feedback_type_VN: "Giải đáp thắc mắc",
+            status: "inprocess", //"done" or "sent",
+            status_VN: "Đang xử lý",
+            location: { lat: 10.744177, lng: 106.678205 },
+        },
+    },
+];
+
+//////
+
 const HCM_Place_id = "ChIJI9kl2-8udTERFHIryt1Uz0s";
 const boundStyle = {
     strokeColor: "#810FCB",
@@ -59,6 +185,99 @@ function zoomControl(map) {
     return container;
 }
 
+function buildMarkerContent(item) {
+    if (item.type === AD_LOCATION) {
+        const properties = item.properties;
+        const container = document.createElement("div");
+        container.className = "marker";
+        container.innerHTML = `
+            <div class="detail-ad hidden">
+                <div class="detail-ad-title">${properties.purpose}
+                    <div class="detail-ad-number-report">${properties.number_feedback}</div>
+                </div>
+                <hr>
+                <div class="detail-ad-info">
+                    <p>${properties.address}</p>
+                    <p><b>Phân loại: </b> ${properties.type_of_ad}</p>
+                    <div class="detail-ad-status">${properties.status_text}</div>
+                </div>
+            </div>
+            <div class="icon-ad">${properties.status ? "QC" : ""}</div>
+        `;
+
+        if (!properties.status) {
+            container.querySelector(".detail-ad-status").style.backgroundColor = "#fff3f0";
+            container.querySelector(".detail-ad-status").style.color = "#feaf9d";
+            container.querySelector(".detail-ad").style.borderColor = "#feaf9d";
+            container.querySelector(".icon-ad").style.backgroundColor = "#feaf9d";
+        } else {
+            container.querySelector(".detail-ad-status").style.backgroundColor = "#f5f3ff";
+            container.querySelector(".detail-ad-status").style.color = "#262058";
+            container.querySelector(".detail-ad").style.borderColor = "#4f3ed7";
+            container.querySelector(".icon-ad").style.backgroundColor = "#787ae8";
+        }
+
+        if (properties.number_feedback === 0) {
+            container.querySelector(".detail-ad-number-report").classList.add("hidden");
+        } else {
+            container.querySelector(".icon-ad").style.backgroundColor = "#fa0707";
+            container.querySelector(".detail-ad-status").style.backgroundColor = "#fff3f0";
+            container.querySelector(".detail-ad-status").style.color = "#fa0707";
+            container.querySelector(".detail-ad").style.borderColor = "#fa0707";
+        }
+
+        container.querySelector(".icon-ad").addEventListener("mouseover", () => {
+            container.querySelector(".detail-ad").classList.remove("hidden");
+            container.parentNode.parentNode.style.zIndex = 100000000;
+            console.log(container.parentNode.parentNode);
+        });
+
+        container.querySelector(".icon-ad").addEventListener("mouseout", () => {
+            container.querySelector(".detail-ad").classList.add("hidden");
+            container.parentNode.parentNode.style.zIndex = null;
+        });
+
+        return container;
+    } else if (item.type === RANDOM_LOCATION) {
+        const container = document.createElement("div");
+        const properties = item.properties;
+        container.className = "marker";
+        container.style.flexDirection = "row";
+        container.style.alignContent = "center";
+        container.innerHTML = `
+            <div class="icon-feedback">
+                <img src="/public/imgs/${properties.feedback_type_EN}.svg" alt="${properties.feedback_type_EN} icon"/>
+            </div>
+            <div class="detail-feedback hidden">
+                <div class="detail-feedback-status ${properties.status}-shadow">
+                    <div class="detail-feedback-status-icon">
+                        <div class="status-icon-shadow animate-flicker ${properties.status}-shadow"></div>
+                        <div class="satus-icon-point ${properties.status}"></div>
+                    </div>
+                    <div class="detail-feedback-status-text">${properties.status_VN}</div>
+                </div>
+                <div class="detail-feedback-type">${properties.feedback_type_VN}</div>
+            </div>
+        `;
+
+        container.addEventListener("mouseover", () => {
+            container.querySelector(".icon-feedback").classList.toggle("hidden");
+            container.querySelector(".detail-feedback").classList.toggle("hidden");
+            container.querySelector(".detail-feedback").style.transform = "translate(calc(50% - 20px) , 0%)";
+            container.parentNode.parentNode.style.zIndex = 100000000;
+        });
+
+        container.addEventListener("mouseout", () => {
+            container.querySelector(".icon-feedback").classList.toggle("hidden");
+            container.querySelector(".detail-feedback").classList.toggle("hidden");
+            container.querySelector(".detail-feedback").style.transform = "translate(calc(-50% + 20px), 0%)";
+            container.parentNode.parentNode.style.zIndex = null;
+        });
+
+        return container;
+    }
+}
+
 async function innitMap() {
     const mapConfig = await fetchConfig();
     const center = new LatLng(mapConfig.center[0], mapConfig.center[1]);
@@ -66,7 +285,6 @@ async function innitMap() {
         center: center,
         zoom: mapConfig.zoom,
         minZoom: mapConfig.zoom,
-        maxZoom: mapConfig.zoom + 7,
         mapId: mapConfig.mapid,
         disableDefaultUI: true,
         restriction: {
@@ -94,6 +312,8 @@ async function innitMap() {
     };
     const zoom = zoomControl(map);
     map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(zoom);
+    let markers = addMarker(data, map);
+    const markerCluster = new markerClusterer.MarkerClusterer({ markers, map });
 }
 
 innitMap();
@@ -133,3 +353,16 @@ filter_box.appendChild(feedback_filter);
 filter_box.appendChild(ad_filter);
 
 mapElement.appendChild(filter_box);
+
+function addMarker(data, map) {
+    const allMarkers = [];
+    for (const item of data) {
+        const marker = new AdvancedMarkerElement({
+            map,
+            content: buildMarkerContent(item),
+            position: item.properties.location,
+        });
+        allMarkers.push(marker);
+    }
+    return allMarkers;
+}
