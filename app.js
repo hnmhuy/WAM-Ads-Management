@@ -1,76 +1,47 @@
 import express from 'express';
-import path from 'path';
 import { dirname } from 'path';
+import path from 'path';
 import { fileURLToPath } from 'url';
 import hbs from 'express-handlebars';
-
 const __dirname = dirname(fileURLToPath(import.meta.url));
+
+const port = 3000;
 const app = express();
 
-// Set up Handlebars as the view engine
-app.engine(
-  'hbs',
-  hbs.engine({
-    extname: 'hbs',
-    partialsDir: path.join(__dirname, 'src', 'view', 'partial'), // Specify the correct partials directory
-    layoutsDir: path.join(__dirname, 'src', 'view', 'citizens'), // Specify the correct layouts directory
-    defaultLayout: 'main', // Disable the default layout
-  })
-);
-
-app.set('view engine', 'hbs');
-app.set('views', path.join(__dirname, 'src', 'view')); // Specify the correct views directory
-
-// Define a route to render your ad-card.hbs file inside the "partial" directory
-app.get('/ad-card', function (req, res) {
-  let componentData = {
-    cssPath: ['/partial/ad-card.css', '/partial/carousel.css'],
-  };
-  res.render('partial/ad-card', { componentData }); // Specify the correct path to the view
-});
-
-app.get('/ad-detail', function (req, res) {
-  let componentData = {
-    cssPath: ['/partial/ad-detail.css', '/partial/carousel-swipe.css'],
-  };
-  res.render('partial/ad-detail', { componentData }); // Specify the correct path to the view
-});
-
-app.get('/carousel', function (req, res) {
-  let componentData = {
-    cssPath: ['/partial/carousel-swipe.css'],
-  };
-  res.render('partial/carousel-swipe', { componentData }); // Specify the correct path to the view
-});
-
-app.get('/side-no', function (req, res) {
-  let componentData = {
-    cssPath: ['/partial/sidepeek-noAd.css'],
-  };
-  res.render('partial/sidepeek-noAd', { componentData }); // Specify the correct path to the view
-});
-
-app.get('/side', function (req, res) {
-  let componentData = {
-    cssPath: [
-      '/partial/sidepeek-ad.css',
-      '/partial/carousel.css',
-      '/partial/ad-card.css',
-    ],
-  };
-  res.render('partial/sidepeek-ad', { componentData }); // Specify the correct path to the view
-});
-
+app.use('/public', express.static(path.join(__dirname, 'src', 'public')));
 app.use(
-  '/partial',
-  express.static(path.join(__dirname, 'src', 'view', 'partial'))
+  '/partials',
+  express.static(path.join(__dirname, 'src', 'views', 'partials'))
 );
 
 app.use(
   '/images',
   express.static(path.join(__dirname, 'src', 'public', 'images'))
 );
+app.set('view engine', 'hbs');
+app.engine(
+  'hbs',
+  hbs.engine({
+    layoutsDir: path.join(__dirname, 'src', 'views', 'citizens'),
+    partialsDir: [path.join(__dirname, 'src', 'views', 'partials')],
+    extname: 'hbs',
+    defaultLayout: 'main',
+  })
+);
 
-app.listen(3000, () => {
-  console.log('Server is running at http://localhost:3000');
+app.set('views', path.join(__dirname, 'src', 'views'));
+
+app.get('/', (req, res) => {
+  let componentData = {
+    cssPath: [
+      '/partials/ad-card.css',
+      '/partials/carousel.css',
+      '/partials/sidepeek-ad.css',
+    ],
+  };
+  res.render('citizens/main', { componentData });
+});
+
+app.listen(port, () => {
+  console.log(`Sever is running on http://localhost:${port}`);
 });
