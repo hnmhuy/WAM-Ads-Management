@@ -1,14 +1,47 @@
-<nav class="navbar navbar-default navbar-static-top navbar-inverse">
-  <div class="container">
-    <ul class="nav navbar-nav">
-      <li>
-        <a href="/home"><span class="glyphicon glyphicon-home"></span>
-          Trang chủ</a>
-      </li>
-      <li><a href="/location">Quản lý điểm đặt</a></li>
-      <li><a href="/reports">Quản lý báo cáo</a></li>
-      <li><a href="/permission">Xử lý cấp phép</a></li>
-      <li><a href="/">Đăng xuất</a></li>
-    </ul>
+<div class="sidebar">
+  <div class="logo-details">
+    <img src="../../public/imgs/logo.svg" alt="logo" class="logo-web" />
+    <div class="logo_name">WAM</div>
   </div>
-</nav>
+  <ul class="nav-list">
+    <li>
+      <a href="/home">
+        <i class="bx bx-map-pin"></i>
+        <span class="links_name">Trang chủ</span>
+      </a>
+      <span class="tooltip">Trang chủ</span>
+    </li>
+    <li>
+      <a href="/location">
+        <i class="bx bx-location-plus"></i>
+        <span class="links_name">Quản lý điểm đặt</span>
+      </a>
+      <span class="tooltip">Quản lý điểm đặt</span>
+    </li>
+    <li>
+      <a href="/reports">
+        <i class="bx bxs-report"></i>
+        <span class="links_name">Xử lý báo cáo</span>
+      </a>
+      <span class="tooltip">Xử lý báo cáo</span>
+    </li>
+    <li>
+      <a href="/permission">
+        <i class="bx bx-paper-plane"></i>
+        <span class="links_name">Cấp phép</span>
+      </a>
+      <span class="tooltip">Cấp phép</span>
+    </li>
+
+    <li class="profile">
+      <div class="profile-details">
+        <i class="bx bx-user-circle user"></i>
+        <div class="name_job">
+          <div class="name">Ông Thập</div>
+          <div class="job">Làng địa ngục</div>
+        </div>
+      </div>
+      <i class="bx bx-log-out pointer" id="log_out"></i>
+    </li>
+  </ul>
+</div>

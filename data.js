@@ -307,14 +307,14 @@ const permissions = {
             head2: "24 Bùi Hữu Nghĩa",
             head3: "Cổ động chính trị",
             head4: "Công ty TNHH MTV Alone",
-            head5: "Đã cấp phép"
+            head5: "Đã hủy"
         },
         {
             head1: "MQC0002",
             head2: "24 Bùi Hữu Nghĩa",
             head3: "Đất công/Công viên",
             head4: "Công ty TNHH MTV Alone",
-            head5: "Chưa cấp phép"
+            head5: "Đang quảng cáo"
         },
         {
             head1: "MQC0001",
@@ -328,7 +328,7 @@ const permissions = {
             head2: "24 Bùi Hữu Nghĩa",
             head3: "Đất công/Công viên",
             head4: "Công ty TNHH MTV Alone",
-            head5: "Chưa cấp phép"
+            head5: "Đang quảng cáo"
         },
         {
             head1: "MQC0001",
@@ -342,7 +342,7 @@ const permissions = {
             head2: "24 Bùi Hữu Nghĩa",
             head3: "Đất công/Công viên",
             head4: "Công ty TNHH MTV Alone",
-            head5: "Chưa cấp phép"
+            head5: "Đang quảng cáo"
         },
         {
             head1: "MQC0001",
@@ -356,7 +356,21 @@ const permissions = {
             head2: "24 Bùi Hữu Nghĩa",
             head3: "Đất công/Công viên",
             head4: "Công ty TNHH MTV Alone",
-            head5: "Chưa cấp phép"
+            head5: "Đang quảng cáo"
+        },
+        {
+            head1: "MQC0001",
+            head2: "24 Bùi Hữu Nghĩa",
+            head3: "Cổ động chính trị",
+            head4: "Công ty TNHH MTV Alone",
+            head5: "Đang chờ duyệt"
+        },
+        {
+            head1: "MQC0002",
+            head2: "24 Bùi Hữu Nghĩa",
+            head3: "Đất công/Công viên",
+            head4: "Công ty TNHH MTV Alone",
+            head5: "Đang quảng cáo"
         },
         {
             head1: "MQC0001",
@@ -370,7 +384,7 @@ const permissions = {
             head2: "24 Bùi Hữu Nghĩa",
             head3: "Đất công/Công viên",
             head4: "Công ty TNHH MTV Alone",
-            head5: "Chưa cấp phép"
+            head5: "Đang quảng cáo"
         },
         {
             head1: "MQC0001",
@@ -384,7 +398,7 @@ const permissions = {
             head2: "24 Bùi Hữu Nghĩa",
             head3: "Đất công/Công viên",
             head4: "Công ty TNHH MTV Alone",
-            head5: "Chưa cấp phép"
+            head5: "Đang quảng cáo"
         },
         {
             head1: "MQC0001",
@@ -398,7 +412,7 @@ const permissions = {
             head2: "24 Bùi Hữu Nghĩa",
             head3: "Đất công/Công viên",
             head4: "Công ty TNHH MTV Alone",
-            head5: "Chưa cấp phép"
+            head5: "Đang quảng cáo"
         },
         {
             head1: "MQC0001",
@@ -412,7 +426,7 @@ const permissions = {
             head2: "24 Bùi Hữu Nghĩa",
             head3: "Đất công/Công viên",
             head4: "Công ty TNHH MTV Alone",
-            head5: "Chưa cấp phép"
+            head5: "Đang quảng cáo"
         },
         {
             head1: "MQC0001",
@@ -426,7 +440,7 @@ const permissions = {
             head2: "24 Bùi Hữu Nghĩa",
             head3: "Đất công/Công viên",
             head4: "Công ty TNHH MTV Alone",
-            head5: "Chưa cấp phép"
+            head5: "Đang quảng cáo"
         },
         {
             head1: "MQC0001",
@@ -440,7 +454,7 @@ const permissions = {
             head2: "24 Bùi Hữu Nghĩa",
             head3: "Đất công/Công viên",
             head4: "Công ty TNHH MTV Alone",
-            head5: "Chưa cấp phép"
+            head5: "Đang quảng cáo"
         },
         {
             head1: "MQC0001",
@@ -454,7 +468,7 @@ const permissions = {
             head2: "24 Bùi Hữu Nghĩa",
             head3: "Đất công/Công viên",
             head4: "Công ty TNHH MTV Alone",
-            head5: "Chưa cấp phép"
+            head5: "Đang quảng cáo"
         },
         {
             head1: "MQC0001",
@@ -468,21 +482,7 @@ const permissions = {
             head2: "24 Bùi Hữu Nghĩa",
             head3: "Đất công/Công viên",
             head4: "Công ty TNHH MTV Alone",
-            head5: "Chưa cấp phép"
-        },
-        {
-            head1: "MQC0001",
-            head2: "24 Bùi Hữu Nghĩa",
-            head3: "Cổ động chính trị",
-            head4: "Công ty TNHH MTV Alone",
-            head5: "Đã cấp phép"
-        },
-        {
-            head1: "MQC0002",
-            head2: "24 Bùi Hữu Nghĩa",
-            head3: "Đất công/Công viên",
-            head4: "Công ty TNHH MTV Alone",
-            head5: "Chưa cấp phép"
+            head5: "Đang quảng cáo"
         }
     ]
 }

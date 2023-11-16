@@ -50,10 +50,9 @@
           </div>
 
           <!-- Submit button -->
-          <button type="submit" class="btn btn-primary btn-lg btn-block col-12">
-            <a href="/home" class="text-white" style="text-decoration:none">Sign
-              In</a>
-          </button>
+          <a id="signInButton" class="btn btn-primary btn-lg btn-block col-12">
+            Sign In
+          </a>
 
           <div class="divider d-flex align-items-center my-4">
             <p class="text-center fw-bold mx-3 mb-0 text-muted">OR</p>
@@ -90,9 +89,4 @@
   crossorigin="anonymous"
 ></script>
 
-<script>
-  function togglePassword() { const passwordInput =
-  document.getElementById("form1Example23"); const showPasswordCheckbox =
-  document.getElementById("form1Example3"); passwordInput.type =
-  showPasswordCheckbox.checked ? "text" : "password"; }
-</script>
+<script src="../public/js/handle_index.js"></script>

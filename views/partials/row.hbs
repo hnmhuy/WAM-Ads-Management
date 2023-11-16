@@ -1,5 +1,90 @@
 <tr>
   {{#each this}}
-    <td>{{this}}</td>
+    {{#if @last}}
+      {{#ifEquals this "Đã quy hoạch"}}
+        <td>
+          <div class="card" style="background-color: #DAF9FE; color:#262058">
+            {{this}}
+          </div>
+        </td>
+      {{else}}
+        {{#ifEquals this "Chưa quy hoạch"}}
+          <td>
+            <div class="card" style="background-color: #FFF3F0; color:#FEAF9D">
+              {{this}}
+            </div>
+          </td>
+        {{else}}
+          {{#ifEquals this "Chưa giải quyết"}}
+            <td>
+              <div
+                class="card"
+                style="background-color: #FFF3F0; color:#FEAF9D"
+              >
+                {{this}}
+              </div>
+            </td>
+          {{else}}
+            {{#ifEquals this "Đã giải quyết"}}
+              <td>
+                <div
+                  class="card"
+                  style="background-color: #DAF9FE; color:#262058"
+                >
+                  {{this}}
+                </div>
+              </td>
+            {{else}}
+              {{#ifEquals this "Đã cấp phép"}}
+                <td>
+                  <div
+                    class="card"
+                    style="background-color: #DAF9FE; color:#262058"
+                  >
+                    {{this}}
+                  </div>
+                </td>
+              {{else}}
+                {{#ifEquals this "Đã hủy"}}
+                  <td>
+                    <div
+                      class="card"
+                      style="background-color: #FFF3F0; color:#FEAF9D"
+                    >
+                      {{this}}
+                    </div>
+                  </td>
+                {{else}}
+                  {{#ifEquals this "Đang chờ duyệt"}}
+                    <td>
+                      <div
+                        class="card"
+                        style="background-color: #6D7E9F; color:#FFFFFF"
+                      >
+                        {{this}}
+                      </div>
+                    </td>
+                  {{else}}
+                    {{#ifEquals this "Đang quảng cáo"}}
+                      <td>
+                        <div
+                          class="card"
+                          style="background-color: #CF9513; color:#FFFFFF"
+                        >
+                          {{this}}
+                        </div>
+                      </td>
+                    {{else}}
+                    {{/ifEquals}}
+                  {{/ifEquals}}
+                {{/ifEquals}}
+              {{/ifEquals}}
+            {{/ifEquals}}
+          {{/ifEquals}}
+        {{/ifEquals}}
+      {{/ifEquals}}
+    {{else}}
+      <td>{{this}}</td>
+    {{/if}}
   {{/each}}
 </tr>

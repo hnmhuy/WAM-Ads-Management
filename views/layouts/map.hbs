@@ -11,10 +11,32 @@
       body{ height: 100vh; width: 100vw; padding: 0; margin: 0; }
     </style>
     <link rel="stylesheet" href="/public/css/maps.css" />
+    <link rel="stylesheet" href="../../public/css/nav.css" />
+    <!-- Boxicons CDN Link -->
+    <link
+      href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"
+      rel="stylesheet"
+    />
     <title>WAM</title>
   </head>
   <body>
     {{>nav}}
     {{{body}}}
+        <script>
+      let sidebar = document.querySelector(".sidebar");
+      let logOutBtn = document.querySelector("#log_out");
+
+      logOutBtn.addEventListener("click", () => {
+        window.location.href = "/";
+      });
+
+      ["mouseenter", "mouseleave"].forEach((eventType) => {
+        sidebar.addEventListener(eventType, toggleSidebar);
+      });
+
+      function toggleSidebar() {
+        sidebar.classList.toggle("open");
+      }
+    </script>
   </body>
 </html>
