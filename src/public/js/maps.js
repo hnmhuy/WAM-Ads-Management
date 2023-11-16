@@ -229,7 +229,6 @@ function buildMarkerContent(item) {
         container.querySelector(".icon-ad").addEventListener("mouseover", () => {
             container.querySelector(".detail-ad").classList.remove("hidden");
             container.parentNode.parentNode.style.zIndex = 100000000;
-            console.log(container.parentNode.parentNode);
         });
 
         container.querySelector(".icon-ad").addEventListener("mouseout", () => {
@@ -302,7 +301,6 @@ async function innitMap() {
         gestureHandling: mapConfig.gestureHandling,
         tilt: mapConfig.tilt,
     });
-
     const cityBound = map.getFeatureLayer("ADMINISTRATIVE_AREA_LEVEL_1");
 
     cityBound.style = (params) => {
@@ -314,6 +312,7 @@ async function innitMap() {
     map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(zoom);
     let markers = addMarker(data, map);
     const markerCluster = new markerClusterer.MarkerClusterer({ markers, map });
+    console.log(markerCluster);
 }
 
 innitMap();
@@ -361,6 +360,9 @@ function addMarker(data, map) {
             map,
             content: buildMarkerContent(item),
             position: item.properties.location,
+        });
+        marker.addEventListener("gmp-click", () => {
+            map.panTo(marker.position);
         });
         allMarkers.push(marker);
     }
