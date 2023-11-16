@@ -1,19 +1,12 @@
-const express = require("express");
-const hbs = require('express-handlebars');
+const express = require("express")
+const app = express()
+const path = require("path")
 const port = 3000 | process.env.port
-
-// Import router for district
-const homeRouterDistrict = require('./src/routes/district/home.route.js');
-const locationRouterDistrict = require('./src/routes/district/location.route.js');
-const loginRouterDistrict = require('./src/routes/district/login.route.js');
-const permissionRouterDistrict = require('./src/routes/district/permission.route.js');
-const reportsRouterDistrict = require('./src/routes/district/reports.route.js');
+const expressHbs = require("express-handlebars")
+app.use("/public", express.static(path.join(__dirname, "public")));
 
 
-const app = express();
-
-
-app.engine("hbs", hbs.engine({
+app.engine("hbs", expressHbs.engine({
     layoutsDir: __dirname + "/views/layouts",
     partialsDir: __dirname + "/views/partials",
     extname: "hbs",
@@ -22,21 +15,19 @@ app.engine("hbs", hbs.engine({
 app.set("view engine", "hbs")
 
 
-// Routes
-// app.use('/', homeRouterDistrict)
-// app.use('/location', locationRouterDistrict)
-app.use('/login', loginRouterDistrict)
-// app.use('/permission', permissionRouterDistrict)
-// app.use('/reports', reportsRouterDistrict)
-// app.use("/public", express.static(path.join(__dirname, "src", "public")));
+// Login
+app.get("/", (req, res) => {
+    res.render("index")
+})
+// Use routes of district
+app.use("/home", require('./routes/district/home.route'))
+app.use("/location", require('./routes/district/location.route'))
+app.use("/reports", require('./routes/district/reports.route'))
+app.use("/permission", require('./routes/district/permission.route'))
 
 
-// Error handling
-app.use(function (err, req, res, next) {
-    console.error(err.stack);
-    res.status(500).send('Something broke!');
-});
 
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-});
+
+app.listen(port, (req, res) => {
+    console.log(`Server is running on ${port}`)
+})

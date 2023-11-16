@@ -1,0 +1,19 @@
+<div>
+<div class="container mt-5">
+<h2>{{name}}</h2>
+  <table class="table table-striped table-hover table-bordered rounded-table">
+    <thead>
+      <tr>
+        {{#each heading}}
+          <th scope="col">{{this}}</th>
+        {{/each}}
+      </tr>
+    </thead>
+    <tbody>
+      {{#each row}}
+        {{> row}}
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+</div>
