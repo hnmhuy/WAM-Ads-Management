@@ -174,15 +174,15 @@ function zoomOutButton(imgPath, map) {
 }
 
 function zoomControl(map) {
-    const zoomInBtn = zoomInButton("/public/imgs/plus-lg.svg", map);
-    const zoomOutBtn = zoomOutButton("/public/imgs/dash-lg.svg", map);
-    const container = document.createElement("div");
+  const zoomInBtn = zoomInButton('/public/images/plus-lg.svg', map);
+  const zoomOutBtn = zoomOutButton('/public/images/dash-lg.svg', map);
+  const container = document.createElement('div');
 
-    container.className = "zoomContainer";
-    container.appendChild(zoomInBtn);
-    container.appendChild(zoomOutBtn);
+  container.className = 'zoomContainer';
+  container.appendChild(zoomInBtn);
+  container.appendChild(zoomOutBtn);
 
-    return container;
+  return container;
 }
 
 function buildMarkerContent(item) {
@@ -254,7 +254,7 @@ function buildMarkerContent(item) {
     container.style.alignContent = 'center';
     container.innerHTML = `
             <div class="icon-feedback">
-                <img src="/public/imgs/${properties.feedback_type_EN}.svg" alt="${properties.feedback_type_EN} icon"/>
+                <img src="/public/images/${properties.feedback_type_EN}.svg" alt="${properties.feedback_type_EN} icon"/>
             </div>
             <div class="detail-feedback hidden">
                 <div class="detail-feedback-status ${properties.status}-shadow">
