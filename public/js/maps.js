@@ -4,6 +4,7 @@ const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 const { PlacesService } = await google.maps.importLibrary("places");
 const { MapTypeControlStyle } = await google.maps.importLibrary("maps");
 
+var map;
 const RANDOM_LOCATION = 1;
 const AD_LOCATION = 2;
 const ad_markers = [];
@@ -174,8 +175,8 @@ function zoomOutButton(imgPath, map) {
 }
 
 function zoomControl(map) {
-    const zoomInBtn = zoomInButton("/public/images/plus-lg.svg", map);
-    const zoomOutBtn = zoomOutButton("/public/images/dash-lg.svg", map);
+    const zoomInBtn = zoomInButton("/public/imgs/plus-lg.svg", map);
+    const zoomOutBtn = zoomOutButton("/public/imgs/dash-lg.svg", map);
     const container = document.createElement("div");
 
     container.className = "zoomContainer";
@@ -248,7 +249,6 @@ function buildMarkerContent(item) {
                     .querySelector(".detail-ad")
                     .classList.remove("hidden");
                 container.parentNode.parentNode.style.zIndex = 100000000;
-                console.log(container.parentNode.parentNode);
             });
 
         container.querySelector(".icon-ad").addEventListener("mouseout", () => {
@@ -265,7 +265,7 @@ function buildMarkerContent(item) {
         container.style.alignContent = "center";
         container.innerHTML = `
             <div class="icon-feedback">
-                <img src="/public/images/${properties.feedback_type_EN}.svg" alt="${properties.feedback_type_EN} icon"/>
+                <img src="/public/imgs/${properties.feedback_type_EN}.svg" alt="${properties.feedback_type_EN} icon"/>
             </div>
             <div class="detail-feedback hidden">
                 <div class="detail-feedback-status ${properties.status}-shadow">
@@ -310,7 +310,7 @@ function buildMarkerContent(item) {
 async function innitMap() {
     const mapConfig = await fetchConfig();
     const center = new LatLng(mapConfig.center[0], mapConfig.center[1]);
-    const map = new Map(document.getElementById("map"), {
+    map = new Map(document.getElementById("map"), {
         center: center,
         zoom: mapConfig.zoom,
         minZoom: mapConfig.zoom,
@@ -331,7 +331,6 @@ async function innitMap() {
         gestureHandling: mapConfig.gestureHandling,
         tilt: mapConfig.tilt,
     });
-
     const cityBound = map.getFeatureLayer("ADMINISTRATIVE_AREA_LEVEL_1");
 
     cityBound.style = (params) => {
@@ -343,6 +342,7 @@ async function innitMap() {
     map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(zoom);
     let markers = addMarker(data, map);
     const markerCluster = new markerClusterer.MarkerClusterer({ markers, map });
+    console.log(markerCluster);
 }
 
 innitMap();
@@ -390,6 +390,9 @@ function addMarker(data, map) {
             map,
             content: buildMarkerContent(item),
             position: item.properties.location,
+        });
+        marker.addEventListener("gmp-click", () => {
+            map.panTo(marker.position);
         });
         allMarkers.push(marker);
     }

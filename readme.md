@@ -57,6 +57,7 @@ Các bước dùng như sau:
                         : (d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)));
                 })({ key: "AIzaSyC7YsJvhxn33ZN1pIOS_aRU6tODTdyYKII", v: "beta" });
             </script>
+             <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
     ```
 
 2. Chèn một div cho map. Chỉnh sửa cái width vs height cho phù hợp là được
