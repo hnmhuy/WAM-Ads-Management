@@ -29,7 +29,9 @@ app.use("/location", require('./routes/district/location.route'))
 app.use("/reports", require('./routes/district/reports.route'))
 app.use("/permission", require('./routes/district/permission.route'))
 
-
+app.get("/testing", (req, res) => {
+    res.sendFile(__dirname + "/test.html");
+});
 
 
 app.listen(port, (req, res) => {

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            width: 100vw;
+            height: 100vh;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="/public/css/new_nav.css">
+    <link rel="stylesheet" href="/public/css/main.css">
+</head>
+
+<body>
+    <div class="toggle-button">
+        <div class="vertical-line"></div>
+        <div class="vertical-line"></div>
+    </div>
+    <div class="navbar close-nav">
+        <div class="logo-area">
+            <img src="/public/images/logo.svg" alt="logo">
+            <p>WAM</p>
+        </div>
+        <div class="nav-list">
+            <a href="#" class="nav-item">
+                <img src="/public/images/navIcon/dashboard.svg" alt="dashboard">
+                <p>Trang chủ</p>
+            </a>
+            <a href="#" class="nav-item">
+                <img src="/public/images/navIcon/dashboard.svg" alt="dashboard">
+                <p>Trang chủ</p>
+            </a>
+            <a href="#" class="nav-item">
+                <img src="/public/images/navIcon/dashboard.svg" alt="dashboard">
+                <p>Trang chủ</p>
+            </a>
+            <a href="#" class="nav-item">
+                <img src="/public/images/navIcon/dashboard.svg" alt="dashboard">
+                <p>Trang chủ</p>
+            </a>
+        </div>
+
+        <div class="acc-area">
+            <img src="/public/images/navIcon/account.svg" alt="account">
+            <div class="user">
+                <p>Ông Thập</p>
+                <p>Làng địa ngục</p>
+            </div>
+            <i class="bi bi-box-arrow-in-right button"></i>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="title"></div>
+        <div class="content"></div>
+    </div>
+
+    <script>
+        function left() {
+            line = document.querySelectorAll('.vertical-line');
+            line[0].style.transform = 'translateY(0.15rem) rotate(15deg) translateZ(0px)';
+            line[1].style.transform = 'translateY(-0.15rem) rotate(-15deg) translateZ(0px)';
+        }
+
+        function right() {
+            line = document.querySelectorAll('.vertical-line');
+            line[0].style.transform = 'translateY(0.15rem) rotate(-15deg) translateZ(0px)';
+            line[1].style.transform = 'translateY(-0.15rem) rotate(15deg) translateZ(0px)';
+        }
+
+        function line() {
+            line = document.querySelectorAll('.vertical-line');
+            line[0].style.transform = 'translateY(0.15rem) rotate(0) translateZ(0px)';
+            line[1].style.transform = 'translateY(-0.15rem) rotate(0) translateZ(0px)';
+        }
+
+        document.querySelector('.toggle-button').addEventListener('mouseover', () => {
+            if (document.querySelector('.navbar').classList.contains('close-nav')) {
+                right();
+            } else {
+                left();
+            }
+        })
+
+        document.querySelector('.toggle-button').addEventListener('mouseout', line);
+
+        document.querySelector('.toggle-button').addEventListener('click', () => {
+            if (document.querySelector('.navbar').classList.contains('close-nav')) {
+                document.querySelector('.navbar').classList.remove('close-nav');
+                document.querySelector('.navbar').style.width = 'var(--nav-bar-width-expand)'
+                document.querySelector('.main-content').style.marginLeft = 'var(--nav-bar-width-expand)';
+                document.querySelector('.main-content').style.width = 'width: calc(100vw - var(--nav-bar-width-expand));';
+                document.querySelector('.toggle-button').style.left = '270px';
+            } else {
+                document.querySelector('.navbar').classList.add('close-nav');
+                document.querySelector('.navbar').style.width = 'var(--nav-bar-width)'
+                document.querySelector('.main-content').style.marginLeft = 'var(--nav-bar-width)';
+                document.querySelector('.main-content').style.width = 'width: calc(100vw - var(--nav-bar-width));'
+                document.querySelector('.toggle-button').style.left = '90px';
+                right();
+
+            }
+        });
+    </script>
+</body>
+
+</html>
