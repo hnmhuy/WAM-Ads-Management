@@ -1,0 +1,83 @@
+<div>
+<div class="container mt-5"style="padding-left: 5%">
+<h2>{{name}}</h2>
+<hr>
+<div class="toolbar">
+        <form class="col-lg-4 mb-3 mb-lg-0 me-lg-3" role="search" onsubmit="(e)=>{e.preventDefault()}">
+            <input type="search" class="form-control" placeholder="Search..." id='keyword' aria-label="Search" oninput="search(this.value)" required>
+        </form>
+        <select id="typeSelect" class="form-select" aria-label="Default select example" onchange="">
+            <option selected>Hình thức</option>
+            <option value="1">Tố giác tội phạm</option>
+            <option value="2">Giải đáp thắc mắc</option>
+            <option value="3">Đóng góp ý kiến</option>
+            <option value="4">Đăng ký nội dung</option>
+        </select>
+        <select id="methodSelect" class="form-select" aria-label="Default select example" onchange="">
+            <option selected>Trạng thái</option>
+            <option value="1">Chưa giải quyết</option>
+            <option value="2">Đã giải quyết</option>
+        </select>
+    </div>
+    <hr>
+  <table class="table table-striped table-hover table-bordered rounded-table">
+    <thead>
+      <tr>
+        {{#each heading}}
+          <th scope="col">{{this}}</th>
+        {{/each}}
+      </tr>
+    </thead>
+    <tbody>
+      {{#each collapsible_row}}
+        {{> collapsible_row}}
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+</div>
+
+<script>
+  function search(keyword) {
+  const rows = document.querySelectorAll('#tableBody tr');
+  const filter = keyword.toUpperCase();
+  rows.forEach(row => {
+    let found = false;
+    row.querySelectorAll('td').forEach(cell => {
+      if (cell.textContent.toUpperCase().includes(filter)) {
+        found = true;
+      }
+    });
+    if (found) {
+      row.style.display = '';
+    } else {
+      row.style.display = 'none';
+    }
+  });
+}
+  function filterByType(typeFilter) {
+    filter(typeFilter);
+  }
+  function filterByMethod(methodFilter) {
+    filter(undefined, methodFilter);
+  }
+  function filterByStatus(statusFilter) {
+    filter(undefined, undefined, statusFilter);
+  }
+  function filter(typeFilter, methodFilter, statusFilter) {
+    const rows = document.querySelectorAll('#tableBody tr');
+    rows.forEach(row => {
+      const type = row.querySelector('.type-column').textContent.toUpperCase();
+      const method = row.querySelector('.method-column').textContent.toUpperCase();
+      const status = row.querySelector('.status-column').textContent.toUpperCase();
+      const typeMatch = type.includes(typeFilter) || !typeFilter;
+      const methodMatch = method.includes(methodFilter) || !methodFilter;
+      const statusMatch = status.includes(statusFilter) || !statusFilter;
+      if (typeMatch && methodMatch && statusMatch) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  }
+</script>

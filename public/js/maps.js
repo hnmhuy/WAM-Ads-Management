@@ -4,7 +4,6 @@ const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 const { PlacesService } = await google.maps.importLibrary("places");
 const { MapTypeControlStyle } = await google.maps.importLibrary("maps");
 
-
 var map;
 const RANDOM_LOCATION = 1;
 const AD_LOCATION = 2;
