@@ -1,0 +1,54 @@
+<tr>
+  {{#each this}}
+    {{#if @last}}
+          {{#ifEquals this "Chưa giải quyết"}}
+            <td>
+              <div style="display:flex; flex-direction:row">
+              <div
+                class="card"
+                style="background-color: #FFF3F0; color:#FEAF9D; padding: 0 12px;width:8em;"
+              >
+                {{this}}
+              </div>
+              <button
+                style="margin-left:auto"
+                class="btn"
+                type="button"
+                {{! data-bs-toggle="offcanvas"
+              data-bs-target="#offcanvasRight"
+              aria-controls="offcanvasRight" }}
+              ><i
+                  class="bi bi-chevron-down"
+                  style="color: black"
+                ></i></button>
+            </div>
+            </td>
+          {{else}}
+            {{#ifEquals this "Đã giải quyết"}}
+              <td>
+                <div style="display:flex; flex-direction:row">
+            <div
+              class="card"
+              style="background-color: #DAF9FE; color:#262058; padding: 0 12px;width:8em;"
+            >
+              {{this}}
+            </div>
+            <button
+              style="margin-left:auto"
+              class="btn"
+              type="button"
+              {{! data-bs-toggle="offcanvas"
+              data-bs-target="#offcanvasRight"
+              aria-controls="offcanvasRight" }}
+            ><i
+                class="bi bi-chevron-down"
+                style="color: black"
+              ></i></button>
+          </div>            
+            {{/ifEquals}}
+      {{/ifEquals}}
+    {{else}}
+      <td>{{this}}</td>
+    {{/if}}
+  {{/each}}
+</tr>
