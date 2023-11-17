@@ -30,6 +30,10 @@ app.get('/', (req, res) => {
       '/partials/ad-card.css',
       '/partials/carousel.css',
       '/partials/sidepeek-ad.css',
+      '/partials/sidepeek-noAd.css',
+      '/partials/feedback-detail.css',
+      '/partials/random-location.css',
+      '/partials/dropdown.css',
     ],
   };
   res.render('citizens/main', { componentData });

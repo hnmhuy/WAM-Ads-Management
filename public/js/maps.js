@@ -1,8 +1,8 @@
-const { Map } = await google.maps.importLibrary("maps");
-const { LatLng, LatLngBounds } = await google.maps.importLibrary("core");
-const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
-const { PlacesService } = await google.maps.importLibrary("places");
-const { MapTypeControlStyle } = await google.maps.importLibrary("maps");
+const { Map } = await google.maps.importLibrary('maps');
+const { LatLng, LatLngBounds } = await google.maps.importLibrary('core');
+const { AdvancedMarkerElement } = await google.maps.importLibrary('marker');
+const { PlacesService } = await google.maps.importLibrary('places');
+const { MapTypeControlStyle } = await google.maps.importLibrary('maps');
 
 const RANDOM_LOCATION = 1;
 const AD_LOCATION = 2;
@@ -11,166 +11,166 @@ const random_markers = [];
 // Testing data
 
 const data = [
-    {
-        place_id: "1111",
-        type: AD_LOCATION,
-        properties: {
-            address: "181/37, Âu Dương Lân, Phường 2, Quận 8",
-            location: {
-                lat: 10.740453,
-                lng: 106.6869059,
-            },
-            status: true, //Đã quy hoạch
-            status_text: "Đã quy hoạch",
-            purpose: "Cổ động chính trị",
-            type_of_ad: "Màn hình led",
-            number_feedback: 0,
-        },
+  {
+    place_id: '1111',
+    type: AD_LOCATION,
+    properties: {
+      address: '181/37, Âu Dương Lân, Phường 2, Quận 8',
+      location: {
+        lat: 10.740453,
+        lng: 106.6869059,
+      },
+      status: true, //Đã quy hoạch
+      status_text: 'Đã quy hoạch',
+      purpose: 'Cổ động chính trị',
+      type_of_ad: 'Màn hình led',
+      number_feedback: 0,
     },
-    {
-        place_id: "1111",
-        type: AD_LOCATION,
-        properties: {
-            address: "181/37, Âu Dương Lân, Phường 2, Quận 8",
-            location: {
-                lat: 10.745289,
-                lng: 106.684242,
-            },
-            status: true, //Đã quy hoạch
-            status_text: "Đã quy hoạch",
-            purpose: "Cổ động chính trị",
-            type_of_ad: "Màn hình led",
-            number_feedback: 1,
-        },
+  },
+  {
+    place_id: '1111',
+    type: AD_LOCATION,
+    properties: {
+      address: '181/37, Âu Dương Lân, Phường 2, Quận 8',
+      location: {
+        lat: 10.745289,
+        lng: 106.684242,
+      },
+      status: true, //Đã quy hoạch
+      status_text: 'Đã quy hoạch',
+      purpose: 'Cổ động chính trị',
+      type_of_ad: 'Màn hình led',
+      number_feedback: 1,
     },
-    {
-        place_id: "1111",
-        type: AD_LOCATION,
-        properties: {
-            address: "181/37, Âu Dương Lân, Phường 2, Quận 8",
-            location: {
-                lat: 10.7461741,
-                lng: 106.6835541,
-            },
-            status: false, //Đã quy hoạch
-            status_text: "Chưa quy hoạch",
-            purpose: "Cổ động chính trị",
-            type_of_ad: "Màn hình led",
-            number_feedback: 0,
-        },
+  },
+  {
+    place_id: '1111',
+    type: AD_LOCATION,
+    properties: {
+      address: '181/37, Âu Dương Lân, Phường 2, Quận 8',
+      location: {
+        lat: 10.7461741,
+        lng: 106.6835541,
+      },
+      status: false, //Đã quy hoạch
+      status_text: 'Chưa quy hoạch',
+      purpose: 'Cổ động chính trị',
+      type_of_ad: 'Màn hình led',
+      number_feedback: 0,
     },
-    {
-        place_id: "1111",
-        type: AD_LOCATION,
-        properties: {
-            address: "181/37, Âu Dương Lân, Phường 2, Quận 8",
-            location: {
-                lat: 10.125773,
-                lng: 107.245741,
-            },
-            status: false, //Đã quy hoạch
-            status_text: "Chưa quy hoạch",
-            purpose: "Cổ động chính trị",
-            type_of_ad: "Màn hình led",
-            number_feedback: 1,
-        },
+  },
+  {
+    place_id: '1111',
+    type: AD_LOCATION,
+    properties: {
+      address: '181/37, Âu Dương Lân, Phường 2, Quận 8',
+      location: {
+        lat: 10.125773,
+        lng: 107.245741,
+      },
+      status: false, //Đã quy hoạch
+      status_text: 'Chưa quy hoạch',
+      purpose: 'Cổ động chính trị',
+      type_of_ad: 'Màn hình led',
+      number_feedback: 1,
     },
-    {
-        place_id: "1111",
-        type: RANDOM_LOCATION,
-        properties: {
-            feedback_id: "F001",
-            feedback_type_EN: "report",
-            feedback_type_VN: "Tố giác sai phạm",
-            status: "inprocess", //"done" or "sent",
-            status_VN: "Đang xử lý",
-            location: {
-                lat: 10.750008,
-                lng: 106.685537,
-            },
-        },
+  },
+  {
+    place_id: '1111',
+    type: RANDOM_LOCATION,
+    properties: {
+      feedback_id: 'F001',
+      feedback_type_EN: 'report',
+      feedback_type_VN: 'Tố giác sai phạm',
+      status: 'inprocess', //"done" or "sent",
+      status_VN: 'Đang xử lý',
+      location: {
+        lat: 10.750008,
+        lng: 106.685537,
+      },
     },
-    {
-        place_id: "1111",
-        type: RANDOM_LOCATION,
-        properties: {
-            feedback_id: "F001",
-            feedback_type_EN: "feedback",
-            feedback_type_VN: "Đóng góp ý kiến",
-            status: "done", //"done" or "sent",
-            status_VN: "Đã xử lý",
-            location: { lat: 10.748959, lng: 106.683081 },
-        },
+  },
+  {
+    place_id: '1111',
+    type: RANDOM_LOCATION,
+    properties: {
+      feedback_id: 'F001',
+      feedback_type_EN: 'feedback',
+      feedback_type_VN: 'Đóng góp ý kiến',
+      status: 'done', //"done" or "sent",
+      status_VN: 'Đã xử lý',
+      location: { lat: 10.748959, lng: 106.683081 },
     },
-    {
-        place_id: "1111",
-        type: RANDOM_LOCATION,
-        properties: {
-            feedback_id: "F001",
-            feedback_type_EN: "registry",
-            feedback_type_VN: "Đăng ký nội dung",
-            status: "sent", //"done" or "sent",
-            status_VN: "Đã gửi",
-            location: { lat: 10.744827, lng: 106.675366 },
-        },
+  },
+  {
+    place_id: '1111',
+    type: RANDOM_LOCATION,
+    properties: {
+      feedback_id: 'F001',
+      feedback_type_EN: 'registry',
+      feedback_type_VN: 'Đăng ký nội dung',
+      status: 'sent', //"done" or "sent",
+      status_VN: 'Đã gửi',
+      location: { lat: 10.744827, lng: 106.675366 },
     },
-    {
-        place_id: "1111",
-        type: RANDOM_LOCATION,
-        properties: {
-            feedback_id: "F001",
-            feedback_type_EN: "question",
-            feedback_type_VN: "Giải đáp thắc mắc",
-            status: "inprocess", //"done" or "sent",
-            status_VN: "Đang xử lý",
-            location: { lat: 10.744177, lng: 106.678205 },
-        },
+  },
+  {
+    place_id: '1111',
+    type: RANDOM_LOCATION,
+    properties: {
+      feedback_id: 'F001',
+      feedback_type_EN: 'question',
+      feedback_type_VN: 'Giải đáp thắc mắc',
+      status: 'inprocess', //"done" or "sent",
+      status_VN: 'Đang xử lý',
+      location: { lat: 10.744177, lng: 106.678205 },
     },
+  },
 ];
 
 //////
 
-const HCM_Place_id = "ChIJI9kl2-8udTERFHIryt1Uz0s";
+const HCM_Place_id = 'ChIJI9kl2-8udTERFHIryt1Uz0s';
 const boundStyle = {
-    strokeColor: "#810FCB",
-    strokeOpacity: 1.0,
-    strokeWeight: 3.0,
+  strokeColor: '#810FCB',
+  strokeOpacity: 1.0,
+  strokeWeight: 3.0,
 };
 
 async function fetchConfig() {
-    const response = await fetch("public/js/mapConfig.json");
-    const config = await response.json();
-    return config;
+  const response = await fetch('public/js/mapConfig.json');
+  const config = await response.json();
+  return config;
 }
 
 function zoomInButton(imgPath, map) {
-    const controlButton = document.createElement("button");
-    const icon = document.createElement("img");
-    controlButton.className = "zoomButton";
-    icon.src = imgPath;
-    icon.alt = "zoom in";
-    controlButton.type = "button";
-    controlButton.title = "Zoom in button";
-    controlButton.appendChild(icon);
-    controlButton.addEventListener("click", () => {
-        map.setZoom(map.getZoom() + 0.5);
-    });
-    return controlButton;
+  const controlButton = document.createElement('button');
+  const icon = document.createElement('img');
+  controlButton.className = 'zoomButton';
+  icon.src = imgPath;
+  icon.alt = 'zoom in';
+  controlButton.type = 'button';
+  controlButton.title = 'Zoom in button';
+  controlButton.appendChild(icon);
+  controlButton.addEventListener('click', () => {
+    map.setZoom(map.getZoom() + 0.5);
+  });
+  return controlButton;
 }
 
 function zoomOutButton(imgPath, map) {
-    const controlButton = document.createElement("button");
-    const icon = document.createElement("img");
-    controlButton.className = "zoomButton";
-    icon.src = imgPath;
-    icon.alt = "zoom out";
-    controlButton.type = "button";
-    controlButton.title = "Zoom out button";
-    controlButton.appendChild(icon);
-    controlButton.addEventListener("click", () => {
-        map.setZoom(map.getZoom() - 0.5);
-    });
-    return controlButton;
+  const controlButton = document.createElement('button');
+  const icon = document.createElement('img');
+  controlButton.className = 'zoomButton';
+  icon.src = imgPath;
+  icon.alt = 'zoom out';
+  controlButton.type = 'button';
+  controlButton.title = 'Zoom out button';
+  controlButton.appendChild(icon);
+  controlButton.addEventListener('click', () => {
+    map.setZoom(map.getZoom() - 0.5);
+  });
+  return controlButton;
 }
 
 function zoomControl(map) {
@@ -373,11 +373,24 @@ function addMarker(data, map) {
       position: item.properties.location,
     });
     marker.addEventListener('gmp-click', () => {
-      console.log('CLICKED');
-      console.log(document.querySelector('.sidepeek-container'));
-      // Fetch data
-      //
-      document.querySelector('.sidepeek-container').classList.remove('hidden');
+      let id;
+      let positionClass;
+      if (item.type == AD_LOCATION) {
+        id = item.properties.status ? '#sidepeek-ad ' : '#sidepeek-noAd';
+        positionClass =
+          item.properties.number_feedback == 0 ? 'float' : 'sticky-left';
+      } else {
+        id = '#feedback-detail';
+        positionClass = 'float';
+      }
+      document.querySelector('#sidepeek-ad').classList.add('hidden');
+      document.querySelector('#sidepeek-noAd').classList.add('hidden');
+      document.querySelector('#feedback-detail').classList.add('hidden');
+
+      document.querySelector(id).classList.remove('hidden');
+      document.querySelector(id).classList.add(positionClass);
+
+      map.panTo(marker.position);
     });
     allMarkers.push(marker);
   }

@@ -4,16 +4,27 @@
   margin: 0;
 }
 
-.sidepeek-container {
+.sticky-left {
+  height: calc(100vh - 3.5rem);
+  top: 3.5rem;
+  left: 0;
+  border-top-right-radius: 12px;
+}
+
+.float {
   height: calc(100vh - 5.5rem);
-  width: 26rem;
-  background-color: #f9fafd;
   border-radius: 12px;
-  overflow: auto;
+
   /* display: none; */
-  position: absolute;
   top: 4.5rem;
   left: 1.5rem;
+}
+
+.sidepeek-container {
+  width: 26rem;
+  background-color: #f9fafd;
+  overflow: auto;
+  position: absolute;
 }
 
 .sidepeek-container-data {
