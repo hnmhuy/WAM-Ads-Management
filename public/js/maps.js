@@ -174,7 +174,7 @@ function zoomOutButton(imgPath, map) {
 }
 
 function zoomControl(map) {
-    const zoomInBtn = zoomInButton("/public/imnages/plus-lg.svg", map);
+    const zoomInBtn = zoomInButton("/public/images/plus-lg.svg", map);
     const zoomOutBtn = zoomOutButton("/public/images/dash-lg.svg", map);
     const container = document.createElement("div");
 
