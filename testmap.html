@@ -17,6 +17,13 @@
     <link rel="stylesheet" href="/public/css/maps.css">
 </head>
 <body>
+    <input
+      id="pac-input"
+      class="controls"
+      type="text"
+      placeholder="Search Box"
+      style="position: absolute; top: 10px; left: 10px; z-index: 1000; width: 100px; height: 50px;";
+    />
     <div class="map-container" style="width: 100%; height: 100% ">
         <div id="map"></div>
     </div>
@@ -55,7 +62,7 @@
             d[l]
                 ? console.warn(p + " only loads once. Ignoring:", g)
                 : (d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)));
-        })({ key: "AIzaSyDHXDgbPJoFPySLuavImK6VfrMOsAeZX9o", v: "beta" });
+        })({ key: "AIzaSyC7YsJvhxn33ZN1pIOS_aRU6tODTdyYKII", v: "beta" });
     </script>
     <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
 </body>

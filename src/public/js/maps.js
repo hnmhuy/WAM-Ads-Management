@@ -4,6 +4,8 @@ const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 const { PlacesService } = await google.maps.importLibrary("places");
 const { MapTypeControlStyle } = await google.maps.importLibrary("maps");
 
+
+var map;
 const RANDOM_LOCATION = 1;
 const AD_LOCATION = 2;
 const ad_markers = [];
@@ -193,43 +195,62 @@ function buildMarkerContent(item) {
         container.innerHTML = `
             <div class="detail-ad hidden">
                 <div class="detail-ad-title">${properties.purpose}
-                    <div class="detail-ad-number-report">${properties.number_feedback}</div>
+                    <div class="detail-ad-number-report">${
+                        properties.number_feedback
+                    }</div>
                 </div>
                 <hr>
                 <div class="detail-ad-info">
                     <p>${properties.address}</p>
                     <p><b>Phân loại: </b> ${properties.type_of_ad}</p>
-                    <div class="detail-ad-status">${properties.status_text}</div>
+                    <div class="detail-ad-status">${
+                        properties.status_text
+                    }</div>
                 </div>
             </div>
             <div class="icon-ad">${properties.status ? "QC" : ""}</div>
         `;
 
         if (!properties.status) {
-            container.querySelector(".detail-ad-status").style.backgroundColor = "#fff3f0";
-            container.querySelector(".detail-ad-status").style.color = "#feaf9d";
+            container.querySelector(".detail-ad-status").style.backgroundColor =
+                "#fff3f0";
+            container.querySelector(".detail-ad-status").style.color =
+                "#feaf9d";
             container.querySelector(".detail-ad").style.borderColor = "#feaf9d";
-            container.querySelector(".icon-ad").style.backgroundColor = "#feaf9d";
+            container.querySelector(".icon-ad").style.backgroundColor =
+                "#feaf9d";
         } else {
-            container.querySelector(".detail-ad-status").style.backgroundColor = "#f5f3ff";
-            container.querySelector(".detail-ad-status").style.color = "#262058";
+            container.querySelector(".detail-ad-status").style.backgroundColor =
+                "#f5f3ff";
+            container.querySelector(".detail-ad-status").style.color =
+                "#262058";
             container.querySelector(".detail-ad").style.borderColor = "#4f3ed7";
-            container.querySelector(".icon-ad").style.backgroundColor = "#787ae8";
+            container.querySelector(".icon-ad").style.backgroundColor =
+                "#787ae8";
         }
 
         if (properties.number_feedback === 0) {
-            container.querySelector(".detail-ad-number-report").classList.add("hidden");
+            container
+                .querySelector(".detail-ad-number-report")
+                .classList.add("hidden");
         } else {
-            container.querySelector(".icon-ad").style.backgroundColor = "#fa0707";
-            container.querySelector(".detail-ad-status").style.backgroundColor = "#fff3f0";
-            container.querySelector(".detail-ad-status").style.color = "#fa0707";
+            container.querySelector(".icon-ad").style.backgroundColor =
+                "#fa0707";
+            container.querySelector(".detail-ad-status").style.backgroundColor =
+                "#fff3f0";
+            container.querySelector(".detail-ad-status").style.color =
+                "#fa0707";
             container.querySelector(".detail-ad").style.borderColor = "#fa0707";
         }
 
-        container.querySelector(".icon-ad").addEventListener("mouseover", () => {
-            container.querySelector(".detail-ad").classList.remove("hidden");
-            container.parentNode.parentNode.style.zIndex = 100000000;
-        });
+        container
+            .querySelector(".icon-ad")
+            .addEventListener("mouseover", () => {
+                container
+                    .querySelector(".detail-ad")
+                    .classList.remove("hidden");
+                container.parentNode.parentNode.style.zIndex = 100000000;
+            });
 
         container.querySelector(".icon-ad").addEventListener("mouseout", () => {
             container.querySelector(".detail-ad").classList.add("hidden");
@@ -260,16 +281,26 @@ function buildMarkerContent(item) {
         `;
 
         container.addEventListener("mouseover", () => {
-            container.querySelector(".icon-feedback").classList.toggle("hidden");
-            container.querySelector(".detail-feedback").classList.toggle("hidden");
-            container.querySelector(".detail-feedback").style.transform = "translate(calc(50% - 20px) , 0%)";
+            container
+                .querySelector(".icon-feedback")
+                .classList.toggle("hidden");
+            container
+                .querySelector(".detail-feedback")
+                .classList.toggle("hidden");
+            container.querySelector(".detail-feedback").style.transform =
+                "translate(calc(50% - 20px) , 0%)";
             container.parentNode.parentNode.style.zIndex = 100000000;
         });
 
         container.addEventListener("mouseout", () => {
-            container.querySelector(".icon-feedback").classList.toggle("hidden");
-            container.querySelector(".detail-feedback").classList.toggle("hidden");
-            container.querySelector(".detail-feedback").style.transform = "translate(calc(-50% + 20px), 0%)";
+            container
+                .querySelector(".icon-feedback")
+                .classList.toggle("hidden");
+            container
+                .querySelector(".detail-feedback")
+                .classList.toggle("hidden");
+            container.querySelector(".detail-feedback").style.transform =
+                "translate(calc(-50% + 20px), 0%)";
             container.parentNode.parentNode.style.zIndex = null;
         });
 
@@ -280,7 +311,7 @@ function buildMarkerContent(item) {
 async function innitMap() {
     const mapConfig = await fetchConfig();
     const center = new LatLng(mapConfig.center[0], mapConfig.center[1]);
-    const map = new Map(document.getElementById("map"), {
+    map = new Map(document.getElementById("map"), {
         center: center,
         zoom: mapConfig.zoom,
         minZoom: mapConfig.zoom,
