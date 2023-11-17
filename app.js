@@ -6,7 +6,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 
-app.use("/public", express.static(path.join(__dirname, "src", "public")));
+app.use("/public", express.static(path.join(__dirname, "public")));
 
 app.get("/", function (req, res) {
     res.sendFile(__dirname + "/testmap.html");
