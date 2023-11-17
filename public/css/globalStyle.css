@@ -3,3 +3,7 @@
 * {
   font-family: "Quicksand", sans-serif;
 }
+
+:root {
+  --nav-bar-width:  78px;
+}

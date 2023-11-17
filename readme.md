@@ -55,7 +55,7 @@ Các bước dùng như sau:
                     d[l]
                         ? console.warn(p + " only loads once. Ignoring:", g)
                         : (d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)));
-                })({ key: "AIzaSyDHXDgbPJoFPySLuavImK6VfrMOsAeZX9o", v: "beta" });
+                })({ key: "AIzaSyC7YsJvhxn33ZN1pIOS_aRU6tODTdyYKII", v: "beta" });
             </script>
     ```
 

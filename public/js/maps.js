@@ -174,8 +174,8 @@ function zoomOutButton(imgPath, map) {
 }
 
 function zoomControl(map) {
-    const zoomInBtn = zoomInButton("/public/imgs/plus-lg.svg", map);
-    const zoomOutBtn = zoomOutButton("/public/imgs/dash-lg.svg", map);
+    const zoomInBtn = zoomInButton("/public/imnages/plus-lg.svg", map);
+    const zoomOutBtn = zoomOutButton("/public/images/dash-lg.svg", map);
     const container = document.createElement("div");
 
     container.className = "zoomContainer";
@@ -193,44 +193,63 @@ function buildMarkerContent(item) {
         container.innerHTML = `
             <div class="detail-ad hidden">
                 <div class="detail-ad-title">${properties.purpose}
-                    <div class="detail-ad-number-report">${properties.number_feedback}</div>
+                    <div class="detail-ad-number-report">${
+                        properties.number_feedback
+                    }</div>
                 </div>
                 <hr>
                 <div class="detail-ad-info">
                     <p>${properties.address}</p>
                     <p><b>Phân loại: </b> ${properties.type_of_ad}</p>
-                    <div class="detail-ad-status">${properties.status_text}</div>
+                    <div class="detail-ad-status">${
+                        properties.status_text
+                    }</div>
                 </div>
             </div>
             <div class="icon-ad">${properties.status ? "QC" : ""}</div>
         `;
 
         if (!properties.status) {
-            container.querySelector(".detail-ad-status").style.backgroundColor = "#fff3f0";
-            container.querySelector(".detail-ad-status").style.color = "#feaf9d";
+            container.querySelector(".detail-ad-status").style.backgroundColor =
+                "#fff3f0";
+            container.querySelector(".detail-ad-status").style.color =
+                "#feaf9d";
             container.querySelector(".detail-ad").style.borderColor = "#feaf9d";
-            container.querySelector(".icon-ad").style.backgroundColor = "#feaf9d";
+            container.querySelector(".icon-ad").style.backgroundColor =
+                "#feaf9d";
         } else {
-            container.querySelector(".detail-ad-status").style.backgroundColor = "#f5f3ff";
-            container.querySelector(".detail-ad-status").style.color = "#262058";
+            container.querySelector(".detail-ad-status").style.backgroundColor =
+                "#f5f3ff";
+            container.querySelector(".detail-ad-status").style.color =
+                "#262058";
             container.querySelector(".detail-ad").style.borderColor = "#4f3ed7";
-            container.querySelector(".icon-ad").style.backgroundColor = "#787ae8";
+            container.querySelector(".icon-ad").style.backgroundColor =
+                "#787ae8";
         }
 
         if (properties.number_feedback === 0) {
-            container.querySelector(".detail-ad-number-report").classList.add("hidden");
+            container
+                .querySelector(".detail-ad-number-report")
+                .classList.add("hidden");
         } else {
-            container.querySelector(".icon-ad").style.backgroundColor = "#fa0707";
-            container.querySelector(".detail-ad-status").style.backgroundColor = "#fff3f0";
-            container.querySelector(".detail-ad-status").style.color = "#fa0707";
+            container.querySelector(".icon-ad").style.backgroundColor =
+                "#fa0707";
+            container.querySelector(".detail-ad-status").style.backgroundColor =
+                "#fff3f0";
+            container.querySelector(".detail-ad-status").style.color =
+                "#fa0707";
             container.querySelector(".detail-ad").style.borderColor = "#fa0707";
         }
 
-        container.querySelector(".icon-ad").addEventListener("mouseover", () => {
-            container.querySelector(".detail-ad").classList.remove("hidden");
-            container.parentNode.parentNode.style.zIndex = 100000000;
-            console.log(container.parentNode.parentNode);
-        });
+        container
+            .querySelector(".icon-ad")
+            .addEventListener("mouseover", () => {
+                container
+                    .querySelector(".detail-ad")
+                    .classList.remove("hidden");
+                container.parentNode.parentNode.style.zIndex = 100000000;
+                console.log(container.parentNode.parentNode);
+            });
 
         container.querySelector(".icon-ad").addEventListener("mouseout", () => {
             container.querySelector(".detail-ad").classList.add("hidden");
@@ -246,7 +265,7 @@ function buildMarkerContent(item) {
         container.style.alignContent = "center";
         container.innerHTML = `
             <div class="icon-feedback">
-                <img src="/public/imgs/${properties.feedback_type_EN}.svg" alt="${properties.feedback_type_EN} icon"/>
+                <img src="/public/images/${properties.feedback_type_EN}.svg" alt="${properties.feedback_type_EN} icon"/>
             </div>
             <div class="detail-feedback hidden">
                 <div class="detail-feedback-status ${properties.status}-shadow">
@@ -261,16 +280,26 @@ function buildMarkerContent(item) {
         `;
 
         container.addEventListener("mouseover", () => {
-            container.querySelector(".icon-feedback").classList.toggle("hidden");
-            container.querySelector(".detail-feedback").classList.toggle("hidden");
-            container.querySelector(".detail-feedback").style.transform = "translate(calc(50% - 20px) , 0%)";
+            container
+                .querySelector(".icon-feedback")
+                .classList.toggle("hidden");
+            container
+                .querySelector(".detail-feedback")
+                .classList.toggle("hidden");
+            container.querySelector(".detail-feedback").style.transform =
+                "translate(calc(50% - 20px) , 0%)";
             container.parentNode.parentNode.style.zIndex = 100000000;
         });
 
         container.addEventListener("mouseout", () => {
-            container.querySelector(".icon-feedback").classList.toggle("hidden");
-            container.querySelector(".detail-feedback").classList.toggle("hidden");
-            container.querySelector(".detail-feedback").style.transform = "translate(calc(-50% + 20px), 0%)";
+            container
+                .querySelector(".icon-feedback")
+                .classList.toggle("hidden");
+            container
+                .querySelector(".detail-feedback")
+                .classList.toggle("hidden");
+            container.querySelector(".detail-feedback").style.transform =
+                "translate(calc(-50% + 20px), 0%)";
             container.parentNode.parentNode.style.zIndex = null;
         });
 
