@@ -1,0 +1,101 @@
+<form class="hidden">
+  <div class="form-header">
+    <h2 class="form-name">Đơn phản ánh</h2>
+    <i class="bi bi-x-circle"></i>
+  </div>
+  <div class="type-email">
+    <div>
+      <label for="dropdown" class="form-label">Hình thức báo cáo</label>
+      {{> dropdown}}
+    </div>
+
+    <div>
+      <label for="exampleInputEmail" class="form-label">Email</label>
+      <input
+        type="email"
+        class="form-control"
+        id="exampleInputEmail"
+        aria-describedby="emailHelp"
+        required
+      />
+    </div>
+  </div>
+  <div class="name-phonenum">
+    <div>
+      <label for="inputName" class="form-label">Họ và tên</label>
+
+      <input type="text" class="form-control" id="inputName" required />
+    </div>
+    <div>
+      <label for="phone" class="form-label">Số điện thoại</label>
+      <input type="tel" class="form-control" id="phone" required />
+    </div>
+  </div>
+  <div class="feedback-textarea">
+    <label for="exampleFormControlTextarea1" class="form-label"
+      >Nội dung báo cáo</label
+    >
+    <textarea
+      class="form-control"
+      id="exampleFormControlTextarea1"
+      rows="3"
+      required
+    ></textarea>
+  </div>
+
+  <div class="upload-file">
+    <label for="upload-file">Hình ảnh báo cáo</label>
+    {{> upload-file}}
+  </div>
+  <div class="submit-captcha">
+    <div
+      class="g-recaptcha"
+      id="recaptcha"
+      data-sitekey="6LcY8BMpAAAAAKvpHZiObsxgDj9cxcb4fz6waH11"
+    ></div>
+    <button type="submit" class="btn btn-primary" id="confirm-button">
+      <i class="bi bi-send-fill"></i> Xác nhận
+    </button>
+  </div>
+</form>
+<div class="overlay hidden"></div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    document
+      .querySelector('form .bi-x-circle')
+      .addEventListener('click', () => {
+        document.querySelector('form').classList.add('hidden');
+        document.querySelector('.overlay').classList.add('hidden');
+      });
+  });
+</script>
+<script>
+  const form = document.querySelector('form');
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const captchaResponse = grecaptcha.getResponse();
+    if (!captchaResponse.length > 0) {
+      throw new Error('Captcha not complete');
+    }
+
+    const fd = new FormData(e.target);
+    const params = new URLSearchParams(fd);
+
+    fetch('http://localhost:3000/upload', {
+      method: 'POST',
+      body: params,
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.captchaSuccess) {
+          console.log('Validation Successful!');
+          alert('Đã gửi phản hồi thành công');
+          document.querySelector('form').classList.add('hidden');
+          document.querySelector('.overlay').classList.add('hidden');
+        } else {
+          console.error('Validation Error!');
+        }
+      })
+      .catch(err => console.error(err));
+  });
+</script>

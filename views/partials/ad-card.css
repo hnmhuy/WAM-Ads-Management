@@ -4,22 +4,23 @@
   margin: 0;
 }
 
-.container {
+.adcard-container {
   background-color: #fff;
   width: 23rem;
-  height: 27em;
+  height: 28em;
   border-radius: 0.8rem;
   overflow: hidden;
   border: 1px solid rgba(0, 0, 0, 0.3);
   margin-bottom: 0.75rem;
+  padding: 0 1rem 1rem 1rem;
 }
 
-.container p {
+.adcard-container p {
   margin-bottom: 0;
   text-align: left;
 }
 
-.container .header {
+.adcard-container .header {
   display: flex;
   border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
@@ -34,39 +35,39 @@
   width: 5%;
 }
 
-h5 {
+.adcard-container h5 {
   width: 100%;
   padding-top: 0.25rem;
   text-align: center;
 }
 
-.size {
+.adcard-container .size {
   display: flex;
   margin-top: 0.25rem;
 }
 
-.size b {
+.adcard-container .size b {
   padding-right: 0.5rem;
 }
 
-.date-container {
+.adcard-container .date-container {
   display: flex;
   align-items: center;
 }
 
-.date-container img {
+.adcard-container .date-container img {
   margin-left: 0.2rem;
 }
 
-.date {
+.adcard-container .date {
   padding-left: 0.5rem;
 }
 
-.date p {
+.adcard-container .date p {
   color: #4f3ed7;
 }
 
-.button-container {
+.adcard-container .button-container {
   display: flex;
   justify-content: space-between;
   margin-top: 0.5rem;

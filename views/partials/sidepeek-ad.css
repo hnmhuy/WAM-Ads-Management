@@ -38,7 +38,7 @@
   position: sticky;
   background-color: #f9fafd;
   top: 0;
-  z-index: 10;
+  z-index: 1;
   padding: 0.75rem 0.6rem 0.5rem 0.6rem;
 }
 .area-icon h3 {
@@ -112,10 +112,31 @@
 }
 
 .sidepeek-container::-webkit-scrollbar {
-  display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
+  display: none !important; /* Hide scrollbar for Chrome, Safari, and Opera */
 }
 
 .sidepeek-container {
   scrollbar-width: thin; /* For Firefox */
   -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+.btn {
+  height: 40px;
+  background-color: #fff !important;
+  color: #4f3ed7 !important;
+  border: 1px solid #4f3ed7 !important;
+  border-radius: 8px;
+  padding-top: 7px !important ;
+}
+.btn-primary:hover {
+  background-color: #4f3ed7 !important;
+  color: #fff !important;
+}
+
+.sidepeek-container-data p:last-child {
+  margin-bottom: 0.75rem;
+}
+
+#location-feedback,
+#show-location-feedback {
+  width: 100%;
 }

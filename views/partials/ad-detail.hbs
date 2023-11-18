@@ -1,11 +1,13 @@
-<div class="ad-detail">
+<div class="ad-detail hidden">
   <div class="header-container">
     <h3 id="ad-name">BẢNG QUẢNG CÁO 1</h3>
-    <i class="bi bi-x-lg"></i>
+    <i class="bi bi-x-circle"></i>
   </div>
-  <div class="address">
+  <div class="adetail-address">
     <i class="bi bi-geo"></i>
-    <p id="format-address"></p>
+    <p id="detail-format-address">
+      Nguyễn Văn Cừ - An Dương Vương (Sở Văn hóa - Thể thao), Phường 4, Quận 5
+    </p>
   </div>
   <div class="carousel-swipe">
     <p class="title">Hình ảnh quảng cáo</p>
@@ -47,7 +49,7 @@
         </div>
         <div class="info2">
           <p class="title">Phản hồi thông tin</p>
-          <button type="button" class="btn btn-primary">
+          <button type="button" class="btn btn-primary feedback-button">
             <i class="bi bi-send-fill"></i> Phản hồi
           </button>
         </div>
@@ -55,4 +57,16 @@
     </div>
   </div>
 </div>
+<div class="overlay hidden"></div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    document
+      .querySelector('.ad-detail .bi-x-circle')
+      .addEventListener('click', () => {
+        document.querySelector('.ad-detail').classList.add('hidden');
+        document.querySelector('.overlay').classList.add('hidden');
+      });
+  });
+</script>
+
 <script src="/partials/data.js"></script>

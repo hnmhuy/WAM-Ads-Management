@@ -383,12 +383,31 @@ function addMarker(data, map) {
         id = '#feedback-detail';
         positionClass = 'float';
       }
+
       document.querySelector('#sidepeek-ad').classList.add('hidden');
       document.querySelector('#sidepeek-noAd').classList.add('hidden');
       document.querySelector('#feedback-detail').classList.add('hidden');
+      document
+        .querySelector('#feedback-detail')
+        .classList.remove('feedbackDetail-float');
+      console.log(positionClass);
+      console.log(id);
 
+      if (positionClass == 'sticky-left') {
+        console.log(123);
+        document
+          .querySelector('.show-feedback-button')
+          .classList.remove('hidden');
+        document.querySelector('.feedback-button').classList.add('hidden');
+        document.querySelector(id).classList.remove('hidden');
+        document.querySelector(id).classList.remove('float');
+        document.querySelector(id).classList.add(positionClass);
+      }
+      document.querySelector(id).classList.remove('float');
+      document.querySelector(id).classList.remove('sticky-left');
       document.querySelector(id).classList.remove('hidden');
       document.querySelector(id).classList.add(positionClass);
+      console.log(document.querySelector(id));
 
       map.panTo(marker.position);
     });
