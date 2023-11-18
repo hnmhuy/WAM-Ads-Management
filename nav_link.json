@@ -1,0 +1,34 @@
+{
+    "nav_link": [
+        {
+            "name": "dashboard",
+            "title": "Trang chủ",
+            "active": false
+        },
+        {
+            "name": "ads",
+            "title": "Quản lý quảng cáo",
+            "active": false
+        },
+        {
+            "name": "feedback",
+            "title": "Phản ánh",
+            "active": false
+        },
+        {
+            "name": "area",
+            "title": "Khu vực",
+            "active": false
+        },
+        {
+            "name": "label",
+            "title": "Phân loại",
+            "active": false
+        },
+        {
+            "name": "deligate",
+            "title": "Nhân sự",
+            "active": false
+        }
+    ]
+}

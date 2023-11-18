@@ -1,7 +1,6 @@
-.toggle-button{
-    position: absolute;
-    top: 50%;
-    left: 85px;
+.active {
+    background-color: var(--nav-item-active);
+    font-weight: 900;
 }
 
 .navbar{
@@ -117,23 +116,15 @@
     margin: auto 10px;
     cursor: pointer;
 }
-.main-content{
-    width: calc(100vw - var(--nav-bar-width));
-    height: 100vh;
-    background-color: #f1f1f1;
-    padding: 20px;
-    margin-left: var(--nav-bar-width);
-    transition: margin-left 0.5s;
-}
-
 
 .toggle-button{
-    position: absolute;
+    position: fixed;
     top: 50%;
     width: 1.5rem;
     height: 1.5rem;
     left: calc(var(--nav-bar-width) + 10px);
     transition: 0.5s;
+    z-index: 100;
 }
 .vertical-line{
     width: 0.25rem;

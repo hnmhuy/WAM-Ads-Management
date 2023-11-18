@@ -29,8 +29,56 @@ app.use("/location", require('./routes/district/location.route'))
 app.use("/reports", require('./routes/district/reports.route'))
 app.use("/permission", require('./routes/district/permission.route'))
 
-app.get("/testing", (req, res) => {
-    res.sendFile(__dirname + "/test.html");
+app.get("/testing/dashboard", (req, res) => {
+    let navBarData = require("./nav_link.json");
+    //set all active = false
+    navBarData.nav_link.forEach((link) => {
+        link.active = false;
+    });
+
+    const target = navBarData.nav_link.find(
+        (link) => link.name === "dashboard"
+    );
+    if (target) {
+        target.active = true;
+    }
+    let componentDependcy = {
+        css: ["/public/css/department_dashboard.css"],
+        swipe: false,
+        title: "SỐ LIỆU THỐNG KÊ",
+    };
+    res.render("department/dashboard", {
+        layout: "department_layout",
+        css: componentDependcy.css,
+        swipe: componentDependcy.swipe,
+        title: componentDependcy.title,
+        nav_link: navBarData.nav_link,
+    });
+});
+
+app.get("/testing/ads", (req, res) => {
+    let navBarData = require("./nav_link.json");
+    navBarData.nav_link.forEach((link) => {
+        link.active = false;
+    });
+
+    const target = navBarData.nav_link.find((link) => link.name === "ads");
+    if (target) {
+        target.active = true;
+    }
+    console.log(navBarData.nav_link);
+    let componentDependcy = {
+        css: ["/public/css/department_dashboard.css"],
+        swipe: true,
+        title: "QUẢN LÝ QUẢNG CÁO",
+    };
+    res.render("department/ads_location", {
+        layout: "department_layout",
+        css: componentDependcy.css,
+        swipe: componentDependcy.swipe,
+        title: componentDependcy.title,
+        nav_link: navBarData.nav_link,
+    });
 });
 
 
