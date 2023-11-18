@@ -3,7 +3,7 @@
 <h2>{{name}}</h2> 
 <hr>
 <div class="toolbar">
-        <form class="col-lg-4 mb-3 mb-lg-0 me-lg-3" role="search" onsubmit="(e)=>{e.preventDefault()}">
+        <form class="col-lg-4 mb-3 mb-lg-0 me-lg-3" role="search" onsubmit="event.preventDefault();">
             <input type="search" class="form-control" placeholder="Search..." id='keyword' aria-label="Search" oninput="search(this.value)" required>
         </form>
         <select id="typeSelect" class="form-select" aria-label="Default select example" onchange="filterByType(this.value)">
@@ -39,6 +39,7 @@
       {{#each row}}
         {{> row}}
       {{/each}}
+
     </tbody>
   </table>
 </div>
@@ -64,29 +65,16 @@
     }
   });
 }
-  function filterByType(typeFilter) {
-    filter(typeFilter);
-  }
-  function filterByMethod(methodFilter) {
-    filter(undefined, methodFilter);
-  }
-  function filterByStatus(statusFilter) {
-    filter(undefined, undefined, statusFilter);
-  }
-  function filter(typeFilter, methodFilter, statusFilter) {
-    const rows = document.querySelectorAll('#tableBody tr');
-    rows.forEach(row => {
-      const type = row.querySelector('.type-column').textContent.toUpperCase();
-      const method = row.querySelector('.method-column').textContent.toUpperCase();
-      const status = row.querySelector('.status-column').textContent.toUpperCase();
-      const typeMatch = type.includes(typeFilter) || !typeFilter;
-      const methodMatch = method.includes(methodFilter) || !methodFilter;
-      const statusMatch = status.includes(statusFilter) || !statusFilter;
-      if (typeMatch && methodMatch && statusMatch) {
-        row.style.display = '';
-      } else {
-        row.style.display = 'none';
-      }
-    });
-  }
+
 </script>
+
+<script
+  src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+  integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+  integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+  crossorigin="anonymous"
+></script>
