@@ -1,7 +1,7 @@
 .card {
   box-sizing: content-box;
   background-color: lightpurple;
-  border-radius: 4px;
+  border-radius: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -37,4 +37,138 @@
 .tab-btn-active {
   color: white !important;
   background-color: #262058 !important;
+}
+
+.table {
+  margin-bottom: 0px !important;
+}
+
+.table th {
+  background-color: rgb(249, 250, 253);
+  color: rgba(0, 0, 0, 0.8);
+  font-weight: 800;
+  height: 3rem;
+}
+
+.table-container {
+  height: 100%;
+  border-radius: 15px;
+  padding: 2px 2px 0px 2px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+}
+
+.table-status {
+  width: 150px;
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.status-location-active {
+  background-color: rgb(245, 243, 255);
+  color: rgb(38, 32, 88);
+}
+
+.status-location-pending {
+  background-color: rgb(255, 243, 240);
+  color: rgb(254, 175, 157);
+}
+
+.status-ad-exeried {
+  background-color: rgb(245, 243, 255);
+  color: black;
+}
+
+.status-ad-rejected {
+  background-color: rgb(255, 243, 240);
+  color: rgb(254, 175, 157);
+}
+
+.status-ad-accepted {
+  background-color: rgb(183, 203, 191);
+  color: black;
+}
+
+.status-user-blocked {
+  background-color: rgb(255, 243, 240);
+  color: rgb(254, 175, 157);
+}
+
+.status-user-actived {
+  background-color: rgb(183, 203, 191);
+  color: black;
+}
+
+.rotated {
+  transform: rotate(180deg);
+}
+
+.table {
+  margin-bottom: 0px !important;
+}
+
+.table th {
+  background-color: rgb(249, 250, 253);
+  color: rgba(0, 0, 0, 0.8);
+  font-weight: 800;
+  height: 3rem;
+}
+
+.table-container {
+  height: 100%;
+  border-radius: 15px;
+  padding: 2px 2px 0px 2px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+}
+
+.table-status {
+  width: 150px;
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.status-location-active {
+  background-color: rgb(245, 243, 255);
+  color: rgb(38, 32, 88);
+}
+
+.status-location-pending {
+  background-color: rgb(255, 243, 240);
+  color: rgb(254, 175, 157);
+}
+
+.status-ad-exeried {
+  background-color: rgb(245, 243, 255);
+  color: black;
+}
+
+.status-ad-rejected {
+  background-color: rgb(255, 243, 240);
+  color: rgb(254, 175, 157);
+}
+
+.status-ad-accepted {
+  background-color: rgb(183, 203, 191);
+  color: black;
+}
+
+.status-user-blocked {
+  background-color: rgb(255, 243, 240);
+  color: rgb(254, 175, 157);
+}
+
+.status-user-actived {
+  background-color: rgb(183, 203, 191);
+  color: black;
+}
+
+.rotated {
+  transform: rotate(180deg);
 }
