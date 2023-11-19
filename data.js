@@ -1,7 +1,7 @@
 
 // Bảng các điểm đặt quảng cáo
 const locations = {
-    heading: ["Quận", "Phường", "Địa chỉ", "Loại vị trí", "Số lượng", "Hình thức", "Trang thái"],
+    heading: ["Quận", "Phường", "Địa chỉ", "Loại vị trí", "Số lượng", "Mục đích", "Trang thái"],
     row: [
         {
             head1: "Bình Thạnh",
@@ -150,7 +150,7 @@ const locations = {
     ]
 }
 const reports = {
-    heading: ["Quận", "Phường", "Địa chỉ", "Mã báo cáo", "Thời gian báo cáo", "Hình thức", "Trang thái"],
+    heading: ["Quận", "Phường", "Địa chỉ", "Mã báo cáo", "Thời gian báo cáo", "Mục đích", "Trang thái"],
     row: [
         {
             head1: "Bình Thạnh",
@@ -300,7 +300,7 @@ const reports = {
 }
 
 const permissions = {
-    heading: ["Mã quảng cáo", "Địa điểm", "Hình thức", "Công ty", "Trạng thái"],
+    heading: ["Mã quảng cáo", "Địa điểm", "Mục đích", "Công ty", "Trạng thái"],
     row: [
         {
             head1: "MQC0001",
