@@ -2,6 +2,12 @@
 <div class="container mt-5"style="padding-left: 5%">
 <h2>{{name}}</h2>
 <hr>
+
+
+<div class="tab-bar">
+  <button class="tab-btn tab-btn-active report" target="req_create">Bảng quảng cáo</button>
+  <button class="tab-btn other-report" target="req_update">Vị trí khác</button>
+</div>
 <div class="toolbar">
         <form class="col-lg-4 mb-3 mb-lg-0 me-lg-3" role="search" onsubmit="event.preventDefault();">
             <input type="search" class="form-control" placeholder="Search..." id='keyword' aria-label="Search" oninput="search(this.value)" required>
@@ -31,6 +37,7 @@
         {{/each}}
       </tr>
     </thead>
+
     <tbody id="tableBody">
       {{#each collapsible_row}}
         {{> collapsible_row}}
@@ -71,3 +78,20 @@
   integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
   crossorigin="anonymous"
 ></script>
+
+<script>
+  function rotateButton(button) {
+    button.classList.toggle("rotated");
+  }
+
+  const tab_btn = document.querySelectorAll(".tab-btn");
+
+  tab_btn.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      tab_btn.forEach((btn) => {
+        btn.classList.toggle("tab-btn-active");
+      });
+    });
+  });
+
+</script>
