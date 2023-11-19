@@ -235,7 +235,90 @@
             quảng cáo mới</h5>
     </div>
     <div class="offcanvas-body">
-        <p>Try scrolling the rest of the page to see this option in action.</p>
+        <div class="map-container">
+            <p>Map here</p>
+        </div>
+        <form class="create-location-form">
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="street-input" placeholder="Đường">
+                <label for="street-input">Đường</label>
+            </div>
+            <div class="choose-area">
+                <div class="form-floating">
+                    <select class="form-select" id="warn-input" aria-label="Floating label select example">
+                        <option selected>Chọn phường</option>
+                        <option value="1">Phường 1</option>
+                        <option value="2">Phường 2</option>
+                        <option value="3">Phường 3</option>
+                        <option value="4">Phường 4</option>
+                        <option value="5">Phường 5</option>
+                        <option value="6">Phường 6</option>
+                        <option value="7">Phường 7</option>
+                    </select>
+                    <label for="floatingSelect">Phường</label>
+                </div>
+                <div class="form-floating">
+                    <select class="form-select" id="district-input" aria-label="Floating label select example">
+                        <option selected>Chọn quận</option>
+                        <option value="1">Quận 5</option>
+                        <option value="2">Quận 8</option>
+                    </select>
+                    <label for="floatingSelect">Quận</label>
+                </div>
+            </div>
+             
+            <div class="choose-type">
+                <div class="form-group col-md-4">
+                    <p class="title-form">Loại vị trí</p>
+                    <select id="district-input" class="form-control">
+                        <option selected>Loại địa điểm</option>
+                        <option> Đất công </option>
+                        <option> Công viên </option>
+                        <option> Hành lang an toàn giao thông </option>
+                    </select>
+                </div>
+
+                <div class="form-group col-md-4">
+                    <p class="title-form">Hình thức quảng cáo</p>
+                    <select id="warn-input" class="form-control">
+                        <option selected>Hình thức quảng cáo</option>
+                        <option> Cổ động chính trị </option>
+                        <option> Thương mại </option>
+                        <option> Du lịch </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="number-ads">
+                <p class="title-form">Số lượng bảng</p>
+                <div class="form-group">
+                    <input
+                        type="number"
+                        class="form-control"
+                        id="numberads-input"
+                        
+                    />
+                </div>
+                <p class="unit">bảng / địa điểm</p>
+            </div>
+            <div class="ad-type">
+                <p class="title-form">Loại bảng quảng cáo</p>
+                <div class="form-group col-md-4">
+                    <select id="district-input" class="form-control">
+                        <option selected>Loại bảng quảng cáo</option>
+                        <option> Trụ/cụm pano </option>
+                        <option> Băng rôn </option>
+                        <option> Màn hình led </option>
+                    </select>
+                </div>
+            </div>
+            <div class="upload-file">
+                <p>Upload here</p>
+            </div>
+            <button type="submit" class="btn btn-primary" id="confirm-button">
+                <i class="bi bi-send-fill"></i> Lưu địa điểm
+            </button>
+        </form>
     </div>
 </div>
 
