@@ -1,5 +1,5 @@
 {
-    "table_id": "location_table",
+    "table_id": "req_create_table",
     "heading": [
         "Quận",
         "Phường",

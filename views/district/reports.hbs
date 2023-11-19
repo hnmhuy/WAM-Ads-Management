@@ -3,11 +3,12 @@
 <h2>{{name}}</h2>
 <hr>
 
-
 <div class="tab-bar">
-  <button class="tab-btn tab-btn-active report" target="req_create">Bảng quảng cáo</button>
-  <button class="tab-btn other-report" target="req_update">Vị trí khác</button>
+  <button class="tab-btn tab-btn-active" target="req_create">Bảng quảng cáo</button>
+  <button class="tab-btn" target="req_update">Vị trí khác</button>
 </div>
+
+
 <div class="toolbar">
   <div style="display: flex;">
     <form class="col-lg-4 mb-3 mb-lg-0 me-lg-3" role="search" onsubmit="event.preventDefault();">
@@ -32,7 +33,8 @@
         </div>
     </div>
     <hr>
-  {{!-- <table class="table table-striped table-hover table-bordered rounded-table">
+
+  <table class="table table-striped table-hover table-bordered rounded-table" id="current-location">
     <thead>
       <tr>
         {{#each heading}}
@@ -46,122 +48,7 @@
         {{> collapsible_row}}
       {{/each}}
     </tbody>
-  </table> --}}
-
-  <div class="table-container" id="{{table_data.table_id}}">
-    <div class="table-header">
-      <table class="table">
-        <thead>
-          <tr>
-            {{#each table_data.heading}}
-            <th scope="col">{{this}}</th>
-            {{/each}}
-            <th scope="col" class="extend-btn"></th>
-          </tr>
-        </thead>
-      </table>
-    </div>
-    {{#each table_data.data_row}}
-    <div class="table-row">
-      <table class="table">
-        <tr>
-          {{#each attributes}}
-          <td scope="row">{{this}}</td>
-          {{/each}}
-          {{#if status_col}}
-          <td>
-            <div class="table-status
-                                      {{status_data.status_class}}">
-              {{status_data.status_text}}
-            </div>
-          </td>
-          {{/if}}
-          <td class="extend-btn">
-            <button id="collapse-btn" class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#{{id}}"
-              aria-expanded="false" aria-controls="{{id}}">
-              <i class="bi bi-chevron-down"></i>
-            </button>
-          </td>
-        </tr>
-      </table>
-      <div class="collapse" id="{{id}}" style="width: 100%;">
-        <div class="collapsed-content" style="background-color:#f9fafd">
-          <div style="display: flex; " class=" p-4">
-            <div class="fluid-container mb-3">
-              <div class="row">
-                <div class="col-4" style="height: fit-content;">
-                  <div id="myCarousel" class="carousel slide mb-6" style="border-radius: 10px; overflow: hidden;"
-                    data-bs-ride="carousel">
-                    <div class="carousel-indicators">
-                      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true"
-                        aria-label="Slide 1"></button>
-                      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                    </div>
-                    <div class="carousel-inner">
-                      <div class="carousel-item active">
-                        <img src="../../public/images/location3.png" style="height: 300px; width:auto" alt="">
-          
-                      </div>
-                      <div class="carousel-item">
-                        <img src="../../public/images/location3.png" style="height: 300px;width:auto" alt="">
-                      </div>
-                      <div class="carousel-item">
-                        <img src="../../public/images/location3.png" style="height: 300px;width:auto" alt="">
-                      </div>
-                    </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                      <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                      <span class="visually-hidden">Next</span>
-                    </button>
-                  </div>
-                </div>
-          
-                <div class="col-8" style="height: fit-content;">
-                  <div class="col-7">
-                    <table style="padding: 0;" id="info-ad-location" class="table" id="inf-table">
-                      <tr>
-                        <th style="padding:3px;"><i class="bi bi-geo-alt"> Họ và tên</i></th>
-                        <td style="padding:3px; background-color:#f9fafd">Nguyễn Văn Nguyễn</td>
-                      </tr>
-                      <tr>
-                        <th style="padding:3px;"><i class="bi bi-hash"></i> Số điện thoại</th>
-                        <td style="padding:3px;background-color:#f9fafd">15087508</td>
-                      </tr>
-                      <tr>
-                        <th style="padding:3px;"><i class="bi bi-tag"></i> Email</th>
-                        <td style="padding:3px;background-color:#f9fafd">email@gmail.com</td>
-                      </tr>
-                    </table>
-                    <div class="col-12">
-                      <textarea style="width:780px; height: 119px; border-radius: 5px" placeholder="  Hướng giải quyết" name="" id="" cols="30" rows="5"></textarea>
-                    </div>
-                  </div>
-                  <div style="display:flex;flex-direction:row-reverse;margin-top:10px">
-                    <div class="btn btn-outline-danger">
-                      <i class="bi bi-x"></i>
-                    </div>
-                    <div style="width: 10px;"></div>
-                    <div class="btn btn-outline-success">
-                      <i class="bi bi-check"></i>
-                    </div>
-          
-                  </div>
-          
-                </div>
-          
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    {{/each}}
-  </div>
+  </table>
 </div>
 </div>
 
@@ -198,18 +85,23 @@
 ></script>
 
 <script>
-  function rotateButton(button) {
-    button.classList.toggle("rotated");
-  }
 
   const tab_btn = document.querySelectorAll(".tab-btn");
+  const current_location = document.querySelector('#current-location')
+  const other_location = document.querySelector('#other-location')
 
-  tab_btn.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      tab_btn.forEach((btn) => {
-        btn.classList.toggle("tab-btn-active");
-      });
-    });
-  });
+  tab_btn[0].addEventListener("click", () => {
+    tab_btn[0].classList.add("tab-btn-active");
+    tab_btn[1].classList.remove("tab-btn-active");
+    current_location.classList.remove("collapse");
+    other_location.classList.add("collapse");
+});
+
+tab_btn[1].addEventListener("click", () => {
+    tab_btn[1].classList.add("tab-btn-active");
+    tab_btn[0].classList.remove("tab-btn-active");
+    other_location.classList.remove("collapse");
+    current_location.classList.add("collapse");
+});
 
 </script>

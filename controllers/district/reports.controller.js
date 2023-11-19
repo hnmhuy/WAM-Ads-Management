@@ -1,5 +1,6 @@
 const controller = {}
 const { reports } = require('../../data')
+const { other_reports } = require('../../data')
 
 controller.show = (req, res) => {
     let table_data = require("../../reports_table_collapsible.json");
