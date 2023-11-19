@@ -299,6 +299,57 @@ const reports = {
     ]
 }
 
+const other_reports = {
+    heading: ["Quận", "Phường", "Địa chỉ", "Mã báo cáo", "Thời gian báo cáo", "Mục đích", "Trang thái"],
+    row: [
+        {
+            head1: "Bình Thạnh",
+            head2: "7",
+            head3: "23 Bùi Hữu Nghĩa",
+            head4: "MBC100001",
+            head5: "16/11/2023",
+            head6: "Tố giác tội phạm",
+            head7: "Đã giải quyết"
+        },
+        {
+            head1: "1",
+            head2: "Bến Nghé",
+            head3: "23 Nguyễn Thị Minh Khai",
+            head4: "MBC100002",
+            head5: "16/11/2023",
+            head6: "Đóng góp ý kiến",
+            head7: "Chưa giải quyết"
+        },
+        {
+            head1: "Bình Thạnh",
+            head2: "7",
+            head3: "23 Bùi Hữu Nghĩa",
+            head4: "MBC100001",
+            head5: "16/11/2023",
+            head6: "Tố giác tội phạm",
+            head7: "Đã giải quyết"
+        },
+        {
+            head1: "1",
+            head2: "Bến Nghé",
+            head3: "23 Nguyễn Thị Minh Khai",
+            head4: "MBC100002",
+            head5: "16/11/2023",
+            head6: "Đóng góp ý kiến",
+            head7: "Chưa giải quyết"
+        },
+        {
+            head1: "Bình Thạnh",
+            head2: "7",
+            head3: "23 Bùi Hữu Nghĩa",
+            head4: "MBC100001",
+            head5: "16/11/2023",
+            head6: "Tố giác tội phạm",
+            head7: "Đã giải quyết"
+        }
+    ]
+}
+
 const permissions = {
     heading: ["Mã quảng cáo", "Địa điểm", "Mục đích", "Công ty", "Trạng thái"],
     row: [
@@ -487,5 +538,5 @@ const permissions = {
     ]
 }
 module.exports = {
-    locations, reports, permissions
+    locations, reports, permissions, other_reports
 }

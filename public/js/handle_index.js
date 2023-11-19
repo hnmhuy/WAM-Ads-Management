@@ -14,7 +14,7 @@ document
 
         // Check if both email and password are filled
         if (emailInput !== "" && passwordInput !== "") {
-            window.location.href = "/home"; // Redirect to /home
+            window.location.href = "/choose"; // Redirect to /home
         } else {
             // Handle the case when either email or password is not filled
             alert("Please fill in both email and password.");

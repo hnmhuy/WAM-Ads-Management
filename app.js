@@ -26,11 +26,17 @@ hbs.handlebars.registerHelper("ifEquals", function (arg1, arg2, options) {
 app.get("/", (req, res) => {
     res.render("index");
 });
+
+app.get("/choose", (req, res) => {
+    res.render("tmp")
+})
 // Use routes of district
 app.use("/home", require("./routes/district/home.route"));
 app.use("/location", require("./routes/district/location.route"));
 app.use("/reports", require("./routes/district/reports.route"));
 app.use("/permission", require("./routes/district/permission.route"));
+
+
 
 app.listen(port, (req, res) => {
     console.log(`Server is running on ${port}`);
