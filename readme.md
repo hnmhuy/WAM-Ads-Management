@@ -11,7 +11,7 @@
 - ui_citizens: Code ui cho phân hệ dân
 - ui_district_ward: Code ui cho phường và quận
 - ui_department: Code ui cho sở
-
+<!-- 
 ## Dùng maps
 
 Mn tham khảo cái file testmap.html nha
@@ -73,4 +73,4 @@ Các bước dùng như sau:
     ```html
         <link rel="stylesheet" href="/public/css/maps.css">
         <script type="module" defer src="/public/js/maps.js"></script>
-    ```
+    ``` -->
