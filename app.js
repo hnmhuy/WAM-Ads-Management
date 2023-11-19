@@ -62,7 +62,7 @@ app.get("/testing/ads", (req, res) => {
     navBarData.nav_link.forEach((link) => {
         link.active = false;
     });
-
+    console.log(locations);
     const target = navBarData.nav_link.find((link) => link.name === "ads");
     if (target) {
         target.active = true;
@@ -78,8 +78,7 @@ app.get("/testing/ads", (req, res) => {
         swap: componentDependcy.swap,
         title: componentDependcy.title,
         nav_link: navBarData.nav_link,
-        heading: locations.heading,
-        data_row: locations.data_row,
+        table_data: locations,
     });
 });
 

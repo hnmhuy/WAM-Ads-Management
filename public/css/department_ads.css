@@ -85,3 +85,51 @@
 .collapsed-content {
     padding: 10px;
 }
+
+.rotate-btn {
+    transform: rotate(180deg)!important;
+}
+
+
+.req-accordion-header {
+    font-size: 22px;
+    font-weight: 800;
+    background-color: rgb(249, 250, 253);
+    margin: 10px 0px;
+    border-radius: 15px!important;
+}
+
+.req-accordion-header h4 {
+    margin-bottom: 0px;
+}   
+
+
+.area-accordion-header {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    align-items: center;
+    padding: 0;
+}
+
+.area-accordion-header button {
+    width: 60px;
+}
+
+.area-accordion-header * {
+    margin: 0;
+}
+
+.area-accordion-header span {
+    height: 30px;
+    width: 1px;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.area-accordion-header h5 {
+    font-weight: 800;
+}
+
+.area-accordion-header p {
+    color: rgba(0, 0, 0, 0.3)
+}

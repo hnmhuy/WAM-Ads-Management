@@ -1,0 +1,40 @@
+<div class="table-container" id="location_table">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                {{#each table_data.heading}}
+                    <th scope="col">{{this}}</th>
+                {{/each}}
+                <th scope="col extend-btn"></th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            {{#each table_data.data_row}}
+                <tr>
+                    {{#each attributes}}
+                        <td>{{this}}</td>
+                    {{/each}}
+                    {{#if status_col}}
+                        <td>
+                            <div
+                                class="table-status
+                                    {{status_data.status_class}}"
+                            >
+                                {{status_data.status_text}}
+                            </div>
+                        </td>
+                    {{/if}}
+                    <td style="width: 60px" id={{id}}>
+                        <button
+                            class="btn"
+                            type="button"
+                            data-bs-toggle="offcanvas"
+                            data-bs-target="#{{sidepeek_id}}"
+                            aria-controls="{{sidepeek_id}}"
+                        ><i class="bi bi-three-dots"></i></button>
+                    </td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>

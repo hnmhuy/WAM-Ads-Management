@@ -23,7 +23,8 @@
             "status_data": {
                 "status_text": "Chưa quy hoạch",
                 "status_class": "status-location-active"
-            }
+            },
+            "sidepeek_id": "location_extend"
         },
         {
             "id": "r2",
@@ -39,7 +40,8 @@
             "status_data": {
                 "status_text": "Đã quy hoạch",
                 "status_class": "status-location-pending"
-            }
+            },
+            "sidepeek_id": "location_extend"
         },
         {
             "id": "r3",
@@ -55,7 +57,8 @@
             "status_data": {
                 "status_text": "Đã quy hoạch",
                 "status_class": "status-location-pending"
-            }
+            },
+            "sidepeek_id": "location_extend"
         },
         {
             "id": "r4",
@@ -71,7 +74,8 @@
             "status_data": {
                 "status_text": "Đã quy hoạch",
                 "status_class": "status-location-pending"
-            }
+            },
+            "sidepeek_id": "location_extend"
         },
         {
             "id": "r5",
@@ -87,7 +91,8 @@
             "status_data": {
                 "status_text": "Đã quy hoạch",
                 "status_class": "status-location-pending"
-            }
+            },
+            "sidepeek_id": "location_extend"
         },
         {
             "id": "r6",
@@ -103,7 +108,8 @@
             "status_data": {
                 "status_text": "Đã quy hoạch",
                 "status_class": "status-location-pending"
-            }
+            },
+            "sidepeek_id": "location_extend"
         }
     ]
 }
