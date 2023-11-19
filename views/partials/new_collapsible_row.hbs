@@ -1,9 +1,9 @@
-<div class="table-container collapse" id="req_create_table">
+<div class="table-container collapse" id="{{table_data.table_id}}">
     <div class="table-header">
         <table class="table">
             <thead>
                 <tr>
-                    {{#each heading}}
+                    {{#each table_data.heading}}
                         <th scope="col">{{this}}</th>
                     {{/each}}
                     <th scope="col" class="extend-btn"></th>
@@ -11,7 +11,7 @@
             </thead>
         </table>
     </div>
-    {{#each data_row}}
+    {{#each table_data.data_row}}
         <div class="table-row">
             <table class="table">
                 <tr>

@@ -61,6 +61,7 @@ app.get("/testing/dashboard", (req, res) => {
 
 app.get("/testing/ads", (req, res) => {
     let locations = require("./locations_data.json");
+    let locations_collapsible = require("./locations_data_collapsible.json");
     let navBarData = require("./nav_link.json");
     navBarData.nav_link.forEach((link) => {
         link.active = false;
@@ -81,7 +82,8 @@ app.get("/testing/ads", (req, res) => {
         swap: componentDependcy.swap,
         title: componentDependcy.title,
         nav_link: navBarData.nav_link,
-        table_data: locations,
+        table1: locations,
+        table2: locations_collapsible,
     });
 });
 
