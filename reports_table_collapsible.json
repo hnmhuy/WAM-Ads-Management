@@ -1,0 +1,78 @@
+{
+    "table_id": "report_table",
+    "heading": [
+        "Quận",
+        "Phường",
+        "Địa chỉ",
+        "Mã báo cáo",
+        "Thời gian báo cáo",
+        "Hình thức",
+        "Trạng thái"
+    ],
+    "data_row": [
+        {
+            "id": "r1",
+            "status_col": true,
+            "attributes": [
+                "Bình Thạnh",
+                "7",
+                "23 Bùi Hữu Nghĩa",
+                "MBC100001",
+                "16/11/2023",
+                "Tố giác tội phạm"
+            ],
+            "status_data": {
+                "status_text": "Đã từ chối",
+                "status_class": "status-ad-rejected"
+            }
+        },
+        {
+            "id": "r2",
+            "status_col": true,
+            "attributes": [
+                "Bình Thạnh",
+                "7",
+                "23 Bùi Hữu Nghĩa",
+                "MBC100001",
+                "16/11/2023",
+                "Tố giác tội phạm"
+            ],
+            "status_data": {
+                "status_text": "Đã từ chối",
+                "status_class": "status-ad-rejected"
+            }
+        },
+        {
+            "id": "r3",
+            "status_col": true,
+            "attributes": [
+                "Bình Thạnh",
+                "7",
+                "23 Bùi Hữu Nghĩa",
+                "MBC100001",
+                "16/11/2023",
+                "Tố giác tội phạm"
+            ],
+            "status_data": {
+                "status_text": "Đã từ chối",
+                "status_class": "status-ad-rejected"
+            }
+        },
+        {
+            "id": "r4",
+            "status_col": true,
+            "attributes": [
+                "Bình Thạnh",
+                "7",
+                "23 Bùi Hữu Nghĩa",
+                "MBC100001",
+                "16/11/2023",
+                "Tố giác tội phạm"
+            ],
+            "status_data": {
+                "status_text": "Đã từ chối",
+                "status_class": "status-ad-rejected"
+            }
+        }
+    ]
+}
