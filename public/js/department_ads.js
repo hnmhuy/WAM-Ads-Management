@@ -6,6 +6,8 @@ const req_create_table = document.querySelector("#req_create_table");
 const req_update = document.querySelector("#req_update");
 let currpage = swap_button.getAttribute("target");
 
+req_create_table.classList.add("collapse");
+
 swap_button.addEventListener("click", () => {
     if (currpage == "location") {
         swap_button.setAttribute("target", "req");
