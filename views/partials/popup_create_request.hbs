@@ -152,6 +152,9 @@
         popup.style.top = originalStyles.top || '';
         popup.style.left = originalStyles.left || '';
         popup.style.transform = originalStyles.transform || '';
-
+        const up = document.querySelector('.uploaded-area');
+        up.remove();
+        const form_to_display = document.querySelector(".upload");
+        form_to_display.style.display = 'flex';
     }
 </script>
