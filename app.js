@@ -63,6 +63,7 @@ app.get("/testing/ads", (req, res) => {
     let locations = require("./locations_data.json");
     let locations_collapsible = require("./locations_data_collapsible.json");
     let navBarData = require("./nav_link.json");
+    let ad_infomation = require("./ad_data_collapsible.json");
     navBarData.nav_link.forEach((link) => {
         link.active = false;
     });
@@ -84,6 +85,7 @@ app.get("/testing/ads", (req, res) => {
         nav_link: navBarData.nav_link,
         table1: locations,
         table2: locations_collapsible,
+        table_data: ad_infomation,
     });
 });
 
@@ -126,6 +128,52 @@ app.get("/testing/deligate", (req, res) => {
         title: "QUẢN LÝ TÀI KHOẢN CÁN BỘ",
     };
     res.render("department/deligate", {
+        layout: "department_layout",
+        css: componentDependcy.css,
+        title: componentDependcy.title,
+        nav_link: navBarData.nav_link,
+    });
+});
+
+app.get("/testing/feedback", (req, res) => {
+    let navBarData = require("./nav_link.json");
+    navBarData.nav_link.forEach((link) => {
+        link.active = false;
+    });
+
+    const target = navBarData.nav_link.find((link) => link.name === "feedback");
+    if (target) {
+        target.active = true;
+    }
+    let componentDependcy = {
+        css: ["/public/css/department_feedback.css"],
+        swap: true,
+        title: "XEM ĐƠN PHẢN ÁNH",
+    };
+    res.render("department/feedback", {
+        layout: "department_layout",
+        css: componentDependcy.css,
+        title: componentDependcy.title,
+        nav_link: navBarData.nav_link,
+    });
+});
+
+app.get("/testing/area", (req, res) => {
+    let navBarData = require("./nav_link.json");
+    navBarData.nav_link.forEach((link) => {
+        link.active = false;
+    });
+
+    const target = navBarData.nav_link.find((link) => link.name === "area");
+    if (target) {
+        target.active = true;
+    }
+    let componentDependcy = {
+        css: ["/public/css/department_area.css"],
+        swap: true,
+        title: "XEM ĐƠN PHẢN ÁNH",
+    };
+    res.render("department/area", {
         layout: "department_layout",
         css: componentDependcy.css,
         title: componentDependcy.title,

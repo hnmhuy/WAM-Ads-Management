@@ -1,5 +1,5 @@
 .sidepeek-location {
-    width: 830px !important;
+    width: 900px !important;
     height: 100vh;
     border-radius: 20px 0px 0px 20px;
 }
@@ -132,4 +132,10 @@
 
 .area-accordion-header p {
     color: rgba(0, 0, 0, 0.3)
+}
+
+#info-ad-location td,
+#info-ad-location th {
+  border: none;
+  vertical-align: center;
 }
