@@ -24,7 +24,9 @@
 }
 
 .select-menu .select-btn i {
-  margin-left: 13.9rem;
+  position: absolute;
+  left: 26.5rem;
+  margin-top: 1px;
 }
 .select-menu .options {
   position: absolute;

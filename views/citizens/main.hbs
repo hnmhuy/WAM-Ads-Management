@@ -11,18 +11,25 @@
   </head>
   <body>
     <main>
-      <div class="header-citizens">
-        <img src="/public/images/logo.svg" alt="Not found">
-        {{!-- <div class="search__container">
-    <input class="search__input" type="text" placeholder="Search"> --}}
-     
-      {{!-- <input type="text" class="searchTerm" placeholder="What are you looking for?">
-      <button type="submit" class="searchButton">
-        <i class="fa fa-search"></i>
-     </button> --}}
-   
-</div>
-
+      <div class="logo-search">
+        <img src="/public/images/logo.svg" alt="Not found" />
+        <div class="search-container">
+          <div class="search_wrap search_wrap_4">
+            <div class="search_box">
+              <div class="btn btn_common">
+                <i class="bi bi-search"></i>
+              </div>
+              <input
+                type="text"
+                class="search-input"
+                style="display: block"
+                placeholder="search..."
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="header-citizens"></div>
       <div
         class="map-container"
         style="width: 100%; height: calc(100vh - 3.5rem)"

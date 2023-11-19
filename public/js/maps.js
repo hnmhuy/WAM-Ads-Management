@@ -387,9 +387,13 @@ function addMarker(data, map) {
       document.querySelector('#sidepeek-ad').classList.add('hidden');
       document.querySelector('#sidepeek-noAd').classList.add('hidden');
       document.querySelector('#feedback-detail').classList.add('hidden');
+      document.querySelector(id).classList.remove('float');
+      document.querySelector(id).classList.remove('sticky-left');
       document
         .querySelector('#feedback-detail')
         .classList.remove('feedbackDetail-float');
+      document.querySelector('.show-feedback-button').classList.add('hidden');
+      document.querySelector('.feedback-button').classList.remove('hidden');
       console.log(positionClass);
       console.log(id);
 
@@ -400,11 +404,9 @@ function addMarker(data, map) {
           .classList.remove('hidden');
         document.querySelector('.feedback-button').classList.add('hidden');
         document.querySelector(id).classList.remove('hidden');
-        document.querySelector(id).classList.remove('float');
         document.querySelector(id).classList.add(positionClass);
       }
-      document.querySelector(id).classList.remove('float');
-      document.querySelector(id).classList.remove('sticky-left');
+
       document.querySelector(id).classList.remove('hidden');
       document.querySelector(id).classList.add(positionClass);
       console.log(document.querySelector(id));

@@ -1,3 +1,6 @@
+* {
+  box-sizing: border-box;
+}
 body {
   margin: 0;
   padding: 0;
@@ -8,62 +11,94 @@ main {
   position: relative;
 }
 
-/* .search {
-  &__container {
-    padding-top: 64px;
-  }
+.logo-search {
+  position: absolute;
+  display: flex;
+  width: auto;
+  padding: 0;
+  justify-content: flex-start;
+}
+.logo-search img {
+  width: 4rem;
+  height: 4rem;
+  padding-bottom: 0.5rem;
+  margin-left: 0.5rem;
+}
 
-  &__title {
-    font-size: 22px;
-    font-weight: 900;
-    text-align: center;
-    color: #ff8b88;
-  }
-
-  &__input {
-    width: 100%;
-    padding: 12px 24px;
-
-    background-color: transparent;
-    transition: transform 250ms ease-in-out;
-    font-size: 14px;
-    line-height: 18px;
-
-    color: #575756;
-    background-color: transparent;
-    /*         background-image: url(http://mihaeltomic.com/codepen/input-search/ic_search_black_24px.svg); */
-
-/* background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-size: 18px 18px;
-    background-position: 95% center;
-    border-radius: 50px;
-    border: 1px solid #575756;
-    transition: all 250ms ease-in-out;
-    backface-visibility: hidden;
-    transform-style: preserve-3d;
-
-    &::placeholder {
-      color: color(#575756 a(0.8));
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-    }
-
-    &:hover,
-    &:focus {
-      padding: 12px 0;
-      outline: 0;
-      border: 1px solid transparent;
-      border-bottom: 1px solid #575756;
-      border-radius: 0;
-      background-position: 100% center;
-    } */
-/* }
-} */
-*/ .header-citizens {
- 
+.header-citizens {
   width: 100vw;
   height: 3.5rem;
   background-color: #4f3ed7;
 }
 
+.search-container {
+  padding-top: 0.4rem;
+}
+.search-container .search-input {
+  border: 0;
+  outline: none !important;
+  color: #8b7d77;
+  border-color: #fff;
+  padding-top: 0.5rem;
+  opacity: 0.5;
+}
+
+.search_wrap {
+  width: 900px;
+  margin: 0 auto;
+}
+
+.search_wrap .search_box {
+  position: relative;
+  width: 900px;
+  height: 2.2rem;
+  margin-left: 27.5rem;
+  margin-top: 0.2rem;
+}
+
+.search_wrap .search_box .search-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 5px 20px 5px 70px;
+  border-radius: 16px;
+  font-size: 16px;
+}
+
+.search_wrap .search_box .btn {
+  position: absolute;
+  bottom: -3.5px;
+  right: 0;
+  width: 3.5rem;
+  height: 2.6rem;
+  background: #7690da;
+  z-index: 1;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.search_wrap .search_box .btn:hover {
+  background: #708bd2;
+  opacity: 1;
+}
+
+.search_wrap .search_box .btn.btn_common i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #4f3ed7 !important;
+  font-size: 20px;
+}
+
+.search_wrap.search_wrap_4 .search_box .input {
+  padding-left: 80px;
+  border-radius: 12px;
+}
+
+.search_wrap.search_wrap_4 .search_box .btn {
+  left: 0px;
+  border-radius: 18px;
+}
