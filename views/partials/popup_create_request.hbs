@@ -1,10 +1,10 @@
 
-<button class="btn" style="background-color: blueviolet; color: white; padding: 8px; border:0; border-box: none;border-radius: 5px; margin-left: 22%;" onclick="showPopup()">
+<button class="btn" style="background-color: blueviolet; color: white; padding: 8px; border:0; border-box: none;border-radius: 5px;" onclick="showPopup()">
           <div style="display: flex;justify-content:center; align-items: center; align-self:flex-end;">
             <i class="bi bi-patch-plus"></i>
             <p style="margin: 0;">Tạo mới</p>
           </div>
-        </button>
+</button>
 
 <div id="popup-parent" style="position: fixed; top:0; left:0; display:flex; height: 100vh; width: 100vw; background-color: rgba(0,0,0,0.2);z-index: 1; visibility: hidden; justify-content:center; align-items:center;">
     <img 
@@ -88,70 +88,65 @@
         <textarea class="form-control" name="" id="" rows="4" ></textarea>
         <p style="text-align: left; font-weight: bold;margin-top:25px">Hình ảnh mô tả</p>
         {{>upload_field}}
-        {{!-- <button id="submit-request"
-            style="width: 100%; outline: none; border:0; padding: 10px; border-radius: 5px; background-color: #262058; color: white; margin-top: 50px"
-            onclick="hidePopup()">
 
-            <h5 style="margin: 0;">Gửi yêu cầu</h5>
-        </button> --}}
-        <input type="submit" style="width: 100%; outline: none; border:0; padding: 10px; border-radius: 5px; background-color: #262058; color: white; margin-top: 50px" value="Gửi yêu cầu" onclick="hidePopup()"">
+        <input type="submit" style="width: 100%; outline: none; border:0; padding: 10px; border-radius: 5px; background-color: #262058; color: white; margin-top: 50px" value="Gửi yêu cầu" onclick="hidePopup()">
     </div>
 </div>
 
 
 <script>
 
-    let popup = document.getElementById("location-popup")
-    let img = document.getElementById("form-img")
-    let submit = document.getElementById("submit-request")
-    console.log(img);
-    let popup_parent = document.getElementById("popup-parent")
-    let close_btn = document.getElementById("close-edit-request")
-    let originalStyles = {}
-    let originalImg = {}
-    popup_parent.addEventListener('click', ()=>{
+    let popup_ = document.getElementById("location-popup")
+    let img_ = document.getElementById("form-img")
+    let submit_ = document.getElementById("submit-request")
+    console.log(img_);
+    let popup_parent_ = document.getElementById("popup-parent")
+    let close_btn_ = document.getElementById("close-edit-request")
+    let originalStyles_ = {}
+    let originalImg_ = {}
+    popup_parent_.addEventListener('click', ()=>{
         if(event.target.id === 'popup-parent') {
             if(confirm('Bạn muốn thoát khỏi biểu mẫu?'))
                 hidePopup();
         }
     });
-    submit.addEventListener('click', ()=>{
+    submit_.addEventListener('click', ()=>{
         hidePopup();
     });
-    close_btn.addEventListener('click', ()=>{
+    close_btn_.addEventListener('click', ()=>{
         if(confirm('Bạn muốn thoát khỏi biểu mẫu?'))
             hidePopup();
     });
 
     function showPopup(){
         document.querySelector('body').style.overflowY = 'hidden';
-        originalStyles.visibility = popup.style.visibility || '';
-        originalStyles.top = popup.style.top || '';
-        originalStyles.left = popup.style.left || '';
-        originalStyles.transform = popup.style.transform || '';
+        originalStyles_.visibility = popup_.style.visibility || '';
+        originalStyles_.top = popup_.style.top || '';
+        originalStyles_.left = popup_.style.left || '';
+        originalStyles_.transform = popup_.style.transform || '';
 
-        originalImg.marginBottom = img.style.marginBottom || '';
-        originalImg.transform = img.style.transform || '';
-        img.style.marginBottom = '45%';
-        img.style.transform = 'translate(-50%, -50%) scale(1)';
-        img.style.visibility = 'visible';
+        originalImg_.marginBottom = img_.style.marginBottom || '';
+        originalImg_.transform = img_.style.transform || '';
+        img_.style.marginBottom = '45%';
+        img_.style.transform = 'translate(-50%, -50%) scale(1)';
+        img_.style.visibility = 'visible';
         
-        popup_parent.style.visibility = 'visible';
-        popup.style.visibility = 'visible';
-        popup.style.top = '50%';
-        popup.style.left = '50%';
-        popup.style.transform = 'translate(-50%, -50%) scale(1)';
+        popup_parent_.style.visibility = 'visible';
+        popup_.style.visibility = 'visible';
+        popup_.style.top = '50%';
+        popup_.style.left = '50%';
+        popup_.style.transform = 'translate(-50%, -50%) scale(1)';
     }
     function hidePopup(){
         document.querySelector('body').style.overflowY = 'auto';
-        img.style.marginBottom = originalImg.marginBottom || '';
-        img.style.visibility = originalImg.visibility || '';
-        img.style.transform = originalImg.transform || '';
-        popup_parent.style.visibility = 'hidden';
-        popup.style.visibility = originalStyles.visibility || '';
-        popup.style.top = originalStyles.top || '';
-        popup.style.left = originalStyles.left || '';
-        popup.style.transform = originalStyles.transform || '';
+        img_.style.marginBottom = originalImg_.marginBottom || '';
+        img_.style.visibility = originalImg_.visibility || '';
+        img_.style.transform = originalImg_.transform || '';
+        popup_parent_.style.visibility = 'hidden';
+        popup_.style.visibility = originalStyles_.visibility || '';
+        popup_.style.top = originalStyles_.top || '';
+        popup_.style.left = originalStyles_.left || '';
+        popup_.style.transform = originalStyles_.transform || '';
         const up = document.querySelector('.uploaded-area');
         up.remove();
         const form_to_display = document.querySelector(".upload");

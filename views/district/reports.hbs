@@ -10,21 +10,24 @@
 
 
 <div class="toolbar">
-        <form class="col-lg-4 mb-3 mb-lg-0 me-lg-3" role="search" onsubmit="event.preventDefault();">
-            <input type="search" class="form-control" placeholder="Search..." id='keyword' aria-label="Search" oninput="search(this.value)" required>
-        </form>
-        <select style="width: 200px" id="typeSelect" class="form-select" aria-label="Default select example" onchange="">
-            <option selected>Mục đích</option>
-            <option value="1">Tố giác tội phạm</option>
-            <option value="2">Giải đáp thắc mắc</option>
-            <option value="3">Đóng góp ý kiến</option>
-            <option value="4">Đăng ký nội dung</option>
-        </select>
-        <select style="width: 200px" id="methodSelect" class="form-select" aria-label="Default select example" onchange="">
-            <option selected>Trạng thái</option>
-            <option value="1">Chưa giải quyết</option>
-            <option value="2">Đã giải quyết</option>
-        </select>
+  <div style="display: flex;">
+    <form class="col-lg-4 mb-3 mb-lg-0 me-lg-3" role="search" onsubmit="event.preventDefault();">
+      <input type="search" class="form-control" placeholder="Search..." id='keyword' aria-label="Search"
+        oninput="search(this.value)" required>
+    </form>
+    <select style="width: 200px" id="typeSelect" class="form-select" aria-label="Default select example" onchange="">
+      <option selected>Mục đích</option>
+      <option value="1">Tố giác tội phạm</option>
+      <option value="2">Giải đáp thắc mắc</option>
+      <option value="3">Đóng góp ý kiến</option>
+      <option value="4">Đăng ký nội dung</option>
+    </select>
+    <select style="width: 200px" id="methodSelect" class="form-select" aria-label="Default select example" onchange="">
+      <option selected>Trạng thái</option>
+      <option value="1">Chưa giải quyết</option>
+      <option value="2">Đã giải quyết</option>
+    </select>
+  </div>
         <div>
           
         </div>
