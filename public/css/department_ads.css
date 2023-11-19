@@ -56,7 +56,7 @@
 .tab-bar {
     display: flex;
     gap: 10px;
-    padding: 0!important;
+    padding: 0 !important;
     justify-content: flex-start;
     align-items: last baseline;
     border-bottom: 1px solid rgba(0, 0, 0, 0.3);
@@ -74,12 +74,12 @@
 }
 
 .tab-btn-active {
-    color: white!important;
-    background-color: var(--nav-background)!important;
+    color: white !important;
+    background-color: var(--nav-background) !important;
 }
 
 .extend-btn {
-    width: 60px!important;
+    width: 60px !important;
 }
 
 .collapsed-content {
@@ -87,22 +87,20 @@
 }
 
 .rotate-btn {
-    transform: rotate(180deg)!important;
+    transform: rotate(180deg) !important;
 }
-
 
 .req-accordion-header {
     font-size: 22px;
     font-weight: 800;
     background-color: rgb(249, 250, 253);
     margin: 10px 0px;
-    border-radius: 15px!important;
+    border-radius: 15px !important;
 }
 
 .req-accordion-header h4 {
     margin-bottom: 0px;
-}   
-
+}
 
 .area-accordion-header {
     display: flex;
@@ -131,11 +129,5 @@
 }
 
 .area-accordion-header p {
-    color: rgba(0, 0, 0, 0.3)
-}
-
-#info-ad-location td,
-#info-ad-location th {
-  border: none;
-  vertical-align: center;
+    color: rgba(0, 0, 0, 0.3);
 }
