@@ -1,0 +1,326 @@
+{{! Tab button for req pages }}
+<div class="tab-bar collapse">
+    <button class="tab-btn tab-btn-active" target="req_create">Yêu cầu cấp phép</button>
+    <button class="tab-btn" target="req_update">Yêu cầu cập nhật</button>
+</div>
+
+{{! Toolbar section }}
+<div class="toolbar">
+    <form
+        class="col-lg-4 mb-3 mb-lg-0 me-lg-3"
+        role="search"
+        onsubmit="(e)=>{e.preventDefault()}"
+    >
+        <input
+            type="search"
+            class="form-control"
+            placeholder="Search..."
+            id="keyword"
+            aria-label="Search"
+            oninput="search(this.value)"
+            required
+        />
+    </form>
+    <select
+        id="typeSelect"
+        class="form-select"
+        aria-label="Default select example"
+    >
+        <option selected>Loại Vị Trí</option>
+        <option value="1">Đất Công</option>
+        <option value="2">Hành Lang An Toàn Giao Thông</option>
+        <option value="3">Công Viên</option>
+        <option value="4">Nhà Riêng</option>
+    </select>
+    <select
+        id="methodSelect"
+        class="form-select"
+        aria-label="Default select example"
+        onchange="filterByMethod(this.value)"
+    >
+        <option selected>Hình Thức</option>
+        <option value="1">Cổ Động Chính Trị</option>
+        <option value="2">Quảng Cáo Thương Mại</option>
+        <option value="3">Xã Hội Hoá</option>
+    </select>
+    <select
+        id="statusSelect"
+        class="form-select"
+        aria-label="Default select example"
+        onchange="filterByStatus(this.value)"
+    >
+        <option selected>Trạng Thái</option>
+        <option value="1">Đã Quy Hoạch</option>
+        <option value="2">Chưa Quy Hoạch</option>
+    </select>
+
+    <button
+        class=""
+        id="new_location_btn"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#location_create"
+        aria-controls="location_create"
+    >
+        <i class="bi bi-plus-circle"></i>
+        Tạo mới
+    </button>
+
+</div>
+
+{{>new_table table_data=table1}}
+
+{{!Collapsible table for req create}}
+{{>new_collapsible_row table_data=table2}}
+
+{{! section for req update }}
+<div id="req_update" class="collapse">
+    <div class="accordion accordion-flush" id="allRequest">
+        <div class="accordion-item">
+            <div class="accordion-header" id="reqCreate-heading">
+                <button
+                    class="accordion-button req-accordion-header"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#reqCreate-collapse"
+                    aria-expanded="true"
+                    aria-controls="allRequest"
+                    style="border: 0px; box-shadow: none; background-color: rgb(249, 250, 253);"
+                >
+                    Yêu cầu chưa được xử lý
+                </button>
+            </div>
+            <div
+                id="reqCreate-collapse"
+                class="accordion-collapse show collapse"
+                aria-labelledby="reqCreate-heading"
+                data-bs-parent="#allRequest"
+            >
+                <div class="accordion-body">
+                    <div class="accordion" id="repCreateContainer">
+                        <div class="accordion-item">
+                            <div
+                                class="accordion-header area-accordion-header"
+                                id="area1-heading"
+                            >
+                                <button
+                                    class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#area1-collapse"
+                                    aria-expanded="true"
+                                    aria-controls="area1-collapse"
+                                    style="background-color: transparent; box-shadow: none;"
+                                >
+                                </button>
+                                <h5>Quận 1</h5>
+                                <span></span>
+                                <p>Số lượng yêu cầu: 4</p>
+                            </div>
+                            <div
+                                id="area1-collapse"
+                                class="accordion-collapse collapse"
+                                aria-labelledby="area1-heading"
+                                data-bs-parent="#repCreateContainer"
+                            >
+                                <div class="accordion-body">
+                                    Still codding...
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <div
+                                class="accordion-header area-accordion-header"
+                                id="area2-heading"
+                            >
+                                <button
+                                    class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#area2-collapse"
+                                    aria-expanded="true"
+                                    aria-controls="area2-collapse"
+                                    style="background-color: transparent; box-shadow: none;"
+                                >
+                                </button>
+                                <h5>Quận 8</h5>
+                                <span></span>
+                                <p>Số lượng yêu cầu: 4</p>
+                            </div>
+                            <div
+                                id="area2-collapse"
+                                class="accordion-collapse collapse"
+                                aria-labelledby="area2-heading"
+                                data-bs-parent="#repCreateContainer"
+                            >
+                                <div class="accordion-body">
+                                    Still codding...
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <div class="accordion-header" id="reqUpdate-heading">
+                <button
+                    class="accordion-button collapsed req-accordion-header"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#reqUpdate-collapse"
+                    aria-expanded="true"
+                    aria-controls="allRequest"
+                    style="border: 0px; box-shadow: none; background-color: rgb(249, 250, 253);"
+                >
+                    Yêu cầu đã được xử lý
+                </button>
+            </div>
+            <div
+                id="reqUpdate-collapse"
+                class="accordion-collapse collapse"
+                aria-labelledby="reqUpdate-heading"
+                data-bs-parent="#allRequest"
+            >
+                <div class="accordion-body">
+                    This is the first item's accordion body.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{! Location-detail }}
+<div
+    class="offcanvas offcanvas-end sidepeek-location"
+    data-bs-scroll="true"
+    tabindex="-1"
+    id="location_extend"
+    aria-labelledby="Location extend information"
+>
+    <div class="offcanvas-header sidepeek-location-header">
+        <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+        ></button>
+        <h5 class="offcanvas-title" id="location_extend_header">Thông tin chi
+            tiết điểm đặt quảng cáo</h5>
+    </div>
+    <div class="offcanvas-body">
+        <p>Try scrolling the rest of the page to see this option in action.</p>
+    </div>
+</div>
+
+{{! Location create }}
+<div
+    class="offcanvas offcanvas-end sidepeek-location"
+    data-bs-scroll="true"
+    tabindex="-1"
+    id="location_create"
+    aria-labelledby="Location extend information"
+>
+    <div class="offcanvas-header sidepeek-location-header">
+        <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+        ></button>
+        <h5 class="offcanvas-title" id="location_create_header">Tạo điểm đặt
+            quảng cáo mới</h5>
+    </div>
+    <div class="offcanvas-body">
+        <div class="map-container">
+            <p>Map here</p>
+        </div>
+        <form class="create-location-form">
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="street-input" placeholder="Đường">
+                <label for="street-input">Đường</label>
+            </div>
+            <div class="choose-area">
+                <div class="form-floating">
+                    <select class="form-select" id="warn-input" aria-label="Floating label select example">
+                        <option selected>Chọn phường</option>
+                        <option value="1">Phường 1</option>
+                        <option value="2">Phường 2</option>
+                        <option value="3">Phường 3</option>
+                        <option value="4">Phường 4</option>
+                        <option value="5">Phường 5</option>
+                        <option value="6">Phường 6</option>
+                        <option value="7">Phường 7</option>
+                    </select>
+                    <label for="floatingSelect">Phường</label>
+                </div>
+                <div class="form-floating">
+                    <select class="form-select" id="district-input" aria-label="Floating label select example">
+                        <option selected>Chọn quận</option>
+                        <option value="1">Quận 5</option>
+                        <option value="2">Quận 8</option>
+                    </select>
+                    <label for="floatingSelect">Quận</label>
+                </div>
+            </div>
+             
+            <div class="choose-type">
+                <div class="form-group col-md-4">
+                    <p class="title-form">Loại vị trí</p>
+                    <select id="district-input" class="form-control">
+                        <option selected>Loại địa điểm</option>
+                        <option> Đất công </option>
+                        <option> Công viên </option>
+                        <option> Hành lang an toàn giao thông </option>
+                    </select>
+                </div>
+
+                <div class="form-group col-md-4">
+                    <p class="title-form">Hình thức quảng cáo</p>
+                    <select id="warn-input" class="form-control">
+                        <option selected>Hình thức quảng cáo</option>
+                        <option> Cổ động chính trị </option>
+                        <option> Thương mại </option>
+                        <option> Du lịch </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="number-ads">
+                <p class="title-form">Số lượng bảng</p>
+                <div class="form-group">
+                    <input
+                        type="number"
+                        class="form-control"
+                        id="numberads-input"
+                        
+                    />
+                </div>
+                <p class="unit">bảng / địa điểm</p>
+            </div>
+            <div class="ad-type">
+                <p class="title-form">Loại bảng quảng cáo</p>
+                <div class="form-group col-md-4">
+                    <select id="district-input" class="form-control">
+                        <option selected>Loại bảng quảng cáo</option>
+                        <option> Trụ/cụm pano </option>
+                        <option> Băng rôn </option>
+                        <option> Màn hình led </option>
+                    </select>
+                </div>
+            </div>
+            <div class="upload-file">
+                <p>Upload here</p>
+            </div>
+            <button type="submit" class="btn btn-primary" id="confirm-button">
+                <i class="bi bi-send-fill"></i> Lưu địa điểm
+            </button>
+        </form>
+    </div>
+</div>
+
+{{!Script section }}
+<script src="/public/js/department_ads.js"></script>
