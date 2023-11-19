@@ -9,7 +9,7 @@
       <i 
         class="bi bi-arrow-up-right-square"
         style="color: black"></i>
-    </button>
+</button>
 
     <div
       class="offcanvas offcanvas-end p-2"
@@ -64,28 +64,28 @@
             <div class="col-7">
               <table style="padding: 0;" id="info-ad-location" class="table" id="inf-table">
                 <tr>
-                  <th style="padding:3px;"><i class="bi bi-geo-alt"> Địa chỉ</i></th>
-                  <td style="padding:3px;">47, Đ. Điện Biên Phủ, P. Đa Kao, Quận 1</td>
+                  <th style="padding:3px;background-color:white"><i class="bi bi-geo-alt"> Địa chỉ</i></th>
+                  <td style="padding:3px;background-color:white">47, Đ. Điện Biên Phủ, P. Đa Kao, Quận 1</td>
                 </tr>
                 <tr>
-                  <th style="padding:3px;"><i class="bi bi-hash"></i> Số lượng</th>
-                  <td style="padding:3px;">2 bảng/điểm</td>
+                  <th style="padding:3px;background-color:white"><i class="bi bi-hash"></i> Số lượng</th>
+                  <td style="padding:3px;background-color:white">2 bảng/điểm</td>
                 </tr>
                 <tr>
-                  <th style="padding:3px;"><i class="bi bi-tag"></i> Loại vị trí</th>
-                  <td style="padding:3px;">Nhà riêng</td>
+                  <th style="padding:3px;background-color:white"><i class="bi bi-tag"></i> Loại vị trí</th>
+                  <td style="padding:3px;background-color:white">Nhà riêng</td>
                 </tr>
                 <tr>
-                  <th style="padding:3px;"><i class="bi bi-activity"></i> Trạng thái</th>
-                  <td style="padding:3px;">Chưa quy hoạch</td>
+                  <th style="padding:3px;background-color:white"><i class="bi bi-activity"></i> Trạng thái</th>
+                  <td style="padding:3px;background-color:white">Chưa quy hoạch</td>
                 </tr>
                 <tr>
-                  <th style="padding:3px;"><i class="bi bi-bullseye"></i> Mục đích</th>
-                  <td style="padding:3px;">Thương mại</td>
+                  <th style="padding:3px;background-color:white"><i class="bi bi-bullseye"></i> Mục đích</th>
+                  <td style="padding:3px;background-color:white">Thương mại</td>
                 </tr>
                 <tr>
-                  <th style="padding:3px;"><i class="bi bi-boxes"></i> Loại bảng</th>
-                  <td style="padding:3px;">2 bảng/điểm</td>
+                  <th style="padding:3px;background-color:white"><i class="bi bi-boxes"></i> Loại bảng</th>
+                  <td style="padding:3px;background-color:white">2 bảng/điểm</td>
                 </tr>
               </table>
               <div class="d-flex justify-content-end w-100 align-item-">
@@ -203,6 +203,56 @@
           </div>
         </div>
         <hr />
+        <h5>Danh sách các bảng quảng cáo</h5>
+        <div class="table-container" id="{{table_data.table_id}}">
+          <div class="table-header">
+            <table class="table">
+              <thead>
+                <tr>
+                  {{#each table_data.heading}}
+                  <th scope="col">{{this}}</th>
+                  {{/each}}
+                  <th scope="col" class="extend-btn"></th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+          {{#each table_data.data_row}}
+          <div class="table-row">
+            <table class="table">
+              <tr>
+                {{#each attributes}}
+                <td scope="row">{{this}}</td>
+                {{/each}}
+                {{#if status_col}}
+                <td>
+                  <div class="table-status
+                                                {{status_data.status_class}}">
+                    {{status_data.status_text}}
+                  </div>
+                </td>
+                {{/if}}
+                <td class="extend-btn">
+                  <button id="collapse-btn" class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#{{id}}"
+                    aria-expanded="false" aria-controls="{{id}}">
+                    <i class="bi bi-chevron-down"></i>
+                  </button>
+                </td>
+              </tr>
+            </table>
+            <div class="collapse" id="{{id}}" style="width: 100%;">
+              <div class="collapsed-content" style="background-color:#f9fafd">
+                <div style="overflow-x: auto; height: 300px">
+                  <img src="../../public/images/location2.png" alt="">
+                  <img src="../../public/images/location2.png" alt="">
+                  <img src="../../public/images/location2.png" alt="">
+                  <img src="../../public/images/location2.png" alt="">
+                </div>
+              </div>
+            </div>
+          </div>
+          {{/each}}
+        </div>
       </div>
     </div>
 

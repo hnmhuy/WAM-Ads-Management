@@ -27,7 +27,7 @@
     </div>
     <hr>
 
-  <table class="table table-striped table-hover table-bordered rounded-table">
+  {{!-- <table class="table table-striped table-hover table-bordered rounded-table">
     <thead>
       <tr>
         {{#each heading}}
@@ -41,7 +41,9 @@
       {{/each}}
 
     </tbody>
-  </table>
+  </table> --}}
+  {{>new_table table_data=table1}}
+  {{>offcanvas table_data=table2}}
 </div>
 </div>
 

@@ -1,0 +1,91 @@
+{
+    "table_id": "req_create_table",
+    "heading": [
+        "Kích thước",
+        "Ngày bắt đầu",
+        "Ngày kết thúc",
+        "Loại bảng"
+    ],
+    "data_row": [
+        {
+            "id": "r1",
+            "status_col": true,
+            "attributes": [
+                "2.5m x 2.5m",
+                "11/11/2023",
+                "11/11/2024"
+            ],
+            "status_data": {
+                "status_text": "Trụ bảng hiflex",
+                "status_class": "status-location-active"
+            },
+            "sidepeek_id": "location_extend"
+        },
+                {
+            "id": "r2",
+            "status_col": true,
+            "attributes": [
+                "2.5m x 2.5m",
+                "11/11/2023",
+                "11/11/2024"
+            ],
+            "status_data": {
+                "status_text": "Trụ bảng hiflex",
+                "status_class": "status-location-active"
+            },
+            "sidepeek_id": "location_extend"
+        },        {
+            "id": "r3",
+            "status_col": true,
+            "attributes": [
+                "2.5m x 2.5m",
+                "11/11/2023",
+                "11/11/2024"
+            ],
+            "status_data": {
+                "status_text": "Trụ bảng hiflex",
+                "status_class": "status-location-active"
+            },
+            "sidepeek_id": "location_extend"
+        },        {
+            "id": "r4",
+            "status_col": true,
+            "attributes": [
+                "2.5m x 2.5m",
+                "11/11/2023",
+                "11/11/2024"
+            ],
+            "status_data": {
+                "status_text": "Trụ bảng hiflex",
+                "status_class": "status-location-active"
+            },
+            "sidepeek_id": "location_extend"
+        },        {
+            "id": "r5",
+            "status_col": true,
+            "attributes": [
+                "2.5m x 2.5m",
+                "11/11/2023",
+                "11/11/2024"
+            ],
+            "status_data": {
+                "status_text": "Trụ bảng hiflex",
+                "status_class": "status-location-active"
+            },
+            "sidepeek_id": "location_extend"
+        },        {
+            "id": "r6",
+            "status_col": true,
+            "attributes": [
+                "2.5m x 2.5m",
+                "11/11/2023",
+                "11/11/2024"
+            ],
+            "status_data": {
+                "status_text": "Trụ bảng hiflex",
+                "status_class": "status-location-active"
+            },
+            "sidepeek_id": "location_extend"
+        }
+    ]
+}
