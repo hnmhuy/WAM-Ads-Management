@@ -10,17 +10,15 @@
             >
               {{this}}
             </div>
-            <button
+            {{!-- <button
               style="margin-left:auto"
               class="btn"
               type="button"
               {{! data-bs-toggle="offcanvas"
               data-bs-target="#offcanvasRight"
               aria-controls="offcanvasRight" }}
-            ><i
-                class="bi bi-arrow-up-right-square"
-                style="color: black"
-              ></i></button>
+            ></button> --}}
+              {{>offcanvas}}
           </div>
         </td>
       {{else}}
@@ -33,17 +31,7 @@
               >
                 {{this}}
               </div>
-              <button
-                style="margin-left:auto"
-                class="btn"
-                type="button"
-                {{! data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasRight"
-                aria-controls="offcanvasRight" }}
-              ><i
-                  class="bi bi-arrow-up-right-square"
-                  style="color: black"
-                ></i></button>
+              {{>offcanvas}}
             </div>
 
           </td>
@@ -79,16 +67,7 @@
                     >
                       {{this}}
                     </div>
-                    <button
-                      class="btn"
-                      type="button"
-                      {{! data-bs-toggle="offcanvas"
-              data-bs-target="#offcanvasRight"
-              aria-controls="offcanvasRight" }}
-                    ><i
-                        class="bi bi-arrow-up-right-square"
-                        style="color: black"
-                      ></i></button>
+                    {{>offcanvas}}
                   </div>
 
                 </td>
@@ -104,16 +83,7 @@
                       >
                         {{this}}
                       </div>
-                      <button
-                        class="btn"
-                        type="button"
-                        {{! data-bs-toggle="offcanvas"
-              data-bs-target="#offcanvasRight"
-              aria-controls="offcanvasRight" }}
-                      ><i
-                          class="bi bi-arrow-up-right-square"
-                          style="color: black"
-                        ></i></button>
+                      {{>offcanvas}}
                     </div>
 
                   </td>
@@ -129,16 +99,7 @@
                         >
                           {{this}}
                         </div>
-                        <button
-                          class="btn"
-                          type="button"
-                          {{! data-bs-toggle="offcanvas"
-              data-bs-target="#offcanvasRight"
-              aria-controls="offcanvasRight" }}
-                        ><i
-                            class="bi bi-arrow-up-right-square"
-                            style="color: black"
-                          ></i></button>
+                        {{>offcanvas}}
                       </div>
 
                     </td>
@@ -153,16 +114,7 @@
                           >
                             {{this}}
                           </div>
-                          <button
-                            class="btn"
-                            type="button"
-                            {{! data-bs-toggle="offcanvas"
-              data-bs-target="#offcanvasRight"
-              aria-controls="offcanvasRight" }}
-                          ><i
-                              class="bi bi-arrow-up-right-square"
-                              style="color: black"
-                            ></i></button>
+                          {{>offcanvas}}
                         </div>
                       </td>
                     {{else}}

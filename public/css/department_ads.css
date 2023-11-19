@@ -1,0 +1,133 @@
+.sidepeek-location {
+    width: 900px !important;
+    height: 100vh;
+    border-radius: 20px 0px 0px 20px;
+}
+
+.sidepeek-location-header {
+    justify-content: flex-start;
+    gap: 5px;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+}
+
+.sidepeek-location-header button {
+    margin-right: 10px !important;
+}
+
+.sidepeek-location-header h5 {
+    font-weight: 800;
+}
+
+.toolbar {
+    display: flex;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    gap: 10px;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease-in-out;
+}
+
+.toolbar form[role="search"] {
+    width: 20rem;
+    margin: 0 !important;
+}
+
+.toolbar select {
+    width: 10rem;
+}
+
+.toolbar button {
+    background-color: rgb(79, 62, 215);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 5px 10px;
+    position: absolute;
+    right: 10px;
+}
+
+.toolbar button:hover {
+    background-color: rgb(47, 29, 177);
+}
+
+.tab-bar {
+    display: flex;
+    gap: 10px;
+    padding: 0 !important;
+    justify-content: flex-start;
+    align-items: last baseline;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    margin-bottom: 10px;
+    transition: all 0.3s ease-in-out;
+}
+
+.tab-bar button {
+    background-color: transparent;
+    color: black;
+    padding: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 10px 10px 0px 0px;
+    border-bottom: none;
+}
+
+.tab-btn-active {
+    color: white !important;
+    background-color: var(--nav-background) !important;
+}
+
+.extend-btn {
+    width: 60px !important;
+}
+
+.collapsed-content {
+    padding: 10px;
+}
+
+.rotate-btn {
+    transform: rotate(180deg) !important;
+}
+
+.req-accordion-header {
+    font-size: 22px;
+    font-weight: 800;
+    background-color: rgb(249, 250, 253);
+    margin: 10px 0px;
+    border-radius: 15px !important;
+}
+
+.req-accordion-header h4 {
+    margin-bottom: 0px;
+}
+
+.area-accordion-header {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    align-items: center;
+    padding: 0;
+}
+
+.area-accordion-header button {
+    width: 60px;
+}
+
+.area-accordion-header * {
+    margin: 0;
+}
+
+.area-accordion-header span {
+    height: 30px;
+    width: 1px;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.area-accordion-header h5 {
+    font-weight: 800;
+}
+
+.area-accordion-header p {
+    color: rgba(0, 0, 0, 0.3);
+}

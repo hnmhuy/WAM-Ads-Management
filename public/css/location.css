@@ -14,8 +14,9 @@ h2 {
 }
 
 hr {
+  margin-top: 0;
   border-style: solid none none;
-  color: rgba(0, 0, 0, 0.1);
+  color: rgba(0, 0, 0, 0.6);
   border-width: 2px;
 }
 
@@ -26,8 +27,25 @@ hr {
 .toolbar {
   display: flex;
   margin-bottom: 30px;
+  justify-content: space-between;
 }
 
 .form-select {
   margin: 0 10px;
+}
+
+#info-ad-location td,
+#info-ad-location th {
+  border: none;
+}
+.offcanvas {
+  border-top-left-radius: 13px;
+  border-bottom-left-radius: 13px;
+}
+
+.open-popup{
+  visibility: visible;
+  top: 20%;
+  left: 0;
+  transform: translate(-50%, -50%) scale(1);
 }

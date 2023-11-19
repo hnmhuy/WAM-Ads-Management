@@ -84,7 +84,7 @@
 
 .sidebar li a {
   display: flex;
-  height: 10%;
+  height: 50px;
   width: 100%;
   border-radius: 12px;
   align-items: center;
