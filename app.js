@@ -188,5 +188,3 @@ app.get("/testing/area", (req, res) => {
 app.listen(port, (req, res) => {
     console.log(`Server is running on ${port}`);
 });
-
-module.exports = app;
