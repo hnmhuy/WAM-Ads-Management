@@ -50,13 +50,14 @@ app.get("/testing/dashboard", (req, res) => {
     res.render("department/dashboard", {
         layout: "department_layout",
         css: componentDependcy.css,
-        swipe: componentDependcy.swipe,
+        swap: componentDependcy.swap,
         title: componentDependcy.title,
         nav_link: navBarData.nav_link,
     });
 });
 
 app.get("/testing/ads", (req, res) => {
+    let locations = require("./locations_data.json");
     let navBarData = require("./nav_link.json");
     navBarData.nav_link.forEach((link) => {
         link.active = false;
@@ -66,18 +67,19 @@ app.get("/testing/ads", (req, res) => {
     if (target) {
         target.active = true;
     }
-    console.log(navBarData.nav_link);
     let componentDependcy = {
-        css: ["/public/css/department_dashboard.css"],
-        swipe: true,
+        css: ["/public/css/department_ads.css"],
+        swap: true,
         title: "QUẢN LÝ QUẢNG CÁO",
     };
     res.render("department/ads_location", {
         layout: "department_layout",
         css: componentDependcy.css,
-        swipe: componentDependcy.swipe,
+        swap: componentDependcy.swap,
         title: componentDependcy.title,
         nav_link: navBarData.nav_link,
+        heading: locations.heading,
+        data_row: locations.data_row,
     });
 });
 

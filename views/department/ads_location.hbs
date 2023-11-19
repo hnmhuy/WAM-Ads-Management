@@ -1,0 +1,147 @@
+<div class="tab-bar collapse">
+  <button class="tab-btn tab-btn-active" target="req_create">Yêu cầu cấp phép</button>
+  <button class="tab-btn" target="req_update">Yêu cầu cập nhật</button>
+</div>
+
+
+<div class="toolbar">
+  <form class="col-lg-4 mb-3 mb-lg-0 me-lg-3" role="search" onsubmit="(e)=>{e.preventDefault()}">
+    <input type="search" class="form-control" placeholder="Search..." id='keyword' aria-label="Search"
+      oninput="search(this.value)" required>
+  </form>
+  <select id="typeSelect" class="form-select" aria-label="Default select example">
+    <option selected>Loại Vị Trí</option>
+    <option value="1">Đất Công</option>
+    <option value="2">Hành Lang An Toàn Giao Thông</option>
+    <option value="3">Công Viên</option>
+    <option value="4">Nhà Riêng</option>
+  </select>
+  <select id="methodSelect" class="form-select" aria-label="Default select example"
+    onchange="filterByMethod(this.value)">
+    <option selected>Hình Thức</option>
+    <option value="1">Cổ Động Chính Trị</option>
+    <option value="2">Quảng Cáo Thương Mại</option>
+    <option value="3">Xã Hội Hoá</option>
+  </select>
+  <select id="statusSelect" class="form-select" aria-label="Default select example"
+    onchange="filterByStatus(this.value)">
+    <option selected>Trạng Thái</option>
+    <option value="1">Đã Quy Hoạch</option>
+    <option value="2">Chưa Quy Hoạch</option>
+  </select>
+
+  <button class="" id="new_location_btn">
+    <i class="bi bi-plus-circle"></i> Tạo mới
+  </button>
+
+</div>
+
+<div class="table-container" id="location_table">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        {{#each heading}}
+        <th scope="col">{{this}}</th>
+        {{/each}}
+        <th scope="col extend-btn"></th>
+      </tr>
+    </thead>
+    <tbody id="tableBody">
+      {{#each data_row}}
+      <tr>
+        {{#each attributes}}
+        <td>{{this}}</td>
+        {{/each}}
+        {{#if status_col}}
+        <td>
+          <div class="table-status {{status_data.status_class}}">
+            {{status_data.status_text}}
+          </div>
+        </td>
+        {{/if}}
+        <td style="width: 60px" id={{id}}>
+          <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#location_extend"
+            aria-controls="Id1"><i class="bi bi-three-dots"></i></button>
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+<div class="offcanvas offcanvas-end sidepeek-location" data-bs-scroll="true" tabindex="-1" id="location_extend"
+  aria-labelledby="Location extend information">
+  <div class="offcanvas-header sidepeek-location-header">
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    <h5 class="offcanvas-title" id="location_extend_header">Thông tin chi tiết điểm đặt quảng
+      cáo</h5>
+  </div>
+  <div class="offcanvas-body">
+    <p>Try scrolling the rest of the page to see this option in action.</p>
+  </div>
+</div>
+
+{{!--
+Collapsible table --}}
+<div class="table-container collapse" id="req_table">
+  <div class="table-header">
+    <table class="table">
+      <thead>
+        <tr>
+          {{#each heading}}
+          <th scope="col">{{this}}</th>
+          {{/each}}
+          <th scope="col" class="extend-btn"></th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  {{#each data_row}}
+  <div class="table-row">
+    <table class="table">
+      <tr>
+        {{#each attributes}}
+        <td scope="row">{{this}}</td>
+        {{/each}}
+        {{#if status_col}}
+        <td>
+          <div class="table-status {{status_data.status_class}}">
+            {{status_data.status_text}}
+          </div>
+        </td>
+        {{/if}}
+        <td class="extend-btn">
+          <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#{{id}}" aria-expanded="false"
+            aria-controls="{{id}}" onclick="rotateButton(this)">
+            <i class="bi bi-chevron-down"></i>
+          </button>
+        </td>
+      </tr>
+    </table>
+    <div class="collapse" id="{{id}}" style="width: 100%;">
+      <div class="collapsed-content">
+        Still coding...
+      </div>
+    </div>
+  </div>
+  {{/each}}
+</div>
+
+<script src="/public/js/department_ads.js"></script>
+
+
+<script>
+  function rotateButton(button) {
+    button.classList.toggle("rotated");
+  }
+
+  const tab_btn = document.querySelectorAll(".tab-btn");
+
+  tab_btn.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      tab_btn.forEach((btn) => {
+        btn.classList.toggle("tab-btn-active");
+      });
+    });
+  });
+
+</script>
