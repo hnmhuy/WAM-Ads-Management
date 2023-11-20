@@ -1,0 +1,75 @@
+<div class="feedbackDetail-container hidden" id="feedback-detail">
+  <div class="header shadow-sm">
+    <img src="/public/images/detail-icon.svg" alt="not found!" />
+    <h3 id="header-title">Chi tiết phản hồi</h3>
+    <i class="bi bi-chevron-double-left"></i>
+  </div>
+  <div class="feedbackDetail-container-data">
+    <div class="location-img">
+      <p>Hình ảnh đính kèm</p>
+      {{>carousel}}
+    </div>
+    <div class="address">
+      <i class="bi bi-geo-alt-fill"></i>
+      <p id="format-address">
+        Đồng Khởi - Nguyễn Du (Sở Văn hóa và Thể thao), Phường Bến Nghé, Quận 1
+      </p>
+    </div>
+    <div class="feedbackDetail-content">
+      <div id="status">
+        <p class="title">Trạng thái phản hồi</p>
+        <div class="detail-feedback-status inprocess-shadow">
+          <div class="detail-feedback-status-icon">
+            <div
+              class="status-icon-shadow animate-flicker inprocess-shadow"
+            ></div>
+            <div class="satus-icon-point inprocess"></div>
+          </div>
+          <div class="detail-feedback-status-text">Đang xử lý</div>
+        </div>
+      </div>
+      <div>
+        <p class="title">Hình thức quảng cáo</p>
+        <p class="content" id="'purpose">Cổ động chính trị</p>
+      </div>
+      <div>
+        <p class="title">Thời gian</p>
+        <p class="content" id="feedback-time">26/10/2023 - 12:23:20</p>
+      </div>
+      <div>
+        <p class="title">Họ và tên</p>
+        <p class="content" id="name">Fa Ngọc Uyển Nhi</p>
+      </div>
+      <div>
+        <p class="title">Email</p>
+        <p class="content" id="email">fanhi11211@gmail.com</p>
+      </div>
+      <div>
+        <p class="title">Số điện thoại</p>
+        <p class="content" id="phone-number">0123456789</p>
+      </div>
+      <div>
+        <p class="title">Nội dung phản hồi</p>
+        <p class="content" id="feedback-content">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum harum
+          minima quod exercitationem fuga similique fugit reprehenderit eaque
+          at. Earum laborum perferendis facere alias molestias minus officia
+          mollitia?
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+  crossorigin="anonymous"
+></script>
+<script>
+  document
+    .querySelector('.header .bi-chevron-double-left')
+    .addEventListener('click', () => {
+      document.querySelector('#feedback-detail').classList.add('hidden');
+    });
+</script>
+<script src="/partials/data.js"></script>

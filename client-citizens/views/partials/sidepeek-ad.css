@@ -1,0 +1,142 @@
+* {
+  font-family: 'Quicksand', sans-serif;
+  padding: 0;
+  margin: 0;
+}
+
+.sticky-left {
+  height: calc(100vh - 3.5rem);
+  top: 3.5rem;
+  left: 0;
+  border-top-right-radius: 12px;
+}
+
+.float {
+  height: calc(100vh - 5.5rem);
+  border-radius: 12px;
+
+  /* display: none; */
+  top: 4.5rem;
+  left: 1.5rem;
+}
+
+.sidepeek-container {
+  width: 26rem;
+  background-color: #f9fafd;
+  overflow: auto;
+  position: absolute;
+}
+
+.sidepeek-container-data {
+  padding: 0rem 2rem 0.5rem 1.25rem;
+}
+
+.area-icon {
+  display: flex;
+  align-items: center;
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  background-color: #f9fafd;
+  top: 0;
+  z-index: 1;
+  padding: 0.75rem 0.6rem 0.5rem 0.6rem;
+}
+.area-icon h3 {
+  width: 85%;
+  margin: 0;
+}
+
+.bi-pin-map {
+  font-size: 1.5rem;
+  width: 10%;
+}
+.bi-x-lg {
+  font-size: 1.5rem;
+}
+
+.bi-x-circle {
+  font-size: 1.6rem;
+}
+
+.bi-x-circle:hover {
+  color: red;
+  font-weight: bold;
+}
+
+.location-img p {
+  margin-top: 0.5rem;
+  margin-bottom: 0.1rem;
+}
+
+.address {
+  display: flex;
+  margin-top: 0.5rem;
+  border-bottom: 0.5px solid rgba(38, 32, 88, 0.29);
+}
+
+.address p {
+  word-wrap: break-word;
+  margin-bottom: 0.25rem;
+  overflow: hidden;
+}
+.bi-geo-alt-fill {
+  font-size: 1.2rem;
+  margin-right: 0.5rem;
+}
+
+.location-content h4 {
+  margin-top: 0.5rem;
+  text-transform: capitalize;
+  font-weight: bold;
+  color: #4f3ed7;
+}
+.title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+.content {
+  font-size: 1.1rem;
+}
+
+.ad-content #num-ad {
+  margin-top: 0.5rem;
+  font-weight: bold;
+  text-align: left !important;
+  margin-bottom: 0.5rem;
+}
+.ad-content {
+  margin-top: 0.75rem;
+  border-top: 0.5px solid rgba(38, 32, 88, 0.29);
+  text-align: center;
+}
+
+.sidepeek-container::-webkit-scrollbar {
+  display: none !important; /* Hide scrollbar for Chrome, Safari, and Opera */
+}
+
+.sidepeek-container {
+  scrollbar-width: thin; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+.btn {
+  height: 40px;
+  background-color: #fff !important;
+  color: #4f3ed7 !important;
+  border: 1px solid #4f3ed7 !important;
+  border-radius: 8px;
+  padding-top: 7px !important ;
+}
+.btn-primary:hover {
+  background-color: #4f3ed7 !important;
+  color: #fff !important;
+}
+
+.sidepeek-container-data p:last-child {
+  margin-bottom: 0.75rem;
+}
+
+#location-feedback,
+#show-location-feedback {
+  width: 100%;
+}

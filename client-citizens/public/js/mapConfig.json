@@ -1,0 +1,16 @@
+{
+  "apikey": "AIzaSyC7YsJvhxn33ZN1pIOS_aRU6tODTdyYKII",
+  "mapid": "dd3d25a970d4a179",
+  "zoom": 10.4,
+  "restristion1": {
+    "lat": 10.34937,
+    "lng": 106.363878
+  },
+  "restristion2": {
+    "lat": 11.160214,
+    "lng": 107.026577
+  },
+  "tilt": 80,
+  "gestureHandling": "greedy",
+  "center": [10.762622, 106.660172]
+}

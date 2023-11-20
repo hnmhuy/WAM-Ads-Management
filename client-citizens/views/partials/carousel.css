@@ -1,0 +1,35 @@
+.carousel {
+  margin-top: 0.5rem;
+}
+.carousel-item {
+  border-radius: 2%;
+  overflow: hidden;
+}
+
+.carousel-indicators {
+  margin-bottom: 0 !important;
+}
+
+.carousel-indicators div {
+  width: 0.5rem !important;
+  height: 0.5rem !important;
+  border-radius: 100% !important;
+}
+.active {
+  background-color: #f5937d !important;
+}
+
+span {
+  width: 1.5rem !important;
+  height: 1.5rem !important;
+}
+
+.carousel-control-prev-icon {
+  border-radius: 50% !important;
+  background-color: rgba(79, 62, 215, 0.3) !important;
+}
+
+.carousel-control-next-icon {
+  border-radius: 50% !important;
+  background-color: rgba(79, 62, 215, 0.3) !important;
+}

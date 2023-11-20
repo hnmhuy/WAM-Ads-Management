@@ -1,0 +1,73 @@
+* {
+  font-family: 'Quicksand', sans-serif;
+  padding: 0;
+  margin: 0;
+}
+
+.feedbackDetail-float {
+
+  /* display: none; */
+  left: 27rem !important;
+}
+
+.feedbackDetail-container {
+  width: 26rem;
+  background-color: #f9fafd;
+  overflow: auto;
+  position: absolute;
+  height: calc(100vh - 5.5rem);
+  border-radius: 12px;
+
+  /* display: none; */
+  top: 4.5rem;
+  left: 1.5rem;
+}
+.feedbackDetail-container .header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  background-color: #f9fafd;
+  z-index: 1;
+  padding: 0.75rem 0.6rem 0.5rem 0.6rem;
+  border-bottom: 0.5px solid #4f3ed7;
+}
+
+.feedbackDetail-container #status {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 0.5rem;
+}
+
+#status .title {
+  margin-right: 2rem;
+}
+
+.feedbackDetail-container #header-title {
+  margin: 0;
+}
+
+.feedbackDetail-container-data {
+  padding: 0rem 2rem 0.5rem 1.25rem;
+}
+
+.bi-chevron-double-left {
+  font-size: 1.5rem;
+  font-weight: bolder !important;
+}
+
+.bi-chevron-double-left:hover {
+  color: #4f3ed7;
+  font-weight: bolder;
+}
+
+.feedbackDetail-container::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
+}
+
+.feedbackDetail-container {
+  scrollbar-width: thin; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}

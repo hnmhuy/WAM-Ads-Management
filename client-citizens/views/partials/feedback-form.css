@@ -1,0 +1,85 @@
+* {
+  font-family: 'Quicksand', sans-serif !important;
+  padding: 0;
+  margin: 0;
+}
+
+form {
+  background-color: #fff;
+  border-radius: 12px;
+  width: 58rem;
+  height: 43rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 0rem 1.2rem 1rem 1.2rem;
+  z-index: 10;
+}
+
+form .form-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border-bottom: 1px solid rgba(79, 62, 215, 0.6);
+}
+.form-header .form-name {
+  margin-left: 21.2rem;
+  margin-bottom: 0;
+  margin-bottom: 0.8rem;
+  margin-top: 1rem;
+}
+
+.form-header .bi-x-circle {
+  margin-left: 18.5rem;
+  font-size: 2rem !important;
+}
+
+.type-email {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.type-email div {
+  width: 438px;
+}
+
+form input {
+  width: 438px !important;
+  height: 40px;
+}
+
+.name-phonenum {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+}
+.feedback-textarea {
+  margin-top: 0.5rem;
+}
+
+.feedback-textarea textarea {
+  height: 90px;
+}
+.upload-file {
+  margin-top: 0.5rem;
+}
+
+#confirm-button {
+  margin-top: 0.5rem;
+  position: absolute;
+  bottom: 8px;
+  right: 16px;
+}
+
+#recaptcha {
+  position: absolute;
+  bottom: 3.5rem;
+  right: 16px;
+}
+
+form label {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
