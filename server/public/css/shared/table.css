@@ -67,6 +67,14 @@
   text-align: center;
 }
 
+.extend-btn {
+    width: 60px !important;
+}
+
+.collapsed-content {
+    padding: 10px;
+}
+
 .status-location-active {
   background-color: rgb(245, 243, 255);
   color: rgb(38, 32, 88);
@@ -118,10 +126,11 @@
 }
 
 .table-container {
-  height: 100%;
+  width: 100%;
+  height: auto;
+  padding: 0!important;
   border-radius: 15px;
-  padding: 2px 2px 0px 2px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 0.5px solid rgba(0, 0, 0, 0.1);
   overflow: hidden;
   transition: all 0.3s ease-in-out;
 }
