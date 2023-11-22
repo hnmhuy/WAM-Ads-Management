@@ -5,6 +5,7 @@ const navBarData = require("../../nav_link.json");
 controller.show = (req, res) => {
     let locations = require("../../testing_vew_data/locations_data.json");
     let locations_collapsible = require("../../testing_vew_data/locations_data_collapsible.json");
+    let req_update = require("../../testing_vew_data/req_update.json");
     let ad_infomation = require("../../testing_vew_data/ad_data_collapsible.json");
     navBarData.nav_link.forEach((link) => {
         link.active = false;
@@ -29,6 +30,8 @@ controller.show = (req, res) => {
         nav_link: navBarData.nav_link,
         table1: locations,
         table2: locations_collapsible,
+        table3: req_update,
+        table4: req_update,
         table_data: ad_infomation,
     });
 };

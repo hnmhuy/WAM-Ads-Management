@@ -139,6 +139,11 @@
     flex-direction: column;
 }
 
+.content-table button {
+    border: none;
+    background-color: transparent;
+}
+
 .content-detail {
     min-width: 800px;
     height: 700px;
@@ -165,7 +170,10 @@
 .content-detail-info{
     width: calc((100% - 20px) / 2);
     min-height: 400px;
-
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 10px;
 }
 .content-detail-imgs{
     width: calc((100% - 20px) / 2);
@@ -176,7 +184,18 @@
 
 .content-detail-description {
     width: 100%;
-    min-height: calc(100% - 60px - 400px - 20px);
+    min-height: calc(100% - 70px - 400px - 20px);
+    max-height: calc(100% - 70px - 400px - 20px);
+    padding: 15px;
+    border-radius: 15px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.content-detail-description div {
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    margin-bottom: 10px;
 }
 
 #req_imgs {
@@ -187,17 +206,78 @@
 .content-detail-btns {
     width: 100%;
     min-height: 60px;
-    background-color: blanchedalmond;
+    display: flex;
+    margin: 5px;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.content-detail-btns button {
+    padding: 2px 10px!important;
+    height: 40px;
+    background-color: transparent;
+    border-radius: 10px;
+    font-weight: 800;
+    border: none;
+}
+
+.content-detail-btns button:first-child {
+    border: 1px solid green;
+    color: green;
+}
+
+.content-detail-btns button:last-child {
+    border: 1px solid red;
+    color: red;
+}
+
+.content-detail-btns button:first-child:hover {
+    border: 1px solid green;
+    background-color: green;
+    color: white;
+}
+
+.content-detail-btns button:last-child:hover {
+    border: 1px solid red;
+    background-color: red;
+    color: white
 }
 
 .content-detail-attribute{
     width: 100%;
     display: flex;
-    gap: 5px;
+    gap: 10px;
 }
 .atribute-header{
-
+    width: 150px;
+    font-weight: 800;
 }
 .atribute-data{
+    padding: 5px;
+}
 
+.selected-row td {
+    background-color:rgba(79, 62, 215,  0.3)
+}
+
+#req_create_table {
+    max-height: calc(100vh - 6rem - 25px - 110px);
+}
+
+.table-header {
+   position: sticky;
+   top: 0;  
+   z-index: 1;
+}
+
+.collapsed-content .collapsed-content {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+#location_table {
+    max-height: calc(100vh - 6rem - 25px - 110px);
+}
+
+#req_update {
+    margin: 10px 0px;
 }

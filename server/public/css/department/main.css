@@ -8,8 +8,8 @@ body {
 
 .main-content{
     width: calc(100vw - var(--nav-bar-width));
-    padding: 20px 30px;
-    height: auto;
+    padding: 0px 30px 20px 30px;
+    height: 100vh;
     margin-left: var(--nav-bar-width);
     transition: margin-left 0.5s;
     position: relative;
@@ -20,13 +20,17 @@ body {
 
 .title {
     width: 100%;
+    padding-top: 40px;
+    padding-bottom: 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 4rem;
+    height: 6rem;
     border-bottom: 2px solid rgba(0, 0,0, 0.3); 
     position: sticky;
-    top: 0;   
+    top: 0;  
+    background-color: white; 
+    z-index: 1;
 }
 
 
@@ -38,5 +42,5 @@ body {
 .content {
     padding: 15px 0px;
     width: 100%;
-    height: calc(100% - 4rem);
+    height: calc(100% - 6rem);
 }

@@ -50,15 +50,6 @@
   height: 3rem;
 }
 
-.table-container {
-  height: 100%;
-  border-radius: 15px;
-  padding: 2px 2px 0px 2px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  transition: all 0.3s ease-in-out;
-}
-
 .table-status {
   width: 150px;
   padding: 5px 10px;
@@ -125,13 +116,21 @@
   height: 3rem;
 }
 
+td {
+  vertical-align: middle;
+}
+
+th {
+  vertical-align: middle;
+}
+
+
 .table-container {
   width: 100%;
-  height: auto;
   padding: 0!important;
   border-radius: 15px;
   border: 0.5px solid rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  overflow: auto;
   transition: all 0.3s ease-in-out;
 }
 

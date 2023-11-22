@@ -1,8 +1,5 @@
 function setColumnWidths(table_id, widths) {
-    console.log(widths.length);
-    console.log(widths);
     for (let i = 0; i < widths.length; i++) {
-        console.log(`#${table_id} .table th:nth-child(${i + 1})`);
         let head_col = document.querySelector(
             `#${table_id} .table th:nth-child(${i + 1})`
         );
@@ -14,4 +11,22 @@ function setColumnWidths(table_id, widths) {
             col.style.width = widths[i];
         });
     }
+}
+
+function addContentToCollapsibleTable(table_id, generateFunction) {
+    // Get all extend-btn insde the table
+    let extend_btns = document.querySelectorAll(
+        `#${table_id} .extend-btn button`
+    );
+    // Add event listener to each extend-btn
+    extend_btns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+            let id = btn.getAttribute("data-bs-target");
+            let target = document.querySelector(`${id} .collapsed-content`);
+            let div = generateFunction();
+            target.innerHTML = "";
+            target.appendChild(div);
+            selectARow();
+        });
+    });
 }
