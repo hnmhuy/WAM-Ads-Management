@@ -1,334 +1,439 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../public/css/location.css" />
+    <link rel="stylesheet" href="../../public/css/nav.css" />
     <title>Quản lý điểm đặt</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-                integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
-    <link rel="stylesheet" href="../../public/css/location.css">
-    <link rel="stylesheet" href="../../public/css/nav.css">
-</head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+  </head>
 
-<body>
-    <div style="display: flex; justify-content: space-between;">
-        <div class="sidebar">
-            <div class="logo-details">
-                <img src="../../public/images/logo.svg" alt="logo" class="logo-web" />
-                <div class="logo_name" style="font-weight:bold">WAM</div>
+  <body>
+    <div class="sidebar">
+      <div class="logo-details">
+        <img src="../../public/images/logo.svg" alt="logo" class="logo-web" />
+        <div class="logo_name" style="font-weight: bold">WAM</div>
+      </div>
+      <ul class="nav-list">
+        <li>
+          <a href="/home">
+            <i class="bx bx-map-pin"></i>
+            <span class="links_name">Trang chủ</span>
+          </a>
+          <span class="tooltip">Trang chủ</span>
+        </li>
+        <li>
+          <a href="/location">
+            <i class="bx bx-location-plus"></i>
+            <span class="links_name">Quản lý điểm đặt</span>
+          </a>
+          <span class="tooltip">Quản lý điểm đặt</span>
+        </li>
+        <li>
+          <a href="/reports">
+            <i class="bx bxs-report"></i>
+            <span class="links_name">Xử lý báo cáo</span>
+          </a>
+          <span class="tooltip">Xử lý báo cáo</span>
+        </li>
+        <li>
+          <a href="/permission">
+            <i class="bx bx-paper-plane"></i>
+            <span class="links_name">Cấp phép</span>
+          </a>
+          <span class="tooltip">Cấp phép</span>
+        </li>
+
+        <li class="profile">
+          <div class="profile-details">
+            <i class="bx bx-user-circle user"></i>
+            <div class="name_job">
+              <div class="name">Ông Thập</div>
+              <div class="job">Quản lý phường</div>
             </div>
-            <ul class="nav-list">
-                <li>
-                    <a href="/home">
-                        <i class="bx bx-map-pin"></i>
-                        <span class="links_name">Trang chủ</span>
-                    </a>
-                    <span class="tooltip">Trang chủ</span>
-                </li>
-                <li>
-                    <a href="/location">
-                        <i class="bx bx-location-plus"></i>
-                        <span class="links_name">Quản lý điểm đặt</span>
-                    </a>
-                    <span class="tooltip">Quản lý điểm đặt</span>
-                </li>
-                <li>
-                    <a href="/reports">
-                        <i class="bx bxs-report"></i>
-                        <span class="links_name">Xử lý báo cáo</span>
-                    </a>
-                    <span class="tooltip">Xử lý báo cáo</span>
-                </li>
-                <li>
-                    <a href="/permission">
-                        <i class="bx bx-paper-plane"></i>
-                        <span class="links_name">Cấp phép</span>
-                    </a>
-                    <span class="tooltip">Cấp phép</span>
-                </li>
-        
-                <li class="profile">
-                    <div class="profile-details">
-                        <i class="bx bx-user-circle user"></i>
-                        <div class="name_job">
-                            <div class="name">Ông Thập</div>
-                            <div class="job">Quản lý phường</div>
-                        </div>
-                    </div>
-                    <i class="bx bx-log-out pointer" id="log_out"></i>
-                </li>
-            </ul>
+          </div>
+          <i class="bx bx-log-out pointer" id="log_out"></i>
+        </li>
+      </ul>
+    </div>
+    <div class="location_table">
+      <section class="table__header">
+        <h2 class="table_heading">Quản lý điểm đặt</h2>
+        <div class="input_group">
+          <img src="../../public/images/search.png" alt="" />
+          <input type="search" placeholder="Search..." />
         </div>
-        <!-- Title -->
-        <div class="location_table">
-            <section class="table__header">
-                <h1>Quản lý điểm đặt</h1>
-                <div class="row input-group">
-                    <div class="col-1"><img src="../../public/images/search.png" alt="">
-                    </div>
-                    <div class="col-11">
-                        <form action="#" method="post">
-                            <input type="search" placeholder="Search Data...">
-                        </form>
-                    </div>
+      </section>
+      <!-- Table head -->
+      <section class="table__body">
+        <table>
+          <thead>
+            <tr>
+              <th>Quận</th>
+              <th>Phường</th>
+              <th>Địa chỉ</th>
+              <th>
+                <div class="dropdown">
+                  <a
+                    style="color: white !important"
+                    href="#"
+                    class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    >Loại vị trí
+                  </a>
+                  <div style="padding: 10px" class="dropdown-menu">
+                    <input
+                      type="checkbox"
+                      id="dat-cong"
+                      name="dat-cong"
+                      value="dat-cong"
+                    />
+                    <label for="dat-cong">Đất công</label><br />
+                    <input
+                      type="checkbox"
+                      id="hanh-lang-an-toan-giao-thong"
+                      name="hanh-lang-an-toan-giao-thong"
+                      value="hanh-lang-an-toan-giao-thong"
+                    />
+                    <label for="hanh-lang-an-toan-giao-thong"
+                      >Hành lang an toàn</label
+                    ><br />
+                    <input
+                      type="checkbox"
+                      id="cong-vien"
+                      name="cong-vien"
+                      value="cong-vien"
+                    />
+                    <label for="cong-vien">Công viên</label><br />
+                    <input
+                      type="checkbox"
+                      id="nha-rieng"
+                      name="nha-rieng"
+                      value="nha-rieng"
+                    />
+                    <label for="nha-rieng">Nhà riêng</label><br />
+                  </div>
                 </div>
-            </section>
-            <!-- Table head -->
-            <section class="table__body">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Quận</th>
-                            <th>Phường</th>
-                            <th>Địa chỉ</th>
-                            <th>
-                                <div class="dropdown">
-                                    <a style="color: white !important;" href="#"
-                                        class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
-                                        data-bs-toggle="dropdown" aria-expanded="false">Loại vị trí
-                                    </a>
-                                    <div style="padding: 10px;" class="dropdown-menu">
-                                        <input type="checkbox" id="dat-cong" name="dat-cong" value="dat-cong">
-                                        <label for="dat-cong">Đất công</label><br>
-                                        <input type="checkbox" id="hanh-lang-an-toan-giao-thong"
-                                            name="hanh-lang-an-toan-giao-thong" value="hanh-lang-an-toan-giao-thong">
-                                        <label for="hanh-lang-an-toan-giao-thong">Hành lang an toàn</label><br>
-                                        <input type="checkbox" id="cong-vien" name="cong-vien" value="cong-vien">
-                                        <label for="cong-vien">Công viên</label><br>
-                                        <input type="checkbox" id="nha-rieng" name="nha-rieng" value="nha-rieng">
-                                        <label for="nha-rieng">Nhà riêng</label><br>
-                                    </div>
-                                </div>
-                            </th>
-                            <th>Số lượng</th>
-                            <th>
-                                <div class="dropdown">
-                                    <a style="color: white !important;" href="#"
-                                        class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
-                                        data-bs-toggle="dropdown" aria-expanded="false">Mục đích</a>
-                                    <div style="padding: 10px;" class="dropdown-menu">
-                                        <input type="checkbox" id="co-dong-chinh-tri" name="co-dong-chinh-tri"
-                                            value="co-dong-chinh-tri">
-                                        <label for="co-dong-chinh-tri">Cổ động chính trị</label><br>
-                                        <input type="checkbox" id="quang-cao-thuong-mai" name="quang-cao-thuong-mai"
-                                            value="quang-cao-thuong-mai">
-                                        <label for="quang-cao-thuong-mai">Quảng cáo thương mại</label><br>
-                                        <input type="checkbox" id="xa-hoi-hoa" name="xa-hoi-hoa" value="xa-hoi-hoa">
-                                        <label for="xa-hoi-hoa">Xã hội hoá</label><br>
-                                    </div>
-                                </div>
-                            </th>
-                            <th>
-                                <div class="dropdown">
-                                    <a style="color: white !important;" href="#"
-                                        class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
-                                        data-bs-toggle="dropdown" aria-expanded="false">Trạng thái</a>
-                                    <div style="padding: 10px;" class="dropdown-menu">
-                                        <input type="checkbox" id="da-quy-hoach" name="da-quy-hoach" value="da-quy-hoach">
-                                        <label for="da-quy-hoach">Đã quy hoạch</label><br>
-                                        <input type="checkbox" id="chua-quy-hoach" name="chua-quy-hoach" value="chua-quy-hoach">
-                                        <label for="chua-quy-hoach">Chưa quy hoạch</label><br>
-        
-                                    </div>
-                                </div>
-                            </th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <!-- Table body -->
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Bến Nghé</td>
-                            <td>12 Đ. Nguyễn Thị Minh Khai</td>
-                            <td>Hành lang an toàn giao thông</td>
-                            <td>2</td>
-                            <td>Quảng cáo thương mại</td>
-                            <td>
-                                <p class="status delivered">Đã quy hoạch</p>
-                            </td>
-                            <td>
-                                <i class="bi bi-arrow-up-right-square" style="color: black"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Bến Nghé</td>
-                            <td>12 Đ. Nguyễn Thị Minh Khai</td>
-                            <td>Hành lang an toàn giao thông</td>
-                            <td>2</td>
-                            <td>Quảng cáo thương mại</td>
-                            <td>
-                                <p class="status delivered">Đã quy hoạch</p>
-                            </td>
-                            <td>
-                                <i class="bi bi-arrow-up-right-square" style="color: black"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Bến Nghé</td>
-                            <td>12 Đ. Nguyễn Thị Minh Khai</td>
-                            <td>Hành lang an toàn giao thông</td>
-                            <td>2</td>
-                            <td>Quảng cáo thương mại</td>
-                            <td>
-                                <p class="status cancelled">Chưa quy hoạch</p>
-                            </td>
-                            <td>
-                                <i class="bi bi-arrow-up-right-square" style="color: black"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Bến Nghé</td>
-                            <td>12 Đ. Nguyễn Thị Minh Khai</td>
-                            <td>Hành lang an toàn giao thông</td>
-                            <td>2</td>
-                            <td>Quảng cáo thương mại</td>
-                            <td>
-                                <p class="status delivered">Đã quy hoạch</p>
-                            </td>
-                            <td>
-                                <i class="bi bi-arrow-up-right-square" style="color: black"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Bến Nghé</td>
-                            <td>12 Đ. Nguyễn Thị Minh Khai</td>
-                            <td>Hành lang an toàn giao thông</td>
-                            <td>2</td>
-                            <td>Quảng cáo thương mại</td>
-                            <td>
-                                <p class="status delivered">Đã quy hoạch</p>
-                            </td>
-                            <td>
-                                <i class="bi bi-arrow-up-right-square" style="color: black"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Bến Nghé</td>
-                            <td>12 Đ. Nguyễn Thị Minh Khai</td>
-                            <td>Hành lang an toàn giao thông</td>
-                            <td>2</td>
-                            <td>Quảng cáo thương mại</td>
-                            <td>
-                                <p class="status delivered">Đã quy hoạch</p>
-                            </td>
-                            <td>
-                                <i class="bi bi-arrow-up-right-square" style="color: black"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Bến Nghé</td>
-                            <td>12 Đ. Nguyễn Thị Minh Khai</td>
-                            <td>Hành lang an toàn giao thông</td>
-                            <td>2</td>
-                            <td>Quảng cáo thương mại</td>
-                            <td>
-                                <p class="status delivered">Đã quy hoạch</p>
-                            </td>
-                            <td>
-                                <i class="bi bi-arrow-up-right-square" style="color: black"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Bến Nghé</td>
-                            <td>12 Đ. Nguyễn Thị Minh Khai</td>
-                            <td>Hành lang an toàn giao thông</td>
-                            <td>2</td>
-                            <td>Quảng cáo thương mại</td>
-                            <td>
-                                <p class="status delivered">Đã quy hoạch</p>
-                            </td>
-                            <td>
-                                <i class="bi bi-arrow-up-right-square" style="color: black"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Bến Nghé</td>
-                            <td>12 Đ. Nguyễn Thị Minh Khai</td>
-                            <td>Hành lang an toàn giao thông</td>
-                            <td>2</td>
-                            <td>Quảng cáo thương mại</td>
-                            <td>
-                                <p class="status delivered">Đã quy hoạch</p>
-                            </td>
-                            <td>
-                                <i class="bi bi-arrow-up-right-square" style="color: black"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Bến Nghé</td>
-                            <td>12 Đ. Nguyễn Thị Minh Khai</td>
-                            <td>Hành lang an toàn giao thông</td>
-                            <td>2</td>
-                            <td>Quảng cáo thương mại</td>
-                            <td>
-                                <p class="status delivered">Đã quy hoạch</p>
-                            </td>
-                            <td>
-                                <i class="bi bi-arrow-up-right-square" style="color: black"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Bến Nghé</td>
-                            <td>12 Đ. Nguyễn Thị Minh Khai</td>
-                            <td>Hành lang an toàn giao thông</td>
-                            <td>2</td>
-                            <td>Quảng cáo thương mại</td>
-                            <td>
-                                <p class="status delivered">Đã quy hoạch</p>
-                            </td>
-                            <td>
-                                <i class="bi bi-arrow-up-right-square" style="color: black"></i>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
-        </div>
+              </th>
+              <th>Số lượng</th>
+              <th>
+                <div class="dropdown">
+                  <a
+                    style="color: white !important"
+                    href="#"
+                    class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    >Mục đích</a
+                  >
+                  <div style="padding: 10px" class="dropdown-menu">
+                    <input
+                      type="checkbox"
+                      id="co-dong-chinh-tri"
+                      name="co-dong-chinh-tri"
+                      value="co-dong-chinh-tri"
+                    />
+                    <label for="co-dong-chinh-tri">Cổ động chính trị</label
+                    ><br />
+                    <input
+                      type="checkbox"
+                      id="quang-cao-thuong-mai"
+                      name="quang-cao-thuong-mai"
+                      value="quang-cao-thuong-mai"
+                    />
+                    <label for="quang-cao-thuong-mai"
+                      >Quảng cáo thương mại</label
+                    ><br />
+                    <input
+                      type="checkbox"
+                      id="xa-hoi-hoa"
+                      name="xa-hoi-hoa"
+                      value="xa-hoi-hoa"
+                    />
+                    <label for="xa-hoi-hoa">Xã hội hoá</label><br />
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="dropdown">
+                  <a
+                    style="color: white !important"
+                    href="#"
+                    class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    >Trạng thái</a
+                  >
+                  <div style="padding: 10px" class="dropdown-menu">
+                    <input
+                      type="checkbox"
+                      id="da-quy-hoach"
+                      name="da-quy-hoach"
+                      value="da-quy-hoach"
+                    />
+                    <label for="da-quy-hoach">Đã quy hoạch</label><br />
+                    <input
+                      type="checkbox"
+                      id="chua-quy-hoach"
+                      name="chua-quy-hoach"
+                      value="chua-quy-hoach"
+                    />
+                    <label for="chua-quy-hoach">Chưa quy hoạch</label><br />
+                  </div>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <!-- Table body -->
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Bến Nghé</td>
+              <td>12 Đ. Nguyễn Thị Minh Khai</td>
+              <td>Hành lang an toàn giao thông</td>
+              <td>2</td>
+              <td>Quảng cáo thương mại</td>
+              <td>
+                <div class="last-cell">
+                  <p class="status delivered">Đã quy hoạch</p>
+                  <i
+                    class="bi bi-arrow-up-right-square"
+                    style="color: black"
+                  ></i>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>Bến Nghé</td>
+              <td>12 Đ. Nguyễn Thị Minh Khai</td>
+              <td>Hành lang an toàn giao thông</td>
+              <td>2</td>
+              <td>Quảng cáo thương mại</td>
+              <td>
+                <div class="last-cell">
+                  <p class="status delivered">Đã quy hoạch</p>
+                  <i
+                    class="bi bi-arrow-up-right-square"
+                    style="color: black"
+                  ></i>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>Bến Nghé</td>
+              <td>12 Đ. Nguyễn Thị Minh Khai</td>
+              <td>Hành lang an toàn giao thông</td>
+              <td>2</td>
+              <td>Quảng cáo thương mại</td>
+              <td>
+                <div class="last-cell">
+                  <p class="status cancelled">Chưa quy hoạch</p>
+                  <i
+                    class="bi bi-arrow-up-right-square"
+                    style="color: black"
+                  ></i>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>Bến Nghé</td>
+              <td>12 Đ. Nguyễn Thị Minh Khai</td>
+              <td>Hành lang an toàn giao thông</td>
+              <td>2</td>
+              <td>Quảng cáo thương mại</td>
+              <td>
+                <div class="last-cell">
+                  <p class="status delivered">Đã quy hoạch</p>
+                  <i
+                    class="bi bi-arrow-up-right-square"
+                    style="color: black"
+                  ></i>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>Bến Nghé</td>
+              <td>12 Đ. Nguyễn Thị Minh Khai</td>
+              <td>Hành lang an toàn giao thông</td>
+              <td>2</td>
+              <td>Quảng cáo thương mại</td>
+              <td>
+                <div class="last-cell">
+                  <p class="status delivered">Đã quy hoạch</p>
+                  <i
+                    class="bi bi-arrow-up-right-square"
+                    style="color: black"
+                  ></i>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>Bến Nghé</td>
+              <td>12 Đ. Nguyễn Thị Minh Khai</td>
+              <td>Hành lang an toàn giao thông</td>
+              <td>2</td>
+              <td>Quảng cáo thương mại</td>
+              <td>
+                <div class="last-cell">
+                  <p class="status delivered">Đã quy hoạch</p>
+                  <i
+                    class="bi bi-arrow-up-right-square"
+                    style="color: black"
+                  ></i>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>Bến Nghé</td>
+              <td>12 Đ. Nguyễn Thị Minh Khai</td>
+              <td>Hành lang an toàn giao thông</td>
+              <td>2</td>
+              <td>Quảng cáo thương mại</td>
+              <td>
+                <div class="last-cell">
+                  <p class="status delivered">Đã quy hoạch</p>
+                  <i
+                    class="bi bi-arrow-up-right-square"
+                    style="color: black"
+                  ></i>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>Bến Nghé</td>
+              <td>12 Đ. Nguyễn Thị Minh Khai</td>
+              <td>Hành lang an toàn giao thông</td>
+              <td>2</td>
+              <td>Quảng cáo thương mại</td>
+              <td>
+                <div class="last-cell">
+                  <p class="status delivered">Đã quy hoạch</p>
+                  <i
+                    class="bi bi-arrow-up-right-square"
+                    style="color: black"
+                  ></i>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>Bến Nghé</td>
+              <td>12 Đ. Nguyễn Thị Minh Khai</td>
+              <td>Hành lang an toàn giao thông</td>
+              <td>2</td>
+              <td>Quảng cáo thương mại</td>
+              <td>
+                <div class="last-cell">
+                  <p class="status delivered">Đã quy hoạch</p>
+                  <i
+                    class="bi bi-arrow-up-right-square"
+                    style="color: black"
+                  ></i>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>Bến Nghé</td>
+              <td>12 Đ. Nguyễn Thị Minh Khai</td>
+              <td>Hành lang an toàn giao thông</td>
+              <td>2</td>
+              <td>Quảng cáo thương mại</td>
+              <td>
+                <div class="last-cell">
+                  <p class="status delivered">Đã quy hoạch</p>
+                  <i
+                    class="bi bi-arrow-up-right-square"
+                    style="color: black"
+                  ></i>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>Bến Nghé</td>
+              <td>12 Đ. Nguyễn Thị Minh Khai</td>
+              <td>Hành lang an toàn giao thông</td>
+              <td>2</td>
+              <td>Quảng cáo thương mại</td>
+              <td>
+                <div class="last-cell">
+                  <p class="status delivered">Đã quy hoạch</p>
+                  <i
+                    class="bi bi-arrow-up-right-square"
+                    style="color: black"
+                  ></i>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
     </div>
 
     <script>
-        document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
-                visible_row.style.backgroundColor = (i % 2 == 0) ? 'rgba(ff, ff, ff, 1)' : 'rgba(79, 62, 215, 0.1)';
-            });
-        const search = document.querySelector('.input-group input'),
-        table_rows = document.querySelectorAll('tbody tr'),
-        table_headings = document.querySelectorAll('thead th');
-        // search.addEventListener('input', searchTable);
-        document.querySelector('form').onsubmit = searchTable;
-        function searchTable(event) {
-            event.preventDefault();
-            table_rows.forEach((row, i) => {
-                let table_data = row.textContent.toLowerCase(),
-                    search_data = search.value.toLowerCase();
+      document
+        .querySelectorAll("tbody tr:not(.hide)")
+        .forEach((visible_row, i) => {
+          visible_row.style.backgroundColor =
+            i % 2 == 0 ? "rgba(ff, ff, ff, 1)" : "rgba(79, 62, 215, 0.1)";
+        });
+      const search = document.querySelector(".input-group input"),
+        table_rows = document.querySelectorAll("tbody tr"),
+        table_headings = document.querySelectorAll("thead th");
+      // search.addEventListener('input', searchTable);
+      document.querySelector("form").onsubmit = searchTable;
+      function searchTable(event) {
+        event.preventDefault();
+        table_rows.forEach((row, i) => {
+          let table_data = row.textContent.toLowerCase(),
+            search_data = search.value.toLowerCase();
 
-                row.classList.toggle('hide', table_data.indexOf(search_data) < 0);
-            })
+          row.classList.toggle("hide", table_data.indexOf(search_data) < 0);
+        });
 
-            document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
-                visible_row.style.backgroundColor = (i % 2 == 0) ? 'transparent' : 'rgba(79, 62, 215, 0.1)';
-            });
-        }
+        document
+          .querySelectorAll("tbody tr:not(.hide)")
+          .forEach((visible_row, i) => {
+            visible_row.style.backgroundColor =
+              i % 2 == 0 ? "transparent" : "rgba(79, 62, 215, 0.1)";
+          });
+      }
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-        crossorigin="anonymous"></script>
-</body>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+      integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+      crossorigin="anonymous"
+    ></script>
 
+    <script src="location.js"></script>
+  </body>
 </html>
