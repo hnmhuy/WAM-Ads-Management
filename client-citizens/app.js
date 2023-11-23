@@ -29,17 +29,17 @@ app.set('views', path.join(__dirname, 'views'));
 app.get('/', (req, res) => {
   let componentData = {
     cssPath: [
-      '/partials/ad-card.css',
-      '/partials/ad-detail.css',
-      '/partials/carousel.css',
-      '/partials/carousel-swipe.css',
-      '/partials/sidepeek-ad.css',
-      '/partials/sidepeek-noAd.css',
-      '/partials/feedback-detail.css',
-      '/partials/random-location.css',
-      '/partials/dropdown.css',
-      '/partials/feedback-form.css',
-      '/partials/upload-file.css',
+      '/public/css/ad-card.css',
+      '/public/css/ad-detail.css',
+      '/public/css/carousel.css',
+      '/public/css/carousel-swipe.css',
+      '/public/css/sidepeek-ad.css',
+      '/public/css/sidepeek-noAd.css',
+      '/public/css/feedback-detail.css',
+      '/public/css/random-location.css',
+      '/public/css/dropdown.css',
+      '/public/css/feedback-form.css',
+      '/public/css/upload-file.css',
     ],
   };
   res.render('citizens/main', { componentData });
@@ -69,10 +69,6 @@ app.post('/upload', (req, res) => {
       }
     });
 });
-
-
-
-
 
 app.use('/testing', express.static(path.join(__dirname, 'testing')));
 app.get('/testing', (req, res) => {

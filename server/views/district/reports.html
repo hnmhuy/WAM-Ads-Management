@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="reports.css" />
+    <link rel="stylesheet" href="../../public/css/nav.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <title>WAM</title>
+  </head>
+  <body>
+    <!-- Navigation bar -->
+    <div class="sidebar">
+      <div class="logo-details">
+        <img src="../../public/images/logo.svg" alt="logo" class="logo-web" />
+        <div class="logo_name" style="font-weight: bold">WAM</div>
+      </div>
+      <ul class="nav-list">
+        <li>
+          <a href="/home">
+            <i class="bx bx-map-pin"></i>
+            <span class="links_name">Trang chủ</span>
+          </a>
+          <span class="tooltip">Trang chủ</span>
+        </li>
+        <li>
+          <a href="/location">
+            <i class="bx bx-location-plus"></i>
+            <span class="links_name">Quản lý điểm đặt</span>
+          </a>
+          <span class="tooltip">Quản lý điểm đặt</span>
+        </li>
+        <li>
+          <a href="/reports">
+            <i class="bx bxs-report"></i>
+            <span class="links_name">Xử lý báo cáo</span>
+          </a>
+          <span class="tooltip">Xử lý báo cáo</span>
+        </li>
+        <li>
+          <a href="/permission">
+            <i class="bx bx-paper-plane"></i>
+            <span class="links_name">Cấp phép</span>
+          </a>
+          <span class="tooltip">Cấp phép</span>
+        </li>
+
+        <li class="profile">
+          <div class="profile-details">
+            <i class="bx bx-user-circle user"></i>
+            <div class="name_job">
+              <div class="name">Ông Thập</div>
+              <div class="job">Quản lý phường</div>
+            </div>
+          </div>
+          <i class="bx bx-log-out pointer" id="log_out"></i>
+        </li>
+      </ul>
+    </div>
+    <!-- Navigation bar -->
+    <div class="report_table">
+      <section class="table__header">
+        <h2 class="table_heading">Xử lý báo cáo</h2>
+        <div class="input_group">
+          <img src="../../public/images/search.png" alt="" />
+          <input type="search" placeholder="Search..." />
+        </div>
+      </section>
+      <section class="tab">
+        <div class="tab-bar">
+          <button class="tab-btn tab-btn-active" target="req_create">
+            Bảng quảng cáo
+          </button>
+          <button class="tab-btn" target="req_update">Vị trí khác</button>
+        </div>
+      </section>
+      <section class="table__body">
+        <table>
+          <!-- Head -->
+          <thead>
+            <tr>
+              <th>Quận</th>
+              <th>
+                <div class="filter">
+                  <a
+                    class="filter_btn btn dropdown-toggle custom-dropdown"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                  >
+                    Phường
+                  </a>
+
+                  <ul
+                    class="dropdown-menu"
+                    id="filter_list"
+                    onclick="handleDropdownItem(event)"
+                  >
+                    <li>
+                      <a class="dropdown-item" id="benthanh">Bến Thành</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" id="bennghe">Bến Nghé</a>
+                    </li>
+                  </ul>
+                </div>
+              </th>
+              <th>Địa chỉ</th>
+              <th>Mã báo cáo</th>
+              <th>
+                <div class="filter">
+                  <a
+                    class="filter_btn btn dropdown-toggle custom-dropdown"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                  >
+                    Hình thức
+                  </a>
+
+                  <ul
+                    class="dropdown-menu"
+                    id="filter_list"
+                    onclick="handleDropdownItem(event)"
+                  >
+                    <li>
+                      <a class="dropdown-item" id="criminal"
+                        >Tố giác tội phạm</a
+                      >
+                    </li>
+                    <li>
+                      <a class="dropdown-item" id="registered_content"
+                        >Đăng ký nội dung</a
+                      >
+                    </li>
+                    <li>
+                      <a class="dropdown-item" id="shared_idea"
+                        >Đóng góp ý kiến</a
+                      >
+                    </li>
+                    <li>
+                      <a class="dropdown-item" id="answer_question"
+                        >Giải đáp thắc mắc</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </th>
+              <th>
+                <div class="filter">
+                  <a
+                    class="filter_btn btn dropdown-toggle custom-dropdown"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                  >
+                    Hình thức
+                  </a>
+
+                  <ul
+                    class="dropdown-menu"
+                    id="filter_list"
+                    onclick="handleDropdownItem(event)"
+                  >
+                    <li>
+                      <a class="dropdown-item" id="solved_feedback"
+                        >Đã giải quyết</a
+                      >
+                    </li>
+                    <li>
+                      <a class="dropdown-item" id="unsolved_feedback"
+                        >Chưa giải quyết</a
+                      >
+                    </li>
+                    </li>
+                  </ul>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <!-- Body -->
+          <tbody>
+            <tr class="bennghe answer_question solved_feedback is_not_random" onclick="toggleSibling(this)">
+              <td>Quận 1</td>
+              <td>Bến Nghé</td>
+              <td>45 Nguyễn Trung Ngạn</td>
+              <td>MBC10001</td>
+              <td>Giải đáp thắc mắc</td>
+              <td>
+                <div class="last-cell">
+                  <p class="status solved">Đã giải quyết</p>
+                  <i class="bi bi-chevron-down" style="color: black"></i>
+                </div>
+              </td>
+            </tr>
+            <tr class="extra">
+              <td colspan="6" class="expand_row">
+                  Still coding...
+              </td>
+            </tr>
+            <tr class="bennghe criminal unsolved_feedback is_random collapse">
+              <td>Quận 1</td>
+              <td>Bến Nghé</td>
+              <td>45 Nguyễn Trung Ngạn</td>
+              <td>MBC10001</td>
+              <td>Tố giác tội phạm</td>
+              <td>
+                <div class="last-cell">
+                  <p class="status unsolved">Chưa giải quyết</p>
+                  <i class="bi bi-chevron-down" style="color: black"></i>
+                </div>
+              </td>
+            </tr>
+            <tr class="benthanh shared_idea solved_feedback is_random collapse">
+              <td>Quận 1</td>
+              <td>Bến Thành</td>
+              <td>45 Hà Thanh Xuân</td>
+              <td>MBC10001</td>
+              <td>Đóng góp ý kiến</td>
+              <td>
+                <div class="last-cell">
+                  <p class="status solved">Đã giải quyết</p>
+                  <i class="bi bi-chevron-down" style="color: black"></i>
+                </div>
+              </td>
+            </tr>
+            <tr
+              class="benthanh registered_content unsolved_feedback is_not_random"
+            >
+              <td>Quận 1</td>
+              <td>Bến Thành</td>
+              <td>45 Đề Thám</td>
+              <td>MBC10001</td>
+              <td>Đăng kí nội dung</td>
+              <td>
+                <div class="last-cell">
+                  <p class="status unsolved">Chưa giải quyết</p>
+                  <i class="bi bi-chevron-down" style="color: black"></i>
+                </div>
+              </td>
+            </tr>
+            <tr class="bennghe answer_question unsolved_feedback is_not_random">
+              <td>Quận 1</td>
+              <td>Bến Nghé</td>
+              <td>45 Nguyễn Trung Ngạn</td>
+              <td>MBC10001</td>
+              <td>Giải đáp thắc mắc</td>
+              <td>
+                <div class="last-cell">
+                  <p class="status unsolved">Chưa giải quyết</p>
+                  <i class="bi bi-chevron-down" style="color: black"></i>
+                </div>
+              </td>
+            </tr>
+            <tr class="bennghe criminal solved_feedback is_not_random">
+              <td>Quận 1</td>
+              <td>Bến Nghé</td>
+              <td>45 Nguyễn Trung Ngạn</td>
+              <td>MBC10001</td>
+              <td>Tố giác tội phạm</td>
+              <td>
+                <div class="last-cell">
+                  <p class="status solved">Đã giải quyết</p>
+                  <i class="bi bi-chevron-down" style="color: black"></i>
+                </div>
+              </td>
+            </tr>
+            <tr
+              class="benthanh shared_idea unsolved_feedback is_random collapse"
+            >
+              <td>Quận 1</td>
+              <td>Bến Thành</td>
+              <td>45 Hà Thanh Xuân</td>
+              <td>MBC10001</td>
+              <td>Đóng góp ý kiến</td>
+              <td>
+                <div class="last-cell">
+                  <p class="status unsolved">Chưa giải quyết</p>
+                  <i class="bi bi-chevron-down" style="color: black"></i>
+                </div>
+              </td>
+            </tr>
+            <tr
+              class="benthanh registered_content solved_feedback is_random collapse"
+            >
+              <td>Quận 1</td>
+              <td>Bến Thành</td>
+              <td>45 Đề Thám</td>
+              <td>MBC10001</td>
+              <td>Đăng kí nội dung</td>
+              <td>
+                <div class="last-cell">
+                  <p class="status solved">Đã giải quyết</p>
+                  <i class="bi bi-chevron-down" style="color: black"></i>
+                </div>
+              </td>
+            </tr>
+            <tr class="bennghe answer_question solved_feedback is_not_random">
+              <td>Quận 1</td>
+              <td>Bến Nghé</td>
+              <td>45 Nguyễn Trung Ngạn</td>
+              <td>MBC10001</td>
+              <td>Giải đáp thắc mắc</td>
+              <td>
+                <div class="last-cell">
+                  <p class="status solved">Đã giải quyết</p>
+                  <i class="bi bi-chevron-down" style="color: black"></i>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+  </body>
+  <script
+    src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+    integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+    crossorigin="anonymous"
+  ></script>
+  <script src="reports.js"></script>
+</html>

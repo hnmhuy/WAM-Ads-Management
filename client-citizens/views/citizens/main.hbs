@@ -8,28 +8,45 @@
     <script type="module" defer src="/public/js/maps.js"></script>
     <script src="/public/js/sidepeek.js"></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script
+      src="https://cdn.tiny.cloud/1/z15wuwmhtc8coizy33qx1oppjpdm36f6otli5z73q45d3ih2/tinymce/6/tinymce.min.js"
+      referrerpolicy="origin"
+    ></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        tinymce.init({
+          selector: '#mytextarea',
+        });
+        const tooltip = document.querySelector('#tooltip');
+
+        document.querySelector('form').addEventListener('submit', e => {
+          if (!tinymce.get('mytextarea').getContent().trim()) {
+            e.preventDefault();
+            document.querySelector('#tooltip').classList.remove('hidden');
+            setTimeout(function () {
+              tooltip.classList.add('hidden');
+            }, 2000);
+          }
+        });
+      });
+    </script>
   </head>
   <body>
     <main>
-      <div class="logo-search">
+      <div class="header-citizens">
         <img src="/public/images/logo.svg" alt="Not found" />
-        <div class="search-container">
-          <div class="search_wrap search_wrap_4">
-            <div class="search_box">
-              <div class="btn btn_common">
-                <i class="bi bi-search"></i>
-              </div>
-              <input
-                type="text"
-                class="search-input"
-                style="display: block"
-                placeholder="search..."
-              />
-            </div>
+        <div class="search_box">
+          <div class="btn btn_common">
+            <i class="bi bi-search"></i>
           </div>
+          <input
+            type="text"
+            class="search-input"
+            style="display: block"
+            placeholder="search..."
+          />
         </div>
       </div>
-      <div class="header-citizens"></div>
       <div
         class="map-container"
         style="width: 100%; height: calc(100vh - 3.5rem)"

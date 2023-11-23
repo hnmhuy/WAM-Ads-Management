@@ -1,8 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
+
 * {
   margin: 0;
   padding: 0;
-  font-family: "Quicksand", sans-serif;
+  font-family: "Quicksand", sans-serif !important;
   box-sizing: border-box;
 }
 
@@ -10,13 +11,12 @@
   font-weight: bold;
   font-size: 28px;
 }
-
 body {
   min-height: 90vh;
   min-width: 90vw;
 }
 
-.location_table {
+.report_table {
   background-color: #fff5;
   backdrop-filter: blur(7px);
   box-shadow: 0 0.4rem 0.8rem #0005;
@@ -73,30 +73,41 @@ body {
   outline: none;
 }
 
-.form-select {
-  margin: 0 10px;
+.tab-bar {
+  display: flex;
+  gap: 10px;
+  padding: 0 !important;
+  justify-content: flex-start;
+  align-items: last baseline;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  transition: all 0.3s ease-in-out;
 }
 
-#info-ad-location td,
-#info-ad-location th {
+.tab-bar button {
+  background-color: transparent;
+  color: black;
+  padding: 8px;
+  border-radius: 10px 10px 0px 0px;
+  box-shadow: 0px 0px 50px 3px rgba(1, 1, 1, 0.1);
   border: none;
+  width: 15%;
+  font-size: 80%;
+  font-family: "Quicksand", sans-serif;
 }
 
-.offcanvas {
-  border-top-left-radius: 13px;
-  border-bottom-left-radius: 13px;
-}
-
-.open-popup {
-  visibility: visible;
-  top: 20%;
-  left: 0;
-  transform: translate(-50%, -50%) scale(1);
+.tab-btn-active {
+  color: white !important;
+  background-color: #262058 !important;
+  transition: all 0.2s ease-in allow-discrete;
+  font-weight: bold;
+  font-size: 100%;
 }
 
 .table__body {
   width: 98%;
-  max-height: calc(89% - 1.6rem);
+  height: calc(89% - 1.6rem);
+
   background-color: #fffb;
 
   margin: 0.8rem auto;
@@ -122,9 +133,12 @@ body {
   visibility: visible;
 }
 
+table {
+  width: 100%;
+}
 table,
 th,
-td {
+td:not(:last-child) {
   border-collapse: collapse;
   padding: 0.4rem 1.3rem;
   text-align: center;
@@ -138,17 +152,11 @@ thead th {
   color: white;
 }
 
-tbody tr:nth-child(even) {
-  background-color: #0000000b;
-}
-
 tbody tr {
   --delay: 0.1s;
   transition: 0.5s ease-in-out var(--delay), background-color 0s;
 }
-table {
-  width: 100%;
-}
+
 tbody tr.hide {
   opacity: 0;
   transform: translateX(100%);
@@ -166,22 +174,9 @@ tbody tr:hover {
   width: 8rem;
 }
 
-.status.delivered {
-  background-color: #86e49d;
-  color: #006b21;
-}
-
-.status.cancelled {
-  background-color: #d893a3;
-  color: #b30021;
-}
-
-.status.pending {
-  background-color: #ebc474;
-}
-
-.status.shipped {
-  background-color: #6fcaea;
+thead th.active,
+tbody td.active {
+  color: #6c00bd;
 }
 
 @media (max-width: 1000px) {
@@ -189,12 +184,6 @@ tbody tr:hover {
     min-width: 12.1rem;
   }
 }
-
-thead th.active,
-tbody td.active {
-  color: #6c00bd;
-}
-
 .last-cell {
   display: flex;
   flex-direction: row;
@@ -204,4 +193,42 @@ tbody td.active {
 
 .last-cell i {
   cursor: pointer;
+}
+
+.status {
+  padding: 0.4rem 0;
+  border-radius: 4px;
+  text-align: center;
+  margin: 10px;
+  width: 8rem;
+}
+.status.solved {
+  background-color: #86e49d;
+  color: #006b21;
+}
+
+.status.unsolved {
+  background-color: #d893a3;
+  color: #b30021;
+}
+
+.filter_btn {
+  background-color: transparent;
+  border: none !important;
+  font-size: small !important;
+  color: white !important;
+  font-weight: bold !important;
+}
+
+.dropdown-item {
+  font-size: small;
+  width: fit-content !important;
+}
+
+.extra {
+  display: none;
+}
+
+.expand_row {
+  height: 100px;
 }
