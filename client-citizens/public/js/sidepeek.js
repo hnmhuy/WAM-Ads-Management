@@ -72,4 +72,34 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// ------ CAPTCHA ---------
+// ------ SEARCHBAR ---------
+
+// document.querySelector('.icon-searchbar').addEventListener('mouseover', () => {
+//   document.querySelector('.searchbar').style.maxWidth = '100%';
+// });
+
+// document.querySelector('.icon-searchbar').addEventListener('mouseout', () => {
+//   document.querySelector('.searchbar').style.maxWidth = '0%';
+// });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const iconSearchBar = document.querySelector(
+    '.searchbar-box .icon-searchbar:first-child'
+  );
+  const searchBar = document.querySelector('.searchbar');
+  const iconCloseSearch = document.querySelector('.searchbar-box .bi-x');
+
+  iconSearchBar.addEventListener('click', () => {
+    searchBar.style.paddingRight = '2.8rem';
+    searchBar.style.maxWidth = '100%';
+    iconCloseSearch.style.display = 'block';
+    iconSearchBar.style.display = 'none';
+  });
+
+  iconCloseSearch.addEventListener('click', () => {
+    searchBar.style.maxWidth = '';
+    iconCloseSearch.style.display = 'none';
+    iconSearchBar.style.display = 'block';
+    searchBar.style.paddingRight = '0';
+  });
+});
