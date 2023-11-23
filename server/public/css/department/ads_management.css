@@ -192,10 +192,13 @@
 }
 
 .content-detail-description div {
+    padding: 10px;
     height: 100%;
     width: 100%;
     overflow: auto;
     margin-bottom: 10px;
+    background-color: white;
+    text-align: justify;
 }
 
 #req_imgs {
