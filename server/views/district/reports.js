@@ -60,3 +60,13 @@ function handleDropdownItem(event) {
         }
     });
 }
+
+// Toggle sibling
+function toggleSibling(sibling) {
+    sibling = sibling.nextSibling;
+    while (!/tr/i.test(sibling.nodeName)) {
+        sibling = sibling.nextSibling;
+    }
+    sibling.style.display =
+        sibling.style.display == "table-row" ? "none" : "table-row";
+}

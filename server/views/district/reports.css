@@ -224,3 +224,11 @@ tbody td.active {
   font-size: small;
   width: fit-content !important;
 }
+
+.extra {
+  display: none;
+}
+
+.expand_row {
+  height: 100px;
+}
