@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="/public/css/maps.css" />
     <link rel="stylesheet" href="/public/css/citizens.css" />
     <link rel="stylesheet" href="/public/css/main.css" />
+
     <script type="module" defer src="/public/js/maps.js"></script>
     <script src="/public/js/sidepeek.js"></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
@@ -35,17 +36,12 @@
     <main>
       <div class="header-citizens">
         <img src="/public/images/logo.svg" alt="Not found" />
-        <div class="search_box">
-          <div class="btn btn_common">
-            <i class="bi bi-search"></i>
+        <form action="" class="search">
+          <div class="searchbar-box">
+            <input type="search" placeholder="Search..." class="searchbar" />
+            <i class="bi bi-search icon-searchbar"></i>
           </div>
-          <input
-            type="text"
-            class="search-input"
-            style="display: block"
-            placeholder="search..."
-          />
-        </div>
+        </form>
       </div>
       <div
         class="map-container"

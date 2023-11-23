@@ -4,7 +4,7 @@
   margin: 0;
 }
 
-form {
+.feedback-form {
   background-color: #fff;
   border-radius: 12px;
   width: 58rem;
@@ -55,7 +55,7 @@ form .form-header {
   width: calc(100% - 7px);
 }
 
-form input {
+.feedback-form input {
   width: calc(100% - 7px) !important;
   height: 40px;
 }
