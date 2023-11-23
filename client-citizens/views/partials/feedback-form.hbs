@@ -1,4 +1,4 @@
-<form method="POST" class="hidden">
+<form method="POST" class="feedback-form hidden">
   <div class="form-header">
     <h2 class="form-name">Đơn phản ánh</h2>
     <i class="bi bi-x-circle"></i>
@@ -59,7 +59,7 @@
     document
       .querySelector('form .bi-x-circle')
       .addEventListener('click', () => {
-        document.querySelector('form').classList.add('hidden');
+        document.querySelector('.feedback-form').classList.add('hidden');
         document.querySelector('.overlay').classList.add('hidden');
       });
   });
