@@ -1,0 +1,498 @@
+{
+  "id": "available-location-report-table",
+  "heading": [
+    "Quận",
+    "Phường",
+    "Địa chỉ",
+    "Mã báo cáo",
+    "Hình thức",
+    "Trạng thái"
+  ],
+  "data-row": [
+    {
+      "district": "Quận 1",
+      "id": "MBC10001",
+      "is_random": true,
+      "address": {
+        "ward_id": "bennghe",
+        "ward": "Bến Nghé",
+        "street": "45 Nguyễn Trung Ngạn"
+      },
+      "type": "Tố giác tội phạm",
+      "status": {
+        "status_id": "solved",
+        "status_name": "Đã giải quyết"
+      },
+      "image_path": [
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765"
+      ],
+      "phone": "011111111",
+      "email": "abc@xyz.hcmus"
+    },
+    {
+      "district": "Quận 1",
+      "id": "MBC10001",
+      "is_random": true,
+      "address": {
+        "ward_id": "benthanh",
+        "ward": "Bến Thành",
+        "street": "12 Nguyễn Trung Ngạn"
+      },
+      "type": "Tố giác tội phạm",
+      "status": {
+        "status_id": "unsolved",
+        "status_name": "Chưa giải quyết"
+      },
+      "image_path": [
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765"
+      ],
+      "phone": "011111111",
+      "email": "abc@xyz.hcmus"
+    },
+    {
+      "district": "Quận 1",
+      "id": "MBC10001",
+      "is_random": true,
+      "address": {
+        "ward_id": "benthanh",
+        "ward": "Bến Thành",
+        "street": "47 Nguyễn Trung Ngạn"
+      },
+      "type": "Tố giác tội phạm",
+      "status": {
+        "status_id": "unsolved",
+        "status_name": "Chưa giải quyết"
+      },
+      "image_path": [
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765"
+      ],
+      "phone": "011111111",
+      "email": "abc@xyz.hcmus"
+    },
+    {
+      "district": "Quận 1",
+      "id": "MBC10001",
+      "is_random": true,
+      "address": {
+        "ward_id": "bennghe",
+        "ward": "Bến Nghé",
+        "street": "12 Nguyễn Trung Ngạn"
+      },
+      "status": {
+        "status_id": "unsolved",
+        "status_name": "Chưa giải quyết"
+      },
+      "type": "Tố giác tội phạm",
+      "image_path": [
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765"
+      ],
+      "phone": "011111111",
+      "email": "abc@xyz.hcmus"
+    },
+    {
+      "district": "Quận 1",
+      "id": "MBC10001",
+      "is_random": true,
+      "address": {
+        "ward_id": "benthanh",
+        "ward": "Bến Thành",
+        "street": "12 Nguyễn Trung Ngạn"
+      },
+      "status": {
+        "status_id": "unsolved",
+        "status_name": "Chưa giải quyết"
+      },
+      "type": "Tố giác tội phạm",
+      "image_path": [
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765"
+      ],
+      "phone": "011111111",
+      "email": "abc@xyz.hcmus"
+    },
+    {
+      "district": "Quận 1",
+      "id": "MBC10001",
+      "is_random": true,
+      "address": {
+        "ward_id": "benthanh",
+        "ward": "Bến Thành",
+        "street": "47 Nguyễn Trung Ngạn"
+      },
+      "status": {
+        "status_id": "unsolved",
+        "status_name": "Chưa giải quyết"
+      },
+      "type": "Tố giác tội phạm",
+      "image_path": [
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765"
+      ],
+      "phone": "011111111",
+      "email": "abc@xyz.hcmus"
+    },
+    {
+      "district": "Quận 1",
+      "id": "MBC10001",
+      "is_random": true,
+      "address": {
+        "ward_id": "bennghe",
+        "ward": "Bến Nghé",
+        "street": "12 Nguyễn Trung Ngạn"
+      },
+      "status": {
+        "status_id": "unsolved",
+        "status_name": "Chưa giải quyết"
+      },
+      "type": "Tố giác tội phạm",
+      "image_path": [
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765"
+      ],
+      "phone": "011111111",
+      "email": "abc@xyz.hcmus"
+    },
+    {
+      "district": "Quận 1",
+      "id": "MBC10001",
+      "is_random": true,
+      "address": {
+        "ward_id": "benthanh",
+        "ward": "Bến Thành",
+        "street": "12 Nguyễn Trung Ngạn"
+      },
+      "status": {
+        "status_id": "unsolved",
+        "status_name": "Chưa giải quyết"
+      },
+      "type": "Tố giác tội phạm",
+      "image_path": [
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765"
+      ],
+      "phone": "011111111",
+      "email": "abc@xyz.hcmus"
+    },
+    {
+      "district": "Quận 1",
+      "id": "MBC10001",
+      "is_random": true,
+      "address": {
+        "ward_id": "benthanh",
+        "ward": "Bến Thành",
+        "street": "47 Nguyễn Trung Ngạn"
+      },
+      "status": {
+        "status_id": "unsolved",
+        "status_name": "Chưa giải quyết"
+      },
+      "type": "Tố giác tội phạm",
+      "image_path": [
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765"
+      ],
+      "phone": "011111111",
+      "email": "abc@xyz.hcmus"
+    },
+    {
+      "district": "Quận 1",
+      "id": "MBC10001",
+      "is_random": true,
+      "address": {
+        "ward_id": "bennghe",
+        "ward": "Bến Nghé",
+        "street": "12 Nguyễn Trung Ngạn"
+      },
+      "status": {
+        "status_id": "unsolved",
+        "status_name": "Chưa giải quyết"
+      },
+      "type": "Tố giác tội phạm",
+      "image_path": [
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765"
+      ],
+      "phone": "011111111",
+      "email": "abc@xyz.hcmus"
+    },
+    {
+      "district": "Quận 1",
+      "id": "MBC10001",
+      "is_random": true,
+      "address": {
+        "ward_id": "benthanh",
+        "ward": "Bến Thành",
+        "street": "12 Nguyễn Trung Ngạn"
+      },
+      "status": {
+        "status_id": "unsolved",
+        "status_name": "Chưa giải quyết"
+      },
+      "type": "Tố giác tội phạm",
+      "image_path": [
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765"
+      ],
+      "phone": "011111111",
+      "email": "abc@xyz.hcmus"
+    },
+    {
+      "district": "Quận 1",
+      "id": "MBC10001",
+      "is_random": true,
+      "address": {
+        "ward_id": "bennghe",
+        "ward": "Bến Nghé",
+        "street": "45 Nguyễn Trung Ngạn"
+      },
+      "status": {
+        "status_id": "solved",
+        "status_name": "Đã giải quyết"
+      },
+      "type": "Tố giác tội phạm",
+      "image_path": [
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765"
+      ],
+      "phone": "011111111",
+      "email": "abc@xyz.hcmus"
+    },
+    {
+      "district": "Quận 1",
+      "id": "MBC10001",
+      "is_random": true,
+      "address": {
+        "ward_id": "benthanh",
+        "ward": "Bến Thành",
+        "street": "12 Nguyễn Trung Ngạn"
+      },
+      "status": {
+        "status_id": "unsolved",
+        "status_name": "Chưa giải quyết"
+      },
+      "type": "Tố giác tội phạm",
+      "image_path": [
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765"
+      ],
+      "phone": "011111111",
+      "email": "abc@xyz.hcmus"
+    },
+
+    {
+      "district": "Quận 1",
+      "id": "MBC10001",
+      "is_random": true,
+      "address": {
+        "ward_id": "benthanh",
+        "ward": "Bến Thành",
+        "street": "47 Nguyễn Trung Ngạn"
+      },
+      "type": "Tố giác tội phạm",
+      "status": {
+        "status_id": "unsolved",
+        "status_name": "Chưa giải quyết"
+      },
+      "image_path": [
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765"
+      ],
+      "phone": "011111111",
+      "email": "abc@xyz.hcmus"
+    },
+    {
+      "district": "Quận 1",
+      "id": "MBC10001",
+      "is_random": true,
+      "address": {
+        "ward_id": "bennghe",
+        "ward": "Bến Nghé",
+        "street": "12 Nguyễn Trung Ngạn"
+      },
+      "status": {
+        "status_id": "unsolved",
+        "status_name": "Chưa giải quyết"
+      },
+      "type": "Tố giác tội phạm",
+      "image_path": [
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765"
+      ],
+      "phone": "011111111",
+      "email": "abc@xyz.hcmus"
+    },
+    {
+      "district": "Quận 1",
+      "id": "MBC10001",
+      "is_random": true,
+      "address": {
+        "ward_id": "benthanh",
+        "ward": "Bến Thành",
+        "street": "12 Nguyễn Trung Ngạn"
+      },
+      "type": "Tố giác tội phạm",
+      "status": {
+        "status_id": "unsolved",
+        "status_name": "Chưa giải quyết"
+      },
+      "image_path": [
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765"
+      ],
+      "phone": "011111111",
+      "email": "abc@xyz.hcmus"
+    },
+    {
+      "district": "Quận 1",
+      "id": "MBC10001",
+      "is_random": true,
+      "address": {
+        "ward_id": "benthanh",
+        "ward": "Bến Thành",
+        "street": "47 Nguyễn Trung Ngạn"
+      },
+      "type": "Tố giác tội phạm",
+      "status": {
+        "status_id": "unsolved",
+        "status_name": "Chưa giải quyết"
+      },
+      "image_path": [
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765"
+      ],
+      "phone": "011111111",
+      "email": "abc@xyz.hcmus"
+    },
+    {
+      "district": "Quận 1",
+      "id": "MBC10001",
+      "is_random": true,
+      "address": {
+        "ward_id": "bennghe",
+        "ward": "Bến Nghé",
+        "street": "12 Nguyễn Trung Ngạn"
+      },
+      "type": "Tố giác tội phạm",
+      "status": {
+        "status_id": "unsolved",
+        "status_name": "Chưa giải quyết"
+      },
+      "image_path": [
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765"
+      ],
+      "phone": "011111111",
+      "email": "abc@xyz.hcmus"
+    },
+    {
+      "district": "Quận 1",
+      "id": "MBC10001",
+      "is_random": true,
+      "address": {
+        "ward_id": "benthanh",
+        "ward": "Bến Thành",
+        "street": "12 Nguyễn Trung Ngạn"
+      },
+      "type": "Tố giác tội phạm",
+      "status": {
+        "status_id": "unsolved",
+        "status_name": "Chưa giải quyết"
+      },
+      "image_path": [
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765"
+      ],
+      "phone": "011111111",
+      "email": "abc@xyz.hcmus"
+    },
+    {
+      "district": "Quận 1",
+      "id": "MBC10001",
+      "is_random": true,
+      "address": {
+        "ward_id": "benthanh",
+        "ward": "Bến Thành",
+        "street": "47 Nguyễn Trung Ngạn"
+      },
+      "type": "Tố giác tội phạm",
+      "status": {
+        "status_id": "unsolved",
+        "status_name": "Chưa giải quyết"
+      },
+      "image_path": [
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765"
+      ],
+      "phone": "011111111",
+      "email": "abc@xyz.hcmus"
+    },
+    {
+      "district": "Quận 1",
+      "id": "MBC10001",
+      "is_random": true,
+      "address": {
+        "ward_id": "bennghe",
+        "ward": "Bến Nghé",
+        "street": "12 Nguyễn Trung Ngạn"
+      },
+      "status": {
+        "status_id": "unsolved",
+        "status_name": "Chưa giải quyết"
+      },
+      "type": "Tố giác tội phạm",
+      "image_path": [
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765"
+      ],
+      "phone": "011111111",
+      "email": "abc@xyz.hcmus"
+    },
+    {
+      "district": "Quận 1",
+      "id": "MBC10001",
+      "is_random": true,
+      "address": {
+        "ward_id": "benthanh",
+        "ward": "Bến Thành",
+        "street": "12 Nguyễn Trung Ngạn"
+      },
+      "status": {
+        "status_id": "unsolved",
+        "status_name": "Chưa giải quyết"
+      },
+      "type": "Tố giác tội phạm",
+      "image_path": [
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765",
+        "https://tinyurl.com/2af3w765"
+      ],
+      "phone": "011111111",
+      "email": "abc@xyz.hcmus"
+    }
+  ]
+}

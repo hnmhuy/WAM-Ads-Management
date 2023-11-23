@@ -194,17 +194,15 @@ function buildMarkerContent(item) {
         container.innerHTML = `
             <div class="detail-ad hidden">
                 <div class="detail-ad-title">${properties.purpose}
-                    <div class="detail-ad-number-report">${
-                        properties.number_feedback
-                    }</div>
+                    <div class="detail-ad-number-report">${properties.number_feedback
+            }</div>
                 </div>
                 <hr>
                 <div class="detail-ad-info">
                     <p>${properties.address}</p>
                     <p><b>Phân loại: </b> ${properties.type_of_ad}</p>
-                    <div class="detail-ad-status">${
-                        properties.status_text
-                    }</div>
+                    <div class="detail-ad-status">${properties.status_text
+            }</div>
                 </div>
             </div>
             <div class="icon-ad">${properties.status ? "QC" : ""}</div>

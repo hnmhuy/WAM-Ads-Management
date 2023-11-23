@@ -1,31 +1,31 @@
 <div>
-<div class="container mt-5" style="padding-left: 5%">
-<h2>{{name}}</h2> 
-<hr>
-<div class="toolbar">
-        <form class="col-lg-4 mb-3 mb-lg-0 me-lg-3" role="search" onsubmit="event.preventDefault();">
-            <input type="search" class="form-control" placeholder="Search..." id='keyword' aria-label="Search" oninput="search(this.value)" required>
-        </form>
-        <select id="typeSelect" class="form-select" aria-label="Default select example" onchange="filterByType(this.value)">
-            <option selected>Loại Vị Trí</option>
-            <option value="1">Đất Công</option>
-            <option value="2">Hành Lang An Toàn Giao Thông</option>
-            <option value="3">Công Viên</option>
-            <option value="4">Nhà Riêng</option>
-        </select>
-        <select id="methodSelect" class="form-select" aria-label="Default select example" onchange="filterByMethod(this.value)">
-            <option selected>Mục đích</option>
-            <option value="1">Cổ Động Chính Trị</option>
-            <option value="2">Quảng Cáo Thương Mại</option>
-            <option value="3">Xã Hội Hoá</option>
-        </select>
-        <select id="statusSelect" class="form-select" aria-label="Default select example" onchange="filterByStatus(this.value)">
-            <option selected>Trạng Thái</option>
-            <option value="1">Đã Quy Hoạch</option>
-            <option value="2">Chưa Quy Hoạch</option>
-        </select>
-    </div>
-    <hr>
+  <div class="container mt-5" style="padding-left: 5%">
+  <h2>{{name}}</h2> 
+  <hr>
+  <div class="toolbar">
+    <form class="col-lg-4 mb-3 mb-lg-0 me-lg-3" role="search" onsubmit="event.preventDefault();">
+      <input type="search" class="form-control" placeholder="Search..." id='keyword' aria-label="Search" oninput="search(this.value)" required>
+    </form>
+    <select id="typeSelect" class="form-select" aria-label="Default select example" onchange="filterByType(this.value)">
+      <option selected>Loại Vị Trí</option>
+      <option value="1">Đất Công</option>
+      <option value="2">Hành Lang An Toàn Giao Thông</option>
+      <option value="3">Công Viên</option>
+      <option value="4">Nhà Riêng</option>
+    </select>
+    <select id="methodSelect" class="form-select" aria-label="Default select example" onchange="filterByMethod(this.value)">
+      <option selected>Mục đích</option>
+      <option value="1">Cổ Động Chính Trị</option>
+      <option value="2">Quảng Cáo Thương Mại</option>
+      <option value="3">Xã Hội Hoá</option>
+    </select>
+    <select id="statusSelect" class="form-select" aria-label="Default select example" onchange="filterByStatus(this.value)">
+      <option selected>Trạng Thái</option>
+      <option value="1">Đã Quy Hoạch</option>
+      <option value="2">Chưa Quy Hoạch</option>
+    </select>
+  </div>
+  <hr>
 
   <table class="table table-striped table-hover table-bordered rounded-table">
     <thead>
@@ -39,10 +39,9 @@
       {{#each row}}
         {{> row}}
       {{/each}}
-
     </tbody>
   </table>
-</div>
+  </div>
 </div>
 
 
@@ -65,7 +64,6 @@
     }
   });
 }
-
 </script>
 
 <script

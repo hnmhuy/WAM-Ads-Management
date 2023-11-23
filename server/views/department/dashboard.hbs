@@ -6,9 +6,7 @@
         <div class="report-card">
             <p>Số lượng phản ánh</p>
             <div class="report-card-amount">1,345</div>
-            <div class="percent" style="
-                                    background-color: var(--report-card-down);
-                                ">
+            <div class="percent" style="background-color: var(--report-card-down);">
                 <img src="/public/images/down-arrow.svg" alt="arrow-up" />
                 <p>5%</p>
             </div>
@@ -24,11 +22,7 @@
         <div class="report-card">
             <p>Số lượng phản ánh</p>
             <div class="report-card-amount">1,345</div>
-            <div class="percent" style="
-                                    background-color: var(
-                                        --report-card-noChange
-                                    );
-                                ">
+            <div class="percent" style="background-color: var(--report-card-noChange);">
                 <img src="/public/images/noChange-arrow.svg" alt="arrow-up" />
                 <p>5%</p>
             </div>
@@ -109,8 +103,8 @@
                     <div class="percentage-text">65%</div>
                 </div>
             </div>
-            
-            
+
+
             <div class="detail">
                 <div class="detail-amount">
                     <p style="color: rrgb(207, 149, 19);">Tố cáo sai phạm</p>
@@ -123,7 +117,7 @@
                     <div class="percentage-text">65%</div>
                 </div>
             </div>
-            
+
             <div class="detail">
                 <div class="detail-amount">
                     <p style="color: rrgb(207, 149, 19);">Tố cáo sai phạm</p>
@@ -151,45 +145,4 @@
             </div>
     </div>
 </div>
-<script>
-    const ctx = document.getElementById("chart");
-
-    new Chart(ctx, {
-        type: "doughnut",
-        data: {
-            labels: [
-                "Đóng góp ý kiến",
-                "Giải đáp thắc mắc",
-                "Đăng ký thông tin",
-                "Tố cáo sai phạm",
-            ],
-            datasets: [
-                {
-                    label: "Phần trăm",
-                    data: [29, 25, 31, 15],
-                    backgroundColor: [
-                        "rgb(38, 32, 88)",
-                        "rgb(79, 62, 215)",
-                        "rgb(183, 203, 191)",
-                        "rgb(207, 149, 19)",
-                    ],
-                    hoverOffset: 4,
-                },
-            ],
-        },
-        options: {
-            responsive: false,
-            borderJoinStyle: "round",
-            borderRadius: 10,
-            hoverBorderWidth: 8,
-            borderWidth: 5,
-            plugins: {
-                legend: false,
-            },
-            animation: {
-                animateScale: true,
-                animateRotate: true,
-            },
-        },
-    });
-</script>
+<script src="/public/js/department/dashboard_ui_controller.js"></script>

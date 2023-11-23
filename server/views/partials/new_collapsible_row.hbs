@@ -28,7 +28,7 @@
                             </div>
                         </td>
                     {{/if}}
-                    <td class="extend-btn">
+                    <td class="extend-btn" style="text-align: right;">
                         <button
                             id="collapse-btn"
                             class="btn"
@@ -45,6 +45,9 @@
             </table>
             <div class="collapse" id="{{id}}" style="width: 100%;">
                 <div class="collapsed-content">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
                     Still coding...
                 </div>
             </div>
