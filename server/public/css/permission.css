@@ -6,6 +6,112 @@
   box-sizing: border-box;
 }
 
+.wrapper form {
+  height: 167px;
+  display: flex;
+  cursor: pointer;
+  margin: 30px 0;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 5px;
+  border: 2px dashed rgba(0, 0, 0, 0.3);
+}
+
+.wrapper form :where(i, p) {
+  color: #000000;
+}
+
+.wrapper form i {
+  font-size: 50px;
+  color: #0e6793;
+}
+
+.wrapper form p {
+  margin-top: 15px;
+  font-size: 16px;
+}
+
+section .row {
+  margin-bottom: 10px;
+  background: #e9f0ff;
+  list-style: none;
+  padding: 15px 20px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+section .row i {
+  color: #6990f2;
+  font-size: 30px;
+}
+
+section .details span {
+  font-size: 14px;
+}
+
+.progress-area .row .content {
+  width: 100%;
+  margin-left: 15px;
+}
+
+.progress-area .details {
+  display: flex;
+  align-items: center;
+  margin-bottom: 7px;
+  justify-content: space-between;
+}
+
+.progress-area .content .progress-bar {
+  height: 6px;
+  width: 100%;
+  margin-bottom: 4px;
+  background: #fff;
+  border-radius: 30px;
+}
+
+.content .progress-bar .progress {
+  height: 100%;
+  width: 0%;
+  background: #6990f2;
+  border-radius: inherit;
+}
+
+.uploaded-area {
+  max-height: 232px;
+  overflow-y: scroll;
+}
+
+.uploaded-area.onprogress {
+  max-height: 150px;
+}
+
+.uploaded-area::-webkit-scrollbar {
+  width: 0px;
+}
+
+.uploaded-area .row .content {
+  display: flex;
+  align-items: center;
+}
+
+.uploaded-area .row .details {
+  display: flex;
+  margin-left: 15px;
+  flex-direction: column;
+}
+
+.uploaded-area .row .details .size {
+  color: #404040;
+  font-size: 11px;
+}
+
+.uploaded-area i.bi-check {
+  font-size: 16px;
+}
+
 hr {
   border-style: solid none none;
   color: rgba(0, 0, 0, 0.3) !important;
@@ -180,10 +286,10 @@ tbody tr:hover {
 }
 
 .status {
-  padding: 0.4rem 0;
+  padding: 0.4rem 1rem;
   border-radius: 4px;
   text-align: center;
-  margin: 10px;
+  margin: 10px 0px 10px 40px;
   width: 8rem;
 }
 
@@ -232,7 +338,7 @@ tbody td.active {
   padding: 3px;
 }
 
-#popup-parent{
+#popup-parent_{
   position: fixed;
   top: 0;
   left: 0;
@@ -246,7 +352,7 @@ tbody td.active {
   align-items: center;
 }
 
-#form-img{
+#form-img_{
   position: fixed;
   width: 100px;
   top: 10%;
@@ -259,7 +365,53 @@ tbody td.active {
   visibility: hidden;
 }
 
-.popup{
+.popup_{
+  width: 40%;
+  height: 80%;
+  position: absolute;
+  background-color: #fff;
+  border-radius: 6px;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.1);
+  padding: 0 30px 30px;
+  color: #333;
+  text-align: center;
+  z-index: 10;
+  transition: transform 0.4s, top 0.4s;
+  visibility: hidden;
+  overflow: scroll;
+}
+
+#popup-parent {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  visibility: hidden;
+  justify-content: center;
+  align-items: center;
+}
+
+#form-img {
+  position: fixed;
+  width: 100px;
+  top: 10%;
+  left: 50%;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, alpha);
+  z-index: 11;
+  transition: transform 0.4s, top 0.4s;
+  transform: translate(-50%, -50%) scale(0.1);
+  visibility: hidden;
+}
+
+.popup {
   width: 40%;
   height: 80%;
   position: absolute;
