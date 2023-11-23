@@ -5,7 +5,6 @@
 }
 
 .feedbackDetail-float {
-
   /* display: none; */
   left: 27rem !important;
 }
@@ -29,7 +28,7 @@
   position: -webkit-sticky; /* Safari */
   position: sticky;
   background-color: #f9fafd;
-  z-index: 1;
+  z-index: 2;
   padding: 0.75rem 0.6rem 0.5rem 0.6rem;
   border-bottom: 0.5px solid #4f3ed7;
 }
@@ -70,4 +69,29 @@
 .feedbackDetail-container {
   scrollbar-width: thin; /* For Firefox */
   -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+
+@media (max-width: 914px) {
+  .feedbackDetail-container {
+    width: 100%;
+    height: 75%;
+    background-color: #f9fafd;
+    overflow: auto;
+    position: absolute;
+    top: 25%;
+    left: 0;
+    border-top-right-radius: 12px;
+    box-shadow: 0 1rem 2rem hsl(0 0% 0% / 50%);
+  }
+  .feedbackDetail-container .header {
+    padding: 0.7rem 0.6rem 0.5rem 0.6rem;
+    top: -1px;
+  }
+  .feedbackDetail-float {
+    /* display: none; */
+    top: calc(25% + 10px);
+    left: 0px !important;
+    z-index: 2;
+    height: calc(75% - 10px) !important;
+  }
 }

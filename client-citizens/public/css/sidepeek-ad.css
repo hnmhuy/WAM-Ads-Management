@@ -14,7 +14,6 @@
 .float {
   height: calc(100vh - 5.5rem);
   border-radius: 12px;
-
   /* display: none; */
   top: 4.5rem;
   left: 1.5rem;
@@ -38,7 +37,7 @@
   position: sticky;
   background-color: #f9fafd;
   top: 0;
-  z-index: 1;
+  z-index: 2;
   padding: 0.75rem 0.6rem 0.5rem 0.6rem;
 }
 .area-icon h3 {
@@ -139,4 +138,21 @@
 #location-feedback,
 #show-location-feedback {
   width: 100%;
+}
+
+@media (max-width: 914px) {
+  .sidepeek-container {
+    width: 100%;
+    height: 75%;
+    background-color: #f9fafd;
+    overflow: auto;
+    position: absolute;
+    top: 25%;
+    left: 0;
+    border-top-right-radius: 12px;
+  }
+  .area-icon {
+    padding: 0.7rem 0.6rem 0.5rem 0.6rem;
+    top: -1px;
+  }
 }

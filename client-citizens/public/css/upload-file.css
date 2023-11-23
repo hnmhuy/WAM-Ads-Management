@@ -21,7 +21,7 @@
 
 .drop_box h4 {
   margin: 0;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
   color: #2e2e2e;
 }
@@ -29,7 +29,7 @@
 .drop_box p {
   margin-top: 10px;
   margin-bottom: 10px;
-  font-size: 12px;
+  font-size: 10px;
   color: #a3a3a3;
 }
 
@@ -41,6 +41,7 @@
   border: none;
   outline: none;
   transition: 0.3s;
+  font: 100px !important;
 }
 
 .btn:hover {
