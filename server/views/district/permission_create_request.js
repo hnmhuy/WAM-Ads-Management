@@ -72,12 +72,11 @@ function uploadFile(name) {
 let popup_ = document.getElementById("location-popup")
 let img_ = document.getElementById("form-img")
 let submit_ = document.getElementById("submit-request")
-console.log(img_);
 let popup_parent_ = document.getElementById("popup-parent")
 let close_btn_ = document.getElementById("close-edit-request")
 let originalStyles_ = {}
 let originalImg_ = {}
-popup_parent_.addEventListener('click', ()=>{
+popup_parent_.addEventListener('click', (event)=>{
     if(event.target.id === 'popup-parent') {
         if(confirm('Bạn muốn thoát khỏi biểu mẫu?'))
             hidePopup();
