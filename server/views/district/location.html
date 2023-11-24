@@ -26,10 +26,8 @@
   <body>
     <div class="sidebar">
       <div class="logo-details">
-        <form action="#" method="pos">
-          <img src="../../public/images/logo.svg" alt="logo" class="logo-web" />
-          <div class="logo_name" style="font-weight: bold">WAM</div>
-        </form>
+        <img src="../../public/images/logo.svg" alt="logo" class="logo-web" />
+        <div class="logo_name" style="font-weight: bold">WAM</div>
       </div>
       <ul class="nav-list">
         <li>
@@ -77,8 +75,12 @@
       <section class="table__header">
         <h2 class="table_heading">Quản lý điểm đặt</h2>
         <div class="input_group">
-          <img src="../../public/images/search.png" alt="" />
-          <input type="search" placeholder="Search..." />
+          <form action="#" method="post" id="search_functionality">
+            <div class="d-flex justify-content-end align-items-center">
+              <img src="../../public/images/search.png" alt="" />
+              <input id="input-search-hehe" type="search" placeholder="Search..." />
+            </div>
+          </form>
         </div>
       </section>
       <!-- Table head -->
@@ -834,248 +836,162 @@
         </table>
       </section>
     </div>
-<div class="offcanvas offcanvas-end p-2" tabindex="-1" id="offcanvasRight" style="width: 55%"
-  aria-labelledby="offcanvasRightLabel">
-  <div class="offcanvas-header py-2">
-    <h4 id="offcanvasRightLabel" style="font-weight: bold; margin:0;">Thông tin chi tiết</h4>
-    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <hr style="margin: 0 15px;" />
-  <div class="offcanvas-body">
-    <div class="fluid-container mb-3">
-      <div class="row">
-        <div class="col-5">
-          <div id="myCarousel" class="carousel slide mb-6" style="border-radius: 10px; overflow: hidden;"
-            data-bs-ride="carousel">
-            <div class="carousel-indicators">
-              <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true"
-                aria-label="Slide 1"></button>
-              <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-              <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-            </div>
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img src="../../public/images/location3.png" class="h-100 w-100" alt="">
+    <div class="offcanvas offcanvas-end p-2" tabindex="-1" id="offcanvasRight" style="width: 55%"
+      aria-labelledby="offcanvasRightLabel">
+      <div class="offcanvas-header py-2">
+        <h4 id="offcanvasRightLabel" style="font-weight: bold; margin:0;">Thông tin chi tiết</h4>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <hr style="margin: 0 15px;" />
+      <div class="offcanvas-body">
+        <div class="fluid-container mb-3">
+          <div class="row">
+            <div class="col-5">
+              <div id="myCarousel" class="carousel slide mb-6" style="border-radius: 10px; overflow: hidden;"
+                data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                  <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true"
+                    aria-label="Slide 1"></button>
+                  <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                  <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <img src="../../public/images/location3.png" class="h-100 w-100" alt="">
 
-              </div>
-              <div class="carousel-item">
-                <img src="../../public/images/location1.png" class="h-100 w-100" alt="">
-              </div>
-              <div class="carousel-item">
-                <img src="../../public/images/location2.png" class="h-100 w-100" alt="">
-              </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
-          </div>
-        </div>
-
-        <div class="col-7">
-          <table id="info-ad-location" class="table" id="inf-table">
-            <tr>
-              <th class="table-cell-offcanvas"><i class="bi bi-geo-alt"> Địa chỉ</i></th>
-              <td class="table-cell-offcanvas">47, Đ. Điện Biên Phủ, P. Đa Kao, Quận 1</td>
-            </tr>
-            <tr>
-              <th class="table-cell-offcanvas"><i class="bi bi-hash"></i> Số lượng</th>
-              <td class="table-cell-offcanvas">2 bảng/điểm</td>
-            </tr>
-            <tr>
-              <th class="table-cell-offcanvas"><i class="bi bi-tag"></i> Loại vị trí</th>
-              <td class="table-cell-offcanvas">Nhà riêng</td>
-            </tr>
-            <tr>
-              <th class="table-cell-offcanvas"><i class="bi bi-activity"></i> Trạng thái</th>
-              <td class="table-cell-offcanvas">Chưa quy hoạch</td>
-            </tr>
-            <tr>
-              <th class="table-cell-offcanvas"><i class="bi bi-bullseye"></i> Mục đích</th>
-              <td class="table-cell-offcanvas">Thương mại</td>
-            </tr>
-            <tr>
-              <th class="table-cell-offcanvas"><i class="bi bi-boxes"></i> Loại bảng</th>
-              <td class="table-cell-offcanvas">2 bảng/điểm</td>
-            </tr>
-          </table>
-          <div class="d-flex justify-content-end w-100 align-item-">
-            <div class="btn btn-outline-secondary" onclick="showPopup()">
-              <i class="bi bi-pencil-square"></i> Yêu cầu chỉnh sửa
-            </div>
-            <div id="popup-parent">
-              <img id="form-img" src="../../public/images/form.png" alt="">
-              <div class="popup" id="location-popup">
-                <h2 style="margin-top: 60px; ">Yêu cầu chỉnh sửa</h2>
-                <button style="position:fixed; right: 10px; top:10px;" type="button" class="btn-close"
-                  onclick="hidePopup()" id="close-edit-request">
+                  </div>
+                  <div class="carousel-item">
+                    <img src="../../public/images/location1.png" class="h-100 w-100" alt="">
+                  </div>
+                  <div class="carousel-item">
+                    <img src="../../public/images/location2.png" class="h-100 w-100" alt="">
+                  </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
                 </button>
-                <hr>
-                <p style="text-align: left; font-weight: bold;">Tên người gửi</p>
-                <input type="text" class="form-control" placeholder="Tên người gửi">
-                <p style="text-align: left; font-weight: bold; margin-top:25px;">Quận</p>
-                <select style="margin:0;" id="typeSelect" class="form-select" aria-label="Default select example"
-                  onchange="filterByType(this.value)">
-                  <option selected>Quận</option>
-                  <option value="1">Quận 1</option>
-                  <option value="1">Quận 2</option>
-                  <option value="1">Quận 3</option>
-                  <option value="1">Quận 4</option>
-                  <option value="1">Quận 5</option>
-                  <option value="1">Quận 6</option>
-                  <option value="1">Quận 7</option>
-                  <option value="1">Quận 8</option>
-                  <option value="1">Quận 10</option>
-                  <option value="1">Quận 11</option>
-                  <option value="1">Quận 12</option>
-                  <option value="1">Quận Bình Tân</option>
-                  <option value="1">Quận Bình Thạnh</option>
-                  <option value="1">Quận Gò Vấp</option>
-                  <option value="1">Quận Phú Nhuận</option>
-                  <option value="1">Quận Tân Bình</option>
-                  <option value="1">Quận Tân Phú</option>
-                  <option value="1">Quận Bình Chánh</option>
-                  <option value="1">Quận Thủ Đức</option>
-                  <option value="1">Huyện Cần Giờ</option>
-                  <option value="1">Huyện Củ Chi</option>
-                  <option value="1">Huyện Hóc Môn</option>
-                  <option value="1">Huyện Nhà Bè</option>
-                </select>
-                <p style="text-align: left; font-weight: bold; margin-top:25px;">Phường</p>
-                <select style="margin:0;" id="typeSelect" class="form-select" aria-label="Default select example"
-                  onchange="filterByType(this.value)">
-                  <option selected>Phường</option>
-                  <option value="1">Phường 1</option>
-                  <option value="1">Phường 2</option>
-                  <option value="1">Phường 3</option>
-                </select>
-                <p style="text-align: left; font-weight: bold; margin-top:25px;">Đường</p>
-                <input type="text" class="form-control" placeholder="Số, đường">
-                <p style="text-align: left; font-weight: bold; margin-top:25px;">Loại vị trí</p>
-                <select style="margin:0;" id="typeSelect" class="form-select" aria-label="Default select example"
-                  onchange="filterByType(this.value)">
-                  <option selected>Loại vị trí</option>
-                  <option value="1">Đất công/</option>
-                  <option value="1">Hành lang an toàn giao thông</option>
-                  <option value="1">Công viên</option>
-                  <option value="1">Nhà riêng</option>
-                </select>
-                <p style="text-align: left; font-weight: bold; margin-top:25px;">Mục đích</p>
-                <select style="margin:0;" id="typeSelect" class="form-select" aria-label="Default select example"
-                  onchange="filterByType(this.value)">
-                  <option selected>Mục đích</option>
-                  <option value="1">Cổ động chính trị</option>
-                  <option value="1">Quảng cáo thương mại</option>
-                  <option value="1">Xã hội hoá</option>
-                </select>
-                <p style="text-align: left; font-weight: bold; margin-top:25px;">Số lượng</p>
-                <input type="text" class="form-control" placeholder="Số lượng">
-                <p style="text-align: left; font-weight: bold; margin-top:25px;">Lý do chỉnh sửa</p>
-                <textarea style="width: 100%;" name="" id="" cols="30" rows="5"></textarea>
-                <button id="submit-request"
-                  style="width: 100%; outline: none; border:0; padding: 10px; border-radius: 5px; background-color: #262058; color: white; margin-top: 50px"
-                  onclick="hidePopup()">
-                  <h5 style="margin: 0;">Gửi yêu cầu</h5>
+                <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
                 </button>
               </div>
             </div>
+
+            <div class="col-7">
+              <table id="info-ad-location" class="table" id="inf-table">
+                <tr>
+                  <th class="table-cell-offcanvas"><i class="bi bi-geo-alt"> Địa chỉ</i></th>
+                  <td class="table-cell-offcanvas">47, Đ. Điện Biên Phủ, P. Đa Kao, Quận 1</td>
+                </tr>
+                <tr>
+                  <th class="table-cell-offcanvas"><i class="bi bi-hash"></i> Số lượng</th>
+                  <td class="table-cell-offcanvas">2 bảng/điểm</td>
+                </tr>
+                <tr>
+                  <th class="table-cell-offcanvas"><i class="bi bi-tag"></i> Loại vị trí</th>
+                  <td class="table-cell-offcanvas">Nhà riêng</td>
+                </tr>
+                <tr>
+                  <th class="table-cell-offcanvas"><i class="bi bi-activity"></i> Trạng thái</th>
+                  <td class="table-cell-offcanvas">Chưa quy hoạch</td>
+                </tr>
+                <tr>
+                  <th class="table-cell-offcanvas"><i class="bi bi-bullseye"></i> Mục đích</th>
+                  <td class="table-cell-offcanvas">Thương mại</td>
+                </tr>
+                <tr>
+                  <th class="table-cell-offcanvas"><i class="bi bi-boxes"></i> Loại bảng</th>
+                  <td class="table-cell-offcanvas">2 bảng/điểm</td>
+                </tr>
+              </table>
+              <div class="d-flex justify-content-end w-100 align-item-">
+                <div class="btn btn-outline-secondary" onclick="showPopup()">
+                  <i class="bi bi-pencil-square"></i> Yêu cầu chỉnh sửa
+                </div>
+                <div id="popup-parent">
+                  <img id="form-img" src="../../public/images/form.png" alt="">
+                  <div class="popup" id="location-popup">
+                    <h2 style="margin-top: 60px; ">Yêu cầu chỉnh sửa</h2>
+                    <button style="position:fixed; right: 10px; top:10px;" type="button" class="btn-close"
+                      onclick="hidePopup()" id="close-edit-request">
+                    </button>
+                    <hr>
+                    <p style="text-align: left; font-weight: bold;">Tên người gửi</p>
+                    <input type="text" class="form-control" placeholder="Tên người gửi">
+                    <p style="text-align: left; font-weight: bold; margin-top:25px;">Quận</p>
+                    <select style="margin:0;" id="typeSelect" class="form-select" aria-label="Default select example"
+                      onchange="filterByType(this.value)">
+                      <option selected>Quận</option>
+                      <option value="1">Quận 1</option>
+                      <option value="1">Quận 2</option>
+                      <option value="1">Quận 3</option>
+                      <option value="1">Quận 4</option>
+                      <option value="1">Quận 5</option>
+                      <option value="1">Quận 6</option>
+                      <option value="1">Quận 7</option>
+                      <option value="1">Quận 8</option>
+                      <option value="1">Quận 10</option>
+                      <option value="1">Quận 11</option>
+                      <option value="1">Quận 12</option>
+                      <option value="1">Quận Bình Tân</option>
+                      <option value="1">Quận Bình Thạnh</option>
+                      <option value="1">Quận Gò Vấp</option>
+                      <option value="1">Quận Phú Nhuận</option>
+                      <option value="1">Quận Tân Bình</option>
+                      <option value="1">Quận Tân Phú</option>
+                      <option value="1">Quận Bình Chánh</option>
+                      <option value="1">Quận Thủ Đức</option>
+                      <option value="1">Huyện Cần Giờ</option>
+                      <option value="1">Huyện Củ Chi</option>
+                      <option value="1">Huyện Hóc Môn</option>
+                      <option value="1">Huyện Nhà Bè</option>
+                    </select>
+                    <p style="text-align: left; font-weight: bold; margin-top:25px;">Phường</p>
+                    <select style="margin:0;" id="typeSelect" class="form-select" aria-label="Default select example"
+                      onchange="filterByType(this.value)">
+                      <option selected>Phường</option>
+                      <option value="1">Phường 1</option>
+                      <option value="1">Phường 2</option>
+                      <option value="1">Phường 3</option>
+                    </select>
+                    <p style="text-align: left; font-weight: bold; margin-top:25px;">Đường</p>
+                    <input type="text" class="form-control" placeholder="Số, đường">
+                    <p style="text-align: left; font-weight: bold; margin-top:25px;">Loại vị trí</p>
+                    <select style="margin:0;" id="typeSelect" class="form-select" aria-label="Default select example"
+                      onchange="filterByType(this.value)">
+                      <option selected>Loại vị trí</option>
+                      <option value="1">Đất công/</option>
+                      <option value="1">Hành lang an toàn giao thông</option>
+                      <option value="1">Công viên</option>
+                      <option value="1">Nhà riêng</option>
+                    </select>
+                    <p style="text-align: left; font-weight: bold; margin-top:25px;">Mục đích</p>
+                    <select style="margin:0;" id="typeSelect" class="form-select" aria-label="Default select example"
+                      onchange="filterByType(this.value)">
+                      <option selected>Mục đích</option>
+                      <option value="1">Cổ động chính trị</option>
+                      <option value="1">Quảng cáo thương mại</option>
+                      <option value="1">Xã hội hoá</option>
+                    </select>
+                    <p style="text-align: left; font-weight: bold; margin-top:25px;">Số lượng</p>
+                    <input type="text" class="form-control" placeholder="Số lượng">
+                    <p style="text-align: left; font-weight: bold; margin-top:25px;">Lý do chỉnh sửa</p>
+                    <textarea style="width: 100%;" name="" id="" cols="30" rows="5"></textarea>
+                    <button id="submit-request"
+                      style="width: 100%; outline: none; border:0; padding: 10px; border-radius: 5px; background-color: #262058; color: white; margin-top: 50px"
+                      onclick="hidePopup()">
+                      <h5 style="margin: 0;">Gửi yêu cầu</h5>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+        <hr />
       </div>
     </div>
-    <hr />
-  </div>
-</div>
-
-<script>
-
-  let popup = document.getElementById("location-popup")
-  let img = document.getElementById("form-img")
-  let submit = document.getElementById("submit-request")
-  console.log(img);
-  let popup_parent = document.getElementById("popup-parent")
-  let close_btn = document.getElementById("close-edit-request")
-  let originalStyles = {}
-  let originalImg = {}
-  popup_parent.addEventListener('click', () => {
-    if (event.target.id === 'popup-parent') {
-      if (confirm('Bạn muốn thoát khỏi biểu mẫu?'))
-        hidePopup();
-    }
-  });
-  submit.addEventListener('click', () => {
-    hidePopup();
-  });
-  close_btn.addEventListener('click', () => {
-    if (confirm('Bạn muốn thoát khỏi biểu mẫu?'))
-      hidePopup();
-  });
-
-  function showPopup() {
-    originalStyles.visibility = popup.style.visibility || '';
-    originalStyles.top = popup.style.top || '';
-    originalStyles.left = popup.style.left || '';
-    originalStyles.transform = popup.style.transform || '';
-
-    originalImg.marginBottom = img.style.marginBottom || '';
-    originalImg.transform = img.style.transform || '';
-    img.style.marginBottom = '45%';
-    img.style.transform = 'translate(-50%, -50%) scale(1)';
-    img.style.visibility = 'visible';
-
-    popup_parent.style.visibility = 'visible';
-    popup.style.visibility = 'visible';
-    popup.style.top = '50%';
-    popup.style.left = '50%';
-    popup.style.transform = 'translate(-50%, -50%) scale(1)';
-  }
-  function hidePopup() {
-
-    img.style.marginBottom = originalImg.marginBottom || '';
-    img.style.visibility = originalImg.visibility || '';
-    img.style.transform = originalImg.transform || '';
-    popup_parent.style.visibility = 'hidden';
-    popup.style.visibility = originalStyles.visibility || '';
-    popup.style.top = originalStyles.top || '';
-    popup.style.left = originalStyles.left || '';
-    popup.style.transform = originalStyles.transform || '';
-
-  }
-
-    document
-    .querySelectorAll("tbody tr:not(.hide)")
-  .forEach((visible_row, i) => {
-      visible_row.style.backgroundColor =
-      i % 2 == 0 ? "rgba(ff, ff, ff, 1)" : "rgba(79, 62, 215, 0.1)";
-  });
-    const search = document.querySelector(".input-group input"),
-    table_rows = document.querySelectorAll("tbody tr_in_table_in_location p"),
-    table_headings = document.querySelectorAll("thead th");
-    // search.addEventListener('input', searchTable);
-    document.querySelector("form").onsubmit = searchTable;
-    function searchTable(event) {
-      event.preventDefault();
-  table_rows.forEach((row, i) => {
-      let table_data = row.textContent.toLowerCase(),
-    search_data = search.value.toLowerCase();
-
-    row.classList.toggle("hide", table_data.indexOf(search_data) < 0);
-  });
-
-    document
-    .querySelectorAll("tbody tr:not(.hide)")
-    .forEach((visible_row, i) => {
-      visible_row.style.backgroundColor =
-      i % 2 == 0 ? "transparent" : "rgba(79, 62, 215, 0.1)";
-    });
-  }
-
-</script>
-
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
       integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
@@ -1086,7 +1002,6 @@
       integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
       crossorigin="anonymous"
     ></script>
-
     <script src="location.js"></script>
   </body>
 </html>

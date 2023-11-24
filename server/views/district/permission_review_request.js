@@ -1,18 +1,13 @@
 let popup = document.getElementById("location-popup_")
 let img = document.getElementById("form-img_")
-let submit = document.getElementById("submit-request_")
-console.log(img);
 let popup_parent = document.getElementById("popup-parent_")
 let close_btn = document.getElementById("close-edit-request_")
 let originalStyles = {}
 let originalImg = {}
-popup_parent.addEventListener('click', () => {
+popup_parent.addEventListener('click', (event) => {
     if (event.target.id === 'popup-parent_') {
         hidePopup_review();
     }
-});
-submit.addEventListener('click', () => {
-    hidePopup_review();
 });
 close_btn.addEventListener('click', () => {
     hidePopup_review();
@@ -55,17 +50,17 @@ document
         visible_row.style.backgroundColor =
             i % 2 == 0 ? "rgba(ff, ff, ff, 1)" : "rgba(79, 62, 215, 0.1)";
     });
-const search = document.querySelector(".input-group input"),
-    table_rows = document.querySelectorAll("tbody tr_in_table_in_location p"),
+    table_rows = document.querySelectorAll("tbody .tr_in_table_in_location");
     table_headings = document.querySelectorAll("thead th");
-// search.addEventListener('input', searchTable);
-document.querySelector("form").onsubmit = searchTable;
+    // search.addEventListener('input', searchTable);
+    document.querySelector("#search_functionality").onsubmit = searchTable;
+
 function searchTable(event) {
+    const search = document.getElementById("input-search-hehe");
     event.preventDefault();
     table_rows.forEach((row, i) => {
         let table_data = row.textContent.toLowerCase(),
             search_data = search.value.toLowerCase();
-
         row.classList.toggle("hide", table_data.indexOf(search_data) < 0);
     });
 

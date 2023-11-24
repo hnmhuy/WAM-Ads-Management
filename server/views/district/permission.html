@@ -17,10 +17,8 @@
 <body>
     <div class="sidebar">
         <div class="logo-details">
-            <form action="#" method="pos">
-                <img src="../../public/images/logo.svg" alt="logo" class="logo-web" />
-                <div class="logo_name" style="font-weight: bold">WAM</div>
-            </form>
+            <img src="../../public/images/logo.svg" alt="logo" class="logo-web" />
+            <div class="logo_name" style="font-weight: bold">WAM</div>
         </div>
         <ul class="nav-list">
             <li>
@@ -66,11 +64,17 @@
     </div>
     <div class="location_table">
         <section class="table__header">
-            <h2 class="table_heading">Quản lý điểm đặt</h2>
-            <div class="d-flex justify-content-end align-items-center">
+            <div style="width: 250px;">
+                <h2 class="table_heading">Quản lý điểm đặt</h2>
+            </div>
+            <div class="d-flex justify-content-end align-items-center" >
                 <div class="input_group">
-                    <img src="../../public/images/search.png" alt="" />
-                    <input type="search" placeholder="Search..." />
+                    <form action="#" method="post" id="search_functionality">        
+                        <div class="d-flex justify-content-center align-items-center">
+                            <img src="../../public/images/search.png" alt="" />
+                            <input id="input-search-hehe" type="search" placeholder="Search..." />
+                        </div>            
+                    </form>
                 </div>
                 <button class="btn"
                     style="margin-left: 20px;background-color: #4f3ed7; height: 5%; width:4%; color: white; padding: 8px; border:0;border-radius: 10px;"
@@ -133,6 +137,222 @@
                     <tr class="tr_in_table_in_location">
                     <td>
                         <p class="table-cell-type">MQC1001</p>
+                    </td>
+                    <td>
+                        <p class="table-cell-type">12 Đ. Nguyễn Thị Minh Khai</p>
+                    </td>
+                    <td>
+                        <p class="table-cell-type">Cổ động chính trị</p>
+                    </td>
+                    <td>
+                        <p class="text-align-center table-cell-type">Công ty TNHH MTV Alone</p>
+                    </td>
+                    <td >
+                        <p class="status delivered">Đã cấp phép</p>
+                    </td>
+                    <td>
+                        <div class="last-cell">
+                            <div class="btn" onclick="showPopup_review()">
+                                <i class="bi bi-arrow-up-right-square" style="color: black"></i>
+                            </div>
+                        </div>
+                    </td>
+                    </tr>
+                    <tr class="tr_in_table_in_location">
+                    <td>
+                        <p class="table-cell-type">MQC1002</p>
+                    </td>
+                    <td>
+                        <p class="table-cell-type">12 Đ. Nguyễn Thị Minh Khai</p>
+                    </td>
+                    <td>
+                        <p class="table-cell-type">Cổ động chính trị</p>
+                    </td>
+                    <td>
+                        <p class="text-align-center table-cell-type">Công ty TNHH MTV Alone</p>
+                    </td>
+                    <td >
+                        <p class="status delivered">Đã cấp phép</p>
+                    </td>
+                    <td>
+                        <div class="last-cell">
+                            <div class="btn" onclick="showPopup_review()">
+                                <i class="bi bi-arrow-up-right-square" style="color: black"></i>
+                            </div>
+                        </div>
+                    </td>
+                    </tr>
+                    <tr class="tr_in_table_in_location">
+                    <td>
+                        <p class="table-cell-type">MQC1001</p>
+                    </td>
+                    <td>
+                        <p class="table-cell-type">12 Đ. Nguyễn Thị Minh Khai</p>
+                    </td>
+                    <td>
+                        <p class="table-cell-type">Cổ động chính trị</p>
+                    </td>
+                    <td>
+                        <p class="text-align-center table-cell-type">Công ty TNHH MTV Alone</p>
+                    </td>
+                    <td >
+                        <p class="status delivered">Đã cấp phép</p>
+                    </td>
+                    <td>
+                        <div class="last-cell">
+                            <div class="btn" onclick="showPopup_review()">
+                                <i class="bi bi-arrow-up-right-square" style="color: black"></i>
+                            </div>
+                        </div>
+                    </td>
+                    </tr>
+                    <tr class="tr_in_table_in_location">
+                    <td>
+                        <p class="table-cell-type">MQC1002</p>
+                    </td>
+                    <td>
+                        <p class="table-cell-type">12 Đ. Nguyễn Thị Minh Khai</p>
+                    </td>
+                    <td>
+                        <p class="table-cell-type">Cổ động chính trị</p>
+                    </td>
+                    <td>
+                        <p class="text-align-center table-cell-type">Công ty TNHH MTV Alone</p>
+                    </td>
+                    <td >
+                        <p class="status delivered">Đã cấp phép</p>
+                    </td>
+                    <td>
+                        <div class="last-cell">
+                            <div class="btn" onclick="showPopup_review()">
+                                <i class="bi bi-arrow-up-right-square" style="color: black"></i>
+                            </div>
+                        </div>
+                    </td>
+                    </tr>
+                    <tr class="tr_in_table_in_location">
+                    <td>
+                        <p class="table-cell-type">MQC1001</p>
+                    </td>
+                    <td>
+                        <p class="table-cell-type">12 Đ. Nguyễn Thị Minh Khai</p>
+                    </td>
+                    <td>
+                        <p class="table-cell-type">Cổ động chính trị</p>
+                    </td>
+                    <td>
+                        <p class="text-align-center table-cell-type">Công ty TNHH MTV Alone</p>
+                    </td>
+                    <td >
+                        <p class="status delivered">Đã cấp phép</p>
+                    </td>
+                    <td>
+                        <div class="last-cell">
+                            <div class="btn" onclick="showPopup_review()">
+                                <i class="bi bi-arrow-up-right-square" style="color: black"></i>
+                            </div>
+                        </div>
+                    </td>
+                    </tr>
+                    <tr class="tr_in_table_in_location">
+                    <td>
+                        <p class="table-cell-type">MQC1002</p>
+                    </td>
+                    <td>
+                        <p class="table-cell-type">12 Đ. Nguyễn Thị Minh Khai</p>
+                    </td>
+                    <td>
+                        <p class="table-cell-type">Cổ động chính trị</p>
+                    </td>
+                    <td>
+                        <p class="text-align-center table-cell-type">Công ty TNHH MTV Alone</p>
+                    </td>
+                    <td >
+                        <p class="status delivered">Đã cấp phép</p>
+                    </td>
+                    <td>
+                        <div class="last-cell">
+                            <div class="btn" onclick="showPopup_review()">
+                                <i class="bi bi-arrow-up-right-square" style="color: black"></i>
+                            </div>
+                        </div>
+                    </td>
+                    </tr>
+                    <tr class="tr_in_table_in_location">
+                    <td>
+                        <p class="table-cell-type">MQC1001</p>
+                    </td>
+                    <td>
+                        <p class="table-cell-type">12 Đ. Nguyễn Thị Minh Khai</p>
+                    </td>
+                    <td>
+                        <p class="table-cell-type">Cổ động chính trị</p>
+                    </td>
+                    <td>
+                        <p class="text-align-center table-cell-type">Công ty TNHH MTV Alone</p>
+                    </td>
+                    <td >
+                        <p class="status delivered">Đã cấp phép</p>
+                    </td>
+                    <td>
+                        <div class="last-cell">
+                            <div class="btn" onclick="showPopup_review()">
+                                <i class="bi bi-arrow-up-right-square" style="color: black"></i>
+                            </div>
+                        </div>
+                    </td>
+                    </tr>
+                    <tr class="tr_in_table_in_location">
+                    <td>
+                        <p class="table-cell-type">MQC1002</p>
+                    </td>
+                    <td>
+                        <p class="table-cell-type">12 Đ. Nguyễn Thị Minh Khai</p>
+                    </td>
+                    <td>
+                        <p class="table-cell-type">Cổ động chính trị</p>
+                    </td>
+                    <td>
+                        <p class="text-align-center table-cell-type">Công ty TNHH MTV Alone</p>
+                    </td>
+                    <td >
+                        <p class="status delivered">Đã cấp phép</p>
+                    </td>
+                    <td>
+                        <div class="last-cell">
+                            <div class="btn" onclick="showPopup_review()">
+                                <i class="bi bi-arrow-up-right-square" style="color: black"></i>
+                            </div>
+                        </div>
+                    </td>
+                    </tr>
+                    <tr class="tr_in_table_in_location">
+                    <td>
+                        <p class="table-cell-type">MQC1001</p>
+                    </td>
+                    <td>
+                        <p class="table-cell-type">12 Đ. Nguyễn Thị Minh Khai</p>
+                    </td>
+                    <td>
+                        <p class="table-cell-type">Cổ động chính trị</p>
+                    </td>
+                    <td>
+                        <p class="text-align-center table-cell-type">Công ty TNHH MTV Alone</p>
+                    </td>
+                    <td >
+                        <p class="status delivered">Đã cấp phép</p>
+                    </td>
+                    <td>
+                        <div class="last-cell">
+                            <div class="btn" onclick="showPopup_review()">
+                                <i class="bi bi-arrow-up-right-square" style="color: black"></i>
+                            </div>
+                        </div>
+                    </td>
+                    </tr>
+                    <tr class="tr_in_table_in_location">
+                    <td>
+                        <p class="table-cell-type">MQC1002</p>
                     </td>
                     <td>
                         <p class="table-cell-type">12 Đ. Nguyễn Thị Minh Khai</p>
@@ -245,42 +465,11 @@
         </div>
     </div>
 
-    <div id="popup-parent" style="position: fixed; top:0; left:0; display:flex; height: 100vh; width: 100vw; background-color: rgba(0,0,0,0.2);z-index: 1; visibility: hidden; justify-content:center; align-items:center;">
+    <div id="popup-parent">
         <img 
             id="form-img"
-            src="../../public/images/form.png" 
-            style="
-                position: fixed;
-                width: 100px;
-                top: 10%;
-                left: 50%;
-                border-radius: 50%;
-                box-shadow: 0 2px 5px rgba(0,0,0,alpha);
-                z-index: 11;
-                transition: transform 0.4s, top 0.4s;
-                transform: translate(-50%, -50%) scale(0.1);
-                visibility: hidden;
-            "
-        alt="">
-        <div class="popup"
-        style="
-            width: 40%;
-            height: 80%;
-            position: absolute;
-            background-color: #fff;
-            border-radius: 6px;
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.1);
-            padding: 0 30px 30px;
-            color: #333;
-            text-align: center;
-            z-index: 10;
-            transition: transform 0.4s, top 0.4s;
-            visibility: hidden;
-            overflow:scroll;
-        " id="location-popup">
+            src="../../public/images/form.png"  alt="">
+        <div class="popup"id="location-popup">
             <h2 style="margin-top: 60px; ">Yêu cầu cấp phép</h2>
             <button style="position:fixed; right: 10px; top:10px;" type="button" class="btn-close" onclick="hidePopup()" id="close-edit-request">
             </button>
@@ -336,7 +525,7 @@
                 <section class="uploaded-area"></section>
             </div>
 
-            <input type="submit" style="width: 100%; outline: none; border:0; padding: 10px; border-radius: 5px; background-color: #262058; color: white; margin-top: 50px" value="Gửi yêu cầu" onclick="hidePopup()">
+            <input type="submit" style="width: 100%; outline: none; border:0; padding: 10px; border-radius: 5px; background-color: #262058; color: white; margin-top: 50px" id="submit-request" value="Gửi yêu cầu" onclick="hidePopup()">
         </div>
     </div>
 
