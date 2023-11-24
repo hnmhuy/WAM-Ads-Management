@@ -5,6 +5,40 @@ const port = 3000 | process.env.port;
 const expressHbs = require("express-handlebars");
 app.use("/public", express.static(path.join(__dirname, "public")));
 const hbs = expressHbs.create({});
+var bodyParser = require('body-parser')
+
+var accounts = require('./account');
+var userIsAuthorised = false;
+
+app.use(bodyParser.urlencoded({ extended: true }));
+
+function passwordCheck(req, res, next) {
+    userIsAuthorised = false;
+    const password = req.body["password"];
+    const email = req.body["email"]
+    accounts.forEach((item) => {
+        if(item.password === password && item.username === email){
+            userIsAuthorised = true;
+        }
+    });
+    next();
+}
+
+
+app.get("/login", (req, res)=>{
+  res.sendFile(__dirname + "/views/partials/login.html");
+})
+
+app.use(passwordCheck);
+app.post("/home", (req, res)=>{
+    console.log(userIsAuthorised);
+  if(userIsAuthorised){
+    res.sendFile(__dirname + "/views/district/home.html");
+  }
+  else{
+    res.sendFile(__dirname + "/views/partials/login.html");
+  }
+})
 
 app.engine(
     "hbs",
@@ -27,8 +61,8 @@ app.get("/", (req, res) => {
     res.render("index");
 });
 
-app.get("/choose", (req, res) => {
-    res.render("tmp")
+app.get("/login", (req, res) => {
+    
 })
 // Use routes of district
 app.use("/home", require("./routes/district/home.route"));
