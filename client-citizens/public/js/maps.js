@@ -138,7 +138,7 @@ const boundStyle = {
 };
 
 async function fetchConfig() {
-  const response = await fetch('public/js/mapConfig.json');
+  const response = await fetch('/public/js/mapConfig.json');
   const config = await response.json();
   return config;
 }

@@ -6,7 +6,27 @@
   <div class="type-email">
     <div>
       <label for="dropdown" class="form-label">Hình thức báo cáo</label>
-      {{> dropdown}}
+      <div class="select-menu">
+        <div class="select-btn">
+          <span class="sBtn-text">Hình thức báo cáo</span>
+          <i class="bi bi-chevron-down"></i>
+        </div>
+
+        <ul class="options hidden">
+          <li class="option">
+            <span class="option-text">Tố giác sai phạm</span>
+          </li>
+          <li class="option">
+            <span class="option-text">Đăng ký nội dung</span>
+          </li>
+          <li class="option">
+            <span class="option-text">Đóng góp ý kiến</span>
+          </li>
+          <li class="option">
+            <span class="option-text">Giải đáp thắc mắc</span>
+          </li>
+        </ul>
+      </div>
     </div>
 
     <div>
@@ -40,14 +60,27 @@
 
   <div class="upload-file">
     <label for="upload-file">Hình ảnh báo cáo</label>
-    {{> upload-file}}
+    <div class="drop_box">
+      <header>
+        <h4>Chọn ảnh hoặc kéo thả ảnh vào đây</h4>
+      </header>
+      <p>Chỉ chấp nhận: PNG, JPEG (tối đa 2 ảnh)</p>
+      <input
+        type="file"
+        hidden
+        accept=".png, .jpeg"
+        id="fileID"
+        style="display: none"
+      />
+      <button class="btn">Chọn ảnh</button>
+    </div>
   </div>
   <div class="submit-captcha">
-    <div
+    {{!-- <div
       class="g-recaptcha"
       id="recaptcha"
       data-sitekey="6LcY8BMpAAAAAKvpHZiObsxgDj9cxcb4fz6waH11"
-    ></div>
+    ></div> --}}
     <button type="submit" class="btn btn-primary" id="confirm-button">
       <i class="bi bi-send-fill"></i> Xác nhận
     </button>

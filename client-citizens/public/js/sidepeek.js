@@ -1,5 +1,5 @@
-console.log('hehe');
 
+// SHOW ALL SIDEPEEK
 document.addEventListener('DOMContentLoaded', () => {
   // Your code here
   const showFeedbackBtn = document.querySelectorAll('.show-feedback-button');
@@ -101,5 +101,160 @@ document.addEventListener('DOMContentLoaded', () => {
     iconCloseSearch.style.display = 'none';
     iconSearchBar.style.display = 'block';
     searchBar.style.paddingRight = '0';
+  });
+});
+
+// BUTTON REACTION
+document.addEventListener('DOMContentLoaded', () => {
+  document
+    .querySelector('#sidepeek-ad .bi-x-circle')
+    .addEventListener('click', () => {
+      document.querySelector('#sidepeek-ad').classList.add('hidden');
+    });
+
+  document
+    .querySelector('#sidepeek-noAd .bi-x-circle')
+    .addEventListener('click', () => {
+      document.querySelector('#sidepeek-noAd').classList.add('hidden');
+    });
+
+  document
+    .querySelector('.header .bi-chevron-double-left')
+    .addEventListener('click', () => {
+      document.querySelector('#feedback-detail').classList.add('hidden');
+    });
+
+  document
+    .querySelector('.feedback-form .bi-x-circle')
+    .addEventListener('click', () => {
+      document.querySelector('.feedback-form').classList.add('hidden');
+      document.querySelector('.overlay').classList.add('hidden');
+    });
+  document
+    .querySelector('.ad-detail .bi-x-circle')
+    .addEventListener('click', () => {
+      console.log(321);
+      document.querySelector('.ad-detail').classList.add('hidden');
+      document.querySelector('.overlay').classList.add('hidden');
+    });
+});
+
+// DROPDOWN
+document.addEventListener('DOMContentLoaded', () => {
+  const optionMenu = document.querySelector('.select-menu'),
+    selectBtn = optionMenu.querySelector('.select-btn'),
+    options = optionMenu.querySelectorAll('.option'),
+    optionList = optionMenu.querySelector('.options'),
+    sBtn_text = optionMenu.querySelector('.sBtn-text');
+
+  selectBtn.addEventListener('click', () => {
+    optionList.classList.toggle('hidden');
+    optionMenu.classList.toggle('active');
+  });
+
+  options.forEach(option => {
+    option.addEventListener('click', () => {
+      let selectedOption = option.querySelector('.option-text').innerText;
+      sBtn_text.innerText = selectedOption;
+      optionList.classList.add('hidden');
+
+      optionMenu.classList.remove('active');
+      selectBtn.style.backgroundColor = '#e8f0fe';
+      selectBtn.style.boxShadow = '0 0 0 0.01rem rgba(13,110,253,.25)';
+      selectBtn.style.border = '0.1px solid #dee2e6';
+    });
+  });
+});
+
+//UPLOAD FILE
+document.addEventListener('DOMContentLoaded', () => {
+  const dropArea = document.querySelector('.drop_box'),
+    button = dropArea.querySelector('button'),
+    dragText = dropArea.querySelector('header'),
+    input = dropArea.querySelector('input');
+  let file;
+  var filename;
+
+  button.onclick = () => {
+    input.click();
+  };
+
+  input.addEventListener('change', function (e) {
+    var fileName = e.target.files[0].name;
+    let filedata = `
+<form action="" method="post">
+<div class="form">
+<h4>${fileName}</h4>
+<input type="email" placeholder="Enter email upload file">
+<button class="btn">Upload</button>
+</div>
+</form>`;
+    dropArea.innerHTML = filedata;
+  });
+});
+
+//CAPTCHA
+
+// const form = document.querySelector('form');
+// form.addEventListener('submit', e => {
+//   e.preventDefault();
+//   const captchaResponse = grecaptcha.getResponse();
+//   if (!captchaResponse.length > 0) {
+//     throw new Error('Captcha not complete');
+//   }
+
+//   const fd = new FormData(e.target);
+//   const params = new URLSearchParams(fd);
+
+//   fetch('http://localhost:3000/upload', {
+//     method: 'POST',
+//     body: params,
+//   })
+//     .then(res => res.json())
+//     .then(data => {
+//       if (
+//         data.captchaSuccess &&
+//         tinymce.get('mytextarea').getContent().trim()
+//       ) {
+//         console.log('Validation Successful!');
+//         alert('Đã gửi phản hồi thành công');
+//         document.querySelector('form').classList.add('hidden');
+//         document.querySelector('.overlay').classList.add('hidden');
+//       } else {
+//         console.error('Validation Error!');
+//       }
+//     })
+//     .catch(err => console.error(err));
+// });
+
+//Carousel-swipe
+document.addEventListener('DOMContentLoaded', () => {
+  var swiper = new Swiper('.swiper-container', {
+    slidesPerView: 0.6,
+    spaceBetween: 25,
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+  });
+});
+
+//TEXTAREA
+
+document.addEventListener('DOMContentLoaded', () => {
+  const tooltip = document.querySelector('#tooltip');
+
+  document.querySelector('.feedback-form').addEventListener('submit', e => {
+    if (!tinymce.get('mytextarea').getContent().trim()) {
+      e.preventDefault();
+      document.querySelector('#tooltip').classList.remove('hidden');
+      setTimeout(function () {
+        tooltip.classList.add('hidden');
+      }, 2000);
+    }
   });
 });
