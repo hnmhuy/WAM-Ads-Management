@@ -14,7 +14,6 @@
 .float {
   height: calc(100vh - 5.5rem);
   border-radius: 12px;
-  /* display: none; */
   top: 4.5rem;
   left: 1.5rem;
 }

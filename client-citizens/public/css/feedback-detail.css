@@ -31,6 +31,7 @@
   z-index: 2;
   padding: 0.75rem 0.6rem 0.5rem 0.6rem;
   border-bottom: 0.5px solid #4f3ed7;
+  top: 0;
 }
 
 .feedbackDetail-container #status {

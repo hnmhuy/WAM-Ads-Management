@@ -7,7 +7,7 @@
 .random-container {
   display: flex;
   justify-content: flex-start;
-  width: 29rem;
+  min-width: 29rem;
   background-color: #f9fafd;
   position: absolute;
   border-radius: 12px;
@@ -36,7 +36,6 @@
 
 .area {
   font-size: 0.9rem;
-
 }
 
 .coorordinate {
