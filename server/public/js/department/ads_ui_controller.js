@@ -214,3 +214,113 @@ function generateCollapseDiv() {
     return div;
 }
 
+// Control the upload image
+const imgInputField = document.querySelector("#imgFile");
+const dragDropArea = document.querySelector(".drag-drop");
+const previewArea = document.querySelector(".preview");
+const maxAmountOfFiles = 2;
+
+function removeImg(index) {
+    const fileHolder = previewArea.querySelector(
+        `.fileHolder[data-target="${index}"]`
+    );
+    // Find the index of the file in the window.uploadedFiles array
+    const fileIndex = window.uploadedFiles.findIndex(
+        (file) => file.name === fileHolder.dataset.target
+    );
+    // Remove the file from the window.uploadedFiles array
+    window.uploadedFiles.splice(fileIndex, 1);
+    fileHolder.remove();
+    imgInputField.value = null;
+    if (window.uploadedFiles.length === 0) {
+        previewArea.style.display = "none";
+        dragDropArea.querySelector(".holder").style.display = "block";
+    }
+}
+
+function addImgs(files) {
+    const fileCount = previewArea.querySelectorAll(".fileHolder").length;
+
+    // Check the file format and size
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const fileName = file.name;
+        const fileSize = file.size;
+        const fileExtension = fileName.split(".").pop();
+        const allowedExtensions = ["png", "jpeg", "jpg", "gif"];
+        const maxFileSize = 5 * 1024 * 1024; // 2MB
+
+        if (!allowedExtensions.includes(fileExtension)) {
+            alert("File format not supported");
+            return;
+        } else if (fileSize > maxFileSize) {
+            alert("File size is too large");
+            return;
+        }
+    }
+
+    // Check if the preview is not display and hide the hodler
+    if (previewArea.style.display === "none") {
+        previewArea.style.display = "flex";
+        dragDropArea.querySelector(".holder").style.display = "none";
+    }
+    let tempFileArray = window.uploadedFiles || [];
+    for (let i = 0; i < files.length; i++) {
+        if (tempFileArray.some((file) => file.name === files[i].name)) {
+            continue;
+        } else {
+            tempFileArray.push(files[i]);
+        }
+    }
+
+    // Check if the amount of files is not more than the max amount of files
+    if (tempFileArray.length > maxAmountOfFiles) {
+        alert(`You can only upload ${maxAmountOfFiles} files`);
+        return;
+    } else {
+        // store the file into window.uploadedFiles
+        window.uploadedFiles = tempFileArray;
+        // Remove all the files from the preview area
+        previewArea.querySelectorAll(".fileHolder").forEach((fileHolder) => {
+            fileHolder.remove();
+        });
+        // Loop through the files and display them
+        for (let i = 0; i < tempFileArray.length; i++) {
+            const file = tempFileArray[i];
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
+            fileReader.onload = () => {
+                const fileHolder = document.createElement("div");
+                fileHolder.classList.add("fileHolder");
+                fileHolder.setAttribute("data-target", file.name);
+                fileHolder.innerHTML = `
+                            <img src="${fileReader.result}" alt="img">
+                            <button type="button" onclick="removeImg('${file.name}')"><i class="bi bi-x"></i></button>
+                        `;
+                previewArea.appendChild(fileHolder);
+            };
+        }
+        console.log(window.uploadedFiles);
+    }
+}
+
+imgInputField.addEventListener("change", () => {
+    const files = imgInputField.files;
+    addImgs(files);
+});
+
+dragDropArea.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    dragDropArea.classList.add("drag-drop-dragging");
+});
+
+dragDropArea.addEventListener("dragleave", () => {
+    dragDropArea.classList.remove("drag-drop-dragging");
+});
+
+dragDropArea.addEventListener("drop", (e) => {
+    e.preventDefault();
+    dragDropArea.classList.remove("drag-drop-dragging");
+    const files = e.dataTransfer.files;
+    addImgs(files);
+});

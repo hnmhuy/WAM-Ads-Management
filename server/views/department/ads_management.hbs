@@ -295,17 +295,24 @@
             quảng cáo mới</h5>
     </div>
     <div class="offcanvas-body">
-        <div class="map-container">
-            <p>Map here</p>
-        </div>
-        <form class="create-location-form">
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="street-input" placeholder="Đường">
-                <label for="street-input">Đường</label>
+        <div class="map-container" style="width: 100%; height: 15rem;">
+            <div id="map">
+                Waiting for map ...
             </div>
-            <div class="choose-area">
-                <div class="form-floating">
-                    <select class="form-select" id="warn-input" aria-label="Floating label select example">
+        </div>
+        <form action="#" class="create-form">
+            <div class="area-selection">
+                <div class="form-field">
+                    <label for="distict-selection">Quận</label>
+                    <select id="district-selection">
+                        <option selected>Chọn quận</option>
+                        <option value="1">Quận 5</option>
+                        <option value="2">Quận 8</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label for="ward-selection">Phường</label>
+                    <select id="ward-selection">
                         <option selected>Chọn phường</option>
                         <option value="1">Phường 1</option>
                         <option value="2">Phường 2</option>
@@ -315,67 +322,67 @@
                         <option value="6">Phường 6</option>
                         <option value="7">Phường 7</option>
                     </select>
-                    <label for="floatingSelect">Phường</label>
                 </div>
-                <div class="form-floating">
-                    <select class="form-select" id="district-input" aria-label="Floating label select example">
-                        <option selected>Chọn quận</option>
-                        <option value="1">Quận 5</option>
-                        <option value="2">Quận 8</option>
-                    </select>
-                    <label for="floatingSelect">Quận</label>
+                <div class="form-field">
+                    <label for="street">Đường</label>
+                    <input type="text" id="street">
                 </div>
             </div>
-
-            <div class="choose-type">
-                <div class="form-group col-md-4">
-                    <p class="title-form">Loại vị trí</p>
-                    <select id="district-input" class="form-control">
-                        <option selected>Loại địa điểm</option>
-                        <option> Đất công </option>
-                        <option> Công viên </option>
-                        <option> Hành lang an toàn giao thông </option>
+            <div class="ads-info">
+                <div class="form-field-col">
+                    <label for="location-type-selection">Loại ví trị</label>
+                    <select id="location-type-selection">
+                        <option selected>Chọn loại vị trí</option>
+                        <option value="1">Nhà riêng</option>
+                        <option value="2">Đất công</option>
                     </select>
                 </div>
-
-                <div class="form-group col-md-4">
-                    <p class="title-form">Hình thức quảng cáo</p>
-                    <select id="warn-input" class="form-control">
-                        <option selected>Hình thức quảng cáo</option>
-                        <option> Cổ động chính trị </option>
-                        <option> Thương mại </option>
-                        <option> Du lịch </option>
+                <div class="form-field-col">
+                    <label for="purpose-type-selection">Hình thức quảng cáo</label>
+                    <select id="purpose-type-selection">
+                        <option selected>Chọn hình thức quảng cáo</option>
+                        <option value="1">Thương mại</option>
+                        <option value="2">Cổ động chính trị</option>
                     </select>
                 </div>
-            </div>
-
-            <div class="number-ads">
-                <p class="title-form">Số lượng bảng</p>
-                <div class="form-group">
-                    <input type="number" class="form-control" id="numberads-input" />
+                <div class="ads-amount">
+                    <label for="ads-amount">Số lượng</label>
+                    <input type="number" id="ads-amount" min="1" max="10" placeholder="0">
+                    <p>bảng / địa điểm</p>
                 </div>
-                <p class="unit">bảng / địa điểm</p>
-            </div>
-            <div class="ad-type">
-                <p class="title-form">Loại bảng quảng cáo</p>
-                <div class="form-group col-md-4">
-                    <select id="district-input" class="form-control">
-                        <option selected>Loại bảng quảng cáo</option>
-                        <option> Trụ/cụm pano </option>
-                        <option> Băng rôn </option>
-                        <option> Màn hình led </option>
+                <div class="ads-type">
+                    <label for="ads-type">Loại bảng quảng cáo</label>
+                    <select id="ads-type">
+                        <option selected>Chọn loại bảng quảng cáo</option>
+                        <option value="1">Trụ/cụm pano</option>
+                        <option value="2">Băng rôn</option>
+                        <option value="3">Màn hình led</option>
                     </select>
                 </div>
+                <div class="upload-field">
+                    <label for="imgFile" class="drag-drop">
+                        <input type="file" name="imgFile" id="imgFile" accept=".png, .jpeg, .gif" multiple hidden>
+                
+                        <div class="holder">
+                            <i class="bi bi-cloud-arrow-up-fill"></i>
+                            <h4>Kéo và thả ảnh vào đây</h4>
+                            <p>hoặc</p>
+                            <p>Click để duyệt file</p>
+                        </div>
+                    </label>
+                    <div class="preview" style="display: none;">
+                    </div>
+                    </div>
             </div>
-            <div class="upload-file">
-                <p>Upload here</p>
+            <div class="submit-btn">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="offcanvas">Hủy</button>
+                <button type="submit" class="btn btn-primary">Tạo mới</button>
             </div>
-            <button type="submit" class="btn btn-primary" id="confirm-button">
-                <i class="bi bi-send-fill"></i> Lưu địa điểm
-            </button>
         </form>
     </div>
 </div>
+
+
 
 {{!-- Request update detail --}}
 
