@@ -10,7 +10,6 @@ controller.show = (req, res) => {
     navBarData.nav_link.forEach((link) => {
         link.active = false;
     });
-    console.log(locations);
     const target = navBarData.nav_link.find((link) => link.name === "ads");
     if (target) {
         target.active = true;
