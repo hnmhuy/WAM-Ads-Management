@@ -1,4 +1,3 @@
-
 // SHOW ALL SIDEPEEK
 document.addEventListener('DOMContentLoaded', () => {
   // Your code here
@@ -258,3 +257,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
