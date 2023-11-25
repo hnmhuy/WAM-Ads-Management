@@ -1,37 +1,37 @@
-<div class="lable-container">
+<div class="label-container">
   <div class="labels">
-    <div class="lable shadow">
+    <div class="label">
       <img src="/public/images/department_lable_location.svg" alt="Not found" />
       <h4>Vị trí</h4>
       <p>Mô tả ngắng gọn vị trí đặt điểm quảng cáo</p>
-      <div class="lable-icon">
+      <div class="label-icon">
         <i class="bi bi-arrow-right"></i>
       </div>
 
     </div>
-    <div class="lable shadow">
+    <div class="label">
       <img src="/public/images/department_lable_purpose.svg" alt="Not found" />
       <h4>Mục đích</h4>
       <p>Chủ đề chung của các bảng quảng cáo</p>
-      <div class="lable-icon">
+      <div class="label-icon">
         <i class="bi bi-arrow-right"></i>
       </div>
 
     </div>
-    <div class="lable shadow">
+    <div class="label">
       <img src="/public/images/department_lable_adtype.svg" alt="Not found" />
       <h4>Loại QC</h4>
       <p>Loại bảng quảng cáo được lắp đặt</p>
-      <div class="lable-icon">
+      <div class="label-icon">
         <i class="bi bi-arrow-right"></i>
       </div>
 
     </div>
-    <div class="lable shadow">
+    <div class="label">
       <img src="/public/images/department_lable_feedback.svg" alt="Not found" />
       <h4>Phản ánh</h4>
       <p>Phân loại phản ánh từ người dân</p>
-      <div class="lable-icon">
+      <div class="label-icon">
         <i class="bi bi-arrow-right"></i>
       </div>
 
@@ -39,9 +39,111 @@
 
   </div>
 
-  <div class="lable-table">
-    <img src="/public/images/department_lable_nodata.svg" alt="Not found" />
-    <h4>Chọn một danh mục để quản lý</h4>
+  <div class="label-table">
+    <div class="notification collapse">
+      <img src="/public/images/department_lable_nodata.svg" alt="Not found" />
+      <h4>Chọn một danh mục để quản lý</h4>
+    </div>
 
+    <div class="label-table-header">
+      <div class="name-container">
+        <p class="header-title" id="name-list-header">Tên danh mục</p>
+      </div>
+      <div class="description-container">
+        <p class="header-title" id="description-header">Mô tả</p>
+      </div>
+      <div class="created-date-container">
+        <p class="header-title" id="created-date-header">Ngày tạo</p>
+      </div>
+      <div class="label-header-button">
+        <button type="button" id="add-row">
+          <i class="bi bi-plus-circle"></i>
+          <p>Thêm dòng</p>
+        </button>
+      </div>
+    </div>
+    <div class="label-table-row">
+      <div class="name-description ">
+        <div class="name-content">
+          <p>Đất công</p>
+        </div>
+        <div class="description-content">
+          <p>Đất thuộc sở hữu của nhà nước</p>
+        </div>
+      </div>
+      <div class="edited-form collapse">
+        <form action="">
+            <label for="edited-name-list"></label>
+            <input class="edited-field" type="text" id="edited-name-list" />
+            <label for="edited-description"></label>
+            <input class="edited-field" type="text" id="edited-description" />
+        </form>
+      </div>
+      <div class="created-date-content">
+        <p class="created-date">29/10/2023</p>
+      </div>
+      <div class="label-table-edit ">
+        <button type="button" id="edit">
+          <i class="bi bi-pencil-fill"></i>
+          <p>Chỉnh sửa<p>
+        </button>
+      </div>
+      <div class="save-cancel-button collapse">
+        <div class="save-button">
+          <button type="button" id="save">
+            <i class="bi bi-check2-circle"></i>
+            <p>Lưu</p>
+          </button>
+        </div>
+        <div class="cancel-button">
+          <button type="button" id="cancel" onclick="cancelEdition(this.parentNode.parentNode.parentNode)">
+            <i class="bi bi-ban"></i>
+            <p>Hủy</p>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="label-table-row">
+      <div class="name-description ">
+        <div class="name-content">
+          <p>Đất công</p>
+        </div>
+        <div class="description-content">
+          <p>Đất thuộc sở hữu của nhà nước</p>
+        </div>
+      </div>
+      <div class="edited-form collapse">
+        <form action="">
+            <label for="edited-name-list"></label>
+            <input class="edited-field" type="text" id="edited-name-list" />
+            <label for="edited-description"></label>
+            <input class="edited-field" type="text" id="edited-description" />
+        </form>
+      </div>
+      <div class="created-date-content">
+        <p class="created-date">30/10/2023</p>
+      </div>
+      <div class="label-table-edit">
+        <button type="button" id="edit">
+          <i class="bi bi-pencil-fill"></i>
+          <p>Chỉnh sửa<p>
+        </button>
+      </div>
+      <div class="save-cancel-button collapse">
+        <div class="save-button">
+          <button type="button" id="save">
+            <i class="bi bi-check2-circle"></i>
+            <p>Lưu</p>
+          </button>
+        </div>
+        <div class="cancel-button">
+          <button type="button" id="cancel">
+            <i class="bi bi-ban"></i>
+            <p>Hủy</p>
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

@@ -2,28 +2,37 @@
   margin: 0;
   padding: 0;
 }
-.lable-container {
+.label-container {
   display: flex;
   width: 1772px;
   height: calc(100vh - 4rem - 30px - 40px);
 }
 .labels {
   overflow: auto;
-  width: 9%;
-  padding-left: 5px;
+  width: 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 10px;
 }
-.lable {
+.label {
   background-color: #f9fafd;
   width: 150px;
   height: 240px;
-  border: 1px solid #4f3ed7;
   border-radius: 10px;
   padding: 10px;
   text-align: center;
   margin-bottom: 20px;
+  box-shadow: 0 4px 6px 0px rgba(79, 62, 215, 0.2),
+    0 2px 6px 0 rgba(79, 62, 215, 0.19);
+  transition: all 0.2s ease;
 }
 
-.lable h4 {
+.label-selected {
+  border: 1px solid #4f3ed7;
+}
+
+.label h4 {
   margin: 0;
   text-align: left;
   font-size: 1.625rem !important;
@@ -31,37 +40,23 @@
   margin-bottom: 0.25rem;
 }
 
-.lable p {
+.label p {
   margin: 0;
   font-size: 13px;
   font-weight: lighter;
   text-align: left;
 }
 
-.lable-icon {
-  position: relative;
+.label-icon {
   text-align: right;
   align-items: center;
 }
+
 .labels .bi-arrow-right {
   top: -3px;
   right: 3px;
-  position: absolute;
   font-size: 1.5rem;
   color: #4f3ed7 !important;
-}
-
-.lable-table {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  width: 91%;
-}
-
-.lable-table h4 {
-  font-weight: bold;
 }
 
 .labels::-webkit-scrollbar {
@@ -71,4 +66,216 @@
 .labels {
   scrollbar-width: thin; /* For Firefox */
   -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+
+.label:hover {
+  -webkit-box-shadow: -1px 1px 3px 6px rgba(79, 62, 215, 0.3);
+  -moz-box-shadow: -1px 1px 3px 6px rgba(79, 62, 215, 0.3);
+  box-shadow: -1px 1px 3px 6px rgba(79, 62, 215, 0.3);
+}
+
+.label-table {
+  display: flex;
+  flex-direction: column;
+  /* align-items: center;
+  justify-content: center; */
+  width: 90%;
+  padding: 10px;
+  background-color: #f9fafd;
+}
+
+.label-table .notification {
+  text-align: center;
+}
+
+.label-table h4 {
+  font-weight: bold;
+}
+
+.label-table p {
+  margin: 0;
+  font-size: 18px;
+}
+
+.label-table-header {
+  display: flex;
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+  border-radius: 10px 10px 0 0;
+  padding: 10px;
+  align-items: center;
+  height: 78px;
+}
+
+.label-table-header .header-title {
+  border: none;
+  font-weight: bold;
+}
+.name-des {
+  width: 70%;
+}
+.label-table-header .name-container,
+.label-table-header .description-container {
+  padding: 10px;
+  display: flex;
+  justify-content: flex-start;
+  width: 35%;
+}
+
+.label-table-header .created-date-container {
+  width: 15%;
+  padding: 10px;
+}
+
+.label-table-edit p,
+.save-cancel-button p,
+.label-header-button p {
+  font-weight: bold;
+}
+
+#add-row {
+  width: 153px;
+  background-color: #f5f3ff;
+  padding: 10px;
+  transition: all 0.5s ease;
+}
+
+.label-table-edit #edit {
+  width: 128px;
+  background-color: #fff7dd;
+  padding: 5px;
+  transition: all 0.5s ease;
+}
+
+.label-table .label-header-button {
+  display: flex;
+  align-items: center;
+  width: 15%;
+  justify-content: flex-end;
+  padding: 10px;
+}
+
+.label-table button {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border: none;
+  border-radius: 10px;
+}
+
+.label-table-row {
+  display: flex;
+  width: 100%;
+  padding: 5px 10px;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  border-left: 1px solid rgba(0, 0, 0, 0.2);
+  border-right: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.name-description {
+  display: flex;
+  align-items: center;
+  width: 70%;
+}
+
+.name-description .name-content,
+.name-description .description-content {
+  width: 50%;
+  padding: 10px;
+}
+
+.created-date-content {
+  width: 15%;
+  padding: 10px;
+}
+
+.label-table-edit {
+  width: 15%;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.label-table-row .edited-form {
+  width: 70%;
+}
+
+.edited-field {
+  padding: 10px;
+  width: 49%;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  font-size: 18px;
+}
+.save-cancel-button {
+  width: 15%;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+
+.save-cancel-button .bi-check2-circle {
+  padding-right: 4px;
+  padding-left: 5px;
+  font-size: 1.5rem;
+  color: #3b3b3b;
+  font-weight: bold;
+}
+
+.save-cancel-button .bi-ban {
+  padding-right: 6px;
+  padding-left: 6px;
+  font-size: 1.3rem;
+  color: #3b3b3b;
+}
+.save-cancel-button button {
+  border-radius: 8px;
+  width: 79px;
+  height: 34px;
+}
+
+.save-cancel-button #save {
+  background-color: #b7cbbf;
+}
+
+.save-cancel-button #cancel {
+  background-color: #feaf9d;
+}
+
+.save-cancel-button .save-button,
+.save-cancel-button .cancel-button {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  width: 34px;
+  height: 34px;
+  transition: all 0.5s ease;
+}
+
+.save-cancel-button .save-button {
+  margin-right: 5px;
+}
+
+.save-cancel-button .save-button:hover,
+.save-cancel-button .cancel-button:hover {
+  width: 79px;
+}
+
+.save-cancel-button .save-button:hover #save {
+  background-color: #38b000;
+}
+
+.save-cancel-button .cancel-button:hover #cancel {
+  background-color: #ff1818;
+}
+
+#add-row:hover {
+  background-color: #e9a2fa;
+}
+
+.label-table-edit #edit:hover {
+  background-color: #fcac5d;
 }
