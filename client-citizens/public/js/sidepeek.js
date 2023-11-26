@@ -180,14 +180,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   input.addEventListener('change', function (e) {
     var fileName = e.target.files[0].name;
+    let maxFile = e.target.files.length;
+    console.log(e.target.files);
+    console.log(e.target.files.length);
+    if (maxFile < 2) {
+
+    } else {
+      alert('Chỉ được chọn tối đa 2 ảnh');
+    }
     let filedata = `
-<form action="" method="post">
-<div class="form">
-<h4>${fileName}</h4>
-<input type="email" placeholder="Enter email upload file">
-<button class="btn">Upload</button>
-</div>
-</form>`;
+    <form action="" method="post">
+    <div class="form">
+    <h4>${fileName}</h4>
+    <input type="email" placeholder="Enter email upload file">
+    <button class="btn">Upload</button>
+    </div>
+    </form>`;
     dropArea.innerHTML = filedata;
   });
 });
@@ -257,4 +265,3 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
-
