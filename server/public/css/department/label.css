@@ -4,7 +4,7 @@
 }
 .label-container {
   display: flex;
-  width: 1772px;
+  width: calc(100% + 30px);
   height: calc(100vh - 4rem - 30px - 40px);
 }
 .labels {
@@ -79,7 +79,7 @@
   flex-direction: column;
   /* align-items: center;
   justify-content: center; */
-  width: 90%;
+  width: calc(90% - 20px);
   padding: 10px;
   background-color: #f9fafd;
 }
@@ -141,6 +141,11 @@
   transition: all 0.5s ease;
 }
 
+.disable-button {
+  background-color: gray;
+  pointer-events: none;
+}
+
 .label-table-edit #edit {
   width: 128px;
   background-color: #fff7dd;
@@ -196,19 +201,85 @@
   padding: 10px;
   display: flex;
   justify-content: center;
+  position: relative;
+}
+
+.label-table-edit .bi-trash3 {
+  position: absolute;
+  top: 50%;
+  right: 5px;
+  font-size: 1.1rem;
+  color: red;
+  transform: translate(0, -50%);
 }
 
 .label-table-row .edited-form {
   width: 70%;
 }
 
+.edited-form form {
+  width: 100%;
+  display: flex;
+}
+
+.tooltip-noti {
+  color: red;
+  background-color: antiquewhite;
+  border-radius: 6px;
+  padding: 5px;
+}
+
+.edited-field-container .name-tooltip {
+  position: absolute;
+  top: -60%;
+  right: 0;
+  transform: translate(39%, 0);
+  z-index: 100;
+}
+
+.edited-field-container .des-tooltip {
+  position: absolute;
+  top: -60%;
+  right: 0;
+  transform: translate(33%, 0);
+  z-index: 100;
+}
+
+.tooltip-required {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  bottom: 25%;
+  left: 75%;
+}
+
+.edited-field-container {
+  display: flex;
+  position: relative;
+  width: 50%;
+}
+
 .edited-field {
   padding: 10px;
-  width: 49%;
+  width: calc(100% - 5px);
   border-radius: 10px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   font-size: 18px;
 }
+
+.edited-field-container .bi-exclamation-circle-fill {
+  color: red;
+  font-size: 1.1rem;
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translate(0, -50%);
+}
+.empty-field {
+  border: 1px solid red;
+}
+
 .save-cancel-button {
   width: 15%;
   display: flex;
@@ -278,4 +349,14 @@
 
 .label-table-edit #edit:hover {
   background-color: #fcac5d;
+}
+
+.label-table-edit .bi-trash3:hover {
+  color: #fff;
+  background-color: red !important;
+  width: 25px;
+  height: 25px;
+  line-height: 25px;
+  text-align: center;
+  border-radius: 6px;
 }

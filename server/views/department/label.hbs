@@ -56,14 +56,14 @@
         <p class="header-title" id="created-date-header">Ngày tạo</p>
       </div>
       <div class="label-header-button">
-        <button type="button" id="add-row">
+        <button type="button" id="add-row" onclick="addRow(this)">
           <i class="bi bi-plus-circle"></i>
           <p>Thêm dòng</p>
         </button>
       </div>
-    </div>
-    <div class="label-table-row">
-      <div class="name-description ">
+    </div>  
+    <div class="label-table-row" new-row="true">
+      <div class="name-description">
         <div class="name-content">
           <p>Đất công</p>
         </div>
@@ -73,30 +73,45 @@
       </div>
       <div class="edited-form collapse">
         <form action="">
+          <div class="edited-field-container">
             <label for="edited-name-list"></label>
-            <input class="edited-field" type="text" id="edited-name-list" />
+            <input class="edited-field name-field" type="text" id="edited-name-list" oninput="validateInput(this)" placeholder="Tên danh mục"/>
+
+            {{!-- Hover a warning --}}
+            <div class="tooltip-noti collapse name-tooltip"><p>Vui lòng điền tên danh mục</p></div>
+            <i class="bi bi-exclamation-circle-fill name-icon collapse" onmouseover="onHoverWarning(this)" onmouseout="mouseOutWarning(this)"></i>
+
+          </div>
+          <div class="edited-field-container">
+
             <label for="edited-description"></label>
-            <input class="edited-field" type="text" id="edited-description" />
+            <input class="edited-field des-field" type="text" id="edited-description" oninput="validateInput(this)" placeholder="Mô tả" />
+            
+            {{!-- Hover a warning --}}
+            <div class="tooltip-noti collapse des-tooltip"><p>Vui lòng điền mô tả</p></div>
+            <i class="bi bi-exclamation-circle-fill des-icon collapse" onmouseover="onHoverWarning(this)" onmouseout="mouseOutWarning(this)"></i>
+          </div>
         </form>
       </div>
       <div class="created-date-content">
         <p class="created-date">29/10/2023</p>
       </div>
-      <div class="label-table-edit ">
-        <button type="button" id="edit">
+      <div class="label-table-edit">
+        <button type="button" id="edit" onclick="editContent(this)">
           <i class="bi bi-pencil-fill"></i>
           <p>Chỉnh sửa<p>
         </button>
+        <i class="bi bi-trash3" onclick="deleteRow(this)"></i>
       </div>
       <div class="save-cancel-button collapse">
         <div class="save-button">
-          <button type="button" id="save">
+          <button type="button" id="save" onclick="saveEdition(this)">
             <i class="bi bi-check2-circle"></i>
             <p>Lưu</p>
           </button>
         </div>
         <div class="cancel-button">
-          <button type="button" id="cancel" onclick="cancelEdition(this.parentNode.parentNode.parentNode)">
+          <button type="button" id="cancel" onclick="cancelEdition(this)">
             <i class="bi bi-ban"></i>
             <p>Hủy</p>
           </button>
@@ -104,19 +119,21 @@
       </div>
     </div>
 
-    <div class="label-table-row">
+
+
+    {{!-- <div class="label-table-row">
       <div class="name-description ">
         <div class="name-content">
           <p>Đất công</p>
         </div>
         <div class="description-content">
-          <p>Đất thuộc sở hữu của nhà nước</p>
+          <p>Đất thuộc sở hữu của Uyển Nhi</p>
         </div>
       </div>
       <div class="edited-form collapse">
         <form action="">
             <label for="edited-name-list"></label>
-            <input class="edited-field" type="text" id="edited-name-list" />
+            <input class="edited-field" type="text" id="edited-name-list1" />
             <label for="edited-description"></label>
             <input class="edited-field" type="text" id="edited-description" />
         </form>
@@ -125,25 +142,32 @@
         <p class="created-date">30/10/2023</p>
       </div>
       <div class="label-table-edit">
-        <button type="button" id="edit">
+        <button type="button" id="edit" onclick="editContent(this)">
           <i class="bi bi-pencil-fill"></i>
           <p>Chỉnh sửa<p>
         </button>
       </div>
       <div class="save-cancel-button collapse">
         <div class="save-button">
-          <button type="button" id="save">
+          <button type="button" id="save" onclick="saveEdition(this)">
             <i class="bi bi-check2-circle"></i>
             <p>Lưu</p>
           </button>
         </div>
         <div class="cancel-button">
-          <button type="button" id="cancel">
+          <button type="button" id="cancel" onclick="cancelEdition(this)">
             <i class="bi bi-ban"></i>
             <p>Hủy</p>
           </button>
         </div>
       </div>
-    </div>
+    </div> --}}
+    
+
+
+    
   </div>
+
+
 </div>
+
