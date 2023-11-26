@@ -73,6 +73,7 @@ app.use("/permission", require("./routes/district/permission.route"));
 // Use routes of department
 app.use("/dashboard", require("./routes/department/dashboard.route"));
 app.use("/ads", require("./routes/department/ads_management.route"));
+app.use("/label", require("./routes/department/label.route"));
 
 app.get("/testing/label", (req, res) => {
     let navBarData = require("./nav_link.json");
