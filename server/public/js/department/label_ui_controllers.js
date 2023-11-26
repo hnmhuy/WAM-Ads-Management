@@ -32,7 +32,7 @@ function appendNewRow() {
   <form action="">
     <div class="edited-field-container">
       <label for="edited-name-list"></label>
-      <input class="edited-field name-field" type="text" id="edited-name-list" oninput="validateInput(this)" placeholder="Tên danh mục"/>
+      <textarea class="edited-field name-field" type="text" id="edited-name-list" oninput="validateInput(this)" placeholder="Tên danh mục"></textarea>
 
       <div class="tooltip-noti collapse name-tooltip"><p>Vui lòng điền tên danh mục</p></div>
       <i class="bi bi-exclamation-circle-fill name-icon collapse" onmouseover="onHoverWarning(this)" onmouseout="mouseOutWarning(this)"></i>
@@ -41,7 +41,7 @@ function appendNewRow() {
     <div class="edited-field-container">
 
       <label for="edited-description"></label>
-      <input class="edited-field des-field" type="text" id="edited-description" oninput="validateInput(this)" placeholder="Mô tả" />
+      <textarea class="edited-field des-field" type="text" id="edited-description" oninput="validateInput(this)" placeholder="Mô tả" ></textarea>
       
       <div class="tooltip-noti collapse des-tooltip"><p>Vui lòng điền mô tả</p></div>
       <i class="bi bi-exclamation-circle-fill des-icon collapse" onmouseover="onHoverWarning(this)" onmouseout="mouseOutWarning(this)"></i>
@@ -81,6 +81,9 @@ function appendNewRow() {
 
 function editContent(button) {
   const row = button.parentNode.parentNode;
+  const table = row.parentNode;
+  const addButton = document.getElementById("add-row");
+
   const nameContent = row.querySelector(".name-content p");
   const descriptionContent = row.querySelector(".description-content p");
 
@@ -88,12 +91,11 @@ function editContent(button) {
   row.querySelector(".edited-form").classList.remove("collapse");
   row.querySelector(".label-table-edit").classList.add("collapse");
   row.querySelector(".save-cancel-button").classList.remove("collapse");
-  row
-    .querySelector("#edited-name-list")
-    .setAttribute("value", nameContent.textContent);
-  row
-    .querySelector("#edited-description")
-    .setAttribute("value", descriptionContent.textContent);
+  row.querySelector(".name-field").textContent = nameContent.textContent;
+  row.querySelector(".des-field").textContent = descriptionContent.textContent;
+
+  addButton.classList.add("disable-button");
+  addButton.setAttribute("disabled", true);
 }
 
 function saveEdition(button) {
@@ -145,6 +147,11 @@ function cancelEdition(button) {
     row.querySelector(".edited-form").classList.add("collapse");
     row.querySelector(".label-table-edit").classList.remove("collapse");
     row.querySelector(".save-cancel-button").classList.add("collapse");
+
+    if (addButton.classList.contains("disable-button")) {
+      addButton.classList.remove("disable-button");
+      addButton.removeAttribute("disabled");
+    }
   }
 }
 
