@@ -1,0 +1,366 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.feedback-container p {
+  margin: 0;
+}
+
+.feedback-container {
+  height: calc(100vh - 4rem - 30px - 40px);
+  width: 100%;
+}
+.loaction-container {
+  align-items: center;
+  display: flex;
+  width: 100%;
+  height: 70px;
+  padding: 10px;
+}
+
+.loaction-container > * {
+  margin-right: 20px;
+}
+
+.loaction-container p {
+  font-size: 20px;
+  font-weight: bold;
+  margin-right: 20px;
+}
+
+.all-feedbacks-container {
+  width: 100%;
+  height: calc(100% - 70px);
+  position: relative;
+}
+.no-location {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.no-location p {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.bi-chevron-right {
+  font-size: 1.1rem;
+  opacity: 0.5;
+}
+
+/* ------------- DROPDOWN ------------- */
+.wrapper-dropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 300px;
+  border-radius: 10px;
+  padding: 5px 20px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  text-align: left;
+  cursor: pointer;
+  height: 50px;
+}
+
+.bi-chevron-down {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translate(0, -50%);
+}
+.wrapper-dropdown .dropdown {
+  transition: all 0.3s ease;
+  position: absolute;
+  top: 120%;
+  right: 0;
+  left: 0;
+  list-style: none;
+  border-radius: 10px;
+  z-index: 99;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+
+  opacity: 0;
+  visibility: hidden;
+}
+
+.wrapper-dropdown .dropdown li {
+  padding: 0 15px;
+  line-height: 50px;
+}
+
+.wrapper-dropdown .dropdown li:last-child {
+  border-bottom: none;
+}
+
+.dropdown {
+  padding: 0.5rem !important;
+}
+
+.wrapper-dropdown .dropdown li:hover {
+  background-color: #fff3f0;
+  border-radius: 10px;
+}
+
+.rotate {
+  transform: translate(0, -50%) rotate(180deg);
+}
+/* --------------- ACTIVE FOR DROPDOWM --------------- */
+
+.active-arrow {
+  color: #4f3ed7;
+  font-weight: bold;
+  font-size: 1.1rem;
+  opacity: 1;
+}
+
+.wrapper-dropdown.active .dropdown {
+  opacity: 1;
+  visibility: visible;
+  border-radius: 15px;
+  background-color: #fff;
+}
+
+.active {
+  background-color: #fff !important;
+  border: 1px solid #4f3ed7;
+  font-weight: normal !important;
+}
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* --------------- ALL FEEDBACKS--------------- */
+.all-feedbacks-container {
+  display: flex;
+  height: calc(100% - 70px);
+  padding: 10px;
+  background-color: #f9fafd;
+}
+.all-feedbacks-container .feedback-table {
+  margin-right: 15px;
+}
+
+/* --------------- FEEDBACK-TABLE --------------- */
+.feedback-table {
+  width: 49%;
+  overflow: hidden;
+}
+
+.table {
+  display: flex;
+  max-height: 100%;
+  overflow-y: auto;
+  width: 100%;
+
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+}
+.feedback-table table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.feedback-table th,
+.feedback-table td {
+  font-size: 18px;
+  padding: 10px 20px;
+}
+
+.feedback-table th {
+  height: 55px;
+}
+
+.feedback-table td {
+  height: 62px;
+}
+
+.table .bi-chevron-bar-right::before {
+  color: #4f3ed7;
+  font-weight: bolder !important;
+}
+
+feedback-table th:last-child,
+.feedback-table td:last-child {
+  padding: 0;
+}
+
+.feedback-table th {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+  position: sticky;
+  top: 0;
+}
+
+.feedback-table tr {
+  transition: all 0.2s ease;
+  background-color: #f9fafd;
+  width: 100%;
+  border: none;
+}
+
+.feedback-table .status {
+  text-align: center;
+}
+
+.feedback-table .status-tag {
+  padding: 5px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.feedback-table .solved {
+  background-color: #daf9fe;
+  color: #262058;
+}
+
+.feedback-table .not-solved {
+  background-color: #fff7dd;
+  color: #b78310;
+}
+
+.table tr:hover {
+  background-color: #d7d4f5;
+}
+
+/* --------------- FEEDBACK-DETAIL --------------- */
+.feedback-detail {
+  width: 51%;
+  height: 100%;
+  position: relative;
+  background-color: #fff;
+  padding: 0 10px 10px 10px;
+  overflow: auto;
+}
+
+.feedback-detail .no-feedback {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.no-feedback p {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.feedback-respond {
+  width: 100%;
+  height: 100%;
+}
+
+.feedback-respond > * {
+  margin-bottom: 20px;
+}
+
+.feedback-respond .header {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background-color: #fff !important;
+  padding: 20px 10px 10px 10px;
+  text-align: left;
+  border-bottom: 1px solid #262058;
+  z-index: 20;
+}
+
+.feedback-respond .header h3 {
+  font-weight: bold;
+  margin: 0;
+}
+
+/* ----------------- FEEDBACK-INFO ----------------- */
+.feedback-info {
+  padding: 20px 20px 15px 20px;
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  border-radius: 15px;
+  position: relative;
+}
+
+.feedback-info > * {
+  margin-bottom: 10px;
+}
+
+.feedback-info p {
+  font-size: 16px;
+}
+
+.feedback-detail .tag {
+  font-weight: bold;
+}
+
+.feedback-info .label {
+  background-color: #fff;
+  position: absolute;
+  top: 0;
+  left: 13px;
+  transform: translate(0, -60%);
+}
+
+.feedback-info .label p {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.feedback-info .info {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.feedback-info .icon-tag {
+  align-items: center;
+  display: flex;
+  margin-right: 50px;
+  width: 200px;
+}
+
+.feedback-info i {
+  margin-right: 10px;
+  font-size: 25px;
+}
+.feedback-info i::before {
+  font-weight: bolder !important;
+}
+.feedback-info .content {
+  padding: 0;
+}
+
+.feedback-info .feedback-content {
+  border-radius: 15px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 10px;
+}
+
+.feedback-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  /* padding: 10px; */
+  /* border-top: 1px solid rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2); */
+}
+
+.feedback-img img {
+  margin-right: 10px;
+  width: 210px;
+  height: 140px;
+  border-radius: 6px;
+}
+
+.active-row {
+  background-color: #b5c2eb !important;
+}
+
+/* ----------------- RESPOND-INFO ----------------- */

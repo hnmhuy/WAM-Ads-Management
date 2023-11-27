@@ -1,1 +1,216 @@
-<h3 style="width: 100%; height: 100%; display:flex; justify-content: center; align-items: center">Still Coding.....🙁</h3>
+<div class="feedback-container">
+  <div class="loaction-container">
+    <p>Chọn khu vực</p>
+    <div
+      class="wrapper-dropdown"
+      id="district-dropdown"
+      onclick="onClickDropdown(this)"
+    >
+      <span class="selected-display" id="district">Chọn Quận</span>
+      <i class="bi bi-chevron-down"></i>
+      <ul class="dropdown">
+        <li class="item">Quận 1</li>
+        <li class="item">Quận 5</li>
+      </ul>
+
+    </div>
+    <i class="bi bi-chevron-right"></i>
+    <div
+      class="wrapper-dropdown disabled"
+      id="warn-dropdown"
+      onclick="onClickWarn(this)"
+    >
+      <span class="selected-display" id="warn">Chọn Phường</span>
+      <i class="bi bi-chevron-down"></i>
+      <ul class="dropdown">
+        <li class="item">Phường 1</li>
+        <li class="item">Phường 2</li>
+        <li class="item">Phường 3</li>
+        <li class="item">Phường 4</li>
+        <li class="item">Phường 5</li>
+        <li class="item">Phường 6</li>
+        <li class="item">Phường 7</li>
+        <li class="item">Phường 8</li>
+      </ul>
+
+    </div>
+  </div>
+  <div class="all-feedbacks-container">
+    <div class="no-location">
+      <img
+        src="/public/images/department_feedback_choose_location.svg"
+        alt="Not found!"
+      />
+      <p>Chọn một khu vực để xem các đơn phản hồi</p>
+    </div>
+
+    <div class="feedback-table collapse">
+      <dir class="table">
+        <table>
+          <tr>
+            <th>Mã đơn</th>
+            <th>Thời gian</th>
+            <th>Loại phản ánh</th>
+            <th class="status">Trạng thái xử lý</th>
+            <th> </th>
+          </tr>
+          <tr onclick="onClickFeedback(this)">
+            <td>FF001</td>
+            <td>1:00 28/10/2023</td>
+            <td>Cung cấp thông tin</td>
+            <td class="status">
+              <p class="status-tag solved">Đã giải quyết</p></td>
+            <td><i class="bi bi-chevron-bar-right collapse"></i></td>
+          </tr>
+
+          <tr onclick="onClickFeedback(this)">
+            <td>FF001</td>
+            <td>13:00 28/10/2023</td>
+            <td>Cung cấp thông tin</td>
+            <td class="status">
+              <p class="status-tag not-solved">Chưa giải quyết</p></td>
+            <td><i class="bi bi-chevron-bar-right collapse"></i></td>
+
+          </tr>
+
+        </table>
+      </dir>
+
+    </div>
+    <div class="feedback-detail collapse">
+      <div class="no-feedback">
+        <img
+          src="/public/images/department_feedback_choose_feedback.svg"
+          alt="Not found!"
+        />
+        <p>Chọn một đơn phản ánh để xem chi tiết</p>
+      </div>
+
+      <div class="feedback-respond collapse">
+        <div class="header">
+          <h3>Chi tiết phản ánh</h3>
+        </div>
+
+        <div class="feedback-info">
+          <div class="label">
+            <p>Thông tin phản ánh</p>
+          </div>
+
+          <div class="info address">
+            <div class="icon-tag">
+              <i class="bi bi-person"></i>
+              <p class="tag">Người gửi</p>
+            </div>
+            <p class="tag-contetn">Huỳnh Nguyễn Minh Huy</p>
+          </div>
+
+          <div class="info phone">
+            <div class="icon-tag">
+
+              <i class="bi bi-telephone"></i>
+              <p class="tag">Điện thoại</p>
+            </div>
+            <p class="tag-contetn">0123456789</p>
+          </div>
+
+          <div class="info email">
+            <div class="icon-tag">
+
+              <i class="bi bi-envelope-open"></i>
+              <p class="tag">Email</p>
+            </div>
+            <p class="tag-contetn">example@gmail.com</p>
+          </div>
+
+          <div class="info content">
+            <div class="icon-tag">
+
+              <i class="bi bi-file-text"></i>
+              <p class="tag">Nội dung phản ánh</p>
+            </div>
+          </div>
+
+          <div class="feedback-content">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Exercitationem suscipit corporis debitis eaque rem, repellendus
+            deleniti saepe, alias porro neque non harum ut accusantium!
+            Molestiae maxime ullam, pariatur tenetur quis beatae dolorem
+            doloribus cupiditate eum alias culpa maiores commodi tempore facere
+            eius velit labore aut. Quasi, maxime tempore? Nam facere molestiae
+            perspiciatis velit totam omnis ratione non repellat quibusdam
+            dolorem.
+          </div>
+
+          <div class="info img">
+            <div class="icon-tag">
+
+              <i class="bi bi-images"></i>
+              <p class="tag">Hình ảnh</p>
+            </div>
+
+          </div>
+
+          <div class="feedback-img">
+            <img
+              src="https://i.pinimg.com/736x/76/0e/44/760e443f48e717902335cb1744dfd408.jpg"
+              alt="Not Found!"
+            />
+            <img
+              src="https://phinf.wevpstatic.net/MjAyMzExMjBfMTA0/MDAxNzAwNDY4NjYzOTEw.KHCc59RdWa4v0FOcQvHOLMMTrVql7nQ6QWy-IIsPuI8g.jNXEdBpAU3_ic2ROJTA__l-CYcCasi2-Uz5FE3S_1H4g.PNG/358533087601650753fc1239b-0c62-45b7-a2dc-95a6ceecff4c.png?type=f960_540"
+              alt="Not found!"
+            />
+          </div>
+
+        </div>
+
+        <div class="respond-info">
+
+          <div class="feedback-info">
+            <div class="label">
+              <p>Thông tin phản hồi</p>
+            </div>
+
+            <div class="info address">
+              <div class="icon-tag">
+                <i class="bi bi-person"></i>
+                <p class="tag">Cán bộ xử lý</p>
+              </div>
+              <p class="tag-contetn">Huỳnh Nguyễn Minh Huy</p>
+            </div>
+
+            <div class="info phone">
+              <div class="icon-tag">
+
+                <i class="bi bi-clock"></i>
+                <p class="tag">Thời gian xử lý</p>
+              </div>
+              <p class="tag-contetn">06:14 11/27/2023</p>
+            </div>
+
+            <div class="info content">
+              <div class="icon-tag">
+
+                <i class="bi bi-file-text"></i>
+                <p class="tag">Hướng xử lý</p>
+              </div>
+            </div>
+
+            <div class="feedback-content">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Exercitationem suscipit corporis debitis eaque rem, repellendus
+              deleniti saepe, alias porro neque non harum ut accusantium!
+              Molestiae maxime ullam, pariatur tenetur quis beatae dolorem
+              doloribus cupiditate eum alias culpa maiores commodi tempore
+              facere eius velit labore aut. Quasi, maxime tempore? Nam facere
+              molestiae perspiciatis velit totam omnis ratione non repellat
+              quibusdam dolorem.
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
