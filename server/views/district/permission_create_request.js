@@ -1,3 +1,19 @@
+let sidebar = document.querySelector(".sidebar");
+let logOutBtn = document.querySelector("#log_out");
+
+logOutBtn.addEventListener("click", () => {
+    window.location.href = "/";
+});
+
+sidebar.addEventListener("mouseenter", () => {
+    sidebar.classList.toggle("open");
+});
+
+sidebar.addEventListener("mouseleave", () => {
+    sidebar.classList.remove("open");
+});
+
+
 const form = document.querySelector(".upload"),
     fileInput = document.querySelector(".file-input"),
     progressArea = document.querySelector(".progress-area"),
@@ -124,3 +140,4 @@ function hidePopup(){
     const form_to_display = document.querySelector(".upload");
     form_to_display.style.display = 'flex';
 }
+
