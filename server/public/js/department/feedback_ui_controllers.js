@@ -35,8 +35,7 @@ function onClickDropdown(e) {
   const mainContainer = e.parentNode.parentNode;
   const noLocation = mainContainer.querySelector(".no-location");
   const feedbackTable = mainContainer.querySelector(".feedback-table");
-  const feedbackDetailContainer =
-    mainContainer.querySelector(".feedback-detail");
+  const feedbackDetailContainer = mainContainer.querySelector(".feedback-detail");
 
   if (e.classList.contains("active")) {
     handleDropdown(e, arrow, false);
@@ -51,6 +50,7 @@ function onClickDropdown(e) {
   for (let o of optionList) {
     o.addEventListener("click", () => {
       e.querySelector(".selected-display").innerHTML = o.innerHTML;
+      districtValue.setAttribute("value",`${o.getAttribute("value")}`);
     });
   }
 
@@ -61,6 +61,7 @@ function onClickDropdown(e) {
   } else {
     warn.classList.add("disabled");
     stepArrow.classList.remove("active-arrow");
+
   }
 
   if (warnValue.textContent !== "Chọn Phường") {
