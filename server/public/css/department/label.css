@@ -196,6 +196,10 @@
   padding: 10px;
 }
 
+.label-table .label-table-row:last-child {
+  border-radius: 0px 0px 10px 10px;
+}
+
 .created-date-content {
   width: 15%;
   padding: 10px;

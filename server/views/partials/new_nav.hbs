@@ -9,7 +9,7 @@
     </div>
     <div class="nav-list">
         {{#each nav_link}}
-            <a href="{{name}}" class="nav-item {{#if active}} active {{/if}}">
+            <a href="/{{name}}" class="nav-item {{#if active}} nav-item-active {{/if}}">
                 <img src="/public/images/navIcon/{{name}}.svg" alt="{{name}}" />
                 <p>{{title}}</p>
             </a>

@@ -140,6 +140,7 @@
 #req_create_table .content-table {
     min-width: 600px;
     padding: 10px;
+    height: -moz-fit-content;
     height: fit-content;
     flex-direction: column;
 }
@@ -163,6 +164,7 @@
 
 #req_create_table .content-detail-header {
     width: 100%;
+    height: -moz-fit-content;
     height: fit-content;
     padding-top: 10px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.3);
@@ -487,32 +489,33 @@
 }
 
 .preview {
-    max-width: 80%;
-    height: 80%;
+    max-width: 80%!important;
+    height: 80%!important;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 10px;
-    overflow-y: hidden;
-    overflow-x: auto;
+    overflow: auto;
     gap: 20px;
     position: relative;
     z-index: 2;
     position: absolute;
     top: 50%;
     left: 50%;
+    padding: 0 10px;
     transform: translate(-50%, -50%);
 }
 
 .fileHolder {
-    width: 300px;
+    width: auto;
     height: 80%;
-    border-radius: 10px;
+    border-radius: 4px;
     position: relative;
 }
 
 .fileHolder img {
-    width: 100%;
+    width: auto;
+    max-width: 90%;
     height: 100%;
     object-fit: cover;
     border-radius: 10px;
@@ -530,8 +533,8 @@
     transition: all 0.3s ease-in-out;
     width: 22px;
     height: 22px;
-    top: 5px;
-    right: 5px;
+    top: 0;
+    right: 0;
     padding: 0px;
     border-radius: 50%;
 }
@@ -700,7 +703,6 @@
 
 .ad-detail-card-editing .edit-ad-form {
     display: flex;
-    z-index: inherit;
 }
 
 .edit-ad-form {

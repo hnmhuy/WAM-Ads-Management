@@ -1,4 +1,4 @@
-.active {
+.nav-item-active {
     background-color: var(--nav-item-active);
     font-weight: 900;
 }

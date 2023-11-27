@@ -27,12 +27,6 @@ swap_button.addEventListener("click", () => {
     } else {
         window.location.href = "/ads"
     }
-    // location_table.classList.toggle("collapse");
-    // req_create_table.classList.toggle("collapse");
-    // location_area.classList.toggle("collapse");
-    // req_area.classList.toggle("collapse");
-    // tab_bar.classList.toggle("collapse");
-    // create_button.classList.toggle("collapse");
 });
 
 document.querySelectorAll("#collapse-btn").forEach((btn) => {
@@ -263,11 +257,18 @@ function handleCopplaseContent(e) {
 const maxAmountOfFiles = 2;
 window.inputFieldArray = [];
 window.uploadedFiles = [];
+
 function imgInputController(fieldId) {
     window.inputFieldArray.push(fieldId);
+    window.uploadedFiles.push([]);
     let imgInputField = document.querySelector(`#${fieldId} #imgFile`);
     let dragDropArea = document.querySelector(`#${fieldId} .drag-drop`);
     let previewArea = document.querySelector(`#${fieldId} .preview`);
+
+    console.log(`${fieldId} controller is running`);
+    console.log(window.inputFieldArray);
+    console.log(window.uploadedFiles);
+
     imgInputField.addEventListener("change", () => {
         const files = imgInputField.files;
         addImgs(files, previewArea, dragDropArea, fieldId);
@@ -318,7 +319,6 @@ function removeImg(index, fieldId) {
 function addImgs(files, previewArea, dragDropArea, fieldId) {
     let inputFieldIndex = window.inputFieldArray.indexOf(fieldId);
     const fileCount = previewArea.querySelectorAll(".fileHolder").length;
-
     // Check the file format and size
     for (let i = 0; i < files.length; i++) {
         let file = files[i];
@@ -342,9 +342,10 @@ function addImgs(files, previewArea, dragDropArea, fieldId) {
         previewArea.style.display = "flex";
         dragDropArea.querySelector(".holder").style.display = "none";
     }
-    let tempFileArray = window.uploadedFiles[inputFieldIndex] || [];
+    let tempFileArray = window.uploadedFiles[inputFieldIndex];
+    // Check if the file is already in the window.uploadedFiles array
     for (let i = 0; i < files.length; i++) {
-        if (tempFileArray.some((file) => file.name === files[i].name)) {
+        if (tempFileArray.find((file) => file.name === files[i].name)) {
             continue;
         } else if (fileCount + tempFileArray.length > maxAmountOfFiles) {
             alert(`You can only upload ${maxAmountOfFiles} files`);
@@ -380,8 +381,7 @@ function addImgs(files, previewArea, dragDropArea, fieldId) {
                         `;
                 previewArea.appendChild(fileHolder);
             };
-        }
-        0;
+        };
     }
 }
 
@@ -420,6 +420,28 @@ function formControl(form_id) {
     });
 }
 
+function clearImgInputField(fieldId) {
+    let inputFieldIndex = window.inputFieldArray.indexOf(fieldId);
+    if (inputFieldIndex === -1) {
+        return;
+    }
+
+    //Remove all the files in the preview area
+    let previewArea = document.querySelector(`#${fieldId} .preview`);
+    previewArea.innerHTML = "";
+    previewArea.style.display = "none";
+
+    document.querySelector(`#${fieldId} .holder`).style.display = "block";
+
+    // Remove this in window.inputFieldArray
+    window.inputFieldArray.splice(inputFieldIndex, 1);
+
+    // Remove this in window.uploadedFiles
+    window.uploadedFiles.splice(inputFieldIndex, 1);
+
+}
+
+
 // Detail location - edit ad button
 
 function editAd(e) {
@@ -435,7 +457,9 @@ function editAd(e) {
 function cancelAdEdit(e) {
     let adCard = e.parentNode.parentNode.parentNode.parentNode.parentNode;
     console.log(adCard);
+    let imgFieldId = adCard.querySelector(".imgs-field .upload-field").id;
     adCard.classList.remove("ad-detail-card-editing");
     let overlay = document.querySelector("#detail-location-overlay");
     overlay.classList.add("collapse");
+    clearImgInputField(imgFieldId);
 }
