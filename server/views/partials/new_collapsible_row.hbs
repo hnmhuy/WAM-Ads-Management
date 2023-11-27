@@ -37,18 +37,18 @@
                             data-bs-target="#{{id}}"
                             aria-expanded="false"
                             aria-controls="{{id}}"
+                            onclick="handleCopplaseContent(this)"  {{!-- Please overwrite this function in your handler functions of each page --}}
                         >
                             <i class="bi bi-chevron-down"></i>
                         </button>
                     </td>
                 </tr>
             </table>
-            <div class="collapse" id="{{id}}" style="width: 100%;">
-                <div class="collapsed-content">
+            <div class="collapse" id="{{id}}" style="width: 100%;" showed="false">
+                <div class="collapsed-content loading">
                     <div class="spinner-border" role="status">
                         <span class="visually-hidden">Loading...</span>
                     </div>
-                    Still coding...
                 </div>
             </div>
         </div>

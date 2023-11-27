@@ -4,20 +4,35 @@ const tab_bar = document.querySelector(".tab-bar");
 const create_button = document.querySelector("#new_location_btn");
 const req_create_table = document.querySelector("#req_create_table");
 const req_update = document.querySelector("#req_update");
+const location_area = document.querySelector("#location-area");
+const req_area = document.querySelector("#req-area");
 let currpage = swap_button.getAttribute("target");
 
-req_create_table.classList.add("collapse");
+function createLoadingHolder() {
+    const loadingHolder = document.createElement("div");
+    loadingHolder.classList.add("collapsed-content");
+    loadingHolder.classList.add("loading");
+    loadingHolder.innerHTML = `
+    <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+    `;
+    return loadingHolder;
+}
 
+// Main ui controller
 swap_button.addEventListener("click", () => {
-    if (currpage == "location") {
-        swap_button.setAttribute("target", "req");
-    } else if (currpage == "req") {
-        swap_button.setAttribute("target", "location");
+    if (swap_button.checked) {
+        window.location.href = "/ads/request"
+    } else {
+        window.location.href = "/ads"
     }
-    location_table.classList.toggle("collapse");
-    req_create_table.classList.toggle("collapse");
-    tab_bar.classList.toggle("collapse");
-    create_button.classList.toggle("collapse");
+    // location_table.classList.toggle("collapse");
+    // req_create_table.classList.toggle("collapse");
+    // location_area.classList.toggle("collapse");
+    // req_area.classList.toggle("collapse");
+    // tab_bar.classList.toggle("collapse");
+    // create_button.classList.toggle("collapse");
 });
 
 document.querySelectorAll("#collapse-btn").forEach((btn) => {
@@ -42,6 +57,7 @@ tab_btn[1].addEventListener("click", () => {
     req_update.classList.remove("collapse");
 });
 
+// ------Controller for detial content of create request table ------
 function unseletedAll() {
     document
         .querySelectorAll("#collapse-req-create-table .selected-row")
@@ -63,7 +79,7 @@ function selectARow() {
         });
 }
 
-function generateCollapseDiv() {
+function reqCreateContentGenerate() {
     let div = document.createElement("div");
     div.classList.add("collapsed-content");
     div.innerHTML = `
@@ -214,41 +230,103 @@ function generateCollapseDiv() {
     return div;
 }
 
-// Control the upload image
-const imgInputField = document.querySelector("#imgFile");
-const dragDropArea = document.querySelector(".drag-drop");
-const previewArea = document.querySelector(".preview");
-const maxAmountOfFiles = 2;
+// Common controller functions for tables
+function handleCopplaseContent(e) {
+    let parentTable =
+        e.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
+    let tableId = parentTable.id;
+    let tableRow = e.parentNode.parentNode.parentNode.parentNode.parentNode;
+    let collpaseDiv = tableRow.children[1];
+    if (tableId === "req_create_table") {
+        //Call another function to generate the content
+        if (collpaseDiv.getAttribute("showed") === "false") {
+            let content = reqCreateContentGenerate();
+            setTimeout(
+                (collpaseDiv) => {
+                    collpaseDiv.innerHTML = "";
+                    collpaseDiv.appendChild(content);
+                    collpaseDiv.setAttribute("showed", "true");
+                },
+                1000,
+                collpaseDiv
+            );
+        } else {
+            collpaseDiv.innerHTML = "";
+            collpaseDiv.appendChild(createLoadingHolder());
+            collpaseDiv.setAttribute("showed", "false");
+        }
+    }
+}
 
-function removeImg(index) {
-    const fileHolder = previewArea.querySelector(
+// ------Control the upload image------
+
+const maxAmountOfFiles = 2;
+window.inputFieldArray = [];
+window.uploadedFiles = [];
+function imgInputController(fieldId) {
+    window.inputFieldArray.push(fieldId);
+    let imgInputField = document.querySelector(`#${fieldId} #imgFile`);
+    let dragDropArea = document.querySelector(`#${fieldId} .drag-drop`);
+    let previewArea = document.querySelector(`#${fieldId} .preview`);
+    imgInputField.addEventListener("change", () => {
+        const files = imgInputField.files;
+        addImgs(files, previewArea, dragDropArea, fieldId);
+    });
+
+    dragDropArea.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        dragDropArea.classList.add("drag-drop-dragging");
+    });
+
+    dragDropArea.addEventListener("dragleave", () => {
+        dragDropArea.classList.remove("drag-drop-dragging");
+    });
+
+    dragDropArea.addEventListener("drop", (e) => {
+        e.preventDefault();
+        dragDropArea.classList.remove("drag-drop-dragging");
+        const files = e.dataTransfer.files;
+        addImgs(files, previewArea, dragDropArea, fieldId);
+    });
+}
+
+function removeImg(index, fieldId) {
+    let inputFieldIndex = window.inputFieldArray.indexOf(fieldId);
+    let imgInputField = document.querySelector(`#${fieldId} #imgFile`);
+    let dragDropArea = document.querySelector(`#${fieldId} .drag-drop`);
+    let previewArea = document.querySelector(`#${fieldId} .preview`);
+    let fileHolder = previewArea.querySelector(
         `.fileHolder[data-target="${index}"]`
     );
     // Find the index of the file in the window.uploadedFiles array
-    const fileIndex = window.uploadedFiles.findIndex(
+    let fileIndex = window.uploadedFiles[inputFieldIndex].findIndex(
         (file) => file.name === fileHolder.dataset.target
     );
     // Remove the file from the window.uploadedFiles array
-    window.uploadedFiles.splice(fileIndex, 1);
+    window.uploadedFiles[inputFieldIndex].splice(fileIndex, 1);
     fileHolder.remove();
     imgInputField.value = null;
-    if (window.uploadedFiles.length === 0) {
+    if (
+        window.uploadedFiles[inputFieldIndex].length === 0 &&
+        previewArea.querySelectorAll(".fileHolder").length === 0
+    ) {
         previewArea.style.display = "none";
         dragDropArea.querySelector(".holder").style.display = "block";
     }
 }
 
-function addImgs(files) {
+function addImgs(files, previewArea, dragDropArea, fieldId) {
+    let inputFieldIndex = window.inputFieldArray.indexOf(fieldId);
     const fileCount = previewArea.querySelectorAll(".fileHolder").length;
 
     // Check the file format and size
     for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const fileName = file.name;
-        const fileSize = file.size;
-        const fileExtension = fileName.split(".").pop();
-        const allowedExtensions = ["png", "jpeg", "jpg", "gif"];
-        const maxFileSize = 5 * 1024 * 1024; // 2MB
+        let file = files[i];
+        let fileName = file.name;
+        let fileSize = file.size;
+        let fileExtension = fileName.split(".").pop();
+        let allowedExtensions = ["png", "jpeg", "jpg", "gif"];
+        let maxFileSize = 5 * 1024 * 1024; // 2MB
 
         if (!allowedExtensions.includes(fileExtension)) {
             alert("File format not supported");
@@ -264,10 +342,13 @@ function addImgs(files) {
         previewArea.style.display = "flex";
         dragDropArea.querySelector(".holder").style.display = "none";
     }
-    let tempFileArray = window.uploadedFiles || [];
+    let tempFileArray = window.uploadedFiles[inputFieldIndex] || [];
     for (let i = 0; i < files.length; i++) {
         if (tempFileArray.some((file) => file.name === files[i].name)) {
             continue;
+        } else if (fileCount + tempFileArray.length > maxAmountOfFiles) {
+            alert(`You can only upload ${maxAmountOfFiles} files`);
+            return;
         } else {
             tempFileArray.push(files[i]);
         }
@@ -279,48 +360,82 @@ function addImgs(files) {
         return;
     } else {
         // store the file into window.uploadedFiles
-        window.uploadedFiles = tempFileArray;
+        window.uploadedFiles[inputFieldIndex] = tempFileArray;
         // Remove all the files from the preview area
         previewArea.querySelectorAll(".fileHolder").forEach((fileHolder) => {
             fileHolder.remove();
         });
         // Loop through the files and display them
         for (let i = 0; i < tempFileArray.length; i++) {
-            const file = tempFileArray[i];
-            const fileReader = new FileReader();
+            let file = tempFileArray[i];
+            let fileReader = new FileReader();
             fileReader.readAsDataURL(file);
             fileReader.onload = () => {
-                const fileHolder = document.createElement("div");
+                let fileHolder = document.createElement("div");
                 fileHolder.classList.add("fileHolder");
                 fileHolder.setAttribute("data-target", file.name);
                 fileHolder.innerHTML = `
                             <img src="${fileReader.result}" alt="img">
-                            <button type="button" onclick="removeImg('${file.name}')"><i class="bi bi-x"></i></button>
+                            <button type="button" onclick="removeImg('${file.name}', '${fieldId}')"><i class="bi bi-x"></i></button>
                         `;
                 previewArea.appendChild(fileHolder);
             };
         }
-        console.log(window.uploadedFiles);
+        0;
     }
 }
 
-imgInputField.addEventListener("change", () => {
-    const files = imgInputField.files;
-    addImgs(files);
-});
+// -----Logic for create location form -------
+function fetchAndAddOption(selectedElement, kindOfData) {
+    // Implement later
+    return null;
+}
 
-dragDropArea.addEventListener("dragover", (e) => {
-    e.preventDefault();
-    dragDropArea.classList.add("drag-drop-dragging");
-});
+function formControl(form_id) {
+    const districtSelection = document.querySelector(
+        `#${form_id} #district-selection`
+    );
+    const wardSelection = document.querySelector(`#${form_id} #ward-selection`);
 
-dragDropArea.addEventListener("dragleave", () => {
-    dragDropArea.classList.remove("drag-drop-dragging");
-});
+    const streetSelection = document.querySelector(`#${form_id} #street`);
 
-dragDropArea.addEventListener("drop", (e) => {
-    e.preventDefault();
-    dragDropArea.classList.remove("drag-drop-dragging");
-    const files = e.dataTransfer.files;
-    addImgs(files);
-});
+    districtSelection.addEventListener("change", () => {
+        if (districtSelection.value != "") {
+            // fetchAndAddOption(districtSelection, 'ward');
+            wardSelection.disabled = false;
+            wardSelection.addEventListener("change", () => {
+                if (wardSelection.value != "") {
+                    streetSelection.disabled = false;
+                } else {
+                    streetSelection.value = "";
+                    streetSelection.disabled = true;
+                }
+            });
+        } else {
+            wardSelection.disabled = true;
+            streetSelection.disabled = true;
+            wardSelection.value = "";
+            streetSelection.value = "";
+        }
+    });
+}
+
+// Detail location - edit ad button
+
+function editAd(e) {
+    let adCard = e.parentNode.parentNode;
+    let imgField = adCard.querySelector(".imgs-field .upload-field");
+    let imgFieldId = imgField.id;
+    imgInputController(imgFieldId);
+    adCard.classList.add("ad-detail-card-editing");
+    let overlay = document.querySelector("#detail-location-overlay");
+    overlay.classList.remove("collapse");
+}
+
+function cancelAdEdit(e) {
+    let adCard = e.parentNode.parentNode.parentNode.parentNode.parentNode;
+    console.log(adCard);
+    adCard.classList.remove("ad-detail-card-editing");
+    let overlay = document.querySelector("#detail-location-overlay");
+    overlay.classList.add("collapse");
+}

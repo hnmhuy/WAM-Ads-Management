@@ -1,6 +1,12 @@
 {
     "table_id": "ad-detail-information",
-    "heading": ["Kích thước", "Ngày bắt đầu", "Ngày kết thúc", "Trạng thái"],
+    "heading": [
+        "Hình ảnh",
+        "Kích thước",
+        "Ngày bắt đầu",
+        "Ngày kết thúc",
+        "Trạng thái"
+    ],
     "data_row": [
         {
             "id": "ra1",
