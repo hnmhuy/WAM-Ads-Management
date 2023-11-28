@@ -36,8 +36,10 @@
   width: 764px;
   background-color: #fff;
   padding: 30px 30px 0 30px;
-  border-top-left-radius: 12px; /* Adjust the radius as needed */
-  border-top-right-radius: 12px; /* Adjust the radius as needed */
+  border-top-left-radius: 12px;
+    /* Adjust the radius as needed */
+    border-top-right-radius: 12px;
+    /* Adjust the radius as needed */
 }
 
 .form-popup label {
@@ -48,7 +50,7 @@
   width: 180px;
 }
 
-.form-popup > * {
+.form-popup>* {
   margin-bottom: 20px;
 }
 
@@ -91,6 +93,7 @@
 #customRadioInline2 {
   margin-left: 3rem;
 }
+
 .create-account-form select {
   height: 50px;
 }
@@ -122,6 +125,7 @@
   right: 20px;
   transform: translate(0, -50%);
 }
+
 .wrapper-dropdown .dropdown {
   transition: all 0.3s ease;
   position: absolute;
@@ -134,7 +138,7 @@
   border: 1px solid rgba(0, 0, 0, 0.2);
 
   opacity: 0;
-  visibility: hidden;
+  display: none;
 }
 
 .wrapper-dropdown .dropdown li {
@@ -148,6 +152,8 @@
 
 .dropdown {
   padding: 0.5rem !important;
+  max-height: 200px;
+    overflow-y: auto;
 }
 
 .wrapper-dropdown .dropdown li:hover {
@@ -158,6 +164,7 @@
 .rotate {
   transform: translate(0, -50%) rotate(180deg);
 }
+
 /* --------------- ACTIVE FOR DROPDOWM --------------- */
 
 .active-arrow {
@@ -172,7 +179,7 @@
 
 .wrapper-dropdown.active .dropdown {
   opacity: 1;
-  visibility: visible;
+  display: block;
   border-radius: 15px;
   background-color: #fff;
 }
@@ -194,8 +201,10 @@
   height: 85px;
   display: flex;
   background-color: #f4f4f7;
-  border-bottom-left-radius: 12px; /* Adjust the radius as needed */
-  border-bottom-right-radius: 12px; /* Adjust the radius as needed */
+  border-bottom-left-radius: 12px;
+    /* Adjust the radius as needed */
+    border-bottom-right-radius: 12px;
+    /* Adjust the radius as needed */
   justify-content: flex-end;
   align-items: center;
   padding: 20px;
@@ -228,6 +237,7 @@
   color: rgba(0, 0, 0, 0.5);
   transition: all 0.3s ease;
 }
+
 .confirm-container .button-confirm:hover {
   background-color: green;
 }
@@ -246,24 +256,23 @@
 /* ----- OVERLAY ------ */
 
 .overlay {
-  width: 100%;
-  height: 100%;
-  position: absolute;
+  width: 100vw;
+    height: 100vh;
+    position: fixed;
   bottom: 0;
   right: 0;
-  z-index: 1;
-  background-color: aqua;
+  z-index: 1040;
+    -webkit-backdrop-filter: blur(10px) saturate(180%);
+    backdrop-filter: blur(1px) saturate(180%);
+    background-color: rgba(0, 0, 0, .5);
 }
 
 .popup-container {
   width: 764px;
   height: auto;
   position: absolute;
-  bottom: 0;
-  right: 0;
-  /* transform: translate(-50%, -50%); */
-  z-index: 2;
-}
-.content {
-  position: relative;
+  top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1050;
 }

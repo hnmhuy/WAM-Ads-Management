@@ -1,9 +1,43 @@
-<div class="popup-container">
-  <form class="create-account-form">
+{{! Toolbar section }}
+<div class="toolbar">
+
+  <form class="col-lg-4 mb-3 mb-lg-0 me-lg-3" role="search" onsubmit="(e)=>{e.preventDefault()}">
+    <input type="search" class="form-control" placeholder="Search..." id="keyword" aria-label="Search"
+      oninput="search(this.value)" required />
+  </form>
+  <select id="typeSelect" class="form-select" aria-label="Default select example">
+    <option selected>Loại Vị Trí</option>
+    <option value="1">Đất Công</option>
+    <option value="2">Hành Lang An Toàn Giao Thông</option>
+    <option value="3">Công Viên</option>
+    <option value="4">Nhà Riêng</option>
+  </select>
+  <select id="methodSelect" class="form-select" aria-label="Default select example"
+    onchange="filterByMethod(this.value)">
+    <option selected>Hình Thức</option>
+    <option value="1">Cổ Động Chính Trị</option>
+    <option value="2">Quảng Cáo Thương Mại</option>
+    <option value="3">Xã Hội Hoá</option>
+  </select>
+  <select id="statusSelect" class="form-select" aria-label="Default select example"
+    onchange="filterByStatus(this.value)">
+    <option selected>Trạng Thái</option>
+    <option value="1">Đã Quy Hoạch</option>
+    <option value="2">Chưa Quy Hoạch</option>
+  </select>
+
+  <button class="" id="new-account-btn" type="button" onclick="openAccountForm()">
+    <i class="bi bi-plus-circle"></i>
+    Tạo mới
+  </button>
+</div>
+
+<div class="popup-container collapse" id="create-account-form">
+  <form class="create-account-form" action="#">
     <div class="form-popup">
       <div class="form-header">
         <h4>Tạo tài khoảng mới</h4>
-        <i class="bi bi-x-lg"></i>
+        <i class="bi bi-x-lg" onclick="closeAccountForm()"></i>
       </div>
       <div class="form-group">
         <div class="label">
@@ -113,11 +147,12 @@
     </div>
 
     <div class="confirm-container">
-      <p class="cancel">Hủy</p>
-      <button class="button-confirm" type="submit">
+      <p class="cancel" onclick="closeAccountForm()">Hủy</p>
+      <button class="button-confirm" type="submit" onclick="">
         <p>Xác nhận</p>
       </button>
 
     </div>
   </form>
 </div>
+<div class="overlay collapse"></div>

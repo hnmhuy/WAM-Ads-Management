@@ -94,3 +94,21 @@ function onClickRadio(e) {
     districtDropdown.setAttribute("onclick", "onClickDropdown(this, district)");
   }
 }
+
+function openAccountForm() {
+    const form = document.querySelector("#create-account-form");
+    const overlay = document.querySelector(".overlay");
+    form.classList.remove("collapse");
+    overlay.classList.remove("collapse");
+}
+
+function closeAccountForm() {
+    const form = document.querySelector("#create-account-form");
+    const overlay = document.querySelector(".overlay");
+    form.classList.add("collapse");
+    overlay.classList.add("collapse");
+}
+
+function confirmCreateAcc() 
+{
+}
