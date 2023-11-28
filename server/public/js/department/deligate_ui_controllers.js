@@ -108,7 +108,3 @@ function closeAccountForm() {
     form.classList.add("collapse");
     overlay.classList.add("collapse");
 }
-
-function confirmCreateAcc() 
-{
-}
