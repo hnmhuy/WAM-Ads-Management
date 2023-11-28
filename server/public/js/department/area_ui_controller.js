@@ -144,3 +144,27 @@ function openAddAreaForm() {
     areaForm.classList.remove("collapse");
     document.querySelector(".overlay").classList.remove("collapse");
 }
+
+function rowHover(e) {
+    e.querySelector(".extend-btn i:first-child").style.display = 'block';
+}
+
+function rowLeave(e) {
+    e.querySelector(".extend-btn i:first-child").style.display = 'none';
+}
+
+function expendRow(e) {
+    if (e.classList.contains("extend-btn-rotate")) {
+        e.classList.remove("extend-btn-rotate");
+        let id = e.parentNode.parentNode.parentNode.id;
+        document.querySelectorAll(`tr[parent-id="${id}"]`).forEach(item => {
+            item.classList.add("collapse");
+        });
+    } else {
+        e.classList.add("extend-btn-rotate");
+        let id = e.parentNode.parentNode.parentNode.id;
+        document.querySelectorAll(`tr[parent-id="${id}"]`).forEach(item => {
+            item.classList.remove("collapse");
+        });
+    }
+}

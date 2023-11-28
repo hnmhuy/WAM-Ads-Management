@@ -93,7 +93,7 @@ app.get("/deligate", (req, res) => {
     css: componentDependcy.css,
     title: componentDependcy.title,
     nav_link: navBarData.nav_link,
-    js: componentDependcy.jsHeader,
+    jsHeader: componentDependcy.jsHeader,
   });
 });
 
