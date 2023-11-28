@@ -59,16 +59,12 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
-
 app.get("/login", (req, res) => { });
 // Use routes of district
 app.use("/home", require("./routes/district/home.route"));
 app.use("/location", require("./routes/district/location.route"));
 app.use("/reports", require("./routes/district/reports.route"));
 app.use("/permission", require("./routes/district/permission.route"));
-
-
-
 
 // Use routes of department
 app.use("/dashboard", require("./routes/department/dashboard.route"));
@@ -100,6 +96,7 @@ app.get("/deligate", (req, res) => {
     js: componentDependcy.jsHeader,
   });
 });
+
 
 
 

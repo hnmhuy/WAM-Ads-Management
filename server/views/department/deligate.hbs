@@ -1,32 +1,60 @@
 {{! Toolbar section }}
 <div class="toolbar">
 
-  <form class="col-lg-4 mb-3 mb-lg-0 me-lg-3" role="search" onsubmit="(e)=>{e.preventDefault()}">
-    <input type="search" class="form-control" placeholder="Search..." id="keyword" aria-label="Search"
-      oninput="search(this.value)" required />
+  <form
+    class="col-lg-4 mb-3 mb-lg-0 me-lg-3"
+    role="search"
+    onsubmit="(e)=>{e.preventDefault()}"
+  >
+    <input
+      type="search"
+      class="form-control"
+      placeholder="Search..."
+      id="keyword"
+      aria-label="Search"
+      oninput="search(this.value)"
+      required
+    />
   </form>
-  <select id="typeSelect" class="form-select" aria-label="Default select example">
+  <select
+    id="typeSelect"
+    class="form-select"
+    aria-label="Default select example"
+  >
     <option selected>Loại Vị Trí</option>
     <option value="1">Đất Công</option>
     <option value="2">Hành Lang An Toàn Giao Thông</option>
     <option value="3">Công Viên</option>
     <option value="4">Nhà Riêng</option>
   </select>
-  <select id="methodSelect" class="form-select" aria-label="Default select example"
-    onchange="filterByMethod(this.value)">
+  <select
+    id="methodSelect"
+    class="form-select"
+    aria-label="Default select example"
+    onchange="filterByMethod(this.value)"
+  >
     <option selected>Hình Thức</option>
     <option value="1">Cổ Động Chính Trị</option>
     <option value="2">Quảng Cáo Thương Mại</option>
     <option value="3">Xã Hội Hoá</option>
   </select>
-  <select id="statusSelect" class="form-select" aria-label="Default select example"
-    onchange="filterByStatus(this.value)">
+  <select
+    id="statusSelect"
+    class="form-select"
+    aria-label="Default select example"
+    onchange="filterByStatus(this.value)"
+  >
     <option selected>Trạng Thái</option>
     <option value="1">Đã Quy Hoạch</option>
     <option value="2">Chưa Quy Hoạch</option>
   </select>
 
-  <button class="" id="new-account-btn" type="button" onclick="openAccountForm()">
+  <button
+    class=""
+    id="new-account-btn"
+    type="button"
+    onclick="openAccountForm()"
+  >
     <i class="bi bi-plus-circle"></i>
     Tạo mới
   </button>
@@ -155,3 +183,53 @@
   </form>
 </div>
 <div class="overlay collapse"></div>
+
+<div class="deligate-table">
+  <table>
+    <tr>
+      <th>Họ và tên</th>
+      <th>Email</th>
+      <th>Số điện thoại</th>
+      <th>Khu vực quản lý</th>
+      <th>Trạng thái</th>
+      <th>Ngày cấp</th>
+    </tr>
+    <tr onmouseover="hoverRow(this)" onmouseout="outRow(this)">
+      <td><div class="name"><i class="bi bi-person-circle"></i><p>Huỳnh Nguyễn
+            Minh Huy</p></div></td>
+      <td>example@gmail.com</td>
+      <td>0123456789</td>
+      <td>
+        <div class="edit-location">Quận Bình Thạnh
+          <i class="bi bi-pencil-fill"></i></div></td>
+      <td><div
+          class="wrapper-dropdown"
+          id="district-dropdown"
+          onclick="onClickDropdown(this)"
+        >
+          <span class="selected-display on" id="district" value="ON">Đang hoạt
+            động</span>
+          <i class="bi bi-chevron-down"></i>
+          <ul class="dropdown">
+            <li class="item" value="ON"><p class="on status">Đang hoạt động</p></li>
+            <li class="item" value="BLOCK"><p class="block status">Đã khóa</p></li>
+          </ul>
+
+        </div></td>
+      <td>29/10/2023</td>
+
+    </tr>
+
+    <tr onmouseover="hoverRow(this)" onmouseout="outRow(this)">
+      <td><div class="name"><i class="bi bi-person-circle"></i><p>Huỳnh Nguyễn
+            Minh Huy</p></div></td>
+      <td>example@gmail.com</td>
+      <td>0123456789</td>
+      <td><div class="edit-location">Quận 2
+          <i class="bi bi-pencil-fill"></i></div></td>
+      <td>Đang hoạt động</td>
+      <td>29/10/2023</td>
+
+    </tr>
+  </table>
+</div>
