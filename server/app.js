@@ -83,15 +83,17 @@ app.get("/testing/deligate", (req, res) => {
     target.active = true;
   }
   let componentDependcy = {
-    css: ["/public/css/department_deligate.css"],
+    css: ["/public/css/department/deligate.css"],
     swap: true,
     title: "QUẢN LÝ TÀI KHOẢN CÁN BỘ",
+    js: ["/public/js/department/deligate_ui_controllers.js"],
   };
   res.render("department/deligate", {
     layout: "department_layout",
     css: componentDependcy.css,
     title: componentDependcy.title,
     nav_link: navBarData.nav_link,
+    js: componentDependcy.js,
   });
 });
 
