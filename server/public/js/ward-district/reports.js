@@ -19,6 +19,7 @@ sidebar.addEventListener("mouseleave", () => {
 const tab_btn = document.querySelectorAll(".tab-btn");
 const available_location = document.querySelectorAll('.is_not_random')
 const random_location = document.querySelectorAll('.is_random')
+const extra = document.querySelectorAll('.extra')
 
 tab_btn[0].addEventListener("click", () => {
     tab_btn[0].classList.add("tab-btn-active");
@@ -28,6 +29,9 @@ tab_btn[0].addEventListener("click", () => {
     })
     random_location.forEach((row) => {
         row.classList.add("collapse")
+    })
+    extra.forEach((ex) => {
+        ex.style.display = "none"
     })
 });
 
@@ -39,6 +43,9 @@ tab_btn[1].addEventListener("click", () => {
     })
     random_location.forEach((row) => {
         row.classList.remove("collapse")
+    })
+    extra.forEach((ex) => {
+        ex.style.display = "none"
     })
 });
 
@@ -59,14 +66,31 @@ function handleDropdownItem(event) {
             });
         }
     });
+    extra.forEach((ex) => {
+        ex.style.display = "none"
+    })
 }
 
 // Toggle sibling
 function toggleSibling(sibling) {
+
+    sibling = sibling.parentNode;
     sibling = sibling.nextSibling;
     while (!/tr/i.test(sibling.nodeName)) {
         sibling = sibling.nextSibling;
     }
-    sibling.style.display =
-        sibling.style.display == "table-row" ? "none" : "table-row";
+
+    if (sibling.style.display == "table-row") {
+        sibling.style.display = "none";
+
+    }
+    else {
+        sibling.style.display = "table-row";
+        document.querySelectorAll('.extra').forEach((open) => {
+            if (open.style.display !== 'none' && open !== sibling) {
+                open.style.display = 'none';
+            }
+        });
+    }
+
 }

@@ -40,6 +40,8 @@ app.get('/', (req, res) => {
       '/public/css/dropdown.css',
       '/public/css/feedback-form.css',
       '/public/css/upload-file.css',
+      '/public/css/maps.css',
+      '/public/css/main.css'
     ],
   };
   res.render('citizens/main', { componentData });

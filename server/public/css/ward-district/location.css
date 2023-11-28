@@ -84,10 +84,9 @@ body {
   margin: 0 10px;
 }
 
-#info-ad-location{
+#info-ad-location {
   padding: 0;
 }
-
 
 #info-ad-location td,
 #info-ad-location th {
@@ -134,11 +133,10 @@ body {
   visibility: visible;
 }
 
-.table-cell-type{
-  font-weight: bold; font-size: 15px;
+.table-cell-type {
+  font-size: 16px;
   margin: 0 !important;
 }
-
 
 table,
 th,
@@ -161,7 +159,6 @@ thead th {
 tbody tr:nth-child(even) {
   background-color: #0000000b;
 }
-
 
 tbody tr {
   --delay: 0.1s;
@@ -227,12 +224,12 @@ tbody td.active {
   cursor: pointer;
 }
 
-.table-cell-offcanvas{
+.table-cell-offcanvas {
   text-align: left;
   padding: 3px;
 }
 
-#popup-parent{
+#popup-parent {
   position: fixed;
   top: 0;
   left: 0;
@@ -246,7 +243,7 @@ tbody td.active {
   align-items: center;
 }
 
-#form-img{
+#form-img {
   position: fixed;
   width: 100px;
   top: 10%;
@@ -259,7 +256,7 @@ tbody td.active {
   visibility: hidden;
 }
 
-.popup{
+.popup {
   width: 40%;
   height: 80%;
   position: absolute;
@@ -283,8 +280,8 @@ tbody tr:nth-child(even) {
 }
 
 tbody tr {
-  --delay: .1s;
-  transition: .5s ease-in-out var(--delay), background-color 0s;
+  --delay: 0.1s;
+  transition: 0.5s ease-in-out var(--delay), background-color 0s;
 }
 
 tbody tr.hide {
@@ -299,7 +296,7 @@ tbody tr:hover {
 tbody tr td,
 tbody tr td p,
 tbody tr td img {
-  transition: .2s ease-in-out;
+  transition: 0.2s ease-in-out;
 }
 
 tbody tr.hide td,
@@ -307,5 +304,35 @@ tbody tr.hide td p {
   display: none;
   padding: 0;
   font: 0 / 0 sans-serif;
-  transition: .2s ease-in-out .5s;
+  transition: 0.2s ease-in-out 0.5s;
+}
+
+.extra {
+  display: none;
+}
+
+.expand_row {
+  height: 50px;
+  padding: 0.5em;
+}
+
+.more-information {
+  transition: ease-in-out 10s linear 10s;
+  display: flex;
+  flex-direction: row;
+}
+
+.more-info-heading {
+  font-weight: bold;
+}
+
+.image-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.image-row img {
+  width: 30%;
+  height: auto;
+  padding: 5px;
 }
