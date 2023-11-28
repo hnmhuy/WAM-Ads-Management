@@ -59,16 +59,12 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
-
-app.get("/login", (req, res) => { });
+app.get("/login", (req, res) => {});
 // Use routes of district
 app.use("/home", require("./routes/district/home.route"));
 app.use("/location", require("./routes/district/location.route"));
 app.use("/reports", require("./routes/district/reports.route"));
 app.use("/permission", require("./routes/district/permission.route"));
-
-
-
 
 // Use routes of department
 app.use("/dashboard", require("./routes/department/dashboard.route"));
@@ -76,7 +72,7 @@ app.use("/ads", require("./routes/department/ads.route"));
 app.use("/label", require("./routes/department/label.route"));
 app.use("/feedback", require("./routes/department/feedback.route"));
 
-app.get("/testing/deligate", (req, res) => {
+app.get("/deligate", (req, res) => {
   let navBarData = require("./nav_link.json");
   navBarData.nav_link.forEach((link) => {
     link.active = false;
@@ -100,8 +96,6 @@ app.get("/testing/deligate", (req, res) => {
     js: componentDependcy.js,
   });
 });
-
-
 
 app.get("/testing/area", (req, res) => {
   let navBarData = require("./nav_link.json");

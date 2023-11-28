@@ -37,9 +37,9 @@
   background-color: #fff;
   padding: 30px 30px 0 30px;
   border-top-left-radius: 12px;
-    /* Adjust the radius as needed */
-    border-top-right-radius: 12px;
-    /* Adjust the radius as needed */
+  /* Adjust the radius as needed */
+  border-top-right-radius: 12px;
+  /* Adjust the radius as needed */
 }
 
 .form-popup label {
@@ -50,7 +50,7 @@
   width: 180px;
 }
 
-.form-popup>* {
+.form-popup > * {
   margin-bottom: 20px;
 }
 
@@ -109,21 +109,31 @@
   position: relative;
   display: flex;
   align-items: center;
-  width: 300px;
+  width: 150px;
   border-radius: 10px;
-  padding: 5px 20px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 5px 10px;
   text-align: left;
   cursor: pointer;
-  height: 50px;
-  background-color: #fff;
+  height: 40px;
+  font-size: 15px;
+  background-color: #baf3db;
+}
+
+.selected-display {
+  font-weight: 900;
+  color: #216e4e;
 }
 
 .bi-chevron-down {
   position: absolute;
   top: 50%;
-  right: 20px;
+  right: 8px;
   transform: translate(0, -50%);
+  font-size: 12px;
+  color: #216e4e;
+}
+.bi-chevron-down::before {
+  font-weight: 1000 !important;
 }
 
 .wrapper-dropdown .dropdown {
@@ -133,17 +143,32 @@
   right: 0;
   left: 0;
   list-style: none;
-  border-radius: 10px;
-  z-index: 99;
   border: 1px solid rgba(0, 0, 0, 0.2);
-
   opacity: 0;
   display: none;
 }
 
 .wrapper-dropdown .dropdown li {
-  padding: 0 15px;
-  line-height: 50px;
+  padding: 7px 8px;
+  height: 45px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.dropdown .status {
+  padding: 5px;
+  font-weight: 900;
+  border-radius: 8px;
+}
+
+.dropdown .on {
+  background-color: #baf3db;
+  color: #216e4e;
+}
+
+.dropdown .block {
+  background-color: #ffd5d2;
+  color: #ae2e24;
 }
 
 .wrapper-dropdown .dropdown li:last-child {
@@ -151,14 +176,13 @@
 }
 
 .dropdown {
-  padding: 0.5rem !important;
+  padding: 0 !important;
   max-height: 200px;
-    overflow-y: auto;
+  overflow-y: auto;
 }
 
 .wrapper-dropdown .dropdown li:hover {
-  background-color: #fff3f0;
-  border-radius: 10px;
+  background-color: #f1f2f4;
 }
 
 .rotate {
@@ -180,7 +204,7 @@
 .wrapper-dropdown.active .dropdown {
   opacity: 1;
   display: block;
-  border-radius: 15px;
+  border-radius: 10px;
   background-color: #fff;
 }
 
@@ -202,9 +226,9 @@
   display: flex;
   background-color: #f4f4f7;
   border-bottom-left-radius: 12px;
-    /* Adjust the radius as needed */
-    border-bottom-right-radius: 12px;
-    /* Adjust the radius as needed */
+  /* Adjust the radius as needed */
+  border-bottom-right-radius: 12px;
+  /* Adjust the radius as needed */
   justify-content: flex-end;
   align-items: center;
   padding: 20px;
@@ -257,14 +281,14 @@
 
 .overlay {
   width: 100vw;
-    height: 100vh;
-    position: fixed;
+  height: 100vh;
+  position: fixed;
   bottom: 0;
   right: 0;
   z-index: 1040;
-    -webkit-backdrop-filter: blur(10px) saturate(180%);
-    backdrop-filter: blur(1px) saturate(180%);
-    background-color: rgba(0, 0, 0, .5);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+  backdrop-filter: blur(1px) saturate(180%);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .popup-container {
@@ -272,7 +296,115 @@
   height: auto;
   position: absolute;
   top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1050;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1050;
+}
+
+/* -------------- TABLE ---------------- */
+
+.deligate-table p {
+  margin: 0;
+}
+
+.deligate-table {
+  max-height: (100vh - 6rem - 25px - 110px);
+  width: 100%;
+  display: flex;
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+}
+
+.deligate-table table {
+  border-collapse: collapse;
+  width: 100%;
+  overflow-y: auto;
+}
+
+.deligate-table th:first-child {
+  border-top-left-radius: 15px;
+}
+.deligate-table th:last-child {
+  border-top-right-radius: 15px;
+}
+
+.deligate-table tr:last-child td:first-child {
+  border-bottom-left-radius: 15px;
+}
+
+.deligate-table tr:last-child td:last-child {
+  border-bottom-right-radius: 15px;
+}
+
+.deligate-table th,
+.deligate-table td {
+  font-size: 18px;
+  padding: 10px 20px;
+}
+
+.deligate-table td {
+  height: 62px;
+}
+
+.deligate-table th {
+  height: 55px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  background-color: #e9edfa;
+  position: sticky;
+  top: 0;
+}
+
+.deligate-table tr {
+  transition: all 0.3s ease;
+  background-color: #fff;
+  width: 100%;
+  border: none;
+}
+
+.deligate-table th:last-child,
+.deligate-table td:last-child {
+  padding: 0;
+}
+
+.deligate-table tr:hover {
+  background-color: #f1f2f4;
+}
+
+/* ----------------- EDIT LOCATION ------------ */
+.edit-location {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.deligate-table .name {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.name .bi-person-circle {
+  color: #3f3f3f;
+  font-size: 20px;
+  margin-right: 8px;
+}
+
+.edit-location .bi-pencil-fill {
+  font-size: 16px;
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  text-align: center;
+  border-radius: 6px;
+  margin-left: 10px;
+  visibility: hidden;
+}
+
+.edit-location .bi-pencil-fill::before {
+  color: #4f3ed7;
+}
+
+/* ------------------ HOVER EDIT CONTENT ------------------------ */
+.edit-location .bi-pencil-fill:hover {
+  background-color: #e4e6ea;
 }
