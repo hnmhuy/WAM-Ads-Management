@@ -121,6 +121,7 @@ hr {
 .table_heading {
   font-weight: bold;
   font-size: 28px;
+  width: 100%;
 }
 
 body {
@@ -169,8 +170,8 @@ tbody tr:nth-child(even) {
 }
 
 tbody tr {
-  --delay: .1s;
-  transition: .5s ease-in-out var(--delay), background-color 0s;
+  --delay: 0.1s;
+  transition: 0.5s ease-in-out var(--delay), background-color 0s;
 }
 
 tbody tr.hide {
@@ -185,20 +186,20 @@ tbody tr:hover {
 tbody tr td,
 tbody tr td p,
 tbody tr td img {
-  transition: .2s ease-in-out;
+  transition: 0.2s ease-in-out;
 }
 
 tbody tr.hide td,
 tbody tr.hide td p {
   padding: 0;
   font: 0 / 0 sans-serif;
-  transition: .2s ease-in-out .5s;
+  transition: 0.2s ease-in-out 0.5s;
 }
 
 tbody tr.hide td img {
   width: 0;
   height: 0;
-  transition: .2s ease-in-out .5s;
+  transition: 0.2s ease-in-out 0.5s;
 }
 
 .table__header .input_group:hover {
@@ -227,10 +228,9 @@ tbody tr.hide td img {
   margin: 0 10px;
 }
 
-#info-ad-location{
+#info-ad-location {
   padding: 0;
 }
-
 
 #info-ad-location td,
 #info-ad-location th {
@@ -259,7 +259,7 @@ tbody tr.hide td img {
 
   overflow: auto;
   overflow: overlay;
-  font-size: small;
+  font-size: 16px;
 }
 
 .table__body::-webkit-scrollbar {
@@ -277,11 +277,10 @@ tbody tr.hide td img {
   visibility: visible;
 }
 
-.table-cell-type{
-  font-weight: bold; font-size: 15px;
+.table-cell-type {
+  font-size: 16px;
   margin: 0 !important;
 }
-
 
 table,
 th,
@@ -293,7 +292,7 @@ td {
 
 thead th {
   position: sticky;
-  font-size: 15px;
+  font-size: 16px;
   padding: 0.8rem 2rem;
   top: 0;
   left: 0;
@@ -304,7 +303,6 @@ thead th {
 tbody tr:nth-child(even) {
   background-color: #0000000b;
 }
-
 
 tbody tr {
   --delay: 0.1s;
@@ -322,8 +320,8 @@ tbody tr:nth-child(even) {
 }
 
 tbody tr td,
-tbody tr td p{
-  transition: .2s ease-in-out;
+tbody tr td p {
+  transition: 0.2s ease-in-out;
 }
 
 tbody tr.hide td,
@@ -331,7 +329,7 @@ tbody tr.hide td p {
   display: none;
   padding: 0;
   font: 0 / 0 sans-serif;
-  transition: .2s ease-in-out .5s;
+  transition: 0.2s ease-in-out 0.5s;
 }
 
 tbody tr:hover {
@@ -386,12 +384,12 @@ tbody td.active {
   cursor: pointer;
 }
 
-.table-cell-offcanvas{
+.table-cell-offcanvas {
   text-align: left;
   padding: 3px;
 }
 
-#popup-parent_{
+#popup-parent_ {
   position: fixed;
   top: 0;
   left: 0;
@@ -405,7 +403,7 @@ tbody td.active {
   align-items: center;
 }
 
-#form-img_{
+#form-img_ {
   position: fixed;
   width: 100px;
   top: 10%;
@@ -418,7 +416,7 @@ tbody td.active {
   visibility: hidden;
 }
 
-.popup_{
+.popup_ {
   width: 40%;
   height: 80%;
   position: absolute;
@@ -483,117 +481,116 @@ tbody td.active {
   overflow: scroll;
 }
 
-    .menu_div {
-      margin-top: 10px;
-    }
-  
-    .select-btn,
-    .selectedAddressOfAd,
-    .selectedAddress {
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-    }
-  
-    .select-btn {
-      height: 40px;
-      padding: 0 20px;
-      background: #fff;
-      border-radius: 7px;
-      justify-content: space-between;
-      border: 0.1px solid rgba(0, 0, 0, 0.1);
-    }
-  
-    .select-btn i {
-      font-size: 15px;
-      transition: transform 0.3s linear;
-    }
-  
-    .menu_div.active .select-btn i {
-      transform: rotate(-180deg);
-    }
-  
-    .content {
-      display: none;
-      padding: 20px;
-      margin-top: 15px;
-      background: #fff;
-      border-radius: 7px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    }
-  
-    .menu_div.active .content {
-      display: block;
-    }
-  
-    .content .search {
-      position: relative;
-    }
-  
-    .search i {
-      top: 50%;
-      left: 15px;
-      color: #999;
-      pointer-events: none;
-      transform: translateY(-50%);
-      position: absolute;
-    }
-  
-    .search input {
-      height: 40px;
-      width: 100%;
-      outline: none;
-      border-radius: 5px;
-      padding: 0 20px 0 43px;
-      border: 1px solid #B3B3B3;
-    }
-  
-    .search input:focus {
-      padding-left: 42px;
-      border: 2px solid #4285f4;
-    }
-  
-    .search input::placeholder {
-      color: #bfbfbf;
-    }
-  
-    .content .options {
-      margin-top: 10px;
-      max-height: 250px;
-      overflow-y: auto;
-      padding-right: 7px;
-    }
-  
-    .options::-webkit-scrollbar {
-      width: 7px;
-    }
-  
-    .options::-webkit-scrollbar-track {
-      background: #f1f1f1;
-      border-radius: 25px;
-    }
-  
-    .options::-webkit-scrollbar-thumb {
-      background: #ccc;
-      border-radius: 25px;
-    }
-  
-    .options::-webkit-scrollbar-thumb:hover {
-      background: #b3b3b3;
-    }
-  
-    .options{
-      text-align: left;
-    }
+.menu_div {
+  margin-top: 10px;
+}
 
+.select-btn,
+.selectedAddressOfAd,
+.selectedAddress {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
 
-    .options li {
-      height: 50px;
-      list-style: none;
-    }
-  
-    .options li:hover,
-    li.selected {
-      border-radius: 5px;
-      background: #f2f2f2;
-    }
+.select-btn {
+  height: 40px;
+  padding: 0 20px;
+  background: #fff;
+  border-radius: 7px;
+  justify-content: space-between;
+  border: 0.1px solid rgba(0, 0, 0, 0.1);
+}
+
+.select-btn i {
+  font-size: 15px;
+  transition: transform 0.3s linear;
+}
+
+.menu_div.active .select-btn i {
+  transform: rotate(-180deg);
+}
+
+.content {
+  display: none;
+  padding: 20px;
+  margin-top: 15px;
+  background: #fff;
+  border-radius: 7px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.menu_div.active .content {
+  display: block;
+}
+
+.content .search {
+  position: relative;
+}
+
+.search i {
+  top: 50%;
+  left: 15px;
+  color: #999;
+  pointer-events: none;
+  transform: translateY(-50%);
+  position: absolute;
+}
+
+.search input {
+  height: 40px;
+  width: 100%;
+  outline: none;
+  border-radius: 5px;
+  padding: 0 20px 0 43px;
+  border: 1px solid #b3b3b3;
+}
+
+.search input:focus {
+  padding-left: 42px;
+  border: 2px solid #4285f4;
+}
+
+.search input::placeholder {
+  color: #bfbfbf;
+}
+
+.content .options {
+  margin-top: 10px;
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 7px;
+}
+
+.options::-webkit-scrollbar {
+  width: 7px;
+}
+
+.options::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 25px;
+}
+
+.options::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 25px;
+}
+
+.options::-webkit-scrollbar-thumb:hover {
+  background: #b3b3b3;
+}
+
+.options {
+  text-align: left;
+}
+
+.options li {
+  height: 50px;
+  list-style: none;
+}
+
+.options li:hover,
+li.selected {
+  border-radius: 5px;
+  background: #f2f2f2;
+}
