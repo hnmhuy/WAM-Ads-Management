@@ -1,88 +1,123 @@
-<form class="create-account-form">
-  <div class="form-group">
-    <label for="email-input">Email</label>
-    <input
-      type="email"
-      class="form-control"
-      id="email-input"
-      placeholder="name@example.com"
-    />
-  </div>
-  <div class="form-group">
-    <label for="name-input">Họ và tên</label>
-    <input
-      type="text"
-      class="form-control"
-      id="name-input"
-      placeholder="Họ và tên"
-    />
-  </div>
-  <div class="phone-date">
-    <div class="form-group">
-      <label for="phone-input">Số điện thoại</label>
-      <input
-        type="text"
-        class="form-control"
-        id="name-input"
-        placeholder="0123456789"
-      />
+<div class="popup-container">
+  <form class="create-account-form">
+    <div class="form-popup">
+      <div class="form-header">
+        <h4>Tạo tài khoảng mới</h4>
+        <i class="bi bi-x-lg"></i>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label for="email-input">Email</label>
+        </div>
+        <input
+          type="email"
+          class="form-control input-field"
+          id="email-input"
+          placeholder="name@example.com"
+        />
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label for="name-input">Họ và tên</label>
+        </div>
+        <input
+          type="text"
+          class="form-control input-field"
+          id="name-input"
+          placeholder="Họ và tên"
+        />
+      </div>
+
+      <div class="form-group">
+        <div class="label">
+
+          <label for="phone-input">Số điện thoại</label>
+        </div>
+        <input
+          type="text"
+          class="form-control input-field"
+          id="name-input"
+          placeholder="0123456789"
+        />
+      </div>
+
+      <div class="form-group">
+        <div class="label">
+
+          <label for="date-input">Ngày sinh</label>
+        </div>
+        <input
+          type="date"
+          class="form-control input-field"
+          id="date-input"
+          placeholder="01/01/2023"
+        />
+      </div>
+
+      <label for="customRadioInline1">Cấp quản lý</label>
+
+      <div class="choose-position">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="flexRadioDefault"
+            id="district"
+            onclick="onClickRadio(this)"
+          />
+          <label class="form-check-label" for="flexRadioDefault1">
+            Cấp quận
+          </label>
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="flexRadioDefault"
+            id="warn"
+            onclick="onClickRadio(this)"
+          />
+          <label class="form-check-label" for="flexRadioDefault2">
+            Cấp Phường
+          </label>
+        </div>
+      </div>
+      <div class="choose-area">
+        <div class="wrapper-dropdown disabled" id="district-dropdown">
+          <span class="selected-display" id="district-select">Chọn Quận</span>
+          <i class="bi bi-chevron-down"></i>
+          <ul class="dropdown">
+            <li class="item" value="Q1">Quận 1</li>
+            <li class="item" value="Q5">Quận 5</li>
+          </ul>
+        </div>
+
+        <div class="wrapper-dropdown disabled" id="warn-dropdown">
+          <span class="selected-display" id="warn-select">Chọn Phường</span>
+          <i class="bi bi-chevron-down"></i>
+          <ul class="dropdown">
+            <li class="item" value="P1">Phường 1</li>
+            <li class="item" value="P2">Phường 2</li>
+            <li class="item" value="P3">Phường 3</li>
+            <li class="item" value="P4">Phường 4</li>
+            <li class="item" value="P5">Phường 5</li>
+            <li class="item" value="P6">Phường 6</li>
+            <li class="item" value="P7">Phường 7</li>
+            <li class="item" value="P8">Phường 8</li>
+          </ul>
+
+        </div>
+
+      </div>
+
     </div>
 
-    <div class="form-group">
-      <label for="date-input">Ngày sinh</label>
-      <input
-        type="date"
-        class="form-control"
-        id="date-input"
-        placeholder="01/01/2023"
-      />
-    </div>
+    <div class="confirm-container">
+      <p class="cancel">Hủy</p>
+      <button class="button-confirm" type="submit">
+        <p>Xác nhận</p>
+      </button>
 
-  </div>
-  <label for="customRadioInline1">Cấp quản lý</label>
-
-  <div class="choose-position">
-    <div class="custom-control custom-radio custom-control-inline">
-      <input
-        type="radio"
-        id="customRadioInline1"
-        name="customRadioInline1"
-        class="custom-control-input"
-      />
-      <label class="custom-control-label" for="customRadioInline1">Cấp quận</label>
     </div>
-    <div class="custom-control custom-radio custom-control-inline">
-      <input
-        type="radio"
-        id="customRadioInline2"
-        name="customRadioInline2"
-        class="custom-control-input"
-      />
-      <label class="custom-control-label" for="customRadioInline2">Cấp phường</label>
-    </div>
-  </div>
-  <div class="choose-area">
-    <div class="form-group col-md-4">
-
-      <select id="district-input" class="form-control">
-        <option selected>Chọn Quận</option>
-        <option> Quận 5 </option>
-        <option> Quận 8 </option>
-      </select>
-    </div>
-    <div class="form-group col-md-4">
-
-      <select id="warn-input" class="form-control">
-        <option selected>Chọn Phường</option>
-        <option> Phường 1 </option>
-        <option> Phường 2 </option>
-        <option> Phường 3 </option>
-        <option> Phường 4 </option>
-        <option> Phường 5 </option>
-        <option> Phường 6 </option>
-        <option> Phường 7 </option>
-      </select>
-    </div>
-  </div>
-
-</form>
+  </form>
+</div>
