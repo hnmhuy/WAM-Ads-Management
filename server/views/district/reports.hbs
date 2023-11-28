@@ -2,7 +2,7 @@
   <section class="table__header">
     <h2 class="table_heading">Xử lý báo cáo</h2>
     <div class="input_group">
-      <img src="../../public/images/search.png" alt="" />
+      <img src="/public/images/search.png" alt="" />
       <input type="search" placeholder="Search..." />
     </div>
   </section>
@@ -28,12 +28,11 @@
               </a>
 
               <ul class="dropdown-menu" id="filter_list" onclick="handleDropdownItem(event)">
+                {{#each ward}}
                 <li>
-                  <a class="dropdown-item" id="benthanh">Bến Thành</a>
+                  <a class="dropdown-item" id="{{id}}">{{name}}</a>
                 </li>
-                <li>
-                  <a class="dropdown-item" id="bennghe">Bến Nghé</a>
-                </li>
+                {{/each}}
               </ul>
             </div>
           </th>
@@ -84,15 +83,16 @@
       </thead>
       <!-- Body -->
       <tbody>
-        <tr class="bennghe answer_question solved_feedback is_not_random">
-          <td>Quận 1</td>
-          <td>Bến Nghé</td>
-          <td>45 Nguyễn Trung Ngạn</td>
-          <td>MBC10001</td>
-          <td>Giải đáp thắc mắc</td>
+        {{#each data_row}}
+        <tr class="{{address.ward_id}} {{type.type_id}} {{status.status_tag}} {{category}}">
+          <td>{{district}}</td>
+          <td>{{address.ward}}</td>
+          <td>{{address.street}}</td>
+          <td>{{id}}</td>
+          <td>{{type.type_name}}</td>
           <td onclick="toggleSibling(this)">
             <div class="last-cell">
-              <p class="status solved">Đã giải quyết</p>
+              <p class="status {{status.status_id}}">{{status.status_name}}</p>
               <i class="bi bi-chevron-down" style="color: black"></i>
             </div>
           </td>
@@ -109,16 +109,18 @@
                     <li data-bs-target="#img-carousel" data-bs-slide-to="1" aria-label="Second slide"></li>
                     <li data-bs-target="#img-carousel" data-bs-slide-to="2" aria-label="Third slide"></li>
                   </ol>
-                  <div class="carousel-inner" role="listbox" style="position: sticky;">
+                  <div class="carousel-inner" role="listbox">
+                    {{#each image_path}}
+                    {{#if @first}}
                     <div class="carousel-item active">
-                      <img src="../../public/images/location1.png" class="w-100 d-block" alt="First slide">
+                      <img src="{{this}}" class="w-100 d-block" alt="First slide">
                     </div>
+                    {{else}}
                     <div class="carousel-item">
-                      <img src="../../public/images/location2.png" class="w-100 d-block" alt="Second slide">
+                      <img src="{{this}}" class="w-100 d-block" alt="Slide">
                     </div>
-                    <div class="carousel-item">
-                      <img src="../../public/images/location3.png" class="w-100 d-block" alt="Third slide">
-                    </div>
+                    {{/if}}
+                    {{/each}}
                   </div>
                 </div>
 
@@ -129,831 +131,44 @@
                 <span class="name">
                   <i class='bx bxs-user-circle' style="font-size: 20px; line-height:1;"></i>
                   <span class="title">Họ và tên</span>
-                  <span class="content">Trần Thị A</span>
+                  <span class="content">{{name}}</span>
                 </span>
 
                 <span class="name">
                   <i class='bx bxs-mobile' style="font-size: 20px; line-height:1;"></i>
                   <span class="title">Số điện thoại</span>
-                  <span class="content">09876544321</span>
+                  <span class="content">{{phone}}</span>
                 </span>
 
                 <span class="name">
                   <i class='bx bx-mail-send' style="font-size: 20px; line-height:1;"></i>
                   <span class="title">Email</span>
-                  <span class="content">thia@gmail.com</span>
+                  <span class="content">{{email}}</span>
                 </span>
 
                 <span class="report_solution">
 
-                  <textarea class="report_solotion_area"
-                    placeholder="Hướng giải quyêt">Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae, sunt?</textarea>
+                  {{#ifEquals status.status_id "solved"}}
+
+                  <textarea class="report_solotion_area" placeholder="Hướng giải quyêt">      {{{solution}}}</textarea>
+                  {{else}}
+                  <textarea class="report_solotion_area" placeholder="Hướng giải quyêt"></textarea>
+
+                  {{/ifEquals}}
                 </span>
 
                 <div class="button-report-field">
-                  <!-- HTML !-->
+                  {{#ifEquals status.status_id "solved"}}
+                  {{else}}
                   <button class="button-report send-report" role="button">Gửi</button>
                   <button class="button-report cancel-report" role="button">Hủy</button>
-
-
+                  {{/ifEquals}}
                 </div>
               </div>
             </div>
-
           </td>
         </tr>
-        <tr class="bennghe criminal unsolved_feedback is_random collapse">
-          <td>Quận 1</td>
-          <td>Bến Nghé</td>
-          <td>45 Nguyễn Trung Ngạn</td>
-          <td>MBC10001</td>
-          <td>Tố giác tội phạm</td>
-          <td onclick="toggleSibling(this)">
-            <div class="last-cell">
-              <p class="status unsolved">Chưa giải quyết</p>
-              <i class="bi bi-chevron-down" style="color: black"></i>
-            </div>
-          </td>
-        </tr>
-        <tr class="extra">
-          <td colspan="6" class="expand_row">
-            <div class="more-information">
-              <div style="height: auto; width: 33%; z-index: -1;">
-
-                <div id="img-carousel" class="carousel slide" data-bs-ride="carousel">
-                  <ol class="carousel-indicators">
-                    <li data-bs-target="#img-carousel" data-bs-slide-to="0" class="active" aria-current="true"
-                      aria-label="First slide"></li>
-                    <li data-bs-target="#img-carousel" data-bs-slide-to="1" aria-label="Second slide"></li>
-                    <li data-bs-target="#img-carousel" data-bs-slide-to="2" aria-label="Third slide"></li>
-                  </ol>
-                  <div class="carousel-inner" role="listbox" style="position: sticky;">
-                    <div class="carousel-item active">
-                      <img src="../../public/images/location1.png" class="w-100 d-block" alt="First slide">
-                    </div>
-                    <div class="carousel-item">
-                      <img src="../../public/images/location2.png" class="w-100 d-block" alt="Second slide">
-                    </div>
-                    <div class="carousel-item">
-                      <img src="../../public/images/location3.png" class="w-100 d-block" alt="Third slide">
-                    </div>
-                  </div>
-                  <button class="carousel-control-prev" type="button" data-bs-target="#img-carousel"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                  </button>
-                  <button class="carousel-control-next" type="button" data-bs-target="#img-carousel"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                  </button>
-                </div>
-
-                <p>Hình ảnh minh họa</p>
-              </div>
-
-              <div style="width: 67%">
-                <span class="name">
-                  <i class='bx bxs-user-circle' style="font-size: 20px; line-height:1;"></i>
-                  <span class="title">Họ và tên</span>
-                  <span class="content">Trần Thị A</span>
-                </span>
-
-                <span class="name">
-                  <i class='bx bxs-mobile' style="font-size: 20px; line-height:1;"></i>
-                  <span class="title">Số điện thoại</span>
-                  <span class="content">09876544321</span>
-                </span>
-
-                <span class="name">
-                  <i class='bx bx-mail-send' style="font-size: 20px; line-height:1;"></i>
-                  <span class="title">Email</span>
-                  <span class="content">thia@gmail.com</span>
-                </span>
-
-                <span class="report_solution">
-
-                  <textarea class="report_solotion_area"
-                    placeholder="Hướng giải quyêt">Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae, sunt?</textarea>
-                </span>
-
-                <div class="button-report-field">
-                  <!-- HTML !-->
-                  <button class="button-report send-report" role="button">Gửi</button>
-                  <button class="button-report cancel-report" role="button">Hủy</button>
-
-
-                </div>
-              </div>
-            </div>
-
-          </td>
-        </tr>
-        <tr class="benthanh shared_idea solved_feedback is_random collapse">
-          <td>Quận 1</td>
-          <td>Bến Thành</td>
-          <td>45 Hà Thanh Xuân</td>
-          <td>MBC10001</td>
-          <td>Đóng góp ý kiến</td>
-          <td onclick="toggleSibling(this)">
-            <div class="last-cell">
-              <p class="status solved">Đã giải quyết</p>
-              <i class="bi bi-chevron-down" style="color: black"></i>
-            </div>
-          </td>
-        </tr>
-        <tr class="extra">
-          <td colspan="6" class="expand_row">
-            <div class="more-information">
-              <div style="height: auto; width: 33%; z-index: -1;">
-
-                <div id="img-carousel" class="carousel slide" data-bs-ride="carousel">
-                  <ol class="carousel-indicators">
-                    <li data-bs-target="#img-carousel" data-bs-slide-to="0" class="active" aria-current="true"
-                      aria-label="First slide"></li>
-                    <li data-bs-target="#img-carousel" data-bs-slide-to="1" aria-label="Second slide"></li>
-                    <li data-bs-target="#img-carousel" data-bs-slide-to="2" aria-label="Third slide"></li>
-                  </ol>
-                  <div class="carousel-inner" role="listbox" style="position: sticky;">
-                    <div class="carousel-item active">
-                      <img src="../../public/images/location1.png" class="w-100 d-block" alt="First slide">
-                    </div>
-                    <div class="carousel-item">
-                      <img src="../../public/images/location2.png" class="w-100 d-block" alt="Second slide">
-                    </div>
-                    <div class="carousel-item">
-                      <img src="../../public/images/location3.png" class="w-100 d-block" alt="Third slide">
-                    </div>
-                  </div>
-                  <button class="carousel-control-prev" type="button" data-bs-target="#img-carousel"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                  </button>
-                  <button class="carousel-control-next" type="button" data-bs-target="#img-carousel"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                  </button>
-                </div>
-
-                <p>Hình ảnh minh họa</p>
-              </div>
-
-              <div style="width: 67%">
-                <span class="name">
-                  <i class='bx bxs-user-circle' style="font-size: 20px; line-height:1;"></i>
-                  <span class="title">Họ và tên</span>
-                  <span class="content">Trần Thị A</span>
-                </span>
-
-                <span class="name">
-                  <i class='bx bxs-mobile' style="font-size: 20px; line-height:1;"></i>
-                  <span class="title">Số điện thoại</span>
-                  <span class="content">09876544321</span>
-                </span>
-
-                <span class="name">
-                  <i class='bx bx-mail-send' style="font-size: 20px; line-height:1;"></i>
-                  <span class="title">Email</span>
-                  <span class="content">thia@gmail.com</span>
-                </span>
-
-                <span class="report_solution">
-
-                  <textarea class="report_solotion_area"
-                    placeholder="Hướng giải quyêt">Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae, sunt?</textarea>
-                </span>
-
-                <div class="button-report-field">
-                  <!-- HTML !-->
-                  <button class="button-report send-report" role="button">Gửi</button>
-                  <button class="button-report cancel-report" role="button">Hủy</button>
-
-
-                </div>
-              </div>
-            </div>
-
-          </td>
-        </tr>
-        <tr class="benthanh registered_content unsolved_feedback is_not_random">
-          <td>Quận 1</td>
-          <td>Bến Thành</td>
-          <td>45 Đề Thám</td>
-          <td>MBC10001</td>
-          <td>Đăng kí nội dung</td>
-          <td onclick="toggleSibling(this)">
-            <div class="last-cell">
-              <p class="status unsolved">Chưa giải quyết</p>
-              <i class="bi bi-chevron-down" style="color: black"></i>
-            </div>
-          </td>
-        </tr>
-        <tr class="extra">
-          <td colspan="6" class="expand_row">
-            <div class="more-information">
-              <div style="height: auto; width: 33%; z-index: -1;">
-
-                <div id="img-carousel" class="carousel slide" data-bs-ride="carousel">
-                  <ol class="carousel-indicators">
-                    <li data-bs-target="#img-carousel" data-bs-slide-to="0" class="active" aria-current="true"
-                      aria-label="First slide"></li>
-                    <li data-bs-target="#img-carousel" data-bs-slide-to="1" aria-label="Second slide"></li>
-                    <li data-bs-target="#img-carousel" data-bs-slide-to="2" aria-label="Third slide"></li>
-                  </ol>
-                  <div class="carousel-inner" role="listbox" style="position: sticky;">
-                    <div class="carousel-item active">
-                      <img src="../../public/images/location1.png" class="w-100 d-block" alt="First slide">
-                    </div>
-                    <div class="carousel-item">
-                      <img src="../../public/images/location2.png" class="w-100 d-block" alt="Second slide">
-                    </div>
-                    <div class="carousel-item">
-                      <img src="../../public/images/location3.png" class="w-100 d-block" alt="Third slide">
-                    </div>
-                  </div>
-                  <button class="carousel-control-prev" type="button" data-bs-target="#img-carousel"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                  </button>
-                  <button class="carousel-control-next" type="button" data-bs-target="#img-carousel"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                  </button>
-                </div>
-
-                <p>Hình ảnh minh họa</p>
-              </div>
-
-              <div style="width: 67%">
-                <span class="name">
-                  <i class='bx bxs-user-circle' style="font-size: 20px; line-height:1;"></i>
-                  <span class="title">Họ và tên</span>
-                  <span class="content">Trần Thị A</span>
-                </span>
-
-                <span class="name">
-                  <i class='bx bxs-mobile' style="font-size: 20px; line-height:1;"></i>
-                  <span class="title">Số điện thoại</span>
-                  <span class="content">09876544321</span>
-                </span>
-
-                <span class="name">
-                  <i class='bx bx-mail-send' style="font-size: 20px; line-height:1;"></i>
-                  <span class="title">Email</span>
-                  <span class="content">thia@gmail.com</span>
-                </span>
-
-                <span class="report_solution">
-
-                  <textarea class="report_solotion_area"
-                    placeholder="Hướng giải quyêt">Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae, sunt?</textarea>
-                </span>
-
-                <div class="button-report-field">
-                  <!-- HTML !-->
-                  <button class="button-report send-report" role="button">Gửi</button>
-                  <button class="button-report cancel-report" role="button">Hủy</button>
-
-
-                </div>
-              </div>
-            </div>
-
-          </td>
-        </tr>
-        <tr class="bennghe answer_question unsolved_feedback is_not_random">
-          <td>Quận 1</td>
-          <td>Bến Nghé</td>
-          <td>45 Nguyễn Trung Ngạn</td>
-          <td>MBC10001</td>
-          <td>Giải đáp thắc mắc</td>
-          <td onclick="toggleSibling(this)">
-            <div class="last-cell">
-              <p class="status unsolved">Chưa giải quyết</p>
-              <i class="bi bi-chevron-down" style="color: black"></i>
-            </div>
-          </td>
-        </tr>
-        <tr class="extra">
-          <td colspan="6" class="expand_row">
-            <div class="more-information">
-              <div style="height: auto; width: 33%; z-index: -1;">
-
-                <div id="img-carousel" class="carousel slide" data-bs-ride="carousel">
-                  <ol class="carousel-indicators">
-                    <li data-bs-target="#img-carousel" data-bs-slide-to="0" class="active" aria-current="true"
-                      aria-label="First slide"></li>
-                    <li data-bs-target="#img-carousel" data-bs-slide-to="1" aria-label="Second slide"></li>
-                    <li data-bs-target="#img-carousel" data-bs-slide-to="2" aria-label="Third slide"></li>
-                  </ol>
-                  <div class="carousel-inner" role="listbox" style="position: sticky;">
-                    <div class="carousel-item active">
-                      <img src="../../public/images/location1.png" class="w-100 d-block" alt="First slide">
-                    </div>
-                    <div class="carousel-item">
-                      <img src="../../public/images/location2.png" class="w-100 d-block" alt="Second slide">
-                    </div>
-                    <div class="carousel-item">
-                      <img src="../../public/images/location3.png" class="w-100 d-block" alt="Third slide">
-                    </div>
-                  </div>
-                  <button class="carousel-control-prev" type="button" data-bs-target="#img-carousel"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                  </button>
-                  <button class="carousel-control-next" type="button" data-bs-target="#img-carousel"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                  </button>
-                </div>
-
-                <p>Hình ảnh minh họa</p>
-              </div>
-
-              <div style="width: 67%">
-                <span class="name">
-                  <i class='bx bxs-user-circle' style="font-size: 20px; line-height:1;"></i>
-                  <span class="title">Họ và tên</span>
-                  <span class="content">Trần Thị A</span>
-                </span>
-
-                <span class="name">
-                  <i class='bx bxs-mobile' style="font-size: 20px; line-height:1;"></i>
-                  <span class="title">Số điện thoại</span>
-                  <span class="content">09876544321</span>
-                </span>
-
-                <span class="name">
-                  <i class='bx bx-mail-send' style="font-size: 20px; line-height:1;"></i>
-                  <span class="title">Email</span>
-                  <span class="content">thia@gmail.com</span>
-                </span>
-
-                <span class="report_solution">
-
-                  <textarea class="report_solotion_area"
-                    placeholder="Hướng giải quyêt">Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae, sunt?</textarea>
-                </span>
-
-                <div class="button-report-field">
-                  <!-- HTML !-->
-                  <button class="button-report send-report" role="button">Gửi</button>
-                  <button class="button-report cancel-report" role="button">Hủy</button>
-
-
-                </div>
-              </div>
-            </div>
-
-          </td>
-        </tr>
-        <tr class="bennghe criminal solved_feedback is_not_random">
-          <td>Quận 1</td>
-          <td>Bến Nghé</td>
-          <td>45 Nguyễn Trung Ngạn</td>
-          <td>MBC10001</td>
-          <td>Tố giác tội phạm</td>
-          <td onclick="toggleSibling(this)">
-            <div class="last-cell">
-              <p class="status solved">Đã giải quyết</p>
-              <i class="bi bi-chevron-down" style="color: black"></i>
-            </div>
-          </td>
-        </tr>
-        <tr class="extra">
-          <td colspan="6" class="expand_row">
-            <div class="more-information">
-              <div style="height: auto; width: 33%; z-index: -1;">
-
-                <div id="img-carousel" class="carousel slide" data-bs-ride="carousel">
-                  <ol class="carousel-indicators">
-                    <li data-bs-target="#img-carousel" data-bs-slide-to="0" class="active" aria-current="true"
-                      aria-label="First slide"></li>
-                    <li data-bs-target="#img-carousel" data-bs-slide-to="1" aria-label="Second slide"></li>
-                    <li data-bs-target="#img-carousel" data-bs-slide-to="2" aria-label="Third slide"></li>
-                  </ol>
-                  <div class="carousel-inner" role="listbox" style="position: sticky;">
-                    <div class="carousel-item active">
-                      <img src="../../public/images/location1.png" class="w-100 d-block" alt="First slide">
-                    </div>
-                    <div class="carousel-item">
-                      <img src="../../public/images/location2.png" class="w-100 d-block" alt="Second slide">
-                    </div>
-                    <div class="carousel-item">
-                      <img src="../../public/images/location3.png" class="w-100 d-block" alt="Third slide">
-                    </div>
-                  </div>
-                  <button class="carousel-control-prev" type="button" data-bs-target="#img-carousel"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                  </button>
-                  <button class="carousel-control-next" type="button" data-bs-target="#img-carousel"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                  </button>
-                </div>
-
-                <p>Hình ảnh minh họa</p>
-              </div>
-
-              <div style="width: 67%">
-                <span class="name">
-                  <i class='bx bxs-user-circle' style="font-size: 20px; line-height:1;"></i>
-                  <span class="title">Họ và tên</span>
-                  <span class="content">Trần Thị A</span>
-                </span>
-
-                <span class="name">
-                  <i class='bx bxs-mobile' style="font-size: 20px; line-height:1;"></i>
-                  <span class="title">Số điện thoại</span>
-                  <span class="content">09876544321</span>
-                </span>
-
-                <span class="name">
-                  <i class='bx bx-mail-send' style="font-size: 20px; line-height:1;"></i>
-                  <span class="title">Email</span>
-                  <span class="content">thia@gmail.com</span>
-                </span>
-
-                <span class="report_solution">
-
-                  <textarea class="report_solotion_area"
-                    placeholder="Hướng giải quyêt">Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae, sunt?</textarea>
-                </span>
-
-                <div class="button-report-field">
-                  <!-- HTML !-->
-                  <button class="button-report send-report" role="button">Gửi</button>
-                  <button class="button-report cancel-report" role="button">Hủy</button>
-
-
-                </div>
-              </div>
-            </div>
-
-          </td>
-        </tr>
-        <tr class="benthanh shared_idea unsolved_feedback is_random collapse">
-          <td>Quận 1</td>
-          <td>Bến Thành</td>
-          <td>45 Hà Thanh Xuân</td>
-          <td>MBC10001</td>
-          <td>Đóng góp ý kiến</td>
-          <td onclick="toggleSibling(this)">
-            <div class="last-cell">
-              <p class="status unsolved">Chưa giải quyết</p>
-              <i class="bi bi-chevron-down" style="color: black"></i>
-            </div>
-          </td>
-        </tr>
-        <tr class="extra">
-          <td colspan="6" class="expand_row">
-            <div class="more-information">
-              <div style="height: auto; width: 33%; z-index: -1;">
-
-                <div id="img-carousel" class="carousel slide" data-bs-ride="carousel">
-                  <ol class="carousel-indicators">
-                    <li data-bs-target="#img-carousel" data-bs-slide-to="0" class="active" aria-current="true"
-                      aria-label="First slide"></li>
-                    <li data-bs-target="#img-carousel" data-bs-slide-to="1" aria-label="Second slide"></li>
-                    <li data-bs-target="#img-carousel" data-bs-slide-to="2" aria-label="Third slide"></li>
-                  </ol>
-                  <div class="carousel-inner" role="listbox" style="position: sticky;">
-                    <div class="carousel-item active">
-                      <img src="../../public/images/location1.png" class="w-100 d-block" alt="First slide">
-                    </div>
-                    <div class="carousel-item">
-                      <img src="../../public/images/location2.png" class="w-100 d-block" alt="Second slide">
-                    </div>
-                    <div class="carousel-item">
-                      <img src="../../public/images/location3.png" class="w-100 d-block" alt="Third slide">
-                    </div>
-                  </div>
-                  <button class="carousel-control-prev" type="button" data-bs-target="#img-carousel"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                  </button>
-                  <button class="carousel-control-next" type="button" data-bs-target="#img-carousel"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                  </button>
-                </div>
-
-                <p>Hình ảnh minh họa</p>
-              </div>
-
-              <div style="width: 67%">
-                <span class="name">
-                  <i class='bx bxs-user-circle' style="font-size: 20px; line-height:1;"></i>
-                  <span class="title">Họ và tên</span>
-                  <span class="content">Trần Thị A</span>
-                </span>
-
-                <span class="name">
-                  <i class='bx bxs-mobile' style="font-size: 20px; line-height:1;"></i>
-                  <span class="title">Số điện thoại</span>
-                  <span class="content">09876544321</span>
-                </span>
-
-                <span class="name">
-                  <i class='bx bx-mail-send' style="font-size: 20px; line-height:1;"></i>
-                  <span class="title">Email</span>
-                  <span class="content">thia@gmail.com</span>
-                </span>
-
-                <span class="report_solution">
-
-                  <textarea class="report_solotion_area"
-                    placeholder="Hướng giải quyêt">Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae, sunt?</textarea>
-                </span>
-
-                <div class="button-report-field">
-                  <!-- HTML !-->
-                  <button class="button-report send-report" role="button">Gửi</button>
-                  <button class="button-report cancel-report" role="button">Hủy</button>
-
-
-                </div>
-              </div>
-            </div>
-
-          </td>
-        </tr>
-        <tr class="benthanh registered_content solved_feedback is_random collapse">
-          <td>Quận 1</td>
-          <td>Bến Thành</td>
-          <td>45 Đề Thám</td>
-          <td>MBC10001</td>
-          <td>Đăng kí nội dung</td>
-          <td onclick="toggleSibling(this)">
-            <div class="last-cell">
-              <p class="status solved">Đã giải quyết</p>
-              <i class="bi bi-chevron-down" style="color: black"></i>
-            </div>
-          </td>
-        </tr>
-        <tr class="extra">
-          <td colspan="6" class="expand_row">
-            <div class="more-information">
-              <div style="height: auto; width: 33%; z-index: -1;">
-
-                <div id="img-carousel" class="carousel slide" data-bs-ride="carousel">
-                  <ol class="carousel-indicators">
-                    <li data-bs-target="#img-carousel" data-bs-slide-to="0" class="active" aria-current="true"
-                      aria-label="First slide"></li>
-                    <li data-bs-target="#img-carousel" data-bs-slide-to="1" aria-label="Second slide"></li>
-                    <li data-bs-target="#img-carousel" data-bs-slide-to="2" aria-label="Third slide"></li>
-                  </ol>
-                  <div class="carousel-inner" role="listbox" style="position: sticky;">
-                    <div class="carousel-item active">
-                      <img src="../../public/images/location1.png" class="w-100 d-block" alt="First slide">
-                    </div>
-                    <div class="carousel-item">
-                      <img src="../../public/images/location2.png" class="w-100 d-block" alt="Second slide">
-                    </div>
-                    <div class="carousel-item">
-                      <img src="../../public/images/location3.png" class="w-100 d-block" alt="Third slide">
-                    </div>
-                  </div>
-                  <button class="carousel-control-prev" type="button" data-bs-target="#img-carousel"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                  </button>
-                  <button class="carousel-control-next" type="button" data-bs-target="#img-carousel"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                  </button>
-                </div>
-
-                <p>Hình ảnh minh họa</p>
-              </div>
-
-              <div style="width: 67%">
-                <span class="name">
-                  <i class='bx bxs-user-circle' style="font-size: 20px; line-height:1;"></i>
-                  <span class="title">Họ và tên</span>
-                  <span class="content">Trần Thị A</span>
-                </span>
-
-                <span class="name">
-                  <i class='bx bxs-mobile' style="font-size: 20px; line-height:1;"></i>
-                  <span class="title">Số điện thoại</span>
-                  <span class="content">09876544321</span>
-                </span>
-
-                <span class="name">
-                  <i class='bx bx-mail-send' style="font-size: 20px; line-height:1;"></i>
-                  <span class="title">Email</span>
-                  <span class="content">thia@gmail.com</span>
-                </span>
-
-                <span class="report_solution">
-
-                  <textarea class="report_solotion_area"
-                    placeholder="Hướng giải quyêt">Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae, sunt?</textarea>
-                </span>
-
-                <div class="button-report-field">
-                  <!-- HTML !-->
-                  <button class="button-report send-report" role="button">Gửi</button>
-                  <button class="button-report cancel-report" role="button">Hủy</button>
-
-
-                </div>
-              </div>
-            </div>
-
-          </td>
-        </tr>
-        <tr class="bennghe answer_question solved_feedback is_not_random">
-          <td>Quận 1</td>
-          <td>Bến Nghé</td>
-          <td>45 Nguyễn Trung Ngạn</td>
-          <td>MBC10001</td>
-          <td>Giải đáp thắc mắc</td>
-          <td onclick="toggleSibling(this)">
-            <div class="last-cell">
-              <p class="status solved">Đã giải quyết</p>
-              <i class="bi bi-chevron-down" style="color: black"></i>
-            </div>
-          </td>
-        </tr>
-        <tr class="extra">
-          <td colspan="6" class="expand_row">
-            <div class="more-information">
-              <div style="height: auto; width: 33%; z-index: -1;">
-
-                <div id="img-carousel" class="carousel slide" data-bs-ride="carousel">
-                  <ol class="carousel-indicators">
-                    <li data-bs-target="#img-carousel" data-bs-slide-to="0" class="active" aria-current="true"
-                      aria-label="First slide"></li>
-                    <li data-bs-target="#img-carousel" data-bs-slide-to="1" aria-label="Second slide"></li>
-                    <li data-bs-target="#img-carousel" data-bs-slide-to="2" aria-label="Third slide"></li>
-                  </ol>
-                  <div class="carousel-inner" role="listbox" style="position: sticky;">
-                    <div class="carousel-item active">
-                      <img src="../../public/images/location1.png" class="w-100 d-block" alt="First slide">
-                    </div>
-                    <div class="carousel-item">
-                      <img src="../../public/images/location2.png" class="w-100 d-block" alt="Second slide">
-                    </div>
-                    <div class="carousel-item">
-                      <img src="../../public/images/location3.png" class="w-100 d-block" alt="Third slide">
-                    </div>
-                  </div>
-                  <button class="carousel-control-prev" type="button" data-bs-target="#img-carousel"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                  </button>
-                  <button class="carousel-control-next" type="button" data-bs-target="#img-carousel"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                  </button>
-                </div>
-
-                <p>Hình ảnh minh họa</p>
-              </div>
-
-              <div style="width: 67%">
-                <span class="name">
-                  <i class='bx bxs-user-circle' style="font-size: 20px; line-height:1;"></i>
-                  <span class="title">Họ và tên</span>
-                  <span class="content">Trần Thị A</span>
-                </span>
-
-                <span class="name">
-                  <i class='bx bxs-mobile' style="font-size: 20px; line-height:1;"></i>
-                  <span class="title">Số điện thoại</span>
-                  <span class="content">09876544321</span>
-                </span>
-
-                <span class="name">
-                  <i class='bx bx-mail-send' style="font-size: 20px; line-height:1;"></i>
-                  <span class="title">Email</span>
-                  <span class="content">thia@gmail.com</span>
-                </span>
-
-                <span class="report_solution">
-
-                  <textarea class="report_solotion_area"
-                    placeholder="Hướng giải quyêt">Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae, sunt?</textarea>
-                </span>
-
-                <div class="button-report-field">
-                  <!-- HTML !-->
-                  <button class="button-report send-report" role="button">Gửi</button>
-                  <button class="button-report cancel-report" role="button">Hủy</button>
-
-
-                </div>
-              </div>
-            </div>
-
-          </td>
-        </tr>
-        <tr class="benthanh registered_content solved_feedback is_random collapse">
-          <td>Quận 1</td>
-          <td>Bến Thành</td>
-          <td>45 Đề Thám</td>
-          <td>MBC10001</td>
-          <td>Đăng kí nội dung</td>
-          <td onclick="toggleSibling(this)">
-            <div class="last-cell">
-              <p class="status solved">Đã giải quyết</p>
-              <i class="bi bi-chevron-down" style="color: black"></i>
-            </div>
-          </td>
-        </tr>
-        <tr class="extra">
-          <td colspan="6" class="expand_row">
-            <div class="more-information">
-              <div style="height: auto; width: 33%; z-index: -1;">
-
-                <div id="img-carousel" class="carousel slide" data-bs-ride="carousel">
-                  <ol class="carousel-indicators">
-                    <li data-bs-target="#img-carousel" data-bs-slide-to="0" class="active" aria-current="true"
-                      aria-label="First slide"></li>
-                    <li data-bs-target="#img-carousel" data-bs-slide-to="1" aria-label="Second slide"></li>
-                    <li data-bs-target="#img-carousel" data-bs-slide-to="2" aria-label="Third slide"></li>
-                  </ol>
-                  <div class="carousel-inner" role="listbox" style="position: sticky;">
-                    <div class="carousel-item active">
-                      <img src="../../public/images/location1.png" class="w-100 d-block" alt="First slide">
-                    </div>
-                    <div class="carousel-item">
-                      <img src="../../public/images/location2.png" class="w-100 d-block" alt="Second slide">
-                    </div>
-                    <div class="carousel-item">
-                      <img src="../../public/images/location3.png" class="w-100 d-block" alt="Third slide">
-                    </div>
-                  </div>
-                  <button class="carousel-control-prev" type="button" data-bs-target="#img-carousel"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                  </button>
-                  <button class="carousel-control-next" type="button" data-bs-target="#img-carousel"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                  </button>
-                </div>
-
-                <p>Hình ảnh minh họa</p>
-              </div>
-
-              <div style="width: 67%">
-                <span class="name">
-                  <i class='bx bxs-user-circle' style="font-size: 20px; line-height:1;"></i>
-                  <span class="title">Họ và tên</span>
-                  <span class="content">Trần Thị A</span>
-                </span>
-
-                <span class="name">
-                  <i class='bx bxs-mobile' style="font-size: 20px; line-height:1;"></i>
-                  <span class="title">Số điện thoại</span>
-                  <span class="content">09876544321</span>
-                </span>
-
-                <span class="name">
-                  <i class='bx bx-mail-send' style="font-size: 20px; line-height:1;"></i>
-                  <span class="title">Email</span>
-                  <span class="content">thia@gmail.com</span>
-                </span>
-
-                <span class="report_solution">
-
-                  <textarea class="report_solotion_area"
-                    placeholder="Hướng giải quyêt">Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae, sunt?</textarea>
-                </span>
-
-                <div class="button-report-field">
-                  <!-- HTML !-->
-                  <button class="button-report send-report" role="button">Gửi</button>
-                  <button class="button-report cancel-report" role="button">Hủy</button>
-
-
-                </div>
-              </div>
-            </div>
-
-          </td>
-        </tr>
+        {{/each}}
       </tbody>
     </table>
   </section>
