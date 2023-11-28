@@ -29,7 +29,6 @@ function onClickDropdown(e, id) {
   const districtValue = e.children[0];
   const optionList = e.querySelectorAll("li");
   const arrow = e.children[1];
-  let newValue;
   if (e.classList.contains("active")) {
     handleDropdown(e, arrow, false);
   } else {
@@ -125,7 +124,7 @@ function outRow(e) {
 
 window.addEventListener("click", function (e) {
   if (e.target.closest(".wrapper-dropdown") === null) {
-    closeAllDropdown();
+    closeAllStatusDropdown();
   }
 });
 
@@ -154,16 +153,15 @@ function onClickStatusDropdown(e) {
   const optionList = e.querySelectorAll("li");
   const statusValue = e.children[0];
   const selectedDisplay = e.querySelector(".selected-display");
+
   if (e.classList.contains("active")) {
     // handleStatusDropdown(e, arrow, false);
     arrow.classList.remove("rotate");
     e.classList.remove("active");
-
   } else {
     // handleStatusDropdown(e, arrow, true);
     arrow.classList.add("rotate");
     e.classList.add("active");
-
     console.log("e", e);
   }
   for (let o of optionList) {
@@ -207,7 +205,7 @@ function filterDropdown(e) {
 
 window.addEventListener("click", function (e) {
   if (e.target.closest(".area-wrapper-dropdown") === null) {
-    closeAllDropdown();
+    closeAllLocationDropdown();
   }
 });
 
