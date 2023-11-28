@@ -14,11 +14,11 @@ controller.show = (req, res) => {
         css: ["/public/css/department/label.css"],
         swap: true,
         title: "QUẢN LÝ DANH MỤC",
-        js: ["/public/js/department/label_ui_controllers.js"],
+        jsHeader: ["/public/js/department/label_ui_controllers.js"],
     };
     res.render("department/label", {
         layout: "department_layout",
-        js: componentDependcy.js,
+        jsHeader: componentDependcy.jsHeader,
         css: componentDependcy.css,
         title: componentDependcy.title,
         nav_link: navBarData.nav_link,

@@ -16,11 +16,11 @@ controller.showAds = (req, res) => {
         css: ["/public/css/department/ads_management.css"],
         swap: true,
         title: "QUẢN LÝ QUẢNG CÁO",
-        js: ["/public/js/shared/handler_table_ui.js"],
+        jsHeader: ["/public/js/shared/handler_table_ui.js"],
     };
     res.render("department/ads", {
         layout: "department_layout",
-        js: componentDependcy.js,
+        jsHeader: componentDependcy.js,
         css: componentDependcy.css,
         swap: componentDependcy.swap,
         title: componentDependcy.title,
@@ -43,11 +43,11 @@ controller.showRequest = (req, res) => {
         css: ["/public/css/department/ads_management.css"],
         swap: true,
         title: "QUẢN LÝ QUẢNG CÁO",
-        js: ["/public/js/shared/handler_table_ui.js"],
+        jsHeader: ["/public/js/shared/handler_table_ui.js"],
     };
     res.render("department/request", {
         layout: "department_layout",
-        js: componentDependcy.js,
+        jsHeader: componentDependcy.jsHeader,
         css: componentDependcy.css,
         swap: componentDependcy.swap,
         title: componentDependcy.title,

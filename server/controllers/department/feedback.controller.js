@@ -15,14 +15,14 @@ controller.show = (req, res) => {
     css: ["/public/css/department/feedback.css"],
     swap: true,
     title: "XEM ĐƠN PHẢN ÁNH",
-    js: ["/public/js/department/feedback_ui_controllers.js"],
+    jsHeader: ["/public/js/department/feedback_ui_controllers.js"],
   };
   res.render("department/feedback", {
     layout: "department_layout",
     css: componentDependcy.css,
     title: componentDependcy.title,
     nav_link: navBarData.nav_link,
-    js: componentDependcy.js,
+    jsHeader: componentDependcy.jsHeader,
   });
 };
 

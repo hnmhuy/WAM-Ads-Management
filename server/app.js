@@ -72,7 +72,7 @@ app.use("/ads", require("./routes/department/ads.route"));
 app.use("/label", require("./routes/department/label.route"));
 app.use("/feedback", require("./routes/department/feedback.route"));
 
-app.get("/testing/deligate", (req, res) => {
+app.get("/deligate", (req, res) => {
   let navBarData = require("./nav_link.json");
   navBarData.nav_link.forEach((link) => {
     link.active = false;
@@ -86,20 +86,20 @@ app.get("/testing/deligate", (req, res) => {
     css: ["/public/css/department/deligate.css"],
     swap: true,
     title: "QUẢN LÝ TÀI KHOẢN CÁN BỘ",
-    js: ["/public/js/department/deligate_ui_controllers.js"],
+    jsHeader: ["/public/js/department/deligate_ui_controllers.js"],
   };
   res.render("department/deligate", {
     layout: "department_layout",
     css: componentDependcy.css,
     title: componentDependcy.title,
     nav_link: navBarData.nav_link,
-    js: componentDependcy.js,
+    js: componentDependcy.jsHeader,
   });
 });
 
 
 
-app.get("/testing/area", (req, res) => {
+app.get("/area", (req, res) => {
   let navBarData = require("./nav_link.json");
   navBarData.nav_link.forEach((link) => {
     link.active = false;
@@ -110,17 +110,34 @@ app.get("/testing/area", (req, res) => {
     target.active = true;
   }
   let componentDependcy = {
-    css: ["/public/css/department_area.css"],
+    css: ["/public/css/department/area.css"],
     swap: true,
-    title: "XEM ĐƠN PHẢN ÁNH",
+    title: "QUẢN LÝ KHU VỰC HÀNH CHÍNH",
+    jsFooter: ["/public/js/department/area_ui_controller.js"],
   };
   res.render("department/area", {
+    jsFooter: componentDependcy.jsFooter,
     layout: "department_layout",
     css: componentDependcy.css,
     title: componentDependcy.title,
     nav_link: navBarData.nav_link,
   });
 });
+
+
+// Testing fetch data
+app.get("/data/area", (req, res) => {
+  let districtId = req.query.districtId;
+  // Convert to json object
+  let data = require("./area.db.json");
+  console.log(districtId);
+  if (districtId) {
+    data = data.commune.filter((item) => item.idDistrict === districtId);
+  } else {
+    data = data.district.filter((item) => item.idProvince === '79');
+  }
+  res.json(data);
+})
 
 app.listen(port, (req, res) => {
   console.log(`Server is running on ${port}`);
