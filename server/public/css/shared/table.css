@@ -64,6 +64,13 @@
 
 .collapsed-content {
     padding: 10px;
+    transition: all 0.3s ease-in-out;
+}
+
+.collapsed-content .loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .status-location-active {

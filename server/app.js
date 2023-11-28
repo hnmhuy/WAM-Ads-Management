@@ -72,32 +72,9 @@ app.use("/permission", require("./routes/district/permission.route"));
 
 // Use routes of department
 app.use("/dashboard", require("./routes/department/dashboard.route"));
-app.use("/ads", require("./routes/department/ads_management.route"));
-
-app.get("/testing/label", (req, res) => {
-  let navBarData = require("./nav_link.json");
-  navBarData.nav_link.forEach((link) => {
-    link.active = false;
-  });
-
-  const target = navBarData.nav_link.find((link) => link.name === "label");
-  if (target) {
-    target.active = true;
-  }
-  let componentDependcy = {
-    css: ["/public/css/department/label.css"],
-    swap: true,
-    title: "QUẢN LÝ DANH MỤC",
-    js: ["/public/js/department/label_ui_controllers.js"],
-  };
-  res.render("department/label", {
-    layout: "department_layout",
-    css: componentDependcy.css,
-    title: componentDependcy.title,
-    nav_link: navBarData.nav_link,
-    js: componentDependcy.js,
-  });
-});
+app.use("/ads", require("./routes/department/ads.route"));
+app.use("/label", require("./routes/department/label.route"));
+app.use("/feedback", require("./routes/department/feedback.route"));
 
 app.get("/testing/deligate", (req, res) => {
   let navBarData = require("./nav_link.json");
@@ -110,35 +87,12 @@ app.get("/testing/deligate", (req, res) => {
     target.active = true;
   }
   let componentDependcy = {
-    css: ["/public/css/department_deligate.css"],
+    css: ["/public/css/department/deligate.css"],
     swap: true,
     title: "QUẢN LÝ TÀI KHOẢN CÁN BỘ",
+    js: ["/public/js/department/deligate_ui_controllers.js"],
   };
   res.render("department/deligate", {
-    layout: "department_layout",
-    css: componentDependcy.css,
-    title: componentDependcy.title,
-    nav_link: navBarData.nav_link,
-  });
-});
-
-app.get("/testing/feedback", (req, res) => {
-  let navBarData = require("./nav_link.json");
-  navBarData.nav_link.forEach((link) => {
-    link.active = false;
-  });
-
-  const target = navBarData.nav_link.find((link) => link.name === "feedback");
-  if (target) {
-    target.active = true;
-  }
-  let componentDependcy = {
-    css: ["/public/css/department/feedback.css"],
-    swap: true,
-    title: "XEM ĐƠN PHẢN ÁNH",
-    js: ["/public/js/department/feedback_ui_controllers.js"],
-  };
-  res.render("department/feedback", {
     layout: "department_layout",
     css: componentDependcy.css,
     title: componentDependcy.title,
@@ -146,6 +100,8 @@ app.get("/testing/feedback", (req, res) => {
     js: componentDependcy.js,
   });
 });
+
+
 
 app.get("/testing/area", (req, res) => {
   let navBarData = require("./nav_link.json");
