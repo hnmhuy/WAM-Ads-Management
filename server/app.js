@@ -59,7 +59,7 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
-app.get("/login", (req, res) => { });
+app.get("/login", (req, res) => {});
 // Use routes of district
 app.use("/home", require("./routes/district/home.route"));
 app.use("/location", require("./routes/district/location.route"));
@@ -93,12 +93,9 @@ app.get("/deligate", (req, res) => {
     css: componentDependcy.css,
     title: componentDependcy.title,
     nav_link: navBarData.nav_link,
-    js: componentDependcy.jsHeader,
+    jsHeader: componentDependcy.jsHeader,
   });
 });
-
-
-
 
 app.get("/area", (req, res) => {
   let navBarData = require("./nav_link.json");
@@ -125,7 +122,6 @@ app.get("/area", (req, res) => {
   });
 });
 
-
 // Testing fetch data
 app.get("/data/area", (req, res) => {
   let districtId = req.query.districtId;
@@ -135,10 +131,10 @@ app.get("/data/area", (req, res) => {
   if (districtId) {
     data = data.commune.filter((item) => item.idDistrict === districtId);
   } else {
-    data = data.district.filter((item) => item.idProvince === '79');
+    data = data.district.filter((item) => item.idProvince === "79");
   }
   res.json(data);
-})
+});
 
 app.listen(port, (req, res) => {
   console.log(`Server is running on ${port}`);
