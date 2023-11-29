@@ -244,6 +244,55 @@
     </tr>
 
     <tr onmouseover="hoverRow(this)" onmouseout="outRow(this)">
+      <td>
+        <div class="name"><i class="bi bi-person-circle"></i>
+          <p>Huỳnh Nguyễn
+            Minh Huy</p>
+        </div>
+      </td>
+      <td>example@gmail.com</td>
+      <td>0123456789</td>
+      <td>
+    
+        <div class="area-wrapper-dropdown" id="district-dropdown">
+          <span class="area-selected-display" id="district-selection" data-value="" onclick="toggleDropdown(this)">Chọn
+            Quận</span>
+          <i class="bi bi-chevron-down"></i>
+          <ul class="area-dropdown dropdown-with-search">
+            <li class="area-dropdown-search"><input type="text" class="" placeholder="Tìm kiếm...."
+                oninput="filterDropdown(this)" /></li>
+            <li class="item" data-value="Q2" onclick="optionClick(this)">Quận 2</li>
+            <li class="item" data-value="Q3" onclick="optionClick(this)">Quận 3</li>
+    
+          </ul>
+        </div>
+        <div class="edit-location collapse">Quận Bình Thạnh
+          <i class="bi bi-pencil-fill"></i>
+        </div>
+      </td>
+      <td>
+        <div class="status-wrapper-dropdown" id="status-dropdown" onclick="onClickStatusDropdown(this)">
+          <span class="selected-display on" id="status" value="ON">Đang hoạt
+            động</span>
+          <i class="bi bi-chevron-down"></i>
+          <ul class="status-dropdown">
+            <li class="status-item" value="ON">
+              <p class="on status">Đang hoạt
+                động</p>
+            </li>
+            <li class="status-item" value="BLOCK">
+              <p class="block status">Đã
+                khóa</p>
+            </li>
+          </ul>
+    
+        </div>
+      </td>
+      <td>29/10/2023</td>
+    
+    </tr>
+
+    <tr onmouseover="hoverRow(this)" onmouseout="outRow(this)">
       <td><div class="name"><i class="bi bi-person-circle"></i><p>Huỳnh Nguyễn
             Minh Huy</p></div></td>
       <td>example@gmail.com</td>

@@ -29,6 +29,7 @@ function onClickDropdown(e, id) {
   const districtValue = e.children[0];
   const optionList = e.querySelectorAll("li");
   const arrow = e.children[1];
+  let newValue;
   if (e.classList.contains("active")) {
     handleDropdown(e, arrow, false);
   } else {

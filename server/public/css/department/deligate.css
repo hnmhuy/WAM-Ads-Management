@@ -303,6 +303,7 @@
   display: block;
   border-radius: 10px;
   background-color: #fff;
+  z-index: 99;
 }
 
 .disabled {
