@@ -1,0 +1,39 @@
+{
+    "table_id": "ad-detail-information",
+    "heading": [
+        "Hình ảnh",
+        "Kích thước",
+        "Ngày bắt đầu",
+        "Ngày kết thúc",
+        "Trạng thái"
+    ],
+    "data_row": [
+        {
+            "id": "ra1",
+            "status_col": true,
+            "attributes": ["2.5m x 2.5m", "11/11/2023", "11/11/2023"],
+            "status_data": {
+                "status_text": "Đã từ chối",
+                "status_class": "status-ad-rejected"
+            }
+        },
+        {
+            "id": "ra2",
+            "status_col": true,
+            "attributes": ["2.5m x 2.5m", "11/11/2023", "11/11/2023"],
+            "status_data": {
+                "status_text": "Đã xác nhận",
+                "status_class": "status-ad-accepted"
+            }
+        },
+        {
+            "id": "ra3",
+            "status_col": true,
+            "attributes": ["2.5m x 2.5m", "11/11/2023", "11/11/2023"],
+            "status_data": {
+                "status_text": "Chờ xác nhận",
+                "status_class": "status-location-pending"
+            }
+        }
+    ]
+}

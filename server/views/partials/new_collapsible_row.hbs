@@ -1,0 +1,56 @@
+<div class="table-container" id="{{table_data.table_id}}">
+    <div class="table-header">
+        <table class="table">
+            <thead>
+                <tr>
+                    {{#each table_data.heading}}
+                        <th scope="col">{{this}}</th>
+                    {{/each}}
+                    <th scope="col" class="extend-btn"></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    {{#each table_data.data_row}}
+        <div class="table-row">
+            <table class="table">
+                <tr>
+                    {{#each attributes}}
+                        <td scope="row">{{this}}</td>
+                    {{/each}}
+                    {{#if status_col}}
+                        <td>
+                            <div
+                                class="table-status
+                                    {{status_data.status_class}}"
+                            >
+                                {{status_data.status_text}}
+                            </div>
+                        </td>
+                    {{/if}}
+                    <td class="extend-btn" style="text-align: right;">
+                        <button
+                            id="collapse-btn"
+                            class="btn"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#{{id}}"
+                            aria-expanded="false"
+                            aria-controls="{{id}}"
+                            onclick="handleCopplaseContent(this)"  {{!-- Please overwrite this function in your handler functions of each page --}}
+                        >
+                            <i class="bi bi-chevron-down"></i>
+                        </button>
+                    </td>
+                </tr>
+            </table>
+            <div class="collapse" id="{{id}}" style="width: 100%;" showed="false">
+                <div class="collapsed-content loading">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{/each}}
+</div>

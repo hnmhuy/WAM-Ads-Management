@@ -1,0 +1,110 @@
+{
+    "table_id": "req_create_table",
+    "heading": [
+        "Quận",
+        "Phường",
+        "Địa chỉ",
+        "Loại ví trí",
+        "Số lượng",
+        "Hình thức",
+        "Trạng thái"
+    ],
+    "data_row": [
+        {
+            "id": "r1",
+            "status_col": true,
+            "attributes": [
+                "Quận 1",
+                "Đa Kao",
+                "47 Đ. Điện Biên Phủ",
+                "Hành lang an toàn giao thông",
+                "3",
+                "Thương mại"
+            ],
+            "status_data": {
+                "status_text": "Chưa quy hoạch",
+                "status_class": "status-location-active"
+            }
+        },
+        {
+            "id": "r2",
+            "status_col": true,
+            "attributes": [
+                "Quận 1",
+                "Đa Kao",
+                "47 Đ. Nguyễn Tri Phương",
+                "Hành lang an toàn giao thông",
+                "3",
+                "Thương mại"
+            ],
+            "status_data": {
+                "status_text": "Đã quy hoạch",
+                "status_class": "status-location-pending"
+            }
+        },
+        {
+            "id": "r3",
+            "status_col": true,
+            "attributes": [
+                "Quận 1",
+                "Đa Kao",
+                "47 Đ. Điện Biên Phủ",
+                "Hành lang an toàn giao thông",
+                "3",
+                "Thương mại"
+            ],
+            "status_data": {
+                "status_text": "Đã quy hoạch",
+                "status_class": "status-location-pending"
+            }
+        },
+        {
+            "id": "r4",
+            "status_col": true,
+            "attributes": [
+                "Quận 1",
+                "Đa Kao",
+                "47 Đ. Điện Biên Phủ",
+                "Hành lang an toàn giao thông",
+                "3",
+                "Thương mại"
+            ],
+            "status_data": {
+                "status_text": "Đã quy hoạch",
+                "status_class": "status-location-pending"
+            }
+        },
+        {
+            "id": "r5",
+            "status_col": true,
+            "attributes": [
+                "Quận 1",
+                "Đa Kao",
+                "47 Đ. Điện Biên Phủ",
+                "Hành lang an toàn giao thông",
+                "3",
+                "Thương mại"
+            ],
+            "status_data": {
+                "status_text": "Đã quy hoạch",
+                "status_class": "status-location-pending"
+            }
+        },
+        {
+            "id": "r6",
+            "status_col": true,
+            "attributes": [
+                "Quận 1",
+                "Đa Kao",
+                "47 Đ. Điện Biên Phủ",
+                "Hành lang an toàn giao thông",
+                "3",
+                "Thương mại"
+            ],
+            "status_data": {
+                "status_text": "Đã quy hoạch",
+                "status_class": "status-location-pending"
+            }
+        }
+    ]
+}

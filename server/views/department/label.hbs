@@ -1,0 +1,119 @@
+<div class="label-container">
+  <div class="labels">
+    <div class="label">
+      <img src="/public/images/department_lable_location.svg" alt="Not found" />
+      <h4>Vị trí</h4>
+      <p>Mô tả ngắng gọn vị trí đặt điểm quảng cáo</p>
+      <div class="label-icon">
+        <i class="bi bi-arrow-right"></i>
+      </div>
+    </div>
+    <div class="label">
+      <img src="/public/images/department_lable_purpose.svg" alt="Not found" />
+      <h4>Mục đích</h4>
+      <p>Chủ đề chung của các bảng quảng cáo</p>
+      <div class="label-icon">
+        <i class="bi bi-arrow-right"></i>
+      </div>
+    </div>
+    <div class="label">
+      <img src="/public/images/department_lable_adtype.svg" alt="Not found" />
+      <h4>Loại QC</h4>
+      <p>Loại bảng quảng cáo được lắp đặt</p>
+      <div class="label-icon">
+        <i class="bi bi-arrow-right"></i>
+      </div>
+    </div>
+    <div class="label">
+      <img src="/public/images/department_lable_feedback.svg" alt="Not found" />
+      <h4>Phản ánh</h4>
+      <p>Phân loại phản ánh từ người dân</p>
+      <div class="label-icon">
+        <i class="bi bi-arrow-right"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="label-table">
+    <div class="notification collapse">
+      <img src="/public/images/department_lable_nodata.svg" alt="Not found" />
+      <h4>Chọn một danh mục để quản lý</h4>
+    </div>
+
+    <div class="label-table-header">
+      <div class="name-container">
+        <p class="header-title" id="name-list-header">Tên danh mục</p>
+      </div>
+      <div class="description-container">
+        <p class="header-title" id="description-header">Mô tả</p>
+      </div>
+      <div class="created-date-container">
+        <p class="header-title" id="created-date-header">Ngày tạo</p>
+      </div>
+      <div class="label-header-button">
+        <button type="button" id="add-row" onclick="addRow(this)">
+          <i class="bi bi-plus-circle"></i>
+          <p>Thêm dòng</p>
+        </button>
+      </div>
+    </div>
+
+    <div class="label-table-row">
+      <div class="name-description">
+        <div class="name-content">
+          <p>Đất công</p>
+        </div>
+        <div class="description-content">
+          <p>Đất thuộc sở hữu của nhà nước</p>
+        </div>
+      </div>
+      <div class="edited-form collapse">
+        <form action="">
+          <div class="edited-field-container">
+            <label for="edited-name-list"></label>
+            <textarea class="edited-field name-field" type="text" id="edited-name-list" oninput="validateInput(this)" placeholder="Tên danh mục"></textarea>
+
+            {{!-- Hover a warning --}}
+            <div class="tooltip-noti collapse name-tooltip"><p>Vui lòng điền tên danh mục</p></div>
+            <i class="bi bi-exclamation-circle-fill name-icon collapse" onmouseover="onHoverWarning(this)" onmouseout="mouseOutWarning(this)"></i>
+
+          </div>
+          <div class="edited-field-container">
+
+            <label for="edited-description"></label>
+            <textarea class="edited-field des-field" type="text" id="edited-description" oninput="validateInput(this)" placeholder="Mô tả" ></textarea>
+            
+            {{!-- Hover a warning --}}
+            <div class="tooltip-noti collapse des-tooltip"><p>Vui lòng điền mô tả</p></div>
+            <i class="bi bi-exclamation-circle-fill des-icon collapse" onmouseover="onHoverWarning(this)" onmouseout="mouseOutWarning(this)"></i>
+          </div>
+        </form>
+      </div>
+      <div class="created-date-content">
+        <p class="created-date">29/10/2023</p>
+      </div>
+      <div class="label-table-edit">
+        <button type="button" id="edit" onclick="editContent(this)">
+          <i class="bi bi-pencil-fill"></i>
+          <p>Chỉnh sửa<p>
+        </button>
+        <i class="bi bi-trash3" onclick="deleteRow(this)"></i>
+      </div>
+      <div class="save-cancel-button collapse">
+        <div class="save-button">
+          <button type="button" id="save" onclick="saveEdition(this)">
+            <i class="bi bi-check2-circle"></i>
+            <p>Lưu</p>
+          </button>
+        </div>
+        <div class="cancel-button">
+          <button type="button" id="cancel" onclick="cancelEdition(this)">
+            <i class="bi bi-ban"></i>
+            <p>Hủy</p>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

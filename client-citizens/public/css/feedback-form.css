@@ -1,0 +1,146 @@
+* {
+  font-family: 'Quicksand', sans-serif !important;
+  padding: 0;
+  margin: 0;
+}
+
+.feedback-form {
+  background-color: #fff;
+  border-radius: 12px;
+  width: 58rem;
+  height: 49.5rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 0rem 1.2rem 1rem 1.2rem;
+  z-index: 200;
+}
+
+.overlay {
+  z-index: 10;
+}
+
+form .form-header {
+  margin-top: 0.5rem;
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  border-bottom: 1px solid rgba(79, 62, 215, 0.6);
+}
+
+.form-header .form-name {
+  margin-bottom: 0;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.form-header .bi-x-circle {
+  font-size: 2rem !important;
+}
+
+.type-email,
+.name-phonenum {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.type-email div,
+.name-phonenum div {
+  width: calc(100% - 7px);
+}
+
+.feedback-form input {
+  width: calc(100% - 7px) !important;
+  height: 40px;
+}
+
+.feedback-textarea #tooltip {
+  display: block;
+  z-index: 10;
+  color: red;
+  position: absolute;
+  background-color: antiquewhite;
+  left: 50%;
+  top: 0;
+  transform: translate(-50%, 50%);
+  border-radius: 6px;
+  padding: 5px;
+}
+
+.feedback-textarea {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.5rem;
+  /* overflow: hidden; */
+}
+
+.tox-tinymce {
+  height: 200px !important;
+}
+
+.tox-statusbar {
+  display: none !important;
+}
+
+.tox-mbtn__select-label {
+  margin: 0;
+  width: auto !important;
+}
+
+.feedback-textarea textarea {
+  height: 50px;
+}
+.upload-file {
+  margin-top: 0.5rem;
+}
+.submit-captcha {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-top: 1rem;
+}
+#confirm-button {
+  margin-top: 0.5rem;
+}
+
+form label {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+@media (max-width: 914px) {
+  form {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  .type-email,
+  .name-phonenum {
+    margin-top: 0.5rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .type-email div:last-child,
+  .name-phonenum div:last-child {
+    margin-top: 0.8rem;
+  }
+
+  .submit-captcha {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  #confirm-button {
+    margin-top: 3rem;
+    width: 100%;
+  }
+}

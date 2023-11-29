@@ -1,0 +1,63 @@
+<div class="sidepeek-container hidden" id="sidepeek-noAd">
+  <div class="area-icon shadow-sm">
+    <i class="bi bi-pin-map"></i>
+    <h3 id="area">Phường 4, Quận 5</h3>
+    <i class="bi bi-x-circle"></i>
+  </div>
+  <div class="sidepeek-container-data">
+    <div class="location-img">
+      <p>Hình ảnh điểm đặt quảng cáo</p>
+      <img src="/images/no-ad.png" alt="not found" />
+    </div>
+    <div class="address">
+      <i class="bi bi-geo-alt-fill"></i>
+      <p id="format-address">
+        Đồng Khởi - Nguyễn Du (Sở Văn hóa và Thể thao), Phường Bến Nghé, Quận 1
+      </p>
+    </div>
+    <div class="location-content">
+      <h4 id="type-ad">trụ/cụm pano</h4>
+      <div>
+        <p class="title">Số lượng bảng (bảng/vị trí)</p>
+        <p class="content" id="capacity">2 bảng</p>
+      </div>
+      <div>
+        <p class="title">Hình thức quảng cáo</p>
+        <p class="content" id="'purpose">Cổ động chính trị</p>
+      </div>
+      <div>
+        <p class="title">Loại vị trí</p>
+        <p class="content" id="type-location">Hành lang an toàn giao thông</p>
+      </div>
+
+      <button
+        type="button"
+        class="btn btn-primary feedback-button"
+        id="location-feedback"
+      >
+        <i class="bi bi-send-fill"></i>
+        Gửi phản hồi điểm đặt quảng cáo
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary hidden show-feedback-button"
+        id="show-location-feedback"
+      >
+        <i class="bi bi-file-text-fill"></i> Xem phản hồi
+      </button>
+    </div>
+    <div class="ad-content">
+      <h5 id="num-ad">Thông tin bảng quảng cáo (0)</h5>
+      <img src="/images/no-data.png" alt="not found" />
+      <p class="notification">Chưa có dữ liệu!</p>
+      <p class="notification">Vui lòng chọn điểm trên bản đồ để xem</p>
+    </div>
+  </div>
+</div>
+<script>
+  document
+    .querySelector('#sidepeek-noAd .bi-x-circle')
+    .addEventListener('click', () => {
+      document.querySelector('#sidepeek-noAd').classList.add('hidden');
+    });
+</script>

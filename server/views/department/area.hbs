@@ -1,0 +1,207 @@
+<div class="toolbar">
+
+    <form class="col-lg-4 mb-3 mb-lg-0 me-lg-3" role="search" onsubmit="(e)=>{e.preventDefault()}">
+        <input type="search" class="form-control" placeholder="Search..." id="keyword" aria-label="Search"
+            oninput="search(this.value)" required />
+    </form>
+    <select id="typeSelect" class="form-select" aria-label="Default select example">
+        <option selected>Loại Vị Trí</option>
+        <option value="1">Đất Công</option>
+        <option value="2">Hành Lang An Toàn Giao Thông</option>
+        <option value="3">Công Viên</option>
+        <option value="4">Nhà Riêng</option>
+    </select>
+    <select id="methodSelect" class="form-select" aria-label="Default select example"
+        onchange="filterByMethod(this.value)">
+        <option selected>Hình Thức</option>
+        <option value="1">Cổ Động Chính Trị</option>
+        <option value="2">Quảng Cáo Thương Mại</option>
+        <option value="3">Xã Hội Hoá</option>
+    </select>
+    <select id="statusSelect" class="form-select" aria-label="Default select example"
+        onchange="filterByStatus(this.value)">
+        <option selected>Trạng Thái</option>
+        <option value="1">Đã Quy Hoạch</option>
+        <option value="2">Chưa Quy Hoạch</option>
+    </select>
+
+    <button class="" id="new-area-btn" type="button" onclick="openAddAreaForm()">
+        <i class="bi bi-plus-circle"></i>
+        Thêm khu vực
+    </button>
+</div>
+
+<div class="add-new-area collapse" id="add-new-area-form">
+    <div class="form-header">
+        <h5>Thêm khu vực mới</h5>
+        <i class="bi bi-x-lg" onclick="cancelAddArea()"></i>
+    </div>
+    <div class="area-form-attribute">
+        <h6>Khu vực quản lý</h6>
+        <div class="wrapper-dropdown" id="area-level">
+            <span class="selected-display" id="area-level-selection" data-value="" onclick="toggleDropdown(this)">Chọn
+                cấp quản lý</span>
+            <i class="bi bi-chevron-down"></i>
+            <ul class="dropdown">
+                <li onclick="optionClick(this)" class="item" data-value="L1">Quận/Huyện</li>
+                <li onclick="optionClick(this)" class="item" data-value="L2">Phường/Xã</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="area-form-attribute collapse">
+        <h6>Quận/huyện</h6>
+        <div class="wrapper-dropdown collapse" id="district-dropdown">
+            <span class="selected-display" id="district-selection" data-value="" onclick="toggleDropdown(this)">Chọn
+                Quận</span>
+            <i class="bi bi-chevron-down"></i>
+            <ul class="dropdown dropdown-with-search">
+                <li class="dropdown-search"><input type="text" class="" placeholder="Tìm kiếm...."
+                        oninput="filterDropdown(this)"></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="area-form-attribute collapse">
+        <h6>Phường/xã</h6>
+        <div class="wrapper-dropdown collapse" id="ward-dropdown">
+            <span class="selected-display" id="ward-selection" data-value="" onclick="toggleDropdown(this)">Chọn
+                Phường</span>
+            <i class="bi bi-chevron-down"></i>
+            <ul class="dropdown dropdown-with-search">
+                <li class="dropdown-search"><input type="text" placeholder="Tìm kiếm...."
+                        oninput="filterDropdown(this)"></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="form-btns">
+        <span onclick="cancelAddArea()">Hủy</span>
+        <button title="Thêm" type="button">Thêm</button>
+    </div>
+
+</div>
+
+<div class="overlay collapse" onclick="cancelAddArea()"></div>
+
+<div class="table-container" id="area-table">
+    <table class="table table-hover table-responsive">
+        <thead>
+            <tr>
+                <th scope="col">Tên khu vực</th>
+                <th scope="col">Ngày thêm</th>
+                <th scope="col">Cấp hành chính</th>
+                <th scope="col">Cán bộ quản lý</th>
+                <th scope="col extend-btn"></th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            <tr id="D001" onmouseover="rowHover(this)" onmouseleave="rowLeave(this)">
+                <td>Quận 1</td>
+                <td>29/10/2023</td>
+                <td>Quận</td>
+                <td style="width: 20%">
+                    <div class="officer-group">
+                        <div class="officer">
+                            <div class="officer-img">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+                            <span>Ông Thập</span>
+                        </div>
+                        <div class="officer">
+                            <div class="officer-img">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+                            <span>Huỳnh Nguyễn Minh Huy</span>
+                        </div>
+                    </div>
+                </td>
+                <td style="width: 200px;">
+                    <div class="extend-btn">
+                        <i title="Xóa" class="bi bi-trash2"></i>
+                        <i title="Xem khu vực trực thuộc" class="bi bi-chevron-compact-down" onclick="expendRow(this)"></i>
+                    </div>
+                </td>
+            </tr>
+            <tr parent-id="D001" onmouseover="rowHover(this)" onmouseleave="rowLeave(this)" class="collapse">
+                <td>Phường 2</td>
+                <td>29/10/2023</td>
+                <td>Quận</td>
+                <td style="width: 20%">
+                    <div class="officer-group">
+                        <div class="officer">
+                            <div class="officer-img">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+                            <span>Ông Thập</span>
+                        </div>
+                        <div class="officer">
+                            <div class="officer-img">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+                            <span>Huỳnh Nguyễn Minh Huy</span>
+                        </div>
+                    </div>
+                </td>
+                <td style="width: 200px;">
+                    <div class="extend-btn">
+                        <i title="Xóa" class="bi bi-trash2"></i>
+                    </div>
+                </td>
+            </tr>
+            <tr parent-id="D001" onmouseover="rowHover(this)" onmouseleave="rowLeave(this)" class="collapse">
+                <td>Phường 1</td>
+                <td>29/10/2023</td>
+                <td>Quận</td>
+                <td style="width: 20%">
+                    <div class="officer-group">
+                        <div class="officer">
+                            <div class="officer-img">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+                            <span>Ông Thập</span>
+                        </div>
+                        <div class="officer">
+                            <div class="officer-img">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+                            <span>Huỳnh Nguyễn Minh Huy</span>
+                        </div>
+                    </div>
+                </td>
+                <td style="width: 200px;">
+                    <div class="extend-btn">
+                        <i title="Xóa" class="bi bi-trash2"></i>
+                    </div>
+                </td>
+            </tr>
+            <tr id="D002" onmouseover="rowHover(this)" onmouseleave="rowLeave(this)">
+                <td>Quận 2</td>
+                <td>29/10/2023</td>
+                <td>Quận</td>
+                <td style="width: 20%">
+                    <div class="officer-group">
+                        <div class="officer">
+                            <div class="officer-img">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+                            <span>Ông Thập</span>
+                        </div>
+                        <div class="officer">
+                            <div class="officer-img">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+                            <span>Huỳnh Nguyễn Minh Huy</span>
+                        </div>
+                    </div>
+                </td>
+                <td style="width: 200px;">
+                    <div class="extend-btn">
+                        <i title="Xóa" class="bi bi-trash2"></i>
+                        <i title="Xem khu vực trực thuộc" class="bi bi-chevron-compact-down" onclick="expendRow(this)"></i>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

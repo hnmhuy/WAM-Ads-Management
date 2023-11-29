@@ -1,0 +1,182 @@
+<div class="report_table">
+  <section class="table__header">
+    <h2 class="table_heading">Xử lý báo cáo</h2>
+    <div class="input_group">
+      <img src="/public/images/search.png" alt="" />
+      <input type="search" placeholder="Search..." />
+    </div>
+  </section>
+  <section class="tab">
+    <div class="tab-bar">
+      <button class="tab-btn tab-btn-active" target="req_create">
+        Bảng quảng cáo
+      </button>
+      <button class="tab-btn" target="req_update">Vị trí khác</button>
+    </div>
+  </section>
+  <section class="table__body">
+    <table>
+      <!-- Head -->
+      <thead>
+        <tr>
+          <th>Quận</th>
+          <th>
+            <div class="filter">
+              <a class="filter_btn btn dropdown-toggle custom-dropdown" href="#" role="button"
+                data-bs-toggle="dropdown">
+                Phường
+              </a>
+
+              <ul class="dropdown-menu" id="filter_list" onclick="handleDropdownItem(event)">
+                {{#each ward}}
+                <li>
+                  <a class="dropdown-item" id="{{id}}">{{name}}</a>
+                </li>
+                {{/each}}
+              </ul>
+            </div>
+          </th>
+          <th>Địa chỉ</th>
+          <th>Mã báo cáo</th>
+          <th>
+            <div class="filter">
+              <a class="filter_btn btn dropdown-toggle custom-dropdown" href="#" role="button"
+                data-bs-toggle="dropdown">
+                Hình thức
+              </a>
+
+              <ul class="dropdown-menu" id="filter_list" onclick="handleDropdownItem(event)">
+                <li>
+                  <a class="dropdown-item" id="criminal">Tố giác tội phạm</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" id="registered_content">Đăng ký nội dung</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" id="shared_idea">Đóng góp ý kiến</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" id="answer_question">Giải đáp thắc mắc</a>
+                </li>
+              </ul>
+            </div>
+          </th>
+          <th>
+            <div class="filter">
+              <a class="filter_btn btn dropdown-toggle custom-dropdown" href="#" role="button"
+                data-bs-toggle="dropdown">
+                Hình thức
+              </a>
+
+              <ul class="dropdown-menu" id="filter_list" onclick="handleDropdownItem(event)">
+                <li>
+                  <a class="dropdown-item" id="solved_feedback">Đã giải quyết</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" id="unsolved_feedback">Chưa giải quyết</a>
+                </li>
+                </li>
+              </ul>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <!-- Body -->
+      <tbody>
+        {{#each data_row}}
+        <tr class="{{address.ward_id}} {{type.type_id}} {{status.status_tag}} {{category}}">
+          <td>{{district}}</td>
+          <td>{{address.ward}}</td>
+          <td>{{address.street}}</td>
+          <td>{{id}}</td>
+          <td>{{type.type_name}}</td>
+          <td onclick="toggleSibling(this)">
+            <div class="last-cell">
+              <p class="status {{status.status_id}}">{{status.status_name}}</p>
+              <i class="bi bi-chevron-down" style="color: black"></i>
+            </div>
+          </td>
+        </tr>
+        <tr class="extra">
+          <td colspan="6" class="expand_row">
+            <div class="more-information">
+              <div style="height: auto; width: 33%; z-index: -1;">
+
+                <div id="img-carousel" class="carousel slide" data-bs-ride="carousel">
+                  <ol class="carousel-indicators">
+                    <li data-bs-target="#img-carousel" data-bs-slide-to="0" class="active" aria-current="true"
+                      aria-label="First slide"></li>
+                    <li data-bs-target="#img-carousel" data-bs-slide-to="1" aria-label="Second slide"></li>
+                    <li data-bs-target="#img-carousel" data-bs-slide-to="2" aria-label="Third slide"></li>
+                  </ol>
+                  <div class="carousel-inner" role="listbox">
+                    {{#each image_path}}
+                    {{#if @first}}
+                    <div class="carousel-item active">
+                      <img src="{{this}}" class="w-100 d-block" alt="First slide">
+                    </div>
+                    {{else}}
+                    <div class="carousel-item">
+                      <img src="{{this}}" class="w-100 d-block" alt="Slide">
+                    </div>
+                    {{/if}}
+                    {{/each}}
+                  </div>
+                </div>
+
+                <p>Hình ảnh minh họa</p>
+              </div>
+
+              <div style="width: 67%">
+                <span class="name">
+                  <i class='bx bxs-user-circle' style="font-size: 20px; line-height:1;"></i>
+                  <span class="title">Họ và tên</span>
+                  <span class="content">{{name}}</span>
+                </span>
+
+                <span class="name">
+                  <i class='bx bxs-mobile' style="font-size: 20px; line-height:1;"></i>
+                  <span class="title">Số điện thoại</span>
+                  <span class="content">{{phone}}</span>
+                </span>
+
+                <span class="name">
+                  <i class='bx bx-mail-send' style="font-size: 20px; line-height:1;"></i>
+                  <span class="title">Email</span>
+                  <span class="content">{{email}}</span>
+                </span>
+
+                <span class="report_solution">
+
+                  {{#ifEquals status.status_id "solved"}}
+
+                  <textarea class="report_solotion_area" placeholder="Hướng giải quyêt">      {{{solution}}}</textarea>
+                  {{else}}
+                  <textarea class="report_solotion_area" placeholder="Hướng giải quyêt"></textarea>
+
+                  {{/ifEquals}}
+                </span>
+
+                <div class="button-report-field">
+                  {{#ifEquals status.status_id "solved"}}
+                  {{else}}
+                  <button class="button-report send-report" role="button">Gửi</button>
+                  <button class="button-report cancel-report" role="button">Hủy</button>
+                  {{/ifEquals}}
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </section>
+</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+  integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/public/css/ward-district/reports.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+  integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+<script src="/public/js/ward-district/reports.js"></script>

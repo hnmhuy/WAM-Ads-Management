@@ -1,0 +1,80 @@
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+.toolbar {
+    display: flex;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    gap: 10px;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease-in-out;
+}
+
+.toolbar form[role="search"] {
+    width: 20rem;
+    margin: 0 !important;
+}
+
+.toolbar select {
+    width: 10rem;
+}
+
+.toolbar button {
+    background-color: rgb(79, 62, 215);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 5px 10px;
+    position: absolute;
+    right: 10px;
+}
+
+.toolbar button:hover {
+    background-color: rgb(47, 29, 177);
+}
+.main-content{
+    width: calc(100vw - var(--nav-bar-width));
+    padding: 0px 30px 20px 30px;
+    height: 100vh;
+    margin-left: var(--nav-bar-width);
+    transition: margin-left 0.5s;
+    position: relative;
+    box-sizing: border-box;
+    overflow-x: auto;;
+}
+
+
+.title {
+    width: 100%;
+    padding-top: 40px;
+    padding-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 6rem;
+    border-bottom: 2px solid rgba(0, 0,0, 0.3); 
+    position: sticky;
+    top: 0;  
+    background-color: white; 
+    z-index: 1;
+}
+
+
+.title h1 {
+    font-weight: 900;
+    margin: 0px;
+}
+
+.content {
+    padding: 15px 0px;
+    width: 100%;
+    height: calc(100% - 6rem);
+}
