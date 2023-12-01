@@ -200,37 +200,60 @@
       <td>example@gmail.com</td>
       <td>0123456789</td>
       <td>
+        <div class="dropdown-icon collapse">
+          <div
+            class="wrapper-dropdown area-wrapper-dropdown"
+            id="district-dropdown"
+          >
+            <span
+              class="area-selected-display"
+              id="district-selection"
+              data-value=""
+              onclick="toggleDropdown(this)"
+            >Chọn Quận</span>
+            <i class="bi bi-chevron-down"></i>
+            <ul class="area-dropdown dropdown-with-search">
+              <li class="area-dropdown-search"><input
+                  type="text"
+                  class=""
+                  placeholder="Tìm kiếm...."
+                  oninput="filterDropdown(this)"
+                /></li>
+              <li class="item" data-value="Q2" onclick="optionClick(this)">Quận
+                2</li>
+              <li class="item" data-value="Q3" onclick="optionClick(this)">Quận
+                3</li>
 
-        <div class="area-wrapper-dropdown" id="district-dropdown">
-          <span
-            class="area-selected-display"
-            id="district-selection"
-            data-value=""
-            onclick="toggleDropdown(this)"
-          >Chọn Quận</span>
-          <i class="bi bi-chevron-down"></i>
-          <ul class="area-dropdown dropdown-with-search">
-            <li class="area-dropdown-search"><input
-                type="text"
-                class=""
-                placeholder="Tìm kiếm...."
-                oninput="filterDropdown(this)"
-              /></li>
-            <li class="item" data-value="Q2" onclick="optionClick(this)">Quận 2</li>
-            <li class="item" data-value="Q3" onclick="optionClick(this)">Quận 3</li>
-
-          </ul>
+            </ul>
+          </div>
+          <div class="save-cancel-button">
+            <div class="save-button">
+              <button type="button" id="save" onclick="saveEdition(this)">
+                <i class="bi bi-check2-circle"></i>
+                <p>Lưu</p>
+              </button>
+            </div>
+            <div class="cancel-button">
+              <button type="button" id="cancel" onclick="cancelEdition(this)">
+                <i class="bi bi-ban"></i>
+                <p>Hủy</p>
+              </button>
+            </div>
+          </div>
         </div>
-        <div class="edit-location collapse">Quận Bình Thạnh
-          <i class="bi bi-pencil-fill"></i></div></td>
+        <div class="edit-location"><p class="area-content">Quận Bình Thạnh</p>
+          <i
+            class="bi bi-pencil-fill"
+            onclick="onClickPen(this)"
+          ></i></div></td>
       <td><div
-          class="status-wrapper-dropdown"
+          class="wrapper-dropdown status-wrapper-dropdown on"
           id="status-dropdown"
           onclick="onClickStatusDropdown(this)"
         >
           <span class="selected-display on" id="status" value="ON">Đang hoạt
             động</span>
-          <i class="bi bi-chevron-down"></i>
+          <i class="bi bi-chevron-down status-icon"></i>
           <ul class="status-dropdown">
             <li class="status-item" value="ON"><p class="on status">Đang hoạt
                 động</p></li>
@@ -248,12 +271,74 @@
             Minh Huy</p></div></td>
       <td>example@gmail.com</td>
       <td>0123456789</td>
-      <td><div class="edit-location">Quận 2
-          <i class="bi bi-pencil-fill"></i></div></td>
-      <td>Đang hoạt động</td>
+      <td>
+        <div class="dropdown-icon collapse">
+          <div
+            class="wrapper-dropdown area-wrapper-dropdown"
+            id="district-dropdown"
+          >
+            <span
+              class="area-selected-display"
+              id="district-selection"
+              data-value=""
+              onclick="toggleDropdown(this)"
+            >Chọn Quận</span>
+            <i class="bi bi-chevron-down"></i>
+            <ul class="area-dropdown dropdown-with-search">
+              <li class="area-dropdown-search"><input
+                  type="text"
+                  class=""
+                  placeholder="Tìm kiếm...."
+                  oninput="filterDropdown(this)"
+                /></li>
+              <li class="item" data-value="Q2" onclick="optionClick(this)">Quận
+                2</li>
+              <li class="item" data-value="Q3" onclick="optionClick(this)">Quận
+                3</li>
+
+            </ul>
+          </div>
+          <div class="save-cancel-button">
+            <div class="save-button">
+              <button type="button" id="save" onclick="saveEdition(this)">
+                <i class="bi bi-check2-circle"></i>
+                <p>Lưu</p>
+              </button>
+            </div>
+            <div class="cancel-button">
+              <button type="button" id="cancel" onclick="cancelEdition(this)">
+                <i class="bi bi-ban"></i>
+                <p>Hủy</p>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="edit-location"><p class="area-content">Phường 1, Quận 5</p>
+          <i
+            class="bi bi-pencil-fill"
+            onclick="onClickPen(this)"
+          ></i></div></td>
+      <td><div
+          class="wrapper-dropdown status-wrapper-dropdown block"
+          id="status-dropdown"
+          onclick="onClickStatusDropdown(this)"
+        >
+          <span class="selected-display" id="status" value="BLOCK">Đã khóa</span>
+          <i class="bi bi-chevron-down status-icon"></i>
+          <ul class="status-dropdown">
+            <li class="status-item" value="ON"><p class="on status">Đang hoạt
+                động</p></li>
+            <li class="status-item" value="BLOCK"><p class="block status">Đã
+                khóa</p></li>
+          </ul>
+
+        </div></td>
       <td>29/10/2023</td>
 
     </tr>
+
   </table>
+
+  <div class="table-overlay collapse"></div>
 
 </div>

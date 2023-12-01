@@ -129,23 +129,12 @@ window.addEventListener("click", function (e) {
 });
 
 function closeAllStatusDropdown() {
-  const selectedAll = document.querySelectorAll(".wrapper-dropdown");
+  const selectedAll = document.querySelectorAll(".status-wrapper-dropdown");
   selectedAll.forEach((selected) => {
     let arrow = selected.children[1];
 
-    handleStatusDropdown(selected, arrow, false);
+    handleDropdown(selected, arrow, false);
   });
-}
-
-function handleStatusDropdown(dropdown, arrow, open) {
-  if (open) {
-    arrow.classList.add("rotate");
-    dropdown.classList.add("active");
-    console.log("dropdown", dropdown);
-  } else {
-    arrow.classList.remove("rotate");
-    dropdown.classList.remove("active");
-  }
 }
 
 function onClickStatusDropdown(e) {
@@ -155,26 +144,27 @@ function onClickStatusDropdown(e) {
   const selectedDisplay = e.querySelector(".selected-display");
 
   if (e.classList.contains("active")) {
-    // handleStatusDropdown(e, arrow, false);
-    arrow.classList.remove("rotate");
-    e.classList.remove("active");
+    handleDropdown(e, arrow, false);
   } else {
-    // handleStatusDropdown(e, arrow, true);
-    arrow.classList.add("rotate");
-    e.classList.add("active");
-    console.log("e", e);
+    let currentActive = document.querySelector(
+      ".status-wrapper-dropdown.active"
+    );
+    if (currentActive) {
+      let anotherArrow = currentActive.children[1];
+      handleDropdown(currentActive, anotherArrow, false);
+    }
+    handleDropdown(e, arrow, true);
   }
   for (let o of optionList) {
     o.addEventListener("click", () => {
-      let selectedValue = o.getAttribute("value");
-      if (selectedValue == "ON") {
-        e.style.backgroundColor = "#baf3db";
-        selectedDisplay.style.color = "#216e4e";
-        arrow.style.color = "#216e4e";
-      } else {
-        e.style.backgroundColor = "#ffd5d2";
-        selectedDisplay.style.color = "#ae2e24";
-        arrow.style.color = "#ae2e24";
+      let selectedValue = o.textContent;
+
+      if (selectedValue.trim() === "Đang hoạt động") {
+        e.classList.remove("block");
+        e.classList.add("on");
+      } else if (selectedValue.trim() === "Đã khóa") {
+        e.classList.add("block");
+        e.classList.remove("on");
       }
       selectedDisplay.innerHTML = o.innerHTML;
       statusValue.setAttribute("value", `${o.getAttribute("value")}`);
@@ -182,7 +172,7 @@ function onClickStatusDropdown(e) {
   }
 }
 
-// Dropdonwn UI controller
+// Dropdown UI controller
 
 function removeDiacritics(str) {
   return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -236,4 +226,25 @@ function optionClick(e) {
   selectedField.setAttribute("data-value", e.getAttribute("data-value"));
   container.classList.remove("active");
   container.children[1].classList.remove("rotate");
+}
+
+//EDIT area
+function onClickPen(e) {
+  const row = e.parentNode.parentNode.parentNode;
+  console.log(row);
+  // const overlay = row.parentNode.parentNode.querySelector(".table-overlay");\
+  const deligateTable = row.parentNode.parentNode.parentNode;
+  const overlay = deligateTable.querySelector(".table-overlay");
+  const statusDropdown = row.querySelector(".status-wrapper-dropdown");
+  const container = e.parentNode.parentNode;
+  const dropdownIconContainer = container.children[0];
+  const editLocation = container.children[1];
+
+  row.classList.add("absolute");
+  row.style.border = "1px solid rgba(0,0,0,1)";
+  overlay.classList.remove("collapse");
+
+  statusDropdown.classList.add("disabled-dropdown");
+  editLocation.classList.add("collapse");
+  dropdownIconContainer.classList.remove("collapse");
 }

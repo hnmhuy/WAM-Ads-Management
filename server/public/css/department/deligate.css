@@ -1,7 +1,4 @@
-
-
-/*form dropdown*/
-
+/* ---------- FORM DROPDOWN ----------- */
 .wrapper-dropdown {
   position: relative;
   display: flex;
@@ -65,8 +62,7 @@
   opacity: 1;
 }
 
-.active-arrow::before
-{
+.active-arrow::before {
   font-weight: 900 !important;
 }
 
@@ -76,8 +72,6 @@
   border-radius: 15px;
   background-color: #fff;
 }
-
-
 
 .active {
   background-color: #fff !important;
@@ -90,11 +84,7 @@
   pointer-events: none;
 }
 
-
-
-
 /* --------- HEADER ----------- */
-
 
 .form-popup .form-header {
   display: flex;
@@ -134,9 +124,7 @@
   background-color: #fff;
   padding: 30px 30px 0 30px;
   border-top-left-radius: 12px;
-  /* Adjust the radius as needed */
   border-top-right-radius: 12px;
-  /* Adjust the radius as needed */
 }
 
 .form-popup label {
@@ -200,31 +188,47 @@
   border-color: #4f3ed7;
 }
 
-/* --------------------- DROPDOWN --------------------- */
+/* --------------------- EDIT STATUS DROPDOWN --------------------- */
 
 .status-wrapper-dropdown {
-  position: relative;
-  display: flex;
-  align-items: center;
   width: 150px;
-  border-radius: 10px;
   padding: 5px 10px;
-  text-align: left;
-  cursor: pointer;
   height: 40px;
   font-size: 15px;
+}
+
+.status-wrapper-dropdown.on {
   background-color: #baf3db;
 }
 
-.status-wrapper-dropdown .selected-display {
+.status-wrapper-dropdown.on,
+.status-wrapper-dropdown.on .selected-display {
+  color: #216e4e;
   font-weight: 900;
+}
+
+.status-wrapper-dropdown.block {
+  background-color: #ffd5d2;
+}
+
+.status-wrapper-dropdown.block,
+.status-wrapper-dropdown.block .selected-display {
+  color: #ae2e24;
+  font-weight: 900;
+}
+
+.status-wrapper-dropdown.block .bi-chevron-down {
+  color: #ae2e24;
+}
+
+.status-wrapper-dropdown.on .bi-chevron-down {
   color: #216e4e;
 }
 
-.status-wrapper-dropdown .bi-chevron-down {
+.status-icon {
   position: absolute;
   top: 50%;
-  right: 8px;
+  right: 5px;
   transform: translate(0, -50%);
   font-size: 12px;
   color: #216e4e;
@@ -243,6 +247,10 @@
   border: 1px solid rgba(0, 0, 0, 0.2);
   opacity: 0;
   display: none;
+  padding: 0 !important;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 99;
 }
 
 .status-dropdown li {
@@ -271,43 +279,17 @@
 .status-wrapper-dropdown .status-dropdown li:last-child {
   border-bottom: none;
 }
-
-.status-dropdown {
-  padding: 0 !important;
-  max-height: 200px;
-  overflow-y: auto;
-}
-
-.status-wrapper-dropdown .dropdown li:hover {
+.status-dropdown li:hover {
   background-color: #f1f2f4;
 }
 
-.rotate {
-  transform: translate(0, -50%) rotate(180deg);
-}
-
 /* --------------- ACTIVE FOR DROPDOWM --------------- */
-
-.active-arrow {
-  color: #4f3ed7;
-  font-size: 1.1rem;
-  opacity: 1;
-}
-
-.active-arrow::before {
-  font-weight: 900 !important;
-}
 
 .status-wrapper-dropdown.active .status-dropdown {
   opacity: 1;
   display: block;
   border-radius: 10px;
   background-color: #fff;
-}
-
-.disabled {
-  opacity: 0.3;
-  pointer-events: none;
 }
 
 /* -------- CONFIRM CONTAINER ------------ */
@@ -317,9 +299,7 @@
   display: flex;
   background-color: #f4f4f7;
   border-bottom-left-radius: 12px;
-  /* Adjust the radius as needed */
   border-bottom-right-radius: 12px;
-  /* Adjust the radius as needed */
   justify-content: flex-end;
   align-items: center;
   padding: 20px;
@@ -405,6 +385,7 @@
   width: 100%;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 15px;
+  position: relative;
 }
 
 .deligate-table table {
@@ -434,8 +415,13 @@
   padding: 10px 20px;
 }
 
+.deligate-table th:nth-child(4),
+.deligate-table td:nth-child(4) {
+  width: 421px;
+}
+
 .deligate-table td {
-  height: 62px;
+  height: 71px;
 }
 
 .deligate-table th {
@@ -447,10 +433,18 @@
 }
 
 .deligate-table tr {
+  position: relative;
   transition: all 0.3s ease;
   background-color: #fff;
   width: 100%;
   border: none;
+  z-index: 1;
+  transition: all 0.3s ease;
+}
+
+.deligate-table tr.absolute {
+  background-color: #fff; /* Set the background color for the absolute row */
+  z-index: 2;
 }
 
 .deligate-table th:last-child,
@@ -466,6 +460,18 @@
   background-color: #fff !important;
   border: 1px solid #4f3ed7;
   font-weight: normal !important;
+}
+
+.table-overlay {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 15px;
+  transition: all 2s linear;
 }
 
 /* ----------------- EDIT LOCATION ------------ */
@@ -506,25 +512,12 @@
   background-color: #e4e6ea;
 }
 
-/* AREA EDIT */
+/* --------------- AREA EDIT --------------*/
 .area-wrapper-dropdown {
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: 400px;
-  border-radius: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  text-align: left;
-  cursor: pointer;
-  height: 50px;
+  width: 250px;
   background-color: #fff;
   transition: all 0.3s ease;
-}
-.area-wrapper-dropdown .bi-chevron-down {
-  position: absolute;
-  top: 50%;
-  right: 20px;
-  transform: translate(0, -50%);
+  padding: 5px 10px;
 }
 
 .area-dropdown {
@@ -622,4 +615,93 @@ h6 {
   width: 150px;
   margin: 0;
   font-weight: bold;
+}
+
+.rotate {
+  transform: translate(0, -50%) rotate(180deg);
+}
+
+/* --------- SAVE AND CANCEL BUTTON --------- */
+.dropdown-icon {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.save-cancel-button p,
+.label-header-button p {
+  font-weight: bold;
+}
+
+.save-cancel-button button {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border: none;
+  border-radius: 10px;
+  border-radius: 8px;
+  width: 79px;
+  height: 34px;
+}
+
+.save-cancel-button {
+  width: 110px;
+  display: flex;
+  justify-content: center;
+}
+
+.save-cancel-button .bi-check2-circle {
+  padding-right: 4px;
+  padding-left: 5px;
+  font-size: 1.5rem;
+  color: #3b3b3b;
+  font-weight: bold;
+}
+
+.save-cancel-button .bi-ban {
+  padding-right: 6px;
+  padding-left: 6px;
+  font-size: 1.3rem;
+  color: #3b3b3b;
+}
+
+.save-cancel-button #save {
+  background-color: #b7cbbf;
+}
+
+.save-cancel-button #cancel {
+  background-color: #feaf9d;
+}
+
+.save-cancel-button .save-button,
+.save-cancel-button .cancel-button {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  width: 34px;
+  height: 34px;
+  transition: all 0.5s ease;
+}
+
+.save-cancel-button .save-button {
+  margin-right: 5px;
+}
+
+.save-cancel-button .save-button:hover,
+.save-cancel-button .cancel-button:hover {
+  width: 79px;
+}
+
+.save-cancel-button .save-button:hover #save {
+  background-color: #38b000;
+}
+
+.save-cancel-button .cancel-button:hover #cancel {
+  background-color: #ff1818;
+}
+
+.disabled-dropdown {
+  background-color: #f5f3ff;
+  pointer-events: none;
+  opacity: 0.5;
 }
