@@ -96,7 +96,7 @@
             </tr>
         </thead>
         <tbody id="tableBody">
-            <tr id="D001" onmouseover="">
+            <tr id="D001" onmouseover="rowHover(this)" onmouseleave="rowLeave(this)">
                 <td>Quận 1</td>
                 <td>29/10/2023</td>
                 <td>Quận</td>
@@ -119,11 +119,63 @@
                 <td style="width: 200px;">
                     <div class="extend-btn">
                         <i title="Xóa" class="bi bi-trash2"></i>
-                        <i title="Xem khu vực trực thuộc" class="bi bi-chevron-compact-down"></i>
+                        <i title="Xem khu vực trực thuộc" class="bi bi-chevron-compact-down" onclick="expendRow(this)"></i>
                     </div>
                 </td>
             </tr>
-            <tr parent-id="D001">
+            <tr parent-id="D001" onmouseover="rowHover(this)" onmouseleave="rowLeave(this)" class="collapse">
+                <td>Phường 2</td>
+                <td>29/10/2023</td>
+                <td>Quận</td>
+                <td style="width: 20%">
+                    <div class="officer-group">
+                        <div class="officer">
+                            <div class="officer-img">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+                            <span>Ông Thập</span>
+                        </div>
+                        <div class="officer">
+                            <div class="officer-img">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+                            <span>Huỳnh Nguyễn Minh Huy</span>
+                        </div>
+                    </div>
+                </td>
+                <td style="width: 200px;">
+                    <div class="extend-btn">
+                        <i title="Xóa" class="bi bi-trash2"></i>
+                    </div>
+                </td>
+            </tr>
+            <tr parent-id="D001" onmouseover="rowHover(this)" onmouseleave="rowLeave(this)" class="collapse">
+                <td>Phường 1</td>
+                <td>29/10/2023</td>
+                <td>Quận</td>
+                <td style="width: 20%">
+                    <div class="officer-group">
+                        <div class="officer">
+                            <div class="officer-img">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+                            <span>Ông Thập</span>
+                        </div>
+                        <div class="officer">
+                            <div class="officer-img">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+                            <span>Huỳnh Nguyễn Minh Huy</span>
+                        </div>
+                    </div>
+                </td>
+                <td style="width: 200px;">
+                    <div class="extend-btn">
+                        <i title="Xóa" class="bi bi-trash2"></i>
+                    </div>
+                </td>
+            </tr>
+            <tr id="D002" onmouseover="rowHover(this)" onmouseleave="rowLeave(this)">
                 <td>Quận 2</td>
                 <td>29/10/2023</td>
                 <td>Quận</td>
@@ -146,61 +198,7 @@
                 <td style="width: 200px;">
                     <div class="extend-btn">
                         <i title="Xóa" class="bi bi-trash2"></i>
-                        <i title="Xem khu vực trực thuộc" class="bi bi-chevron-compact-down"></i>
-                    </div>
-                </td>
-            </tr>
-            <tr parent-id="D001">
-                <td>Quận 1</td>
-                <td>29/10/2023</td>
-                <td>Quận</td>
-                <td style="width: 20%">
-                    <div class="officer-group">
-                        <div class="officer">
-                            <div class="officer-img">
-                                <i class="bi bi-person-circle"></i>
-                            </div>
-                            <span>Ông Thập</span>
-                        </div>
-                        <div class="officer">
-                            <div class="officer-img">
-                                <i class="bi bi-person-circle"></i>
-                            </div>
-                            <span>Huỳnh Nguyễn Minh Huy</span>
-                        </div>
-                    </div>
-                </td>
-                <td style="width: 200px;">
-                    <div class="extend-btn">
-                        <i title="Xóa" class="bi bi-trash2"></i>
-                        <i title="Xem khu vực trực thuộc" class="bi bi-chevron-compact-down"></i>
-                    </div>
-                </td>
-            </tr>
-            <tr id="D002">
-                <td>Quận 1</td>
-                <td>29/10/2023</td>
-                <td>Quận</td>
-                <td style="width: 20%">
-                    <div class="officer-group">
-                        <div class="officer">
-                            <div class="officer-img">
-                                <i class="bi bi-person-circle"></i>
-                            </div>
-                            <span>Ông Thập</span>
-                        </div>
-                        <div class="officer">
-                            <div class="officer-img">
-                                <i class="bi bi-person-circle"></i>
-                            </div>
-                            <span>Huỳnh Nguyễn Minh Huy</span>
-                        </div>
-                    </div>
-                </td>
-                <td style="width: 200px;">
-                    <div class="extend-btn">
-                        <i title="Xóa" class="bi bi-trash2"></i>
-                        <i title="Xem khu vực trực thuộc" class="bi bi-chevron-compact-down"></i>
+                        <i title="Xem khu vực trực thuộc" class="bi bi-chevron-compact-down" onclick="expendRow(this)"></i>
                     </div>
                 </td>
             </tr>

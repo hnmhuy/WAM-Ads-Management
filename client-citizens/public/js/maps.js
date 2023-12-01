@@ -138,7 +138,7 @@ const boundStyle = {
 };
 
 async function fetchConfig() {
-  const response = await fetch('/public/js/mapConfig.json');
+  const response = await fetch('./public/js/mapConfig.json');
   const config = await response.json();
   return config;
 }
@@ -174,8 +174,8 @@ function zoomOutButton(imgPath, map) {
 }
 
 function zoomControl(map) {
-  const zoomInBtn = zoomInButton('/public/images/plus-lg.svg', map);
-  const zoomOutBtn = zoomOutButton('/public/images/dash-lg.svg', map);
+  const zoomInBtn = zoomInButton('./public/images/plus-lg.svg', map);
+  const zoomOutBtn = zoomOutButton('./public/images/dash-lg.svg', map);
   const container = document.createElement('div');
 
   container.className = 'zoomContainer';
@@ -254,7 +254,7 @@ function buildMarkerContent(item) {
     container.style.alignContent = 'center';
     container.innerHTML = `
             <div class="icon-feedback">
-                <img src="/public/images/${properties.feedback_type_EN}.svg" alt="${properties.feedback_type_EN} icon"/>
+                <img src="./public/images/${properties.feedback_type_EN}.svg" alt="${properties.feedback_type_EN} icon"/>
             </div>
             <div class="detail-feedback hidden">
                 <div class="detail-feedback-status ${properties.status}-shadow">

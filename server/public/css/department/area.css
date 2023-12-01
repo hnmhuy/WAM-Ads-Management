@@ -262,14 +262,20 @@
     font-size: 20px;
 }
 
-.extend-btn i:first-child {
+.extend-btn i {
     cursor: pointer;
     transition: all 0.2s ease;
-    padding: 3px;
-    border-radius: 5px;
 }
 
+.extend-btn i:first-child {
+    padding: 3px;
+    border-radius: 5px;
+    display: none;
+}
 
 .extend-btn i:first-child:hover {
     color: rgba(255, 0, 0, 0.8);
+}
+.extend-btn-rotate {
+    transform: rotate(180deg)
 }
