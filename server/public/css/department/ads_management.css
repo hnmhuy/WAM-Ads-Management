@@ -693,7 +693,7 @@
     border:rgb(47, 29, 177) 1px solid!important;
     z-index: 2!important;
     position: absolute;
-    top: 0;
+    top: 10px;
     left: 0;
 }
 

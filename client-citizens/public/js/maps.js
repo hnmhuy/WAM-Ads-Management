@@ -324,6 +324,19 @@ async function innitMap() {
   map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(zoom);
   let markers = addMarker(data, map);
   const markerCluster = new markerClusterer.MarkerClusterer({ markers, map });
+  let random_markers = new google.maps.Marker({});
+
+  const geocoder = new google.maps.Geocoder();
+  map.addListener('click', async event => {
+    let latlng = event.latLng.toJSON();
+    let result = await geocoder.geocode({ location: latlng });
+    console.log(result.results[0]);
+    random_markers.setMap(null);
+    random_markers = new google.maps.Marker({
+      position: latlng,
+      map: map,
+    });
+  });
 }
 
 innitMap();
