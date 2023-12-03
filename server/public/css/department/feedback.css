@@ -116,8 +116,7 @@
   opacity: 1;
 }
 
-.active-arrow::before
-{
+.active-arrow::before {
   font-weight: 900 !important;
 }
 
@@ -127,8 +126,6 @@
   border-radius: 15px;
   background-color: #fff;
 }
-
-
 
 .active {
   background-color: #fff !important;
@@ -191,10 +188,10 @@
   font-weight: bolder !important;
 }
 
-.feedback-table th:last-child,
+/* .feedback-table th:last-child,
 .feedback-table td:last-child {
   padding: 0;
-}
+} */
 
 .feedback-table th {
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
@@ -368,6 +365,5 @@
 .active-row {
   background-color: #b5c2eb !important;
 }
-
 
 /* ----------------- RESPOND-INFO ----------------- */
