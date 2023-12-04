@@ -16,6 +16,9 @@ export function reverseGeocode(coordinates, marker, randomContainer, map) {
     .then((data) => {
       marker.setLngLat(coordinates).addTo(map);
       randomContainer.classList.remove("hidden");
+
+      console.log("Reverse Geocode Result: ", data.features[0]);
+      console.log("place name: ", data.features[0].place_name);
       let preProcess = preProcessData(data.features[0]);
       buildRandomMarkerContent(
         randomContainer,
@@ -23,7 +26,7 @@ export function reverseGeocode(coordinates, marker, randomContainer, map) {
         preProcess.areaAddress,
         preProcess.latLng
       );
-      // console.log(data.features[0].context);
+
       return data.features[0];
       // You can do further processing with the entire JSON object here
     })

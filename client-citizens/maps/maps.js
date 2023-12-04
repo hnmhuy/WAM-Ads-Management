@@ -50,11 +50,7 @@ const marker = new mapboxgl.Marker({
 
 // Get the Mapbox Geocoding container
 var geocoderContainer = document.querySelector(".mapboxgl-ctrl-geocoder");
-
-// Get your existing header-citizens div
 var headerCitizensDiv = document.querySelector(".search");
-
-// Append the Mapbox Geocoding container to the header-citizens div
 headerCitizensDiv.appendChild(geocoderContainer);
 
 map.on("click", (e) => {
@@ -151,3 +147,10 @@ map.on('load', () => {
     addMarkers(data, iconName, map);
     filterContainerHandler(data, map);
 })
+
+document
+    .querySelector(".random-container .delete-random")
+    .addEventListener("click", () => {
+        marker.remove();
+        randomContainer.classList.add("hidden");
+    });
