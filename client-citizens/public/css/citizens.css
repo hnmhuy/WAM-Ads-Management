@@ -158,3 +158,11 @@ input::-webkit-input-placeholder {
     display: none;
   }
 }
+.mapboxgl-ctrl-geocoder {
+  max-width: 500px !important;
+  border-radius: 60px !important;
+}
+
+.mapboxgl-ctrl-geocoder--input {
+  border-radius: 60px !important;
+}

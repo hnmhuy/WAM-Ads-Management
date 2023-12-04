@@ -88,7 +88,7 @@ export const data = {
                 "detail": {
                     "dataid": "AD005",
                     "status": "active",
-                    "number_feedback": 0,
+                    "number_feedback": 3,
                     "status_VN": "Chưa quy hoạch",
                     "purpose": "Quảng cáo dịch vụ",
                     "type_of_ad": "Biển LED",

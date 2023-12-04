@@ -1,3 +1,5 @@
+import { openSidePeek } from "./mapUIControl.js";
+
 function newAdMarkerElement(data) {
     let status = data.properties.status;
     let feedbackAmount = data.properties.number_feedback;
@@ -127,7 +129,7 @@ export function addMarkers(data, iconName, map) {
         layout: {
             'icon-image': ['get', 'icon'],
             'icon-allow-overlap': true,
-            'icon-size': 0.6
+            'icon-size': 0.8
         }
     });
 
@@ -175,24 +177,36 @@ export function addMarkers(data, iconName, map) {
 
         // Create popup 
         const tempDiv = newPopup(detail, properties.category);
+
         popup.setLngLat(coordinates)
             .setDOMContent(tempDiv)
             .addTo(map);
-
-        map.on('mouseleave', 'unclustered-point', () => {
-            map.getCanvas().style.cursor = '';
-            popup.remove();
-        });
-
-        // Change the cursor to a pointer when the mouse is over the places layer.
-        map.on('mouseenter', 'clusters', () => {
-            map.getCanvas().style.cursor = 'pointer';
-        });
-        map.on('mouseleave', 'clusters', () => {
-            map.getCanvas().style.cursor = '';
-        });
-
     });
+
+    map.on('click', 'unclustered-point', (e) => {
+        const coordinates = e.features[0].geometry.coordinates.slice();
+        const properties = e.features[0].properties;
+        map.flyTo({
+            center: coordinates,
+            zoom: 16,
+            speed: 1.2
+        })
+        openSidePeek(properties);
+    });
+
+    map.on('mouseleave', 'unclustered-point', () => {
+        map.getCanvas().style.cursor = '';
+        popup.remove();
+    });
+
+    // Change the cursor to a pointer when the mouse is over the places layer.
+    map.on('mouseenter', 'clusters', () => {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+    map.on('mouseleave', 'clusters', () => {
+        map.getCanvas().style.cursor = '';
+    });
+
 }
 
 export function loadMarkerIcon(map, iconName) {

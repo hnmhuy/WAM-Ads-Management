@@ -39,7 +39,6 @@
   <script type="module" src="./maps/maps.js"></script>
   <script src="./public/js/sidepeek.js"></script>
 
-
   <!-- <script src="https://www.google.com/recaptcha/api.js" async defer></script>  -->
   <script src="https://cdn.tiny.cloud/1/z15wuwmhtc8coizy33qx1oppjpdm36f6otli5z73q45d3ih2/tinymce/6/tinymce.min.js"
     referrerpolicy="origin"></script>
@@ -50,20 +49,32 @@
       });
     });
   </script>
+  <script
+    src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+  <link rel="stylesheet"
+    href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css"
+    type="text/css" />
 </head>
 
 <body>
   <main>
     <div class="header-citizens">
       <img src="./public/images/logo.svg" alt="Not found" />
-      <form action="" class="search">
-        <div class="searchbar-box">
-          <i class="bi bi-search icon-searchbar"></i>
-          <input type="text" placeholder="Search..." class="searchbar" />
-          <i class="bi bi-x icon-searchbar"></i>
-          <i class="bi bi-search icon-searchbar"></i>
-        </div>
-      </form>
+      <div class="search"></div>
+
+      <!-- <form action="" class="search">
+          <div id="geocoding-container" class="searchbar-box">
+            <i class="bi bi-search icon-searchbar"></i>
+            <input
+              type="text"
+              placeholder="Search..."
+              class="searchbar"
+              id="geocoder-input"
+            />
+            <i class="bi bi-x icon-searchbar"></i>
+            <i class="bi bi-search icon-searchbar"></i>
+          </div>
+        </form> -->
     </div>
     <div class="map-container" style="width: 100%; height: calc(100vh - 3.5rem)">
       <div id="map"></div>
@@ -142,7 +153,8 @@
             <i class="bi bi-send-fill"></i>
             Gửi phản hồi điểm đặt quảng cáo
           </button>
-          <button type="button" class="btn btn-primary hidden show-feedback-button" id="show-location-feedback">
+          <button type="button" class="btn btn-primary show-feedback-button" id="show-location-feedback"
+            onclick="openExtendSidePeek()">
             <i class="bi bi-file-text-fill"></i> Xem phản hồi
           </button>
         </div>
