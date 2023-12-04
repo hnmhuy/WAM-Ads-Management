@@ -43,18 +43,14 @@ map.addControl(geocoder);
 
 // Get the Mapbox Geocoding container
 var geocoderContainer = document.querySelector(".mapboxgl-ctrl-geocoder");
-
-// Get your existing header-citizens div
 var headerCitizensDiv = document.querySelector(".search");
-
-// Append the Mapbox Geocoding container to the header-citizens div
 headerCitizensDiv.appendChild(geocoderContainer);
 
 map.on("click", (e) => {
   randomContainer.classList.add("hidden");
   marker.remove();
   const clickedLocation = e.lngLat;
-  console.log("coordinates click", clickedLocation);
+
   reverseGeocode(clickedLocation, marker, randomContainer, map);
 });
 
@@ -64,15 +60,14 @@ geocoder.on("result", (event) => {
     lng: coordinates[0],
     lat: coordinates[1],
   };
-
-  console.log("coordinates search", coordinates);
   randomContainer.classList.add("hidden");
   marker.remove();
-
-  // Set the search marker position and add it to the map
-  // marker.setLngLat(coordinates);
-  // marker.addTo(map);
   reverseGeocode(coordinatesObject, marker, randomContainer, map);
-
-  // You can perform additional actions with the search result data if needed
 });
+
+document
+  .querySelector(".random-container .delete-random")
+  .addEventListener("click", () => {
+    marker.remove();
+    randomContainer.classList.add("hidden");
+  });
