@@ -2,7 +2,7 @@
   <section class="table__header">
     <h2 class="table_heading">Xử lý báo cáo</h2>
     <div class="input_group">
-      <img src="/public/images/search.png" alt="" />
+      <i class='bx bx-search-alt'></i>
       <input type="search" placeholder="Search..." />
     </div>
   </section>
@@ -65,7 +65,7 @@
             <div class="filter">
               <a class="filter_btn btn dropdown-toggle custom-dropdown" href="#" role="button"
                 data-bs-toggle="dropdown">
-                Hình thức
+                Trạng thái
               </a>
 
               <ul class="dropdown-menu" id="filter_list" onclick="handleDropdownItem(event)">
@@ -100,7 +100,7 @@
         <tr class="extra">
           <td colspan="6" class="expand_row">
             <div class="more-information">
-              <div style="height: auto; width: 33%; z-index: -1;">
+              <div style="height: auto; width: 33%; overflow:hidden;">
 
                 <div id="img-carousel" class="carousel slide" data-bs-ride="carousel">
                   <ol class="carousel-indicators">
@@ -150,7 +150,7 @@
 
                   {{#ifEquals status.status_id "solved"}}
 
-                  <textarea class="report_solotion_area" placeholder="Hướng giải quyêt">      {{{solution}}}</textarea>
+                  <div>{{{solution}}}</div>
                   {{else}}
                   <textarea class="report_solotion_area" placeholder="Hướng giải quyêt"></textarea>
 

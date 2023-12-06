@@ -153,7 +153,7 @@ body {
 }
 
 .table__header .input_group {
-  width: 35%;
+  width: 750px;
   height: 100%;
   background-color: #fff5;
   padding: 0.5rem 0.8rem;
@@ -163,15 +163,6 @@ body {
   align-items: center;
   transition: 0.2s;
   border: 1px solid #4f3ed7;
-}
-
-tbody tr:nth-child(even) {
-  background-color: #0000000b;
-}
-
-tbody tr {
-  --delay: 0.1s;
-  transition: 0.5s ease-in-out var(--delay), background-color 0s;
 }
 
 tbody tr.hide {
@@ -202,23 +193,15 @@ tbody tr.hide td img {
   transition: 0.2s ease-in-out 0.5s;
 }
 
-.table__header .input_group:hover {
-  width: 50%;
-  background-color: #fff8;
-  padding: 0.4rem 0.8rem;
-  box-shadow: 0 0.1rem 0.4rem #0002;
-  border: 1px solid #4f3ed9;
-}
-
-.table__header .input_group img {
-  width: 6%;
+.table__header .input_group i {
+  font-size: 30px;
   height: auto;
-  padding: 0 0.5rem 0 0.3rem;
+  padding: 0 0 0 0.3rem;
 }
 
 .table__header .input_group input {
   width: 100%;
-  padding: 0 0.5rem 0 0.3rem;
+  padding: 0 0 0 0.3rem;
   background-color: transparent;
   border: none;
   outline: none;
@@ -300,23 +283,12 @@ thead th {
   color: white;
 }
 
-tbody tr:nth-child(even) {
-  background-color: #0000000b;
-}
-
-tbody tr {
-  --delay: 0.1s;
-  transition: 0.5s ease-in-out var(--delay), background-color 0s;
-}
 table {
   width: 100%;
 }
 tbody tr.hide {
   opacity: 0;
   transform: translateX(100%);
-}
-tbody tr:nth-child(even) {
-  background-color: #0000000b;
 }
 
 tbody tr td,
@@ -593,4 +565,22 @@ tbody td.active {
 li.selected {
   border-radius: 5px;
   background: #f2f2f2;
+}
+
+.creation_btn {
+  margin-left: 40px;
+  background-color: #4f3ed7;
+  height: 50%;
+  width: 3%;
+  color: white;
+  padding: 8px;
+  border: 0;
+  border-radius: 10px;
+}
+
+.creation_btn div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: flex-end;
 }
