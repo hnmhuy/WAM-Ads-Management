@@ -26,8 +26,8 @@
       },
       "image_path": [
         "/public/images/location1.png",
-        "/public/images/location1.png",
-        "/public/images/location1.png"
+        "/public/images/location2.png",
+        "/public/images/location3.png"
       ],
       "name": "Nguyễn Văn A",
       "phone": "011111111",
@@ -54,8 +54,8 @@
       },
       "image_path": [
         "/public/images/location1.png",
-        "/public/images/location1.png",
-        "/public/images/location1.png"
+        "/public/images/location2.png",
+        "/public/images/location3.png"
       ],
       "name": "Trần Thị B",
       "phone": "022222222",
@@ -82,8 +82,8 @@
       },
       "image_path": [
         "/public/images/location1.png",
-        "/public/images/location1.png",
-        "/public/images/location1.png"
+        "/public/images/location2.png",
+        "/public/images/location3.png"
       ],
       "name": "Lê Văn C",
       "phone": "033333333",
@@ -110,8 +110,8 @@
       },
       "image_path": [
         "/public/images/location1.png",
-        "/public/images/location1.png",
-        "/public/images/location1.png"
+        "/public/images/location2.png",
+        "/public/images/location3.png"
       ],
       "name": "Phạm Thị D",
       "phone": "044444444",
@@ -138,8 +138,8 @@
       },
       "image_path": [
         "/public/images/location1.png",
-        "/public/images/location1.png",
-        "/public/images/location1.png"
+        "/public/images/location2.png",
+        "/public/images/location3.png"
       ],
       "name": "Nguyễn Thị E",
       "phone": "055555555",
@@ -166,8 +166,8 @@
       },
       "image_path": [
         "/public/images/location1.png",
-        "/public/images/location1.png",
-        "/public/images/location1.png"
+        "/public/images/location2.png",
+        "/public/images/location3.png"
       ],
       "name": "Trần Văn F",
       "phone": "066666666",
@@ -194,8 +194,8 @@
       },
       "image_path": [
         "/public/images/location1.png",
-        "/public/images/location1.png",
-        "/public/images/location1.png"
+        "/public/images/location2.png",
+        "/public/images/location3.png"
       ],
       "name": "Lê Thị G",
       "phone": "077777777",
@@ -222,8 +222,8 @@
       },
       "image_path": [
         "/public/images/location1.png",
-        "/public/images/location1.png",
-        "/public/images/location1.png"
+        "/public/images/location2.png",
+        "/public/images/location3.png"
       ],
       "name": "Phan Văn H",
       "phone": "088888888",
@@ -250,8 +250,8 @@
       },
       "image_path": [
         "/public/images/location1.png",
-        "/public/images/location1.png",
-        "/public/images/location1.png"
+        "/public/images/location2.png",
+        "/public/images/location3.png"
       ],
       "name": "Nguyễn Văn I",
       "phone": "099999999",
@@ -278,8 +278,8 @@
       },
       "image_path": [
         "/public/images/location1.png",
-        "/public/images/location1.png",
-        "/public/images/location1.png"
+        "/public/images/location2.png",
+        "/public/images/location3.png"
       ],
       "name": "Trần Thị J",
       "phone": "101010101",

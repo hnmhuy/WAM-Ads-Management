@@ -107,7 +107,6 @@
 </div>
 
 
-{{#each data_rows}}
 <div class="offcanvas offcanvas-end p-2" tabindex="-1" id="offcanvasRight" style="width: 55%"
   aria-labelledby="offcanvasRightLabel">
   <div class="offcanvas-header py-2">
@@ -158,38 +157,38 @@
                 <i class="bi bi-geo-alt">Địa chỉ</i>
               </th>
               <td class="table-cell-offcanvas">
-                47, Đ. Điện Biên Phủ, P. Đa Kao, Quận 1
+                {{address}}, P. {{ward}}, {{district}}
               </td>
             </tr>
             <tr>
               <th class="table-cell-offcanvas">
                 <i class="bi bi-hash"></i> Số lượng
               </th>
-              <td class="table-cell-offcanvas">2 bảng/điểm</td>
+              <td class="table-cell-offcanvas">{{number}} bảng/điểm</td>
             </tr>
             <tr>
               <th class="table-cell-offcanvas">
                 <i class="bi bi-tag"></i> Loại vị trí
               </th>
-              <td class="table-cell-offcanvas">Nhà riêng</td>
+              <td class="table-cell-offcanvas">{{type}}</td>
             </tr>
             <tr>
               <th class="table-cell-offcanvas">
                 <i class="bi bi-activity"></i> Trạng thái
               </th>
-              <td class="table-cell-offcanvas">Chưa quy hoạch</td>
+              <td class="table-cell-offcanvas">{{status_name}}</td>
             </tr>
             <tr>
               <th class="table-cell-offcanvas">
                 <i class="bi bi-bullseye"></i> Mục đích
               </th>
-              <td class="table-cell-offcanvas">Thương mại</td>
+              <td class="table-cell-offcanvas">{{purpose}}</td>
             </tr>
             <tr>
               <th class="table-cell-offcanvas">
                 <i class="bi bi-boxes"></i> Loại bảng
               </th>
-              <td class="table-cell-offcanvas">2 bảng/điểm</td>
+              <td class="table-cell-offcanvas">{{ad_type}}</td>
             </tr>
           </table>
           <div class="d-flex justify-content-end w-100 align-item-">
@@ -512,7 +511,6 @@
   </div>
   <hr />
 </div>
-{{/each}}
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
   integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>

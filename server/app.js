@@ -7,6 +7,14 @@ app.use("/public", express.static(path.join(__dirname, "public")));
 const hbs = expressHbs.create({});
 var bodyParser = require("body-parser");
 
+
+app.get("/createTables", (req, res) => {
+  let models = require('./models');
+  models.sequelize.sync().then(() => {
+    res.send("Create Tables");
+  })
+})
+
 var accounts = require("./account");
 var userIsAuthorised = false;
 
@@ -59,7 +67,7 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
-app.get("/login", (req, res) => {});
+app.get("/login", (req, res) => { });
 // Use routes of district
 app.use("/home", require("./routes/district/home.route"));
 app.use("/location", require("./routes/district/location.route"));

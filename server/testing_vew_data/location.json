@@ -11,6 +11,7 @@
         "status_id": "delivered",
         "status_name": "Đã quy hoạch"
       },
+      "ad_type": "Trụ panel",
       "offcanvas": {
         "image_path": [
           "/public/images/location1.png",
