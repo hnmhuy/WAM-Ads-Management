@@ -11,14 +11,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      update_request.belongsTo(models.account);
-      update_request.belongsTo(models.ad_place);
-      update_request.belongsTo(models.ad_content);
+      update_request.belongsTo(models.ad_place, { foreignKey: 'ad_place_id' })
+      update_request.belongsTo(models.ad_content, { foreignKey: 'ad_id' })
+      update_request.belongsTo(models.account, { foreignKey: 'officer' })
     }
   }
   update_request.init({
-    is_ad: DataTypes.BOOLEAN,
-    request_data: DataTypes.STRING,
+    resquest_data: DataTypes.STRING,
     status: DataTypes.STRING
   }, {
     sequelize,

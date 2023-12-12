@@ -11,14 +11,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      category.belongsTo(models.field);
-      category.hasMany(models.ad_place)
+      category.belongsTo(models.field, { foreignKey: 'field_id' })
+      category.hasMany(models.ad_place, { foreignKey: 'type_ad_id' })
+      category.hasMany(models.ad_place, { foreignKey: 'purpose_id' })
     }
   }
   category.init({
     name: DataTypes.STRING,
-    color: DataTypes.CHAR,
-    icon: DataTypes.STRING,
     description: DataTypes.TEXT
   }, {
     sequelize,

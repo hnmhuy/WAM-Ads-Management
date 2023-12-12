@@ -11,10 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      account.belongsTo(models.area)
-      account.hasMany(models.feedback_response)
-      account.hasMany(models.create_request)
-      account.hasMany(models.update_request)
+      account.belongsTo(models.area, { foreignKey: 'delegation' })
+      account.hasMany(models.feedback_response, { foreignKey: 'officer' })
+      account.hasMany(models.create_request, { foreignKey: 'officer' })
+      account.hasMany(models.update_request, { foreignKey: 'officer' })
     }
   }
   account.init({

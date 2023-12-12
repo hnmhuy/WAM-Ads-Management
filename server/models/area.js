@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      area.hasOne(models.place)
-      area.hasMany(models.account)
+      area.hasMany(models.account, { foreignKey: 'delegation' })
+      area.hasMany(models.place, { foreignKey: 'area_id' })
     }
   }
   area.init({

@@ -11,19 +11,20 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      feedback.belongsTo(models.place);
-      feedback.belongsTo(models.ad_content);
-      feedback.hasOne(models.feedback_response)
+      feedback.belongsTo(models.place, { foreignKey: 'place_id' })
+      feedback.belongsTo(models.ad_content, { foreignKey: 'ad_id' })
+      feedback.belongsTo(models.feedback_response, { foreignKey: 'response_id' })
     }
   }
   feedback.init({
     type: DataTypes.TEXT,
-    is_ad_feedback: DataTypes.BOOLEAN,
     name: DataTypes.STRING,
     email: DataTypes.STRING,
     phone: DataTypes.STRING,
     status: DataTypes.STRING,
-    record_time: DataTypes.DATE
+    content: DataTypes.STRING,
+    image1: DataTypes.STRING,
+    image2: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'feedback',

@@ -11,9 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      create_request.belongsTo(models.ad_place)
-      create_request.belongsTo(models.account)
-      create_request.belongsTo(models.ad_content)
+      create_request.belongsTo(models.account, { foreignKey: 'officer' })
+      create_request.belongsTo(models.ad_content, { foreignKey: 'ad_id' })
     }
   }
   create_request.init({
