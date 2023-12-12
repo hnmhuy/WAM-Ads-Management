@@ -144,6 +144,16 @@ app.get("/data/area", (req, res) => {
   res.json(data);
 });
 
+
+// app.get('/example', (req, res) => {
+//   var tmp = require('./models');
+//   tmp.area.create({
+//     parent_id: null,
+//     name: "Quan 1"
+//   })
+//   res.send("HHHHH")
+// })
+
 app.listen(port, (req, res) => {
   console.log(`Server is running on ${port}`);
 });

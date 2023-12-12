@@ -11,16 +11,27 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      create_request.belongsTo(models.ad_place)
-      create_request.belongsTo(models.account)
-      create_request.belongsTo(models.ad_content)
+      create_request.belongsTo(models.account, { foreignKey: 'officer' })
+      create_request.belongsTo(models.ad_content, { foreignKey: 'ad_id' })
     }
   }
   create_request.init({
+    id: {
+      type: DataTypes.STRING,
+      primaryKey: true
+    },
     status: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'create_request',
+  });
+  create_request.beforeCreate((instance, options) => { // Tạo ra ID có format
+    // Get the current maximum number in the database
+    return create_request.max('id', { raw: true })
+      .then((maxNumber) => {
+        const newNumber = maxNumber ? parseInt(maxNumber.substring(1)) + 1 : 1;
+        instance.id = `RN${newNumber}`;
+      });
   });
   return create_request;
 };

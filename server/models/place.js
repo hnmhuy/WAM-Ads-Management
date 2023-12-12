@@ -11,13 +11,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      place.belongsTo(models.area)
-      place.hasMany(models.ad_place)
-      place.hasMany(models.feedback)
-      // place.hasMany(models.feedback)
+      place.belongsTo(models.area, { foreignKey: 'area_id' })
+      place.hasMany(models.ad_place, { foreignKey: 'place_id' })
+      place.hasMany(models.feedback, { foreignKey: 'place_id' })
     }
   }
   place.init({
+    id: {
+      type: DataTypes.STRING,
+      primaryKey: true
+    },
     geometry: DataTypes.STRING,
     address_formated: DataTypes.STRING
   }, {

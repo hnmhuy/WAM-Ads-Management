@@ -11,13 +11,17 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      account.belongsTo(models.area)
-      account.hasMany(models.feedback_response)
-      account.hasMany(models.create_request)
-      account.hasMany(models.update_request)
+      account.belongsTo(models.area, { foreignKey: 'delegation' })
+      account.hasMany(models.feedback_response, { foreignKey: 'officer' })
+      account.hasMany(models.create_request, { foreignKey: 'officer' })
+      account.hasMany(models.update_request, { foreignKey: 'officer' })
     }
   }
   account.init({
+    id: {
+      type: DataTypes.STRING,
+      primaryKey: true
+    },
     first_name: DataTypes.STRING,
     last_name: DataTypes.STRING,
     email: DataTypes.STRING,
@@ -25,6 +29,15 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'account',
+  });
+
+  account.beforeCreate((instance, options) => { // Tạo ra ID có format
+    // Get the current maximum number in the database
+    return account.max('id', { raw: true })
+      .then((maxNumber) => {
+        const newNumber = maxNumber ? parseInt(maxNumber.substring(1)) + 1 : 1;
+        instance.id = `U${newNumber}`;
+      });
   });
   return account;
 };
