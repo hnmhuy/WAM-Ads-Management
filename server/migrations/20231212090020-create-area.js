@@ -9,9 +9,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.STRING
       },
-      parent_id: {
-        type: Sequelize.STRING
-      },
       name: {
         type: Sequelize.STRING
       },

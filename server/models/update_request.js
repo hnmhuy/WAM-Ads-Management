@@ -16,12 +16,28 @@ module.exports = (sequelize, DataTypes) => {
       update_request.belongsTo(models.account, { foreignKey: 'officer' })
     }
   }
+
+
   update_request.init({
+    id: {
+      type: DataTypes.STRING,
+      primaryKey: true
+    },
     resquest_data: DataTypes.STRING,
     status: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'update_request',
   });
+
+  update_request.beforeCreate((instance, options) => { // Tạo ra ID có format
+    // Get the current maximum number in the database
+    return update_request.max('id', { raw: true })
+      .then((maxNumber) => {
+        const newNumber = maxNumber ? parseInt(maxNumber.substring(1)) + 1 : 1;
+        instance.id = `RU${newNumber}`;
+      });
+  });
+
   return update_request;
 };

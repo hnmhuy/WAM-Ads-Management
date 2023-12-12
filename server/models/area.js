@@ -13,10 +13,14 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       area.hasMany(models.account, { foreignKey: 'delegation' })
       area.hasMany(models.place, { foreignKey: 'area_id' })
+      area.hasOne(models.area, { foreignKey: 'parent_id' })
     }
   }
   area.init({
-    parent_id: DataTypes.STRING,
+    id: {
+      type: DataTypes.STRING,
+      primaryKey: true
+    },
     name: DataTypes.STRING
   }, {
     sequelize,

@@ -17,6 +17,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   place.init({
+    id: {
+      type: DataTypes.STRING,
+      primaryKey: true
+    },
     geometry: DataTypes.STRING,
     address_formated: DataTypes.STRING
   }, {

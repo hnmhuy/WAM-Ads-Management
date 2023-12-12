@@ -16,10 +16,23 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   feedback_response.init({
+    id: {
+      type: DataTypes.STRING,
+      primaryKey: true
+    },
     content: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'feedback_response',
+  });
+
+  feedback_response.beforeCreate((instance, options) => { // Tạo ra ID có format
+    // Get the current maximum number in the database
+    return feedback_response.max('id', { raw: true })
+      .then((maxNumber) => {
+        const newNumber = maxNumber ? parseInt(maxNumber.substring(1)) + 1 : 1;
+        instance.id = `RF${newNumber}`;
+      });
   });
   return feedback_response;
 };

@@ -17,11 +17,23 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   category.init({
+    id: {
+      type: DataTypes.STRING,
+      primaryKey: true
+    },
     name: DataTypes.STRING,
     description: DataTypes.TEXT
   }, {
     sequelize,
     modelName: 'category',
+  });
+  category.beforeCreate((instance, options) => { // Tạo ra ID có format
+    // Get the current maximum number in the database
+    return category.max('id', { raw: true })
+      .then((maxNumber) => {
+        const newNumber = maxNumber ? parseInt(maxNumber.substring(1)) + 1 : 1;
+        instance.id = `C${newNumber}`;
+      });
   });
   return category;
 };

@@ -18,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   account.init({
+    id: {
+      type: DataTypes.STRING,
+      primaryKey: true
+    },
     first_name: DataTypes.STRING,
     last_name: DataTypes.STRING,
     email: DataTypes.STRING,
@@ -25,6 +29,15 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'account',
+  });
+
+  account.beforeCreate((instance, options) => { // Tạo ra ID có format
+    // Get the current maximum number in the database
+    return account.max('id', { raw: true })
+      .then((maxNumber) => {
+        const newNumber = maxNumber ? parseInt(maxNumber.substring(1)) + 1 : 1;
+        instance.id = `U${newNumber}`;
+      });
   });
   return account;
 };
