@@ -31,8 +31,15 @@
   <link rel="stylesheet" href="./public/css/feedback-form.css" />
   <link rel="stylesheet" href="./public/css/upload-file.css" />
 
-  <script type="module" defer src="./public/js/maps.js"></script>
+  <!-- Map Box library -->
+  <script src='https://api.mapbox.com/mapbox-gl-js/v3.0.0/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v3.0.0/mapbox-gl.css' rel='stylesheet' />
+  <script src='https://unpkg.com/supercluster'></script>
+
+  <script type="module" src="./maps/maps.js"></script>
+
   <script src="./public/js/sidepeek.js"></script>
+
   <!-- <script src="https://www.google.com/recaptcha/api.js" async defer></script>  -->
   <script src="https://cdn.tiny.cloud/1/z15wuwmhtc8coizy33qx1oppjpdm36f6otli5z73q45d3ih2/tinymce/6/tinymce.min.js"
     referrerpolicy="origin"></script>
@@ -43,20 +50,32 @@
       });
     });
   </script>
+  <script
+    src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+  <link rel="stylesheet"
+    href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css"
+    type="text/css" />
 </head>
 
 <body>
   <main>
     <div class="header-citizens">
       <img src="./public/images/logo.svg" alt="Not found" />
-      <form action="" class="search">
-        <div class="searchbar-box">
-          <i class="bi bi-search icon-searchbar"></i>
-          <input type="text" placeholder="Search..." class="searchbar" />
-          <i class="bi bi-x icon-searchbar"></i>
-          <i class="bi bi-search icon-searchbar"></i>
-        </div>
-      </form>
+      <div class="search"></div>
+
+      <!-- <form action="" class="search">
+          <div id="geocoding-container" class="searchbar-box">
+            <i class="bi bi-search icon-searchbar"></i>
+            <input
+              type="text"
+              placeholder="Search..."
+              class="searchbar"
+              id="geocoder-input"
+            />
+            <i class="bi bi-x icon-searchbar"></i>
+            <i class="bi bi-search icon-searchbar"></i>
+          </div>
+        </form> -->
     </div>
     <div class="map-container" style="width: 100%; height: calc(100vh - 3.5rem)">
       <div id="map"></div>
@@ -135,10 +154,12 @@
             <i class="bi bi-send-fill"></i>
             Gửi phản hồi điểm đặt quảng cáo
           </button>
-          <button type="button" class="btn btn-primary hidden show-feedback-button" id="show-location-feedback">
+          <button type="button" class="btn btn-primary show-feedback-button" id="show-location-feedback"
+            onclick="openExtendSidePeek()">
             <i class="bi bi-file-text-fill"></i> Xem phản hồi
           </button>
         </div>
+
         <div class="ad-content">
           <h5 id="num-ad">Thông tin bảng quảng cáo (4)</h5>
           <div class="adcard-container">
@@ -592,6 +613,7 @@
           </button>
         </div>
       </div>
+      <i class="bi bi-x delete-random"></i>
     </div>
     <!-- --------------------- RANDOM-LOCATION End ---------------------  -->
 
@@ -768,45 +790,6 @@
     <!-- {{>sidepeek-noAd}} {{>feedback-detail}} {{> random-location}} {{>
       feedback-form}} {{> ad-detail}} -->
   </main>
-  <script>
-    ((g) => {
-      var h,
-        a,
-        k,
-        p = "The Google Maps JavaScript API",
-        c = "google",
-        l = "importLibrary",
-        q = "__ib__",
-        m = document,
-        b = window;
-      b = b[c] || (b[c] = {});
-      var d = b.maps || (b.maps = {}),
-        r = new Set(),
-        e = new URLSearchParams(),
-        u = () =>
-          h ||
-          (h = new Promise(async (f, n) => {
-            await (a = m.createElement("script"));
-            e.set("libraries", [...r] + "");
-            for (k in g)
-              e.set(
-                k.replace(/[A-Z]/g, (t) => "_" + t[0].toLowerCase()),
-                g[k]
-              );
-            e.set("callback", c + ".maps." + q);
-            a.src = `https://maps.${c}apis.com/maps/api/js?` + e;
-            d[q] = f;
-            a.onerror = () => (h = n(Error(p + " could not load.")));
-            a.nonce = m.querySelector("script[nonce]")?.nonce || "";
-            m.head.append(a);
-          }));
-      d[l]
-        ? console.warn(p + " only loads once. Ignoring:", g)
-        : (d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)));
-    })({ key: "AIzaSyAYSGOBHoLU0Fr-mILQll_rbYFEYPyWJo8", v: "beta" });
-  </script>
-  <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
-
   <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 </body>
 
