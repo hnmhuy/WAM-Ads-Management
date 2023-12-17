@@ -25,7 +25,8 @@ module.exports = (sequelize, DataTypes) => {
     first_name: DataTypes.STRING,
     last_name: DataTypes.STRING,
     email: DataTypes.STRING,
-    status: DataTypes.STRING
+    status: DataTypes.STRING,
+    password: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'account',
@@ -41,3 +42,4 @@ module.exports = (sequelize, DataTypes) => {
   });
   return account;
 };
+

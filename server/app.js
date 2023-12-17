@@ -1,12 +1,17 @@
 const express = require("express");
 const app = express();
 const path = require("path");
-const port = 3000 | process.env.port;
+const port = 5000 || process.env.port;
 const expressHbs = require("express-handlebars");
 app.use("/public", express.static(path.join(__dirname, "public")));
 const hbs = expressHbs.create({});
 var bodyParser = require("body-parser");
+const cookiesParser = require('cookie-parser');
+const session = require('express-session');
+const passport = require('passport');
 
+const initializePassport = require('./passportConfig');
+initializePassport(passport);
 
 app.get("/createTables", (req, res) => {
   let models = require('./models');
@@ -15,36 +20,27 @@ app.get("/createTables", (req, res) => {
   })
 })
 
-var accounts = require("./account");
-var userIsAuthorised = false;
-
-app.use(bodyParser.urlencoded({ extended: true }));
-
-function passwordCheck(req, res, next) {
-  userIsAuthorised = false;
-  const password = req.body["password"];
-  const email = req.body["email"];
-  accounts.forEach((item) => {
-    if (item.password === password && item.username === email) {
-      userIsAuthorised = true;
+app.use(cookiesParser('COOKIE_SECRET'));
+app.use(
+  session({
+    secret: "SESSION_SECRET",
+    resave: false,
+    saveUninitialized: false,
+    cookie:{
+      secure: false,
+      httpOnly: true,
+      maxAge: 20 * 60 * 1000,
     }
-  });
-  next();
-}
+  })
+);
 
-app.get("/login", (req, res) => {
-  res.sendFile(__dirname + "/views/partials/login.html");
-});
+app.use(passport.initialize());
+app.use(passport.session())
 
-app.use(passwordCheck);
-app.post("/home", (req, res) => {
-  console.log(userIsAuthorised);
-  if (userIsAuthorised) {
-    res.sendFile(__dirname + "/views/district/home.html");
-  } else {
-    res.sendFile(__dirname + "/views/partials/login.html");
-  }
-});
+var accounts = require("./account");
+
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.engine(
   "hbs",
@@ -55,19 +51,15 @@ app.engine(
     defaultLayout: "layout",
   })
 );
-app.set("view engine", "hbs");
 
-// Register the helper
+app.set("view engine", "hbs");
+  
+  // Register the helper
 hbs.handlebars.registerHelper("ifEquals", function (arg1, arg2, options) {
   return arg1 == arg2 ? options.fn(this) : options.inverse(this);
 });
 
-// Login
-app.get("/", (req, res) => {
-  res.render("index");
-});
-
-app.get("/login", (req, res) => { });
+app.use("/", require("./routes/auth.route"));
 // Use routes of district
 app.use("/home", require("./routes/district/home.route"));
 app.use("/location", require("./routes/district/location.route"));
