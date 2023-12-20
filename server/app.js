@@ -6,7 +6,8 @@ const expressHbs = require("express-handlebars");
 app.use("/public", express.static(path.join(__dirname, "public")));
 const hbs = expressHbs.create({});
 var bodyParser = require("body-parser");
-
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/createTables", (req, res) => {
   let models = require('./models');
@@ -144,15 +145,7 @@ app.get("/data/area", (req, res) => {
   res.json(data);
 });
 
-
-// app.get('/example', (req, res) => {
-//   var tmp = require('./models');
-//   tmp.area.create({
-//     parent_id: null,
-//     name: "Quan 1"
-//   })
-//   res.send("HHHHH")
-// })
+app.use('/api', require('./routes/api/api.route'));
 
 app.listen(port, (req, res) => {
   console.log(`Server is running on ${port}`);

@@ -371,119 +371,9 @@
             <label for="filter-component-search"></label>
             <input type="text" class="filter-search" id="filter-component-search" placeholder="Lọc theo..."
                 oninput="searchOnFilterList(this)">
-            <!-- <div class="filter-list-item" data-filter-type="choice-check">
-                Lựa chọn
-            </div>
-            <div class="filter-list-item" data-filter-type="choice-search">
-                Multiple choice
-            </div>
-            <div class="filter-list-item" data-filter-type="date">
-                Ngày / Khoảng ngày
-            </div> -->
         </div>
         <div class="filters-container">
             <div class="filter-none">Chưa có bộ lọc nào</div>
-            <!-- <div class="filter-item" data-filter-type="choice-check">
-                <div class="filter-btn" onclick="openFilterFunction(this)">
-                    <i class="bi bi-check2-circle"></i>
-                    <span>Tên thuộc tính</span>
-                    <i class="bi bi-caret-down-fill"></i>
-                </div>
-                <div class="filter-function-container">
-                    <div class="filter-function-header">
-                        <strong>Attribute name</strong>
-                    </div>
-                    <div class="filter-function-content">
-                        <div class="filter-option">
-                            <input type="checkbox" name="filter-option" id="filter-option-1">
-                            <label for="filter-option-1">Option 1</label>
-                        </div>
-                        <div class="filter-option">
-                            <input type="checkbox" name="filter-option" id="filter-option-2">
-                            <label for="filter-option-2">Option 2</label>
-                        </div>
-                        <div class="filter-option">
-                            <input type="checkbox" name="filter-option" id="filter-option-3">
-                            <label for="filter-option-3">Option 3</label>
-                        </div>
-                        <div class="filter-option">
-                            <input type="checkbox" name="filter-option" id="filter-option-4">
-                            <label for="filter-option-4">Option 4</label>
-                        </div>
-                    </div>
-                    <div class="filter-function-footer">
-                        <button>Bỏ chọn tất cả</button>
-                    </div>
-                </div>
-            </div> -->
-
-            <!--  <div class="filter-item" data-filter-type="choice-search">
-                <div class="filter-btn">
-                    <i class="bi bi-check2-circle"></i>
-                    <span>Tên thuộc tính</span>
-                    <i class="bi bi-caret-down-fill"></i>
-                </div>
-                <div class="filter-function-container">
-                    <div class="filter-function-header">
-                        <strong>Attribute name</strong>
-                    </div>
-                    <div class="filter-function-content">
-                        <div class="search-result-container">
-                            <div class="filter-option filter-option-selected">
-                                <span>Option 1</span> <i class="bi bi-x-circle-fill"></i>
-                            </div>
-                            <label for="filter-function-search-input"></label>
-                            <input type="text" class="option-search" id="filter-function-search-input"
-                                placeholder="Tìm kiếm...">
-                        </div>
-                        <div class="filter-option">
-                            <span>Option 2</span> <i class="bi bi-x-circle-fill"></i>
-                        </div>
-                        <div class="filter-option">
-                            <span>Option 3</span> <i class="bi bi-x-circle-fill"></i>
-                        </div>
-                        <div class="filter-option">
-                            <span>Option 4</span> <i class="bi bi-x-circle-fill"></i>
-                        </div>
-                        <div class="filter-option">
-                            <span>Option 5</span> <i class="bi bi-x-circle-fill"></i>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-            <!-- 
-            <div class="filter-item filter-item-date" data-filter-type="date">
-                <div class="filter-btn">
-                    <i class="bi bi-check2-circle"></i>
-                    <span>Tên thuộc tính</span>
-                    <i class="bi bi-caret-down-fill"></i>
-                </div>
-                <div class="filter-function-container">
-                    <div class="filter-function-header">
-                        <strong>Attribute name</strong>
-                    </div>
-                    <div class="filter-function-content">
-                        <div class="form-check form-switch" style="width: 90%; margin-left: 5px">
-                            <input class="form-check-input" type="checkbox" role="switch" id="dateRangeCheck">
-                            <label class="form-check-label" for="dateRangeCheck">Khoảng thời gian</label>
-                        </div>
-                        <div class="filter-one-date">
-                            <label for="filter-one-date"></label>
-                            <input type="date" id="filter-one-date" class="filter-search" placeholder="Chọn một ngày">
-                        </div>
-                        <div class="filter-date-range">
-                            <label for="filter-date-start"></label>
-                            <input type="date" id="filter-date-start" class="filter-search" placeholder="Ngày bắt đầu">
-                            <label for="filter-date-end"></label>
-                            <input type="date" idy="filter-date-end" class="filter-search" placeholder="Ngày Kết thúc">
-                        </div>
-
-                        <div id="filter-date-picker"></div>
-                    </div>
-                </div>
-
-            </div> -->
-
         </div>
     </div>
     <!-- Bootstrap JavaScript Libraries -->
@@ -799,12 +689,9 @@
                     })
                 }
             })
-        }
-
-
-
-        function addChoiceSearchOption(filterElement, data) {
-            console.log('running');
+        }            
+        
+        function             e(fment, data) {
             let filterContent = filterElement.querySelector(".filter-function-content");
             let currFilterOptions = filterContent.querySelectorAll(".filter-option");
             let resultContainer = filterElement.querySelector(".search-result-container")

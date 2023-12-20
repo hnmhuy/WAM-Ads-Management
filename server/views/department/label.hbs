@@ -1,6 +1,6 @@
 <div class="label-container">
   <div class="labels">
-    <div class="label">
+    <div class="label" id="T1">
       <img src="/public/images/department_lable_location.svg" alt="Not found" />
       <h4>Vị trí</h4>
       <p>Mô tả ngắng gọn vị trí đặt điểm quảng cáo</p>
@@ -8,7 +8,7 @@
         <i class="bi bi-arrow-right"></i>
       </div>
     </div>
-    <div class="label">
+    <div class="label" id="T2">
       <img src="/public/images/department_lable_purpose.svg" alt="Not found" />
       <h4>Mục đích</h4>
       <p>Chủ đề chung của các bảng quảng cáo</p>
@@ -16,7 +16,7 @@
         <i class="bi bi-arrow-right"></i>
       </div>
     </div>
-    <div class="label">
+    <div class="label" id="T4">
       <img src="/public/images/department_lable_adtype.svg" alt="Not found" />
       <h4>Loại QC</h4>
       <p>Loại bảng quảng cáo được lắp đặt</p>
@@ -24,7 +24,7 @@
         <i class="bi bi-arrow-right"></i>
       </div>
     </div>
-    <div class="label">
+    <div class="label" id="T3">
       <img src="/public/images/department_lable_feedback.svg" alt="Not found" />
       <h4>Phản ánh</h4>
       <p>Phân loại phản ánh từ người dân</p>
@@ -35,12 +35,12 @@
   </div>
 
   <div class="label-table">
-    <div class="notification collapse">
+    <div class="notification">
       <img src="/public/images/department_lable_nodata.svg" alt="Not found" />
       <h4>Chọn một danh mục để quản lý</h4>
     </div>
 
-    <div class="label-table-header">
+    <div class="label-table-header collapse">
       <div class="name-container">
         <p class="header-title" id="name-list-header">Tên danh mục</p>
       </div>
@@ -57,8 +57,7 @@
         </button>
       </div>
     </div>
-
-    <div class="label-table-row">
+    {{!-- <div class="label-table-row">
       <div class="name-description">
         <div class="name-content">
           <p>Đất công</p>
@@ -71,21 +70,25 @@
         <form action="">
           <div class="edited-field-container">
             <label for="edited-name-list"></label>
-            <textarea class="edited-field name-field" type="text" id="edited-name-list" oninput="validateInput(this)" placeholder="Tên danh mục"></textarea>
-
-            {{!-- Hover a warning --}}
-            <div class="tooltip-noti collapse name-tooltip"><p>Vui lòng điền tên danh mục</p></div>
-            <i class="bi bi-exclamation-circle-fill name-icon collapse" onmouseover="onHoverWarning(this)" onmouseout="mouseOutWarning(this)"></i>
+            <textarea class="edited-field name-field" type="text" id="edited-name-list" oninput="validateInput(this)"
+              placeholder="Tên danh mục"></textarea>
+            <div class="tooltip-noti collapse name-tooltip">
+              <p>Vui lòng điền tên danh mục</p>
+            </div>
+            <i class="bi bi-exclamation-circle-fill name-icon collapse" onmouseover="onHoverWarning(this)"
+              onmouseout="mouseOutWarning(this)"></i>
 
           </div>
           <div class="edited-field-container">
 
             <label for="edited-description"></label>
-            <textarea class="edited-field des-field" type="text" id="edited-description" oninput="validateInput(this)" placeholder="Mô tả" ></textarea>
-            
-            {{!-- Hover a warning --}}
-            <div class="tooltip-noti collapse des-tooltip"><p>Vui lòng điền mô tả</p></div>
-            <i class="bi bi-exclamation-circle-fill des-icon collapse" onmouseover="onHoverWarning(this)" onmouseout="mouseOutWarning(this)"></i>
+            <textarea class="edited-field des-field" type="text" id="edited-description" oninput="validateInput(this)"
+              placeholder="Mô tả"></textarea>
+            <div class="tooltip-noti collapse des-tooltip">
+              <p>Vui lòng điền mô tả</p>
+            </div>
+            <i class="bi bi-exclamation-circle-fill des-icon collapse" onmouseover="onHoverWarning(this)"
+              onmouseout="mouseOutWarning(this)"></i>
           </div>
         </form>
       </div>
@@ -95,7 +98,8 @@
       <div class="label-table-edit">
         <button type="button" id="edit" onclick="editContent(this)">
           <i class="bi bi-pencil-fill"></i>
-          <p>Chỉnh sửa<p>
+          <p>Chỉnh sửa
+          <p>
         </button>
         <i class="bi bi-trash3" onclick="deleteRow(this)"></i>
       </div>
@@ -113,7 +117,6 @@
           </button>
         </div>
       </div>
-    </div>
+    </div> --}}
   </div>
 </div>
-

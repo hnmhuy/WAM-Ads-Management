@@ -1,13 +1,35 @@
+let selectedLabelId = null;
+let labelTable = null;
+
 document.addEventListener("DOMContentLoaded", function () {
   const allLabels = document.querySelectorAll(".label");
-
+  labelTable = document.querySelector(".label-table");
   allLabels.forEach((label) => {
     label.addEventListener("click", () => {
       allLabels.forEach((label) => label.classList.remove("label-selected"));
       label.classList.add("label-selected");
+      selectedLabelId = label.id;
+      console.log(selectedLabelId);
+      // Reset table label content
+      clearTableLabelContent();
+      getCategory(selectedLabelId);
+      hiddenNotification();
     });
   });
 });
+
+function clearTableLabelContent() {
+  const notification = labelTable.children[0];
+  const tableHeader = labelTable.children[1];
+  labelTable.innerHTML = ``;
+  labelTable.appendChild(notification);
+  labelTable.appendChild(tableHeader);
+}
+
+function hiddenNotification() {
+  document.querySelector(".notification").classList.add("collapse");
+  document.querySelector(".label-table-header").classList.remove("collapse");
+}
 
 function addRow(button) {
   button.classList.add("disable-button");
@@ -15,10 +37,76 @@ function addRow(button) {
   appendNewRow();
 }
 
+function generateRow(data) {
+  let divContainer = document.createElement("div");
+  let date = new Date(data.createdAt);
+  let createdDate = date.toLocaleDateString("vn-VN");
+  divContainer.setAttribute('data-id', data.id);
+  divContainer.setAttribute('data-field-id', data.field_id);
+  divContainer.setAttribute('new-row', 'false');
+  divContainer.className = "label-table-row";
+  divContainer.innerHTML = `
+    <div class="name-description">
+      <div class="name-content">
+        <p>${data.name}</p>
+      </div>
+      <div class="description-content">
+        <p>${data.description}</p>
+      </div>
+    </div>
+    <div class="edited-form collapse">
+      <form action="">
+        <div class="edited-field-container">
+          <label for="edited-name-list"></label>
+          <textarea class="edited-field name-field" type="text" id="edited-name-list" oninput="validateInput(this)" placeholder="Tên danh mục"></textarea>
+
+          <div class="tooltip-noti collapse name-tooltip"><p>Vui lòng điền tên danh mục</p></div>
+          <i class="bi bi-exclamation-circle-fill name-icon collapse" onmouseover="onHoverWarning(this)" onmouseout="mouseOutWarning(this)"></i>
+
+        </div>
+        <div class="edited-field-container">
+
+          <label for="edited-description"></label>
+          <textarea class="edited-field des-field" type="text" id="edited-description" oninput="validateInput(this)" placeholder="Mô tả" ></textarea>
+          
+          <div class="tooltip-noti collapse des-tooltip"><p>Vui lòng điền mô tả</p></div>
+          <i class="bi bi-exclamation-circle-fill des-icon collapse" onmouseover="onHoverWarning(this)" onmouseout="mouseOutWarning(this)"></i>
+        </div>
+      </form>
+    </div>
+    <div class="created-date-content">
+      <p class="created-date">${createdDate}</p>
+    </div>
+    <div class="label-table-edit">
+      <button type="button" id="edit" onclick="editContent(this)">
+        <i class="bi bi-pencil-fill"></i>
+        <p>Chỉnh sửa<p>
+      </button>
+      <i class="bi bi-trash3" onclick="deleteRow(this)"></i>
+    </div>
+    <div class="save-cancel-button collapse">
+      <div class="save-button">
+        <button type="button" id="save" onclick="saveEdition(this)">
+          <i class="bi bi-check2-circle"></i>
+          <p>Lưu</p>
+        </button>
+      </div>
+      <div class="cancel-button">
+        <button type="button" id="cancel" onclick="cancelEdition(this)">
+          <i class="bi bi-ban"></i>
+          <p>Hủy</p>
+        </button>
+      </div>
+    </div>
+  `
+  return divContainer;
+}
+
 function appendNewRow() {
   let newRow = document.createElement("div");
   newRow.className = "label-table-row";
   newRow.setAttribute("new-row", "true");
+  let today = new Date().toLocaleDateString("vn-VN");
   newRow.innerHTML = `
   <div class="name-description collapse">
   <div class="name-content">
@@ -27,54 +115,53 @@ function appendNewRow() {
   <div class="description-content">
     <p>Đất thuộc sở hữu của nhà nước</p>
   </div>
-</div>
-<div class="edited-form">
-  <form action="">
-    <div class="edited-field-container">
-      <label for="edited-name-list"></label>
-      <textarea class="edited-field name-field" type="text" id="edited-name-list" oninput="validateInput(this)" placeholder="Tên danh mục"></textarea>
-
-      <div class="tooltip-noti collapse name-tooltip"><p>Vui lòng điền tên danh mục</p></div>
-      <i class="bi bi-exclamation-circle-fill name-icon collapse" onmouseover="onHoverWarning(this)" onmouseout="mouseOutWarning(this)"></i>
-
-    </div>
-    <div class="edited-field-container">
-
-      <label for="edited-description"></label>
-      <textarea class="edited-field des-field" type="text" id="edited-description" oninput="validateInput(this)" placeholder="Mô tả" ></textarea>
-      
-      <div class="tooltip-noti collapse des-tooltip"><p>Vui lòng điền mô tả</p></div>
-      <i class="bi bi-exclamation-circle-fill des-icon collapse" onmouseover="onHoverWarning(this)" onmouseout="mouseOutWarning(this)"></i>
-    </div>
-  </form>
-</div>
-<div class="created-date-content">
-  <p class="created-date">29/10/2023</p>
-</div>
-<div class="label-table-edit collapse">
-  <button type="button" id="edit" onclick="editContent(this)">
-    <i class="bi bi-pencil-fill"></i>
-    <p>Chỉnh sửa<p>
-  </button>
-  <i class="bi bi-trash3" onclick="deleteRow(this)"></i>
-</div>
-<div class="save-cancel-button ">
-  <div class="save-button">
-    <button type="button" id="save" onclick="saveEdition(this)">
-      <i class="bi bi-check2-circle"></i>
-      <p>Lưu</p>
-    </button>
   </div>
-  <div class="cancel-button">
-    <button type="button" id="cancel" onclick="cancelEdition(this)">
-      <i class="bi bi-ban"></i>
-      <p>Hủy</p>
-    </button>
+  <div class="edited-form">
+    <form action="">
+      <div class="edited-field-container">
+        <label for="edited-name-list"></label>
+        <textarea class="edited-field name-field" type="text" id="edited-name-list" oninput="validateInput(this)" placeholder="Tên danh mục"></textarea>
+
+        <div class="tooltip-noti collapse name-tooltip"><p>Vui lòng điền tên danh mục</p></div>
+        <i class="bi bi-exclamation-circle-fill name-icon collapse" onmouseover="onHoverWarning(this)" onmouseout="mouseOutWarning(this)"></i>
+
+      </div>
+      <div class="edited-field-container">
+
+        <label for="edited-description"></label>
+        <textarea class="edited-field des-field" type="text" id="edited-description" oninput="validateInput(this)" placeholder="Mô tả" ></textarea>
+        
+        <div class="tooltip-noti collapse des-tooltip"><p>Vui lòng điền mô tả</p></div>
+        <i class="bi bi-exclamation-circle-fill des-icon collapse" onmouseover="onHoverWarning(this)" onmouseout="mouseOutWarning(this)"></i>
+      </div>
+    </form>
   </div>
-</div>
+  <div class="created-date-content">
+    <p class="created-date">${today}</p>
+  </div>
+  <div class="label-table-edit collapse">
+    <button type="button" id="edit" onclick="editContent(this)">
+      <i class="bi bi-pencil-fill"></i>
+      <p>Chỉnh sửa<p>
+    </button>
+    <i class="bi bi-trash3" onclick="deleteRow(this)"></i>
+  </div>
+  <div class="save-cancel-button ">
+    <div class="save-button">
+      <button type="button" id="save" onclick="saveEdition(this)">
+        <i class="bi bi-check2-circle"></i>
+        <p>Lưu</p>
+      </button>
+    </div>
+    <div class="cancel-button">
+      <button type="button" id="cancel" onclick="cancelEdition(this)">
+        <i class="bi bi-ban"></i>
+        <p>Hủy</p>
+      </button>
+    </div>
+  </div>
   `;
 
-  const labelTable = document.querySelector(".label-table");
   const firstChild = labelTable.children[2];
   labelTable.insertBefore(newRow, firstChild);
 }
@@ -112,6 +199,23 @@ function saveEdition(button) {
   if (nameEdited.value.trim() !== "" && descriptionEdited.value.trim() !== "") {
     inputName.textContent = nameEdited.value;
     inputDescription.textContent = descriptionEdited.value;
+
+    let newRow = row.getAttribute("new-row");
+    if(newRow === "true") {
+      let data = {
+        name: nameEdited.value,
+        description: descriptionEdited.value,
+        field_id: selectedLabelId
+      }
+      let res = createCategory(data);
+    } else {
+      let data = {
+        id: row.getAttribute("data-id"),
+        name: nameEdited.value,
+        description: descriptionEdited.value,
+      }
+      let res = updateCategory(data);
+    }
 
     row.querySelector(".name-description").classList.remove("collapse");
     row.querySelector(".edited-form").classList.add("collapse");
@@ -188,4 +292,47 @@ function validateInput(e) {
 function deleteRow(button) {
   const row = button.parentNode.parentNode;
   row.remove();
+}
+
+// Data functions
+function createCategory(data) {
+  fetch('/api/category/createCategory', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+    .then(res => res.json())
+    .then(data => {
+      console.log(data);
+      return data.data;
+    })
+}
+
+function getCategory(fieldID) {
+  fetch(`/api/category/getCategory?fieldId=${fieldID}`)
+    .then(res => res.json())
+    .then(data => {
+      console.log(data);
+      data.data.forEach(item => {
+        let row = generateRow(item);
+        labelTable.appendChild(row);
+      })
+    })
+}
+
+function updateCategory(data) {
+  fetch('/api/category/updateCategory', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+    .then(res => res.json())
+    .then(data => {
+      console.log(data);
+      return data.data;
+    })
 }
