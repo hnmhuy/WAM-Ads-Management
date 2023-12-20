@@ -61,7 +61,7 @@
 </div>
 
 <div class="popup-container collapse" id="create-account-form">
-  <form class="create-account-form" action="#">
+  <form class="create-account-form" action="/deligate" method="post">
     <div class="form-popup">
       <div class="form-header">
         <h4>Tạo tài khoảng mới</h4>
@@ -75,6 +75,7 @@
           type="email"
           class="form-control input-field"
           id="email-input"
+          name="email"
           placeholder="name@example.com"
         />
       </div>
@@ -86,6 +87,7 @@
           type="text"
           class="form-control input-field"
           id="name-input"
+          name="name"
           placeholder="Họ và tên"
         />
       </div>
@@ -99,6 +101,7 @@
           type="text"
           class="form-control input-field"
           id="name-input"
+          name="contact"
           placeholder="0123456789"
         />
       </div>
@@ -112,6 +115,7 @@
           type="date"
           class="form-control input-field"
           id="date-input"
+          name="dob"
           placeholder="01/01/2023"
         />
       </div>

@@ -1,13 +1,13 @@
-function togglePassword() {
-    const passwordInput = document.getElementById("password");
-    const checkbox = document.getElementById("form1Example3");
-
-    if (checkbox.checked) {
-        passwordInput.type = "text";
-    } else {
-        passwordInput.type = "password";
-    }
-}
+// const passwordInput = document.getElementById("password");
+// const togglePassword = document.getElementById("toggle-password");
+// console.log("hi");
+// togglePassword.addEventListener("click", ()=>{
+//     passwordInput.classList.toggle("text-form");
+//     passwordInput.classList.toggle("password-form");
+//     togglePassword.classList.toggle("bi-eye-slash-fill");
+//     togglePassword.classList.toggle("bi-eye-fill");
+//     console.log("reaches here");
+// })
 
 const icon = document.querySelector(".bi-chevron-right");
 const button_login = document.querySelector(".login-button");
