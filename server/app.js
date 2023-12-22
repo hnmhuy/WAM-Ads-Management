@@ -9,6 +9,7 @@ var bodyParser = require("body-parser");
 const cookiesParser = require('cookie-parser');
 const session = require('express-session');
 const passport = require('passport');
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const initializePassport = require('./passportConfig');
@@ -61,6 +62,7 @@ hbs.handlebars.registerHelper("ifEquals", function (arg1, arg2, options) {
 });
 
 app.use("/", require("./routes/auth.route"));
+
 // Use routes of district
 app.use("/home", require("./routes/district/home.route"));
 app.use("/location", require("./routes/district/location.route"));
