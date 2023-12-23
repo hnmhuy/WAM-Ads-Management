@@ -107,11 +107,27 @@ async function getAreaAHierarchy() {
         }
     });
     for(let i=0; i<district.length; i++){
+        let officer = await models.account.findAll({
+            attributes: ['first_name', 'last_name'],
+            where: {
+                delegation: district[i].id  
+            }
+        })
+        district[i].dataValues.officer = officer ? officer : [];
         let commune = await models.area.findAll({
             where: {
                 parent_id: district[i].id
             }
         });
+        for(let j=0; j<commune.length; j++){
+            let officer = await models.account.findAll({
+                attributes: ['first_name', 'last_name'],
+                where: {
+                    delegation: commune[j].id  
+                }
+            })
+            commune[j].dataValues.officer = officer ? officer : [];
+        }
         res.push({
             district: district[i],
             commune: commune
@@ -126,6 +142,11 @@ controller.getArea = async (req, res) => {
     // uncreated - remove existed area in db (require remove level)
     // level: 1 or 2
     // idDistrict: id of district
+    
+    res.set({
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+    });
 
     let { opts, level, idDistrict } = req.query;
     let data = [];

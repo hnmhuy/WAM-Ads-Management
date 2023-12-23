@@ -41,14 +41,14 @@
     <link rel="stylesheet" href="./public/css/upload-file.css" />
 
     <!-- Map Box library -->
-    <script src="https://api.mapbox.com/mapbox-gl-js/v3.0.0/mapbox-gl.js"></script>
+    <!-- <script src="https://api.mapbox.com/mapbox-gl-js/v3.0.0/mapbox-gl.js"></script>
     <link
       href="https://api.mapbox.com/mapbox-gl-js/v3.0.0/mapbox-gl.css"
       rel="stylesheet"
     />
     <script src="https://unpkg.com/supercluster"></script>
 
-    <script type="module" src="./maps/maps.js"></script>
+    <script type="module" src="./maps/maps.js"></script> -->
 
     <script src="./public/js/sidepeek.js"></script>
 
@@ -1094,5 +1094,14 @@
       feedback-form}} {{> ad-detail}} -->
     </main>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+      async function fetchData() {
+        const response = await fetch("http://127.0.0.1:4000/api/area/getArea?opts=hierarchy"); 
+        const data = await response.json();
+        console.log(data);        
+      }
+
+      fetchData();
+    </script>
   </body>
 </html>
