@@ -41,18 +41,18 @@
     <link rel="stylesheet" href="./public/css/upload-file.css" />
 
     <!-- Map Box library -->
-    <script src="https://api.mapbox.com/mapbox-gl-js/v3.0.0/mapbox-gl.js"></script>
+    <!-- <script src="https://api.mapbox.com/mapbox-gl-js/v3.0.0/mapbox-gl.js"></script>
     <link
       href="https://api.mapbox.com/mapbox-gl-js/v3.0.0/mapbox-gl.css"
       rel="stylesheet"
     />
     <script src="https://unpkg.com/supercluster"></script>
 
-    <script type="module" src="./maps/maps.js"></script>
+    <script type="module" src="./maps/maps.js"></script> -->
 
     <script src="./public/js/sidepeek.js"></script>
 
-    <!-- <script src="https://www.google.com/recaptcha/api.js" async defer></script>  -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script
       src="https://cdn.tiny.cloud/1/z15wuwmhtc8coizy33qx1oppjpdm36f6otli5z73q45d3ih2/tinymce/6/tinymce.min.js"
       referrerpolicy="origin"
@@ -92,12 +92,12 @@
           </div>
         </form> -->
       </div>
-      <div
+      <!-- <div
         class="map-container"
         style="width: 100%; height: calc(100vh - 3.5rem)"
       >
         <div id="map"></div>
-      </div>
+      </div> -->
 
       <!-- ---------------------SIDEPEEK-AD Begin ---------------------  -->
       <div class="sidepeek-container hidden" id="sidepeek-ad">
@@ -904,7 +904,7 @@
       <!-- --------------------- RANDOM-LOCATION End ---------------------  -->
 
       <!-- ---------------------FEEDBACK-FORM Begin --------------------- -->
-      <form action="./main.html" method="POST" class="feedback-form hidden">
+      <form class="feedback-form" enctype="multipart/form-data" method="post">
         <div class="form-header">
           <h2 class="form-name">Đơn phản ánh</h2>
           <i class="bi bi-x-circle"></i>
@@ -912,7 +912,7 @@
         <div class="type-email">
           <div>
             <label for="dropdown" class="form-label">Hình thức báo cáo</label>
-            <div class="select-menu">
+            <div class="select-menu" id="customDropdown">
               <div class="select-btn">
                 <span class="sBtn-text">Hình thức báo cáo</span>
                 <i class="bi bi-chevron-down"></i>
@@ -936,11 +936,11 @@
           </div>
 
           <div>
-            <label for="exampleInputEmail" class="form-label">Email</label>
+            <label for="email" class="form-label">Email</label>
             <input
               type="email"
               class="form-control"
-              id="exampleInputEmail"
+              id="email"
               aria-describedby="emailHelp"
               required
             />
@@ -948,9 +948,9 @@
         </div>
         <div class="name-phonenum">
           <div>
-            <label for="inputName" class="form-label">Họ và tên</label>
+            <label for="name" class="form-label">Họ và tên</label>
 
-            <input type="text" class="form-control" id="inputName" required />
+            <input type="text" class="form-control" id="name" required />
           </div>
           <div>
             <label for="phone" class="form-label">Số điện thoại</label>
@@ -964,6 +964,8 @@
           <div id="tooltip" class="hidden">Vui lòng điền Nội dung báo cáo.</div>
         </div>
 
+        <input type="file" name="file" id="file" style="display: block;">
+
         <div class="upload-file">
           <label for="upload-file">Hình ảnh báo cáo</label>
           <div class="drop_box">
@@ -975,22 +977,22 @@
               type="file"
               hidden
               accept=".png, .jpeg"
-              id="fileID"
+              id="upload-file"
               style="display: none"
             />
             <button class="btn">Chọn ảnh</button>
           </div>
         </div>
         <div class="submit-captcha">
-          <!-- <div
+          <div
             class="g-recaptcha"
             id="recaptcha"
-            data-sitekey="6LcY8BMpAAAAAKvpHZiObsxgDj9cxcb4fz6waH11"
-          ></div> -->
+            data-sitekey="6Lf3MDopAAAAAHflU59FHbEpSejyjGXIvb1rAgnq"
+          ></div>
+          <button type="submit" class="btn btn-primary" id="confirm-button">
+            <i class="bi bi-send-fill"></i> Xác nhận
+          </button>
         </div>
-        <button type="submit" class="btn btn-primary" id="confirm-button">
-          <i class="bi bi-send-fill"></i> Xác nhận
-        </button>
       </form>
       <div class="overlay hidden"></div>
       <!-- ---------------------FEEDBACK-FORM End --------------------- -->
@@ -1093,6 +1095,7 @@
       <!-- {{>sidepeek-noAd}} {{>feedback-detail}} {{> random-location}} {{>
       feedback-form}} {{> ad-detail}} -->
     </main>
+    <script src="./public/js/feedback.js"></script>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
   </body>
 </html>

@@ -127,6 +127,7 @@ controller.getArea = async (req, res) => {
     // level: 1 or 2
     // idDistrict: id of district
 
+  
     let { opts, level, idDistrict } = req.query;
     let data = [];
     if (opts === 'all') {
