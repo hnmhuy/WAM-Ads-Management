@@ -1,6 +1,9 @@
 // Dropdonwn UI controller
 const table = document.querySelector('#area-table');
 const table_body = table.querySelector('#tableBody');
+const holderRow = table.querySelector('#holder');
+const emptyRow = table.querySelector('#empty-row'); 
+
 function removeDiacritics(str) {
     return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }
@@ -210,7 +213,9 @@ function createArea(e) {
     }).then(res => res.json())
     .then(res => {
         if(res.status === 'success') {
-            let newRow = addNewArea(res.data);
+            let data = res.data;
+            data.officer = [];
+            let newRow = addNewArea(data);
             newRow.classList.add("new-row");
             // Set timeout to remove new-row class
             setTimeout(() => {
@@ -262,6 +267,34 @@ function createArea(e) {
     })
 } 
 
+function generateOfficerGroup(data) {
+    let officerGroup = document.createElement("div");
+    officerGroup.className = "officer-group";
+    if(data.officer.length === 0) {
+        let officer = document.createElement("div");
+        officer.className = "officer";
+        officer.innerHTML = `
+            <span>Chưa có cán bộ phụ trách</span>
+        `;
+        officerGroup.appendChild(officer);
+    } else {
+        data.officer.forEach(item => {
+            let officer = document.createElement("div");
+            officer.className = "officer";
+            officer.innerHTML = `
+                <div class="officer-img">
+                    <i class="bi bi-person-circle"></i>
+                </div>
+                <span>${item.last_name} ${item.first_name}</span>
+            `;
+            officerGroup.appendChild(officer);
+        })
+    
+    }
+
+    return officerGroup;
+}
+
 function generateRow(data) {
     let row = document.createElement("tr");
     row.id = data.id;
@@ -274,20 +307,6 @@ function generateRow(data) {
         <td>${new Date(data.createdAt).toLocaleDateString("vn-VN")}</td>
         <td>${data.parent_id ? "Phường/ Xã" : "Quận/ Huyện"}</td>
         <td style="width: 20%">
-            <div class="officer-group">
-                <div class="officer">
-                    <div class="officer-img">
-                        <i class="bi bi-person-circle"></i>
-                    </div>
-                    <span>Ông Thập</span>
-                </div>
-                <div class="officer">
-                    <div class="officer-img">
-                        <i class="bi bi-person-circle"></i>
-                    </div>
-                    <span>Huỳnh Nguyễn Minh Huy</span>
-                </div>
-            </div>
         </td>
         <td style="width: 200px;">
             <div class="extend-btn">
@@ -296,11 +315,16 @@ function generateRow(data) {
             </div>
         </td>
     `
+
+    let officerGroup = generateOfficerGroup(data);
+
+    row.children[3].appendChild(officerGroup);
     return row;
 }
 
 function addNewArea(data) {
     let row = generateRow(data);
+    emptyRow.classList.add("collapse");
     if(data.parent_id) {
         let parentRow = document.getElementById(data.parent_id);
         row.classList.remove("collapse");
@@ -320,16 +344,22 @@ function addNewArea(data) {
 }
 
 fetch('api/area/getArea?opts=hierarchy').then(res => res.json()).then(data => {
+
+    if(data.length === 0) {
+        emptyRow.classList.remove("collapse");
+    }
+
     data.forEach(item => {
         let row = generateRow(item.district);
-        table_body.appendChild(row);
+        // Insert before holder row
+        table_body.insertBefore(row, holderRow);
         if(item.commune.length > 0) {
             row.querySelector(".extend-btn i:last-child").classList.remove("collapse");
             item.commune.forEach(item => {
                 let row = generateRow(item);
-                table_body.appendChild(row);
+                table_body.insertBefore(row, holderRow);
             })
-        }
-                
+        }       
     })
+    holderRow.remove();
 })

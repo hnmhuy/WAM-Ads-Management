@@ -1097,5 +1097,14 @@
     </main>
     <script src="./public/js/feedback.js"></script>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+      async function fetchData() {
+        const response = await fetch("http://127.0.0.1:4000/api/area/getArea?opts=hierarchy"); 
+        const data = await response.json();
+        console.log(data);        
+      }
+
+      fetchData();
+    </script>
   </body>
 </html>
