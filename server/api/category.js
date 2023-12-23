@@ -45,7 +45,7 @@ controller.getCategory = (req, res) => {
         })
     } else {
         models.category.findAll({
-            attributes: ['id', 'name', 'description', 'createdAt'],
+            attributes: ['id', 'name', 'description', 'createdAt', 'field_id'],
             where: {
                 field_id: fieldId
             }

@@ -1,7 +1,12 @@
 let selectedLabelId = null;
 let labelTable = null;
+let rowHolder = null;
+let noDataRow = null;
 
 document.addEventListener("DOMContentLoaded", function () {
+  rowHolder = document.getElementById("row-holder");
+  noDataRow = document.getElementById("no-data");
+  console.log(noDataRow);
   const allLabels = document.querySelectorAll(".label");
   labelTable = document.querySelector(".label-table");
   allLabels.forEach((label) => {
@@ -13,9 +18,10 @@ document.addEventListener("DOMContentLoaded", function () {
       // Reset table label content
       clearTableLabelContent();
       getCategory(selectedLabelId);
-      hiddenNotification();
+      openTable();
     });
   });
+
 });
 
 function clearTableLabelContent() {
@@ -24,10 +30,14 @@ function clearTableLabelContent() {
   labelTable.innerHTML = ``;
   labelTable.appendChild(notification);
   labelTable.appendChild(tableHeader);
+  labelTable.appendChild(rowHolder);
+  labelTable.appendChild(noDataRow);
 }
 
-function hiddenNotification() {
+function openTable() {
   document.querySelector(".notification").classList.add("collapse");
+  rowHolder.classList.remove("collapse");
+  noDataRow.classList.add("collapse");
   document.querySelector(".label-table-header").classList.remove("collapse");
 }
 
@@ -313,9 +323,15 @@ function createCategory(data) {
 function getCategory(fieldID) {
   fetch(`/api/category/getCategory?fieldId=${fieldID}`)
     .then(res => res.json())
-    .then(data => {
-      console.log(data);
-      data.data.forEach(item => {
+    .then(res => {
+      console.log(res.data);
+      if(res.data.length === 0) {
+        noDataRow.classList.remove("collapse");
+        rowHolder.classList.add("collapse");
+        return;
+      }
+      rowHolder.classList.add("collapse");
+      res.data.forEach(item => {
         let row = generateRow(item);
         labelTable.appendChild(row);
       })
