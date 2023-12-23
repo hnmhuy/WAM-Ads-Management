@@ -67,3 +67,17 @@
   background-color: red;
   color: #fff;
 }
+
+@media (max-width: 914px) {
+  .random-container {
+    min-width: 100%;
+    z-index: 10;
+    bottom: 0;
+    left: 0;
+    transform: translate(0, 0);
+  }
+  .coorordinate {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
