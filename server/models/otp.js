@@ -19,7 +19,6 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true
     },
     otp: DataTypes.STRING,
-    createdAt: DataTypes.DATE,
     expireAt: DataTypes.DATE
   }, {
     sequelize,

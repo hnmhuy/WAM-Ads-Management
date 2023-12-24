@@ -16,6 +16,7 @@ const cors = require("cors"); //use for captcha
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const initializePassport = require("./passportConfig");
+const { randomBytes } = require("crypto");
 initializePassport(passport);
 
 app.get("/createTables", (req, res) => {
