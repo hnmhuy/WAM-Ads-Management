@@ -3,7 +3,7 @@ let sidebar = document.querySelector(".sidebar");
 let logOutBtn = document.querySelector("#log_out");
 
 logOutBtn.addEventListener("click", () => {
-  window.location.href = "/";
+  window.location.href = "/logout";
 });
 
 sidebar.addEventListener("mouseenter", () => {

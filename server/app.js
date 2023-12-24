@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const path = require("path");
-const port = 5000 || process.env.port;
+const port = 3000 || process.env.port;
 const expressHbs = require("express-handlebars");
 app.use("/public", express.static(path.join(__dirname, "public")));
 const hbs = expressHbs.create({});
@@ -9,9 +9,8 @@ var bodyParser = require("body-parser");
 const cookiesParser = require('cookie-parser');
 const session = require('express-session');
 const passport = require('passport');
-
-const initializePassport = require('./passportConfig');
-initializePassport(passport);
+const facebookStrategy = require('passport-facebook');
+const googleStrategy = require('passport-google-oauth20');
 
 app.get("/createTables", (req, res) => {
   let models = require('./models');
@@ -36,8 +35,21 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session())
+passport.use(new googleStrategy({
+    clientID: '465034546763-b9e5sei88fv81k72go64kkq14ks3e7rb.apps.googleusercontent.com',
+    clientSecret: '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',
+    callbackURL: '/auth/google/callback'
+}, (accessToken, refreshToken, profile, done) => {
+    done(null, profile)
+}))
 
-var accounts = require("./account");
+passport.serializeUser((user, done) => {
+    done(null, user)
+})
+
+passport.deserializeUser((obj, done) => {
+    done(null, obj)
+})
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -60,6 +72,7 @@ hbs.handlebars.registerHelper("ifEquals", function (arg1, arg2, options) {
 });
 
 app.use("/", require("./routes/auth.route"));
+app.use("/otp", require("./routes/otp.route"));
 // Use routes of district
 app.use("/home", require("./routes/district/home.route"));
 app.use("/location", require("./routes/district/location.route"));
@@ -71,6 +84,7 @@ app.use("/dashboard", require("./routes/department/dashboard.route"));
 app.use("/ads", require("./routes/department/ads.route"));
 app.use("/label", require("./routes/department/label.route"));
 app.use("/feedback", require("./routes/department/feedback.route"));
+
 
 app.get("/deligate", (req, res) => {
   let navBarData = require("./nav_link.json");
