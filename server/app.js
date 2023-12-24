@@ -9,37 +9,59 @@ var bodyParser = require("body-parser");
 const cookiesParser = require('cookie-parser');
 const session = require('express-session');
 const passport = require('passport');
+const facebookStrategy = require('passport-facebook');
+const googleStrategy = require('passport-google-oauth20');
+const cookiesParser = require("cookie-parser");
+const session = require("express-session");
+const passport = require("passport");
+const cors = require("cors"); //use for captcha
+
+
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-const initializePassport = require('./passportConfig');
+const initializePassport = require("./passportConfig");
 initializePassport(passport);
 
 app.get("/createTables", (req, res) => {
-  let models = require('./models');
+  let models = require("./models");
   models.sequelize.sync().then(() => {
     res.send("Create Tables");
-  })
-})
+  });
+});
 
-app.use(cookiesParser('COOKIE_SECRET'));
+app.use(cookiesParser("COOKIE_SECRET"));
 app.use(
   session({
     secret: "SESSION_SECRET",
     resave: false,
     saveUninitialized: false,
-    cookie:{
+    cookie: {
       secure: false,
       httpOnly: true,
       maxAge: 20 * 60 * 1000,
-    }
+    },
   })
 );
 
 app.use(passport.initialize());
 app.use(passport.session())
+passport.use(new googleStrategy({
+    clientID: '465034546763-b9e5sei88fv81k72go64kkq14ks3e7rb.apps.googleusercontent.com',
+    clientSecret: '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',
+    callbackURL: '/auth/google/callback'
+}, (accessToken, refreshToken, profile, done) => {
+    done(null, profile)
+}))
 
-var accounts = require("./account");
+passport.serializeUser((user, done) => {
+    done(null, user)
+})
+
+passport.deserializeUser((obj, done) => {
+    done(null, obj)
+})
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -55,13 +77,14 @@ app.engine(
 );
 
 app.set("view engine", "hbs");
-  
-  // Register the helper
+
+// Register the helper
 hbs.handlebars.registerHelper("ifEquals", function (arg1, arg2, options) {
   return arg1 == arg2 ? options.fn(this) : options.inverse(this);
 });
 
 app.use("/", require("./routes/auth.route"));
+app.use("/otp", require("./routes/otp.route"));
 
 // Use routes of district
 app.use("/home", require("./routes/district/home.route"));
@@ -74,6 +97,7 @@ app.use("/dashboard", require("./routes/department/dashboard.route"));
 app.use("/ads", require("./routes/department/ads.route"));
 app.use("/label", require("./routes/department/label.route"));
 app.use("/feedback", require("./routes/department/feedback.route"));
+
 
 app.get("/deligate", (req, res) => {
   let navBarData = require("./nav_link.json");
@@ -125,8 +149,26 @@ app.get("/area", (req, res) => {
   });
 });
 
-app.use('/api', require('./routes/api/api.route'));
+// Testing fetch data
+app.get("/data/area", (req, res) => {
+  let districtId = req.query.districtId;
+  // Convert to json object
+  let data = require("./area.db.json");
+  console.log(districtId);
+  if (districtId) {
+    data = data.commune.filter((item) => item.idDistrict === districtId);
+  } else {
+    data = data.district.filter((item) => item.idProvince === "79");
+  }
+  res.json(data);
+});
+
+app.use("/api", require("./routes/api/api.route"));
 
 app.listen(port, (req, res) => {
   console.log(`Server is running on ${port}`);
 });
+
+// CAPTCHA ver2
+app.use(cors());
+

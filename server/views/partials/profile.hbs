@@ -1,0 +1,95 @@
+<div class="background-before">
+</div>
+<div class="content">
+    <div class="div-title d-flex align-items-center">
+        <h1 class="profile-title" style="color: #356fb8;font-weight: bold;">Cài đặt tài khoản</h1>
+    </div>
+    <p class="te mb-5" style="color: #4999ff; font-weight: 600;">Bạn có thể cập nhật thông tin cá nhân và mật khẩu tại đây.</p>
+    <div class="data">
+        <div class="tab-titles">
+            <h3 style="color: #3a7acc;" class="tab-links active-link mb-3" onclick="opentab('profile')">Tài khoản</h3>
+            <h3 style="color: #3a7acc;" class="tab-links mb-3" onclick="opentab('password')">Đổi mật khẩu</h3>
+        </div>
+        <div class="tab-contents active-tab" id="profile">
+            <div class="row">
+                <div class="col-12">
+                    <form id="form-check" action="" onsubmit="changeProfile(event)" method="PUT">
+                        <div class="row">
+                            <div class="mb-3 col-md-6">
+                                <label for="new-firstname" class="form-label">Tên</label>
+                                <input class="form-control" type="text" id="new-firstname"
+                                    name="newFirstName" value="{{user.first_name}}" autofocus />
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="new-lastname" class="form-label">Họ</label>
+                                <input class="form-control" type="text" name="newLastName"
+                                    id="new-lastname" value="{{user.last_name}}" />
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="email" class="form-label">E-mail</label>
+                                <input class="form-control" type="text" id="email"
+                                    name="email" value="{{user.email}}" placeholder="" readonly/>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="delegation" class="form-label">Cấp quản lý</label>
+                                <input class="form-control" type="text" id="delegation"
+                                    name="delegation" value="" placeholder="" disabled />
+                            </div>
+                            
+
+                        </div>
+                        <div class="mt-2">
+                            <button style="background-color: #4999ff; color: white;" type="submit"
+                                class="btn me-2" type="submit">Lưu thay đổi</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-contents" id="password">
+            <div>
+                <form action="/profile" method="post">
+                    <div class="row">
+                        <div class="mb-3 col-md-6">
+                            <label for="current-password" class="form-label">Mật khẩu hiện tại</label>
+                            <input class="form-control" type="password" id="current-password"
+                                name="currentPassword" autofocus />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mb-3 col-md-6">
+                            <label for="new-password" class="form-label">Mật khẩu mới</label>
+                            <input class="form-control" type="password" id="new-password"
+                                name="newPassword" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mb-3 col-md-6">
+                            <label for="confirm-password" class="form-label">Xác nhận mật khẩu mới</label>
+                            <input class="form-control" type="password" id="confirm-password"
+                                name="confirmPassword" />
+                        </div>
+                    </div>
+                    <div style="display: none;" class="mb-3 col-md-6">
+                        <label for="email" class="form-label">E-mail</label>
+                        <input class="form-control" type="text" id="email" name="email" value="{{user.email}}" placeholder="" readonly />
+                    </div>
+                    <button style="background-color: #4999ff; color: white;" type="submit"
+                        class="btn me-2" onclick="updateUserPassword(this)">Lưu thay đổi</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+    integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+    crossorigin="anonymous"></script>
+<script src="../../public/js/shared/profile.js"></script>

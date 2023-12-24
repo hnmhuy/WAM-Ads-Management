@@ -148,6 +148,7 @@ controller.getArea = async (req, res) => {
         "Access-Control-Allow-Origin": "*",
     });
 
+  
     let { opts, level, idDistrict } = req.query;
     let data = [];
     if (opts === 'all') {
