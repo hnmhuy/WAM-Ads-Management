@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const path = require("path");
-const port = 3000 || process.env.port;
+const port = 4000 || process.env.port;
 const expressHbs = require("express-handlebars");
 app.use("/public", express.static(path.join(__dirname, "public")));
 const hbs = expressHbs.create({});
@@ -11,25 +11,37 @@ const session = require('express-session');
 const passport = require('passport');
 const facebookStrategy = require('passport-facebook');
 const googleStrategy = require('passport-google-oauth20');
+const cookiesParser = require("cookie-parser");
+const session = require("express-session");
+const passport = require("passport");
+const cors = require("cors"); //use for captcha
+
+
+
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+const initializePassport = require("./passportConfig");
+initializePassport(passport);
 
 app.get("/createTables", (req, res) => {
-  let models = require('./models');
+  let models = require("./models");
   models.sequelize.sync().then(() => {
     res.send("Create Tables");
-  })
-})
+  });
+});
 
-app.use(cookiesParser('COOKIE_SECRET'));
+app.use(cookiesParser("COOKIE_SECRET"));
 app.use(
   session({
     secret: "SESSION_SECRET",
     resave: false,
     saveUninitialized: false,
-    cookie:{
+    cookie: {
       secure: false,
       httpOnly: true,
       maxAge: 20 * 60 * 1000,
-    }
+    },
   })
 );
 
@@ -65,14 +77,15 @@ app.engine(
 );
 
 app.set("view engine", "hbs");
-  
-  // Register the helper
+
+// Register the helper
 hbs.handlebars.registerHelper("ifEquals", function (arg1, arg2, options) {
   return arg1 == arg2 ? options.fn(this) : options.inverse(this);
 });
 
 app.use("/", require("./routes/auth.route"));
 app.use("/otp", require("./routes/otp.route"));
+
 // Use routes of district
 app.use("/home", require("./routes/district/home.route"));
 app.use("/location", require("./routes/district/location.route"));
@@ -150,16 +163,12 @@ app.get("/data/area", (req, res) => {
   res.json(data);
 });
 
-
-// app.get('/example', (req, res) => {
-//   var tmp = require('./models');
-//   tmp.area.create({
-//     parent_id: null,
-//     name: "Quan 1"
-//   })
-//   res.send("HHHHH")
-// })
+app.use("/api", require("./routes/api/api.route"));
 
 app.listen(port, (req, res) => {
   console.log(`Server is running on ${port}`);
 });
+
+// CAPTCHA ver2
+app.use(cors());
+

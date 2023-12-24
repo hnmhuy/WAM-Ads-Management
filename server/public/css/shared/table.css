@@ -10,9 +10,11 @@
   padding: 1px;
 }
 
-.toolbar button:hover {
+/* .toolbar button:hover {
   background-color: rgb(47, 29, 177);
 }
+
+*/
 
 .tab-bar {
   display: flex;
