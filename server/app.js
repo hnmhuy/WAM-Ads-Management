@@ -125,20 +125,6 @@ app.get("/area", (req, res) => {
   });
 });
 
-// Testing fetch data
-app.get("/data/area", (req, res) => {
-  let districtId = req.query.districtId;
-  // Convert to json object
-  let data = require("./area.db.json");
-  console.log(districtId);
-  if (districtId) {
-    data = data.commune.filter((item) => item.idDistrict === districtId);
-  } else {
-    data = data.district.filter((item) => item.idProvince === "79");
-  }
-  res.json(data);
-});
-
 app.use('/api', require('./routes/api/api.route'));
 
 app.listen(port, (req, res) => {

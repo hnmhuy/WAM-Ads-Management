@@ -315,8 +315,55 @@ function createCategory(data) {
   })
     .then(res => res.json())
     .then(data => {
-      console.log(data);
-      return data.data;
+      if(data.status === 500){
+        console.error('Error:', data.message);
+        Toastify({
+          text: "Tạo danh mục thất bại",
+          duration: 3000,
+          close: false,
+          gravity: "bottom",
+          position: "right",
+          stopOnFocus: true,
+          style: {
+            background: "#FF6969",
+            color: "#000"
+          },
+          onClick: function(){} // Callback after click
+        }).showToast();
+        return null;
+      } else {
+        noDataRow.classList.add("collapse");
+        Toastify({
+          text: "Tạo danh mục thành công",
+          duration: 3000,
+          close: false,
+          gravity: "bottom",
+          position: "right",
+          stopOnFocus: true,
+          style: {
+            background: "#C1F2B0",
+            color: "#000"
+          },
+          onClick: function(){} // Callback after click
+        }).showToast();
+        return data.data;
+      }
+    })
+    .catch((err) => {
+      console.error('Error:', err);
+      Toastify({
+        text: "Có lỗi xảy ra",
+        duration: 3000,
+        close: false,
+        gravity: "bottom",
+        position: "right",
+        stopOnFocus: true,
+        style: {
+          background: "#FF6969",
+          color: "#000"
+        },
+        onClick: function(){} // Callback after click
+      }).showToast();
     })
 }
 
@@ -348,7 +395,52 @@ function updateCategory(data) {
   })
     .then(res => res.json())
     .then(data => {
-      console.log(data);
-      return data.data;
+      if(data.status === 500){
+        console.error('Error:', data.message);
+        Toastify({
+          text: "Cập nhật danh mục thất bại",
+          duration: 3000,
+          close: false,
+          gravity: "bottom",
+          position: "right",
+          stopOnFocus: true,
+          style: {
+            background: "#FF6969",
+            color: "#000"
+          },
+          onClick: function(){} // Callback after click
+        }).showToast();
+        return;
+      } else {
+        Toastify({
+          text: "Cập nhật danh mục thành công",
+          duration: 3000,
+          close: false,
+          gravity: "bottom",
+          position: "right",
+          stopOnFocus: true,
+          style: {
+            background: "#C1F2B0",
+            color: "#000"
+          },
+          onClick: function(){} // Callback after click
+        }).showToast();
+        return data.data;
+      }
+    }).catch((err) => {
+      console.error('Error:', err);
+      Toastify({
+        text: "Có lỗi xảy ra",
+        duration: 3000,
+        close: false,
+        gravity: "bottom",
+        position: "right",
+        stopOnFocus: true,
+        style: {
+          background: "#FF6969",
+          color: "#000"
+        },
+        onClick: function(){} // Callback after click
+      }).showToast();
     })
 }
