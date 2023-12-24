@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       category.belongsTo(models.field, { foreignKey: 'field_id' })
       category.hasMany(models.ad_place, { foreignKey: 'type_ad_id' })
       category.hasMany(models.ad_place, { foreignKey: 'purpose_id' })
+      category.hasMany(models.feedback, { foreignKey: 'type'})
     }
   }
   category.init({

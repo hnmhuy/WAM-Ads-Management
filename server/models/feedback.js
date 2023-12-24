@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       feedback.belongsTo(models.place, { foreignKey: 'place_id' })
       feedback.belongsTo(models.ad_content, { foreignKey: 'ad_id' })
       feedback.belongsTo(models.feedback_response, { foreignKey: 'response_id' })
+      feedback.belongsTo(models.category, { foreignKey: 'type'})
     }
   }
   feedback.init({
@@ -21,7 +22,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       primaryKey: true
     },
-    type: DataTypes.TEXT,
     name: DataTypes.STRING,
     email: DataTypes.STRING,
     phone: DataTypes.STRING,

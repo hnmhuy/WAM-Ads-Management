@@ -1,6 +1,35 @@
 const controller = {};
 const models = require('../models')
 
+controller.restoreField = async (req, res) => {
+    let data = [
+        {
+            name: "Vị trí",
+            description: "Mô tả ngắn gọn vị trí điểm đặt quảng cáo"
+        },
+        {
+            name: "Mục đích",
+            description: "Chủ đề chung của các bảng quảng cáo"
+        },
+        {
+            name: "Loại QC",
+            description: "Loại bảng quảng cáo được lắp đặt"
+        },
+        {
+            name: "Phản ánh",
+            description: "Phân loại phản ánh từ người dân"
+        }
+    ]
+
+    for(let i = 0; i < data.length; i++) {
+        await models.field.create(data[i]);
+    }
+
+    res.json({
+        message: "Restore field successfully"
+    })
+}
+
 controller.getField = (req, res) => {
     models.field.findAll({
         attributes: ['id', 'name', 'description'],

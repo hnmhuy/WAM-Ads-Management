@@ -443,7 +443,8 @@
 
 .deligate-table tr.absolute {
   background-color: #fff; /* Set the background color for the absolute row */
-  z-index: 2;
+  z-index: 2!important;
+  position: relative;
 }
 
 .deligate-table th:last-child,

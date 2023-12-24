@@ -158,12 +158,12 @@ function onClickStatusDropdown(e) {
   }
   for (let o of optionList) {
     o.addEventListener("click", () => {
-      let selectedValue = o.textContent;
+      let selectedValue = o.getAttribute("value");  
 
-      if (selectedValue.trim() === "Đang hoạt động") {
+      if (selectedValue === "ON") {
         e.classList.remove("block");
         e.classList.add("on");
-      } else if (selectedValue.trim() === "Đã khóa") {
+      } else if (selectedValue === "BLOCK") {
         e.classList.add("block");
         e.classList.remove("on");
       }

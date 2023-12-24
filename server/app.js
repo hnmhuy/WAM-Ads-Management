@@ -94,23 +94,23 @@ app.use("/label", require("./routes/department/label.route"));
 app.use("/feedback", require("./routes/department/feedback.route"));
 
 
-app.get("/deligate", (req, res) => {
+app.get("/delegate", (req, res) => {
   let navBarData = require("./nav_link.json");
   navBarData.nav_link.forEach((link) => {
     link.active = false;
   });
 
-  const target = navBarData.nav_link.find((link) => link.name === "deligate");
+  const target = navBarData.nav_link.find((link) => link.name === "delegate");
   if (target) {
     target.active = true;
   }
   let componentDependcy = {
-    css: ["/public/css/department/deligate.css"],
+    css: ["/public/css/department/delegate.css"],
     swap: true,
     title: "QUẢN LÝ TÀI KHOẢN CÁN BỘ",
-    jsHeader: ["/public/js/department/deligate_ui_controllers.js"],
+    jsHeader: ["/public/js/department/delegate_ui_controllers.js"],
   };
-  res.render("department/deligate", {
+  res.render("department/delegate", {
     layout: "department_layout",
     css: componentDependcy.css,
     title: componentDependcy.title,
@@ -142,20 +142,6 @@ app.get("/area", (req, res) => {
     title: componentDependcy.title,
     nav_link: navBarData.nav_link,
   });
-});
-
-// Testing fetch data
-app.get("/data/area", (req, res) => {
-  let districtId = req.query.districtId;
-  // Convert to json object
-  let data = require("./area.db.json");
-  console.log(districtId);
-  if (districtId) {
-    data = data.commune.filter((item) => item.idDistrict === districtId);
-  } else {
-    data = data.district.filter((item) => item.idProvince === "79");
-  }
-  res.json(data);
 });
 
 app.use("/api", require("./routes/api/api.route"));
