@@ -8,7 +8,7 @@ const upload = multer({
 
 
 router.post('/reCaptcha', controller.reCaptcha);
-router.post('/sendFeedback',upload.single("file"), controller.sendFeedback);
+router.post('/sendFeedback',upload.array("imgFile", 2), controller.sendFeedback);
 
 
 module.exports = router;

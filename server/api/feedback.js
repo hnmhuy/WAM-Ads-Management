@@ -1,4 +1,5 @@
 const controller = {};
+const models = require("../models");
 
 controller.reCaptcha = (req, res) => {
     const params = new URLSearchParams({
@@ -26,15 +27,21 @@ controller.reCaptcha = (req, res) => {
 
 }
 
-controller.sendFeedback = (req, res) =>
+controller.sendFeedback = async (req, res) =>
 {
     res.set({
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
     })
-    console.log(req.body);
-    console.log(req.file);
-    res.json({ message: 'Received feedback successfully!' });
+    let {email, name, phone, mytextarea, type} = req.body;
+    let data = await models.feedback.create({
+        name: name,
+        email: email,
+        phone: phone,
+        content: mytextarea,
+        type: type,
+    })
+    res.json({ message: 'Received feedback successfully!', data:data });
 
 }
 
