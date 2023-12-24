@@ -11,13 +11,7 @@ const session = require('express-session');
 const passport = require('passport');
 const facebookStrategy = require('passport-facebook');
 const googleStrategy = require('passport-google-oauth20');
-const cookiesParser = require("cookie-parser");
-const session = require("express-session");
-const passport = require("passport");
 const cors = require("cors"); //use for captcha
-
-
-
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

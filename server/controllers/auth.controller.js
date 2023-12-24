@@ -2,9 +2,7 @@ const controller = {};
 const User = require("../models").account;
 const passport = require("passport");
 const models = require("../models");
-const Swal = require('sweetalert2')
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 
 const location = require('../testing_vew_data/location.json');
 
