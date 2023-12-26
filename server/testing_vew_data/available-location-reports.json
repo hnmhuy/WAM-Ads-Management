@@ -31,6 +31,7 @@
       ],
       "name": "Nguyễn Văn A",
       "phone": "011111111",
+      "time": "06:14 11/27/2023",
       "email": "abc@xyz.hcmus.vn",
       "solution": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Excepturi vitae animi at officiis illum labore?"
     },
@@ -60,6 +61,7 @@
       "name": "Trần Thị B",
       "phone": "022222222",
       "email": "def@xyz.hcmus.vn",
+      "time": "06:14 11/27/2023",
       "solution": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Excepturi vitae animi at officiis illum labore?"
     },
     {
@@ -86,6 +88,7 @@
         "/public/images/location3.png"
       ],
       "name": "Lê Văn C",
+      "time": "06:14 11/27/2023",
       "phone": "033333333",
       "email": "ghi@xyz.hcmus.vn",
       "solution": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Excepturi vitae animi at officiis illum labore?"
@@ -116,6 +119,7 @@
       "name": "Phạm Thị D",
       "phone": "044444444",
       "email": "jkl@xyz.hcmus.vn",
+      "time": "06:14 11/27/2023",
       "solution": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Excepturi vitae animi at officiis illum labore?"
     },
     {
@@ -144,6 +148,7 @@
       "name": "Nguyễn Thị E",
       "phone": "055555555",
       "email": "mno@xyz.hcmus.vn",
+      "time": "06:14 11/27/2023",
       "solution": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Excepturi vitae animi at officiis illum labore?"
     },
     {
@@ -172,6 +177,7 @@
       "name": "Trần Văn F",
       "phone": "066666666",
       "email": "pqr@xyz.hcmus.vn",
+      "time": "06:14 11/27/2023",
       "solution": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Excepturi vitae animi at officiis illum labore?"
     },
     {
@@ -227,6 +233,8 @@
       ],
       "name": "Phan Văn H",
       "phone": "088888888",
+      "time": "06:14 11/27/2023",
+
       "email": "vwx@xyz.hcmus.vn",
       "solution": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Excepturi vitae animi at officiis illum labore?"
     },
@@ -255,6 +263,7 @@
       ],
       "name": "Nguyễn Văn I",
       "phone": "099999999",
+      "time": "06:14 11/27/2023",
       "email": "yz@xyz.hcmus.vn",
       "solution": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Excepturi vitae animi at officiis illum labore?"
     },
@@ -283,6 +292,7 @@
       ],
       "name": "Trần Thị J",
       "phone": "101010101",
+      "time": "06:14 11/27/2023",
       "email": "abc@xyz.hcmus.vn",
       "solution": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Excepturi vitae animi at officiis illum labore?"
     }
