@@ -18,17 +18,6 @@
           <th>Số lượng</th>
           <th>Mục đích</th>
           <th>Trạng thái</th>
-          <div class="dropdown">
-            <a style="color: white !important" href="#"
-              class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
-              aria-expanded="false">Trạng thái</a>
-            <div style="padding: 10px" class="dropdown-menu">
-              <input type="checkbox" id="da-quy-hoach" name="da-quy-hoach" value="da-quy-hoach" />
-              <label for="da-quy-hoach">Đã quy hoạch</label><br />
-              <input type="checkbox" id="chua-quy-hoach" name="chua-quy-hoach" value="chua-quy-hoach" />
-              <label for="chua-quy-hoach">Chưa quy hoạch</label><br />
-            </div>
-          </div>
           <th></th>
         </tr>
       </thead>
@@ -37,22 +26,22 @@
         {{#each data_rows}}
         <tr class="tr_in_table_in_location">
           <td>
-            <p class="table-cell-type">{{district}}</p>
+            <p class="table-cell-type">{{address.district}}</p>
           </td>
           <td>
-            <p class="table-cell-type">{{ward}}</p>
+            <p class="table-cell-type">{{address.ward}}</p>
           </td>
           <td>
-            <p class="table-cell-type">{{address}}</p>
+            <p class="table-cell-type">{{address.street}}</p>
           </td>
           <td>
-            <p class="table-cell-type">{{type}}</p>
+            <p class="table-cell-type">{{type_ad}}</p>
           </td>
           <td>
-            <p class="table-cell-type text-align-center">{{number}}</p>
+            <p class="table-cell-type text-align-center">{{capacity}}</p>
           </td>
           <td>
-            <p class="table-cell-type">{{purpose}}</p>
+            <p class="table-cell-type">{{purpose_ad}}</p>
           </td>
           <td>
             <p style="margin: 0" class="status {{status.status_id}}">{{status.status_name}}</p>

@@ -94,3 +94,123 @@ function toggleSibling(sibling) {
     }
 
 }
+
+// function createResponse(data) {
+//     let tmp = ''
+//     fetch('/api/report/createResponse', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify(data),
+//     })
+//         .then(res => res.json())
+//         .then(data => {
+//             tmp = data.data.id
+//             return tmp
+//         })
+//         .catch((err) => {
+//             console.error('Error:', err);
+//         })
+
+// }
+
+function updateResponse(data) {
+    fetch('/api/report/updateFeedback', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+            console.log("Updated Successfully!")
+        }).catch((err) => {
+            console.error('Error:', err);
+        })
+}
+function updateSolution(button) {
+    let buttonId = button.id
+    //! Get officer later
+    let officier = 'bfd79bdc-a150-40f3-b429-468600bf4efc'
+    let textareaElements = document.getElementsByTagName('textarea')
+
+    const targetTextarea = Array.from(textareaElements).find(element => element.id === buttonId);
+
+    // Handle UI
+    const rows = document.querySelectorAll('tr');
+    const curRow = Array.from(rows).filter(element => element.id === buttonId);
+
+    const solved = curRow[0].querySelector('.unsolved');
+    solved.classList.remove('unsolved')
+    solved.classList.add('solved')
+    solved.innerHTML = "Đã giải quyết"
+
+    curRow[1].style.display = 'none';
+
+    let data = {
+        content: targetTextarea.value,
+        officer: officier
+    }
+
+    const feedback_content = document.createElement('div');
+    feedback_content.classList.add('feedback-info')
+
+
+    if (targetTextarea.value != "") {
+        fetch('/api/report/createResponse', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then(res => res.json())
+            .then(data => {
+                let data_2 = {
+                    fb_id: buttonId,
+                    fbRes_id: data.data.id
+                }
+                updateResponse(data_2)
+
+                feedback_content.innerHTML = `
+    <div class="label">
+    <p>Thông tin phản hồi</p>
+  </div>
+
+  <div class="info phone">
+    <div class="icon-tag">
+
+      <i class="bi bi-clock"></i>
+      <p class="tag">Thời gian xử lý</p>
+    </div>
+    <p class="tag-content">${data.data.createdAt}</p>
+  </div>
+
+  <div class="info content_solution">
+    <div class="icon-tag">
+      <i class="bi bi-file-text"></i>
+      <p class="tag">Hướng xử lý</p>
+    </div>
+  </div>
+
+  <div class="feedback-content">${data.data.content}</div>
+
+    `
+                const btn = curRow[1].querySelector('.button-report-field')
+                btn.remove();
+
+
+                targetTextarea.remove()
+
+                const res_info = curRow[1].querySelector('.respond-info')
+                res_info.appendChild(feedback_content)
+            })
+            .catch((err) => {
+                console.error('Error:', err);
+            })
+    }
+
+}

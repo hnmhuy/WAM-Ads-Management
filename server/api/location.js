@@ -3,6 +3,8 @@
 const controller = {}
 const models = require('../models');
 
+
+
 controller.createTypeAndPurpose = async (req, res) => {
     // Type id
     let data_type_id = [
@@ -25,6 +27,10 @@ controller.createTypeAndPurpose = async (req, res) => {
         {
             name: "Nhà chờ xe buýt",
             description: "Nhà chờ xe buýt",
+        },
+        {
+            name: "Cây xăng",
+            description: "Cây xăng",
         }
     ];
 
@@ -74,28 +80,54 @@ controller.createTypeAndPurpose = async (req, res) => {
     });
 };
 
-controller.getLocations = async (req, res) => {
-    let locations = await models.ad_place.findAll({
-        attribute: ['address-formatted', 'capacity', 'status'],
+controller.getLocations = (req, res) => {
+    models.ad_place.findAll({
+        attributes: ['id', 'capacity', 'status'],
         include: [
             {
-                model: models.category,
-                as: 'Type',
-                attributes: ['type_ad_id', 'name']
-            },
-            {
-                model: models.category,
-                as: 'Purpose',
-                attributes: ['purpose_id', 'name']
-            },
-            {
                 model: models.place,
+                as: "place",
+                attributes: ['address_formated']
+            },
+            {
+                model: models.category,
+                as: 'TypeAds',
+                attributes: ['name'],
+            },
+            {
+                model: models.category,
+                as: 'PurposeAds',
+                attributes: ['name'],
             }
         ]
+    }).then((data) => {
+        let data_row = []
+        data.forEach((item) => {
+            let tmp = {};
+            tmp.id = item.id
+            tmp.capacity = item.capacity;
+            tmp.type_ad = item.TypeAds.name;
+            tmp.purpose_ad = item.PurposeAds.name;
+            if (item.status === 1) {
+                tmp.status = {
+                    "status_id": "delivered",
+                    "status_name": "Đã quy hoạch"
+                }
+            }
+            else {
+                tmp.status = {
+                    "status_id": "cancelled",
+                    "status_name": "Chưa quy hoạch"
+                }
+            }
+            tmp.address = splitAddressFormatted(item.place.address_formated)
+            data_row.push(tmp)
+        })
+
+        res.json({
+            data_row: data_row
+        })
     })
-
-    // Process data
-
 }
 
 module.exports = controller;
