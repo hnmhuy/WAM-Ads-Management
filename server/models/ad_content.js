@@ -19,7 +19,8 @@ module.exports = (sequelize, DataTypes) => {
   }
   ad_content.init({
     id: {
-      type: DataTypes.STRING,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true
     },
     company_name: DataTypes.STRING,
@@ -36,13 +37,13 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'ad_content',
   });
 
-  ad_content.beforeCreate((instance, options) => { // Tạo ra ID có format
-    // Get the current maximum number in the database
-    return ad_content.max('id', { raw: true })
-      .then((maxNumber) => {
-        const newNumber = maxNumber ? parseInt(maxNumber.substring(1)) + 1 : 1;
-        instance.id = `A${newNumber}`;
-      });
-  });
+  // ad_content.beforeCreate((instance, options) => { // Tạo ra ID có format
+  //   // Get the current maximum number in the database
+  //   return ad_content.max('id', { raw: true })
+  //     .then((maxNumber) => {
+  //       const newNumber = maxNumber ? parseInt(maxNumber.substring(1)) + 1 : 1;
+  //       instance.id = `A${newNumber}`;
+  //     });
+  // });
   return ad_content;
 };

@@ -99,34 +99,39 @@ async function getUncreatedArea(level, idDistrict = null) {
     }
 }
 
-async function getAreaAHierarchy() {
+async function getAreaAHierarchy(includeOfficer = true) {
     let res = [];
     let district = await models.area.findAll({
         where: {
             parent_id: null
         }
     });
-    for(let i=0; i<district.length; i++){
-        let officer = await models.account.findAll({
-            attributes: ['first_name', 'last_name'],
-            where: {
-                delegation: district[i].id  
-            }
-        })
-        district[i].dataValues.officer = officer ? officer : [];
+    for(let i=0; i<district.length; i++) {
+        let officer;
+        if(includeOfficer) {
+            officer = await models.account.findAll({
+                attributes: ['first_name', 'last_name'],
+                where: {
+                    delegation: district[i].id  
+                }
+            })
+            district[i].dataValues.officer = officer ? officer : [];
+        }
         let commune = await models.area.findAll({
             where: {
                 parent_id: district[i].id
             }
         });
-        for(let j=0; j<commune.length; j++){
-            let officer = await models.account.findAll({
-                attributes: ['first_name', 'last_name'],
-                where: {
-                    delegation: commune[j].id  
-                }
-            })
-            commune[j].dataValues.officer = officer ? officer : [];
+        if(includeOfficer) {
+            for(let j=0; j<commune.length; j++){
+                let officer = await models.account.findAll({
+                    attributes: ['first_name', 'last_name'],
+                    where: {
+                        delegation: commune[j].id  
+                    }
+                })
+                commune[j].dataValues.officer = officer ? officer : [];
+            }
         }
         res.push({
             district: district[i],
@@ -158,7 +163,8 @@ controller.getArea = async (req, res) => {
     } else if (opts === 'uncreated') {
         data = await getUncreatedArea(level, idDistrict);
     } else if (opts === 'hierarchy') {
-        data = await getAreaAHierarchy();
+        let includeOfficer = req.query.includeOfficer == 'false' ? false : true;
+        data = await getAreaAHierarchy(includeOfficer);
     } else {
         data = {
             status: "error",
@@ -170,10 +176,22 @@ controller.getArea = async (req, res) => {
 
 controller.createArea = async (req, res) => {
     let { id, name, parent_id } = req.body;
+    let formateName = name;
+    if(parent_id != null) {
+        let parent = await models.area.findOne({
+            where: {
+                id: parent_id
+            }
+        })
+        formateName = `${name}, ${parent.name}`;
+    } else {
+        formateName = `${name}`;
+    }
     models.area.create({
         id: id,
         name: name,
-        parent_id: parent_id
+        parent_id: parent_id,
+        formatedName: formateName
     }).then(data => {
         res.json({
             status: "success",

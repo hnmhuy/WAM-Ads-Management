@@ -333,6 +333,7 @@ function addNewArea(data) {
             if(extendBtn.classList.contains("collapse")) {
                 extendBtn.classList.remove("collapse");
             }
+            extendBtn.classList.remove("extend-btn-rotate");
             expendRow(extendBtn);
             parentRow.after(row);
         }

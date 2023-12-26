@@ -1,7 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const controller = require("../controllers/auth.controller");
-const passport = require("passport")
+const passport = require("passport");
+const multer = require('multer');
+const upload = multer({dest: 'uploads/'});
 
 router.get("/", controller.isLoggedIn, controller.showIndex);
 router.get("/profile", controller.isLoggedIn, controller.showProfile);
@@ -12,6 +14,7 @@ router.get("/logout", controller.logout);
 
 router.get("/login", controller.showLogin);
 router.post("/login", controller.login);
+router.post("/register", upload.none(), controller.register);
 
 router.get("/home", controller.isLoggedIn, controller.showHome);
 router.get("/location", controller.isLoggedIn, controller.showLocation);

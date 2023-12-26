@@ -19,27 +19,37 @@ module.exports = (sequelize, DataTypes) => {
   }
   account.init({
     id: {
-      type: DataTypes.STRING,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true
     },
     first_name: DataTypes.STRING,
     last_name: DataTypes.STRING,
-    email: DataTypes.STRING,
-    status: DataTypes.STRING,
+    email: {
+      type: DataTypes.STRING,
+      unique: true
+    },
+    status: {
+      type: DataTypes.STRING, // active and blocked
+      defaultValue: 'active'
+    },
     password: DataTypes.STRING,
+    phone: DataTypes.STRING,
+    dob: DataTypes.DATE,
+    areaLevel: DataTypes.INTEGER, // 0: Sở, 1: Quận, 2: Phường
   }, {
     sequelize,
     modelName: 'account',
   });
 
-  account.beforeCreate((instance, options) => { // Tạo ra ID có format
-    // Get the current maximum number in the database
-    return account.max('id', { raw: true })
-      .then((maxNumber) => {
-        const newNumber = maxNumber ? parseInt(maxNumber.substring(1)) + 1 : 1;
-        instance.id = `U${newNumber}`;
-      });
-  });
+  // account.beforeCreate((instance, options) => { // Tạo ra ID có format
+  //   // Get the current maximum number in the database
+  //   return account.max('id', { raw: true })
+  //     .then((maxNumber) => {
+  //       const newNumber = maxNumber ? parseInt(maxNumber.substring(1)) + 1 : 1;
+  //       instance.id = `U${newNumber}`;
+  //     });
+  // });
   return account;
 };
 

@@ -19,13 +19,17 @@ module.exports = (sequelize, DataTypes) => {
   }
   feedback.init({
     id: {
-      type: DataTypes.STRING,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true
     },
     name: DataTypes.STRING,
     email: DataTypes.STRING,
     phone: DataTypes.STRING,
-    status: DataTypes.STRING,
+    status: {
+      type: DataTypes.STRING,
+      defaultValue: "sent"
+    },
     content: DataTypes.STRING,
     image1: DataTypes.STRING,
     image2: DataTypes.STRING
@@ -34,13 +38,14 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'feedback',
   });
 
-  feedback.beforeCreate((instance, options) => { // Tạo ra ID có format
-    // Get the current maximum number in the database
-    return feedback.max('id', { raw: true })
-      .then((maxNumber) => {
-        const newNumber = maxNumber ? parseInt(maxNumber.substring(1)) + 1 : 1;
-        instance.id = `F${newNumber}`;
-      });
-  });
+  // feedback.beforeCreate((instance, options) => { // Tạo ra ID có format
+  //   // Get the current maximum number in the database
+  //   return feedback.max('id', { raw: true })
+  //     .then((maxNumber) => {
+  //       console.log(maxNumber);
+  //       const newNumber = maxNumber ? parseInt(maxNumber.substring(1)) + 1 : 1;
+  //       instance.id = `F${newNumber}`;
+  //     });
+  // });
   return feedback;
 };

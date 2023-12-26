@@ -20,7 +20,8 @@ module.exports = (sequelize, DataTypes) => {
 
   update_request.init({
     id: {
-      type: DataTypes.STRING,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true
     },
     resquest_data: DataTypes.STRING,

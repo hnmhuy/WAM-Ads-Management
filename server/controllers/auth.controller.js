@@ -283,4 +283,59 @@ controller.forgotPassword = async (req, res) =>{
 //   }
 // }
 
+async function preprocessData(formData) {
+  let {email, name, phone, dob, delegation, areaLevel} = formData;
+  var formattedDate = dob.replace(/-/g, '');
+  var sortedDate = formattedDate.slice(4, 8) + formattedDate.slice(0, 2) + formattedDate.slice(2, 4);
+  const hashedPassword = await bcrypt.hash(sortedDate, 10); 
+  const nameParts = name.split(' ');
+
+  // The first part is the last name
+  const lastName = nameParts.shift();
+
+  // The remaining parts are the first name
+  const firstName = nameParts.join(' ');
+
+  areaLevel = parseInt(areaLevel);
+  if(delegation === '') {
+    delegation = null;
+  }
+
+  return {
+    email: email,
+    firstName: firstName,
+    lastName: lastName,
+    password: hashedPassword,
+    phone: phone,
+    areaLevel: areaLevel,
+    delegation: delegation,
+    dob: dob
+  }
+}
+
+controller.register = async (req, res) => {
+  
+  const userData = await preprocessData(req.body);
+  await User.create({
+    email: userData.email,
+    first_name: userData.firstName,
+    last_name: userData.lastName,
+    password: userData.password,
+    phone: userData.phone,
+    areaLevel: userData.areaLevel,
+    delegation: userData.delegation,
+    dob: userData.dob
+  }).then(user => {
+    res.json({
+      message: "success",
+      data: user
+    })
+  }).catch(err => {
+    res.json({
+      message: "error",
+      data: err
+    })
+  })
+}
+
 module.exports = controller;

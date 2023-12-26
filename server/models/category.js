@@ -19,7 +19,8 @@ module.exports = (sequelize, DataTypes) => {
   }
   category.init({
     id: {
-      type: DataTypes.STRING,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true
     },
     name: DataTypes.STRING,
@@ -27,14 +28,6 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'category',
-  });
-  category.beforeCreate((instance, options) => { // Tạo ra ID có format
-    // Get the current maximum number in the database
-    return category.max('id', { raw: true })
-      .then((maxNumber) => {
-        const newNumber = maxNumber ? parseInt(maxNumber.substring(1)) + 1 : 1;
-        instance.id = `C${newNumber}`;
-      });
   });
   return category;
 };

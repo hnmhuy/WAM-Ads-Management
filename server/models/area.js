@@ -21,7 +21,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       primaryKey: true
     },
-    name: DataTypes.STRING
+    name: DataTypes.STRING,
+    formatedName: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'area',
