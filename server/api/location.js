@@ -20,7 +20,7 @@ controller.createTypeAndPurpose = async (req, res) => {
         },
         {
             name: "Chợ",
-            description: "Cây xăng",
+            description: "Chợ",
         },
         {
             name: "Nhà chờ xe buýt",
@@ -95,6 +95,7 @@ controller.getLocations = async (req, res) => {
     })
 
     // Process data
+
 }
 
 module.exports = controller;
