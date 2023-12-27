@@ -314,7 +314,6 @@ async function preprocessData(formData) {
 }
 
 controller.register = async (req, res) => {
-  
   const userData = await preprocessData(req.body);
   await User.create({
     email: userData.email,
@@ -326,14 +325,35 @@ controller.register = async (req, res) => {
     delegation: userData.delegation,
     dob: userData.dob
   }).then(user => {
-    res.json({
-      message: "success",
-      data: user
-    })
+    let resData = user.dataValues;
+    resData.area = null;
+    // Find the area instance
+    if(resData.delegation) {
+      models.area.findOne({
+        attributes: ['id', 'name', 'parent_id', 'formatedName'],
+        where: {id: resData.delegation}
+      }).then(data => {
+        resData.area = data;
+        res.json({
+          message: "success",
+          data: user
+        })
+      }).catch(err => {
+        res.json({
+          message: "error",
+          data: err.errors
+        })
+      })
+    } else {
+      res.json({
+        message: "success",
+        data: user
+      })
+    }
   }).catch(err => {
     res.json({
       message: "error",
-      data: err
+      data: err.errors
     })
   })
 }

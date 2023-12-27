@@ -318,6 +318,18 @@
   border: none;
 }
 
+.button-confirm div {
+  display: none;
+}
+
+.button-confirm.loading div {
+  display: block;
+}
+
+.button-confirm.loading p {
+  display: none;
+}
+
 .button-confirm p {
   margin: 0;
   font-weight: bold;
@@ -333,6 +345,12 @@
   transition: all 0.3s ease;
 }
 
+.confirm-container .button-confirm span {
+  color: white;
+  width: 18px;
+  height: 18px;
+}
+
 .confirm-container .button-confirm:hover {
   background-color: green;
 }
@@ -340,6 +358,20 @@
 .confirm-container .button-confirm:hover p {
   color: white;
 }
+
+.confirm-container button[disabled] {
+  background-color: rgba(0, 255, 0, 0.2);
+  cursor: not-allowed;
+}
+
+.confirm-container button[disabled]:hover {
+  background-color: rgba(0, 255, 0, 0.2);
+}
+
+.confirm-container button[disabled]:hover p {
+  color: #1010104D;
+}
+
 
 .cancel:hover {
   text-decoration: underline;
@@ -637,6 +669,10 @@ h6 {
 .save-cancel-button p,
 .label-header-button p {
   font-weight: bold;
+}
+
+.save-cancel-button button[disabled] i {
+  color: rgba(0, 0, 0, 0.2);
 }
 
 .save-cancel-button button {
