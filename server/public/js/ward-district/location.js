@@ -93,26 +93,3 @@ function searchTable(event) {
         i % 2 == 0 ? "transparent" : "rgba(79, 62, 215, 0.1)";
     });
 }
-
-function toggleSibling(sibling) {
-
-  sibling = sibling.parentNode;
-  sibling = sibling.nextSibling;
-  while (!/tr/i.test(sibling.nodeName)) {
-    sibling = sibling.nextSibling;
-  }
-
-  if (sibling.style.display == "table-row") {
-    sibling.style.display = "none";
-
-  }
-  else {
-    sibling.style.display = "table-row";
-    document.querySelectorAll('.extra').forEach((open) => {
-      if (open.style.display !== 'none' && open !== sibling) {
-        open.style.display = 'none';
-      }
-    });
-  }
-
-}

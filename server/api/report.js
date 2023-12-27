@@ -52,7 +52,7 @@ controller.getReports = (req, res) => {
             //     tmp.solution = item.feedback_response.content || "";
             //     tmp.time = item.feedback_response.updatedAt || "";
             // }
-            tmp.name = item.name || "";
+            // tmp.name = item.name == null ? "" : item.name;
             tmp.phone = item.phone || "";
             tmp.email = item.email || "";
             // tmp.address = splitAddressFormatted(item.place.address_formated);
@@ -90,4 +90,84 @@ controller.getReports = (req, res) => {
     })
 }
 
+// controller.updateSolution = (req, res) => {
+//     let { solution, feedback_id, officer } = req.body;
+//     let res_id = ""
+//     model.feedback_response.create({
+//         content: solution,
+//         officier: officer
+//     }).then((data) => {
+//         res_id = data
+//         res.json({
+//             message: "Create response_feedback",
+//             data: data
+//         })
+//     }).catch((err) => {
+//         res.status(500).json({
+//             message: err.message,
+//         });
+//         console.log(err);
+//     })
+
+//     model.feedback.update({
+//         response_id: res_id
+//     }, {
+//         where: {
+//             id: feedback_id
+//         }
+//     }).then((data) => {
+//         res.json({
+//             message: "Update feedback!",
+//             data: data
+//         })
+//     }).catch((err) => {
+//         res.status(500).json({
+//             message: err.message,
+//         });
+//         console.log(err);
+//     })
+
+// }
+
+controller.createResponse = (req, res) => {
+    console.log(req.body)
+    let { content, officer } = req.body;
+    models.feedback_response.create({
+        content: content,
+        officer: officer
+    }).then((data) => {
+        res.json({
+            message: "Create category successfully",
+            data: data
+        })
+    }).catch((err) => {
+        res.status(500).json({
+            message: err.message,
+        });
+        console.log(err);
+    })
+}
+
+controller.updateFeedback = (req, res) => {
+    const { fb_id, fbRes_id } = req.body;
+    console.log(fb_id)
+    console.log(fbRes_id)
+    models.feedback.update({
+        response_id: fbRes_id,
+    }, {
+        where: {
+            id: fb_id
+        }
+    }).then((data) => {
+        res.json({
+            message: "Update successfully",
+            data: data
+        })
+    }).catch((err) => {
+        res.status(500).json({
+            message: err.message,
+        });
+        console.log(err);
+    })
+}
 module.exports = controller;

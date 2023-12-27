@@ -43,19 +43,19 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session())
 passport.use(new googleStrategy({
-    clientID: '465034546763-b9e5sei88fv81k72go64kkq14ks3e7rb.apps.googleusercontent.com',
-    clientSecret: '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',
-    callbackURL: '/auth/google/callback'
+  clientID: '465034546763-b9e5sei88fv81k72go64kkq14ks3e7rb.apps.googleusercontent.com',
+  clientSecret: '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',
+  callbackURL: '/auth/google/callback'
 }, (accessToken, refreshToken, profile, done) => {
-    done(null, profile)
+  done(null, profile)
 }))
 
 passport.serializeUser((user, done) => {
-    done(null, user)
+  done(null, user)
 })
 
 passport.deserializeUser((obj, done) => {
-    done(null, obj)
+  done(null, obj)
 })
 
 app.use(express.json());
@@ -146,6 +146,22 @@ app.get("/area", (req, res) => {
 
 app.use("/api", require("./routes/api/api.route"));
 
+// Tmp data for test
+const models = require('./models');
+app.use("/createTemp", (req, res) => {
+  models.feedback.create({
+    name: "Nguyễn Khang Hy",
+    email: "khanghy@gmail.com",
+    phone: "0987654321",
+    status: 'sent',
+    content: 'Điểm quảng cáo nhìn quá đẹp, mãi mê!',
+    image1: "/public/images/location1.png",
+    image2: "/public/images/location3.png",
+    type: "09283565-b8ea-48e5-a722-ec26b3861e1d",
+    place_id: "abd930ba-d46b-47ac-a55c-3204bce1cf2d"
+  });
+  res.send("Success")
+})
 app.listen(port, (req, res) => {
   console.log(`Server is running on ${port}`);
 });
