@@ -147,9 +147,7 @@ function onClickDropdown(e, id) {
 
   if (districtValue.textContent !== "Chọn Quận") {
     e.style.borderColor = "#4f3ed7";
-    console.log(districtValue.getAttribute("data-id"));
     let idDistrict = districtValue.getAttribute("data-id");
-    console.log(idDistrict);
     fetchAndAppendOptionDropdown(`/api/area/getArea?opts=db&level=2&idDistrict=${idDistrict}`, ward.querySelector(".dropdown"));
   }
 
@@ -233,43 +231,80 @@ function closeAllStatusDropdown() {
   });
 }
 
-function onClickStatusDropdown(e) {
-  const arrow = e.children[1];
-  const optionList = e.querySelectorAll("li");
-  const statusValue = e.children[0];
-  const selectedDisplay = e.querySelector(".selected-display");
+function selectStatus(container, selectedDisplay, value) {
+  if (value === "ON") {
+    container.classList.remove("block");
+    container.classList.add("on");
+  } else if (value === "BLOCK") {
+    container.classList.add("block");
+    container.classList.remove("on");
+  }
 
-  if (e.classList.contains("active")) {
-    handleDropdown(e, arrow, false);
-  } else {
-    let currentActive = document.querySelector(
-      ".status-wrapper-dropdown.active"
-    );
-    if (currentActive) {
-      let anotherArrow = currentActive.children[1];
-      handleDropdown(currentActive, anotherArrow, false);
+  selectedDisplay.innerHTML = container.querySelector(`.status-item[value='${value}'`).innerHTML;
+  selectedDisplay.setAttribute("value", value);
+}
+
+async function upadteStatusAccount(element, newStatus, originalStatus, uid) {
+  const container = element.parentNode.parentNode;
+  const selectedDisplay = container.querySelector(".selected-display");
+  const url = "/api/delegate/updateOfficer";
+  let dbStatus;
+  if (newStatus === 'ON') {
+    dbStatus = 'active';
+  } else if (newStatus === 'BLOCK') {
+    dbStatus = 'blocked';
+  }
+  const formData = new FormData();
+  formData.set("opt", "status");
+  formData.set("uid", uid);
+  formData.set("status", dbStatus);
+
+  selectStatus(container, selectedDisplay, newStatus)
+
+  fetch(url, {
+    method: "POST",
+    body: formData,
+  }).then(res => {
+    if(res.status === 200) {
+      return res.json();
     }
-    handleDropdown(e, arrow, true);
-  }
-  for (let o of optionList) {
-    o.addEventListener("click", () => {
-      let selectedValue = o.getAttribute("value");  
+    selectStatus(container, selectedDisplay, originalStatus);
+    displayNotification("Đã có lỗi xảy ra, vui lòng thử lại sau", "error");
+    throw new Error(res.statusText);
+  }).then(data => {
+    if(data.message === 'success') {
+      displayNotification("Cập nhật thành công", "success");
+    } else if (data.message === 'error') {
+      selectStatus(container, selectedDisplay, originalStatus);
+      console.log(data);
+      displayNotification("Đã có lỗi xảy ra, vui lòng thử lại sau", "error");
+    }
+  }).catch(err => {
+    selectStatus(container, selectedDisplay, originalStatus);
+    displayNotification(err, "error");
+    console.log(err);
+  })
 
-      if (selectedValue === "ON") {
-        e.classList.remove("block");
-        e.classList.add("on");
-      } else if (selectedValue === "BLOCK") {
-        e.classList.add("block");
-        e.classList.remove("on");
-      }
-      selectedDisplay.innerHTML = o.innerHTML;
-      statusValue.setAttribute("value", `${o.getAttribute("value")}`);
-    });
+  closeStatusDropdown(container);
+}
+
+function closeStatusDropdown(container) {
+  container.classList.remove("active");
+  container.querySelector(".status-icon").classList.remove("rotate");
+}
+
+function onclickStatusDropdown(e) {
+  const container = e.parentNode;
+  const arrow = container.querySelector(".status-icon");
+  const currentActive = document.querySelector(".status-wrapper-dropdown.active");
+  if(currentActive && currentActive !== container) {
+    closeStatusDropdown(currentActive);
   }
+  container.classList.toggle("active");
+  arrow.classList.toggle("rotate");
 }
 
 // Dropdown UI controller
-
 function removeDiacritics(str) {
   return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
@@ -302,24 +337,12 @@ function closeAllLocationDropdown() {
   });
 }
 
-// function toggleDropdown(e) {
-//   const container = e.parentNode;
-//   if (container.classList.contains("active")) {
-//     container.classList.remove("active");
-//     e.nextElementSibling.classList.remove("rotate");
-//   } else {
-//     closeAllLocationDropdown();
-//     container.classList.add("active");
-//     e.nextElementSibling.classList.add("rotate");
-//   }
-//   console.log(2);
-// }
-
 function optionClick(e) {
   const container = e.parentNode.parentNode;
   const selectedField = container.querySelector(".area-selected-display");
   selectedField.textContent = e.textContent;
   selectedField.setAttribute("data-value", e.getAttribute("data-value"));
+  selectedField.setAttribute("data-currName", e.textContent);
   container.classList.remove("active");
   container.children[1].classList.remove("rotate");
 }
@@ -337,7 +360,7 @@ function generateAreaOption(data) {
 
 async function generateDropdownArea(dropdownElement) {
   console.log(dropdownElement);
-  const optionList = dropdownElement.querySelector(".area-dropdown .dropdown-with-search");
+  const optionList = dropdownElement.querySelector(".area-dropdown");
   // Default option is loading holder
   optionList.innerHTML = `
     <li class="area-dropdown-search">
@@ -347,15 +370,28 @@ async function generateDropdownArea(dropdownElement) {
       placeholder="Tìm kiếm...."
       oninput="filterDropdown(this)"
     /></li>
+    <li class="item">
+      <div class="spinner-border" role="status" style="display: flex; justify-content: center">
+        <span class="sr-only"></span>
+      </div>
+    </li>
   `
 
   await fetch("api/area/getArea?opts=hierarchy&includeOfficer=false")
-    .then(res => res.json())
-    .then(data => {
-      optionList.innerHTML = ``;
+  .then(res => res.json())
+  .then(data => {
+      optionList.innerHTML = `
+        <li class="area-dropdown-search">
+        <input
+          type="text"
+          class=""
+          placeholder="Tìm kiếm...."
+          oninput="filterDropdown(this)"
+        /></li>
+      `
       data.forEach(item => {
         optionList.appendChild(generateAreaOption(item.district));
-        data.commune.forEach(commune => {
+        item.commune.forEach(commune => {
         optionList.appendChild(generateAreaOption(commune));
       })
     })
@@ -379,18 +415,21 @@ async function onClickPen(e) {
   statusDropdown.classList.add("disabled-dropdown");
   editLocation.classList.add("collapse");
   dropdownIconContainer.classList.remove("collapse");
-  console.log(dropdownIconContainer.querySelector(".area-wrapper-dropdown"));
   await generateDropdownArea(dropdownIconContainer.querySelector(".area-wrapper-dropdown"));  
 }
 
 function addAccount(event) {
   const form = document.getElementById("register-account");
+  const confirmBtn = form.querySelector(".button-confirm");
   if(form.checkValidity() === false) {
     return;
   }
+  confirmBtn.disabled = true;
+  confirmBtn.classList.add("loading");
   event.preventDefault();
   const formData = new FormData(form);
   const areaLevel = formData.get("areaLevel");
+
   if(areaLevel != null) {
     if(areaLevel == 1) {
       const delegation = form.querySelector("#district-select").getAttribute("data-id");
@@ -409,12 +448,29 @@ function addAccount(event) {
   fetch(url, {
     method: "POST",
     body: formData,
-  }).then(res => console.log(res));
-
+  }).then(res => {
+    if(res.status === 200) {
+      return res.json();
+    }
+    displayNotification("Đã có lỗi xảy ra, vui lòng thử lại sau", "error");
+  }).then(data => {
+    if(data.message === "success") {
+      closeAccountForm();
+      addNewRow(data.data);
+      displayNotification("Thêm tài khoản thành công", "success");
+    } else {
+      displayNotification(data.data[0].message, "error");
+    }
+    confirmBtn.disabled = false;
+    confirmBtn.classList.remove("loading");
+  }).catch(err => {
+    displayNotification("Đã có lỗi xảy ra, vui lòng thử lại sau", "error");
+    confirmBtn.disabled = false;
+    confirmBtn.classList.remove("loading");
+  })
 }
 
 function generateAccountRow(data) {
-  console.log(data);
   const row = document.createElement("tr");
   row.setAttribute("onmouseover", "hoverRow(this)");  
   row.setAttribute("onmouseout", "outRow(this)");
@@ -423,7 +479,7 @@ function generateAccountRow(data) {
   <td>
     <div class="name">
       <i class="bi bi-person-circle"></i>
-      <p>${data.first_name} ${data.last_name}</p>
+      <p>${data.last_name} ${data.first_name}</p>
     </div>
   </td>
   <td>${data.email}</td>
@@ -436,9 +492,12 @@ function generateAccountRow(data) {
         <span
           class="area-selected-display"
           id="district-selection"
-          data-value="${data.area.id}"
+          data-value="${data.area ? data.area.id : ""}"
+          data-id = "${data.area ? data.area.id : ""}"
+          data-name = "${data.area ? data.area.formatedName: ""}"
+          data-currName = "${data.area ? data.area.formatedName : ""}"
           onclick="toggleDropdownForRow(this)"
-        >${data.area.formatedName}</span>
+        >${data.area ? data.area.formatedName : "Chọn khu vực quản lý"}</span>
         <i class="bi bi-chevron-down"></i>
         <ul class="area-dropdown dropdown-with-search">
           <li class="area-dropdown-search"><input
@@ -470,7 +529,7 @@ function generateAccountRow(data) {
         </div>
       </div>
     </div>
-    <div class="edit-location"><p class="area-content">${data.area.formatedName}</p>
+    <div class="edit-location"><p class="area-content">${data.area ? data.area.formatedName : "Chưa phân công khu vực"}</p>
       <i
         class="bi bi-pencil-fill"
         onclick="onClickPen(this)"
@@ -480,16 +539,17 @@ function generateAccountRow(data) {
   <td>
     <div
       class="wrapper-dropdown status-wrapper-dropdown ${data.status === 'active' ? "on" : data.status === 'blocked' ? "block" : ""}"
-      onclick="onClickStatusDropdown(this)"
     >
-      <span class="selected-display ${data.status === 'active' ? "on" : data.status === 'blocked' ? "block" : ""}" id="status" value="${data.status === 'active' ? "ON" : data.status === 'blocked' ? "BLOCK" : ""}">\
+      <span class="selected-display ${data.status === 'active' ? "on" : data.status === 'blocked' ? "block" : ""}" id="status" value="${data.status === 'active' ? "ON" : data.status === 'blocked' ? "BLOCK" : ""}" 
+        onclick="onclickStatusDropdown(this)"
+      >
       ${data.status === 'active' ? "Đang hoạt động" : data.status === 'blocked' ? "Đã khóa" : ""}
       </span>
-      <i class="bi bi-chevron-down status-icon"></i>
+      <i class="bi bi-chevron-down status-icon" onclick="onclickStatusDropdown(this)"></i>
       <ul class="status-dropdown">
-        <li class="status-item" value="ON"><p class="on status">Đang hoạt
+        <li class="status-item" value="ON" onclick="upadteStatusAccount(this, 'ON', 'BLOCK', '${data.id}')"><p class="on status">Đang hoạt
             động</p></li>
-        <li class="status-item" value="BLOCK"><p class="block status">Đã
+        <li class="status-item" value="BLOCK" onclick="upadteStatusAccount(this, 'BLOCK', 'ON', '${data.id}')"><p class="block status">Đã
             khóa</p></li>
       </ul>
 
@@ -504,7 +564,7 @@ function addNewRow(data) {
     noDataRow.classList.add("collapse");
   }
   const tableBody = document.querySelector(".deligate-table tbody");
-  tableBody.appendChild(generateAccountRow(data));
+  tableBody.insertBefore(generateAccountRow(data), tableBody.children[1]);
 }
 
 fetch("/api/delegate/getOfficer").then(res => res.json()).then(data => {
@@ -518,3 +578,80 @@ fetch("/api/delegate/getOfficer").then(res => res.json()).then(data => {
     })
   }
 })
+
+function editButtonControl(element, isDisabled) {
+  const container = element.parentNode.parentNode;
+  container.querySelectorAll("button").forEach(item => {
+    item.disabled = isDisabled;
+  })
+}
+
+async function updateOfficer(uid, areaId) {
+  const url = "/api/delegate/updateOfficer";
+  const formData = new FormData();
+  formData.set("opt", "area");  
+  formData.set("uid", uid);
+  formData.set("areaId", areaId);
+
+  fetch(url, {
+    method: "POST",
+    body: formData
+  }).then(res => {
+    if(res.status === 200) {
+      return res.json();
+    } else {
+      displayNotification("Đã có lỗi xảy ra, vui lòng thử lại sau", "error");
+      throw new Error(res.statusText);
+    }
+  }).then(data => {
+    if(data.status === "success") {
+      displayNotification("Cập nhật thành công", "success");
+      finishEdit(document.querySelector(`tr[data-id="${uid}"]`), true);
+    } else if (data.status === "error") {
+      finishEdit(document.querySelector(`tr[data-id="${uid}"]`), false);
+      displayNotification("Đã có lỗi xảy ra, vui lòng thử lại sau", "error");
+    }
+  });
+}
+
+function finishEdit(row, isSucess) {
+  updateAreaDisplay(row, isSucess)
+  row.classList.remove("absolute");
+  row.querySelector(".dropdown-icon").classList.add("collapse");
+  row.style.border = "none";
+  document.querySelector(".table-overlay").classList.add("collapse");
+  row.querySelector(".status-wrapper-dropdown").classList.remove("disabled-dropdown");
+  row.querySelector(".edit-location").classList.remove("collapse");
+}
+
+function updateAreaDisplay(row, isSucess) {
+  const selectedField = row.querySelector(".area-selected-display");
+  if(isSucess) {
+    // Update the data-id and data-name
+    selectedField.setAttribute("data-id", selectedField.getAttribute("data-value"));
+    selectedField.setAttribute('data-name', selectedField.getAttribute("data-currName"));
+    row.querySelector(".edit-location .area-content").textContent = selectedField.getAttribute("data-currName");
+  } else {
+    // Restore the data-value and data-currName
+    selectedField.setAttribute("data-value", selectedField.getAttribute("data-id"));
+    selectedField.setAttribute('data-currName', selectedField.getAttribute("data-name"));
+    selectedField.textContent = selectedField.getAttribute("data-name");
+  }
+}
+
+async function saveEdition(element) {
+  editButtonControl(element, true);
+  const row = element.parentNode.parentNode.parentNode.parentNode.parentNode;
+  const uid = row.getAttribute('data-id');
+  const dropdown = row.querySelector(".area-wrapper-dropdown");
+  const areaId = dropdown.querySelector(".area-selected-display").getAttribute("data-value");
+  await updateOfficer(uid, areaId);
+  editButtonControl(element, false);
+}
+
+function cancelEdition(element) {
+  console.log('cancel');
+  editButtonControl(element, true);
+  finishEdit(element.parentNode.parentNode.parentNode.parentNode.parentNode, false);
+  editButtonControl(element, false);
+}
