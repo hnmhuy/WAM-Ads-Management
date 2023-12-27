@@ -37,6 +37,7 @@ module.exports = (sequelize, DataTypes) => {
     phone: DataTypes.STRING,
     dob: DataTypes.DATE,
     areaLevel: DataTypes.INTEGER, // 0: Sở, 1: Quận, 2: Phường
+    bindAccount: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'account',

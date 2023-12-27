@@ -332,3 +332,199 @@ tbody tr.hide td p {
 .offcanvas.offcanvas-end {
   width: 60% !important;
 }
+
+.ads-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.ads-info .form-field-col {
+  width: calc((100% - 20px) / 2);
+}
+
+.form-field-col {
+  text-align: left;
+}
+.ads-amount {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.ads-amount p {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.ads-amount label {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.ads-amount input {
+  border-radius: 10px;
+  padding-left: 12px;
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  outline: none;
+  background-color: transparent;
+  text-align: center;
+}
+
+.ads-type {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.ads-type label {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.ads-type select {
+  border-radius: 10px;
+  padding: 10px 15px;
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  outline: none;
+  background-color: transparent;
+}
+
+/*Image upload*/
+
+.upload-field {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  position: relative;
+}
+
+.drag-drop {
+  width: 90%;
+  height: 90%;
+  padding: 20px;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.holder {
+  text-align: center;
+}
+
+.holder i {
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+  color: #ccc;
+}
+
+.holder h4 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px !important;
+}
+
+.holder p {
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 10px !important;
+}
+
+.holder p:last-child {
+  margin-top: 10px;
+}
+
+.preview {
+  max-width: 80% !important;
+  height: 80% !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  overflow: auto;
+  gap: 20px;
+  position: relative;
+  z-index: 2;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  padding: 0 10px;
+  transform: translate(-50%, -50%);
+}
+
+.fileHolder {
+  width: auto;
+  height: 80%;
+  border-radius: 4px;
+  position: relative;
+}
+
+.fileHolder img {
+  width: auto;
+  max-width: 90%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.fileHolder button {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+  width: 22px;
+  height: 22px;
+  top: 0;
+  right: 0;
+  padding: 0px;
+  border-radius: 50%;
+}
+
+.fileHolder i::before {
+  color: #fff;
+}
+
+.drag-drop-dragging {
+  border: 2px dashed #4f3ed7;
+  width: 95%;
+  height: 95%;
+}
+
+.fileHolder button:hover {
+  background-color: rgba(255, 0, 0, 0.5);
+}
+
+.preview > span {
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 10px;
+  display: block;
+  position: absolute;
+  bottom: 5px;
+  right: 50%;
+  transform: translateX(50%);
+}

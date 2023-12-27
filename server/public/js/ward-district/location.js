@@ -93,3 +93,55 @@ function searchTable(event) {
         i % 2 == 0 ? "transparent" : "rgba(79, 62, 215, 0.1)";
     });
 }
+
+function createUpdateLocation(request_data, officer, ad_place_id) {
+  console.log(request_data)
+  console.log(officer)
+  console.log(ad_place_id)
+
+  var checkbox_capacity = document.getElementById('update-capacity');
+  var capacity_update_val = document.getElementById('capacity-update-val')
+  capacity_update_val.placeholder = request_data.capacity
+
+  checkbox_capacity.addEventListener('change', () => {
+    capacity_update_val.disabled = !checkbox_capacity.checked
+  })
+}
+function getSpecificLocation(button) {
+  let buttonId = button.id;
+  let officer = 'bfd79bdc-a150-40f3-b429-468600bf4efc'
+  fetch(`/api/location/getLocationById?ad_place_id=${buttonId}`)
+    .then(res => res.json())
+    .then(data => {
+      console.log(data)
+      const address = document.getElementById('address_formated')
+      address.textContent = data.data[0].place.address_formated
+
+      const capacity = document.getElementById('capacity')
+      capacity.textContent = `${data.data[0].capacity} bảng/điểm`
+
+      const type_id = document.getElementById('type_id')
+      type_id.textContent = data.data[0].TypeAds.name
+
+      const purpose = document.getElementById('purpose_id')
+      purpose.textContent = data.data[0].PurposeAds.name
+
+      const status = document.getElementById('status')
+      status.textContent = data.data[0].status == 1 ? "Đã quy hoạch" : "Chưa quy hoạch"
+
+      const show_popup = document.getElementById('showPopUp');
+
+      let resquest_data = {
+        capacity: data.data[0].capacity,
+        status: data.data[0].status,
+        type_ad_id: data.data[0].TypeAds.id,
+        purpose_id: data.data[0].PurposeAds.id,
+      }
+
+      show_popup.addEventListener('click', () => {
+        showPopup()
+        createUpdateLocation(resquest_data, officer, data.data[0].id)
+      })
+    })
+
+}

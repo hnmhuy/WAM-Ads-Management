@@ -45,7 +45,7 @@ controller.show = async (req, res) => {
             tmp.capacity = item.capacity;
             tmp.type_ad = item.TypeAds.name;
             tmp.purpose_ad = item.PurposeAds.name;
-            if (item.status === 1) {
+            if (item.status == 1) {
                 tmp.status = {
                     "status_id": "delivered",
                     "status_name": "Đã quy hoạch"
