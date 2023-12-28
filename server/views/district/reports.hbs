@@ -36,21 +36,21 @@
       </thead>
       <!-- Body -->
       <tbody>
-        {{#each data_row}}
-        <tr class="{{category}}">
-          <td>{{district}}</td>
+        {{#each data_rows}}
+        <tr class="{{category}}" id="{{id}}">
+          <td>{{address.district}}</td>
           <td>{{address.ward}}</td>
           <td>{{address.street}}</td>
           <td>{{id}}</td>
-          <td>{{type.type_name}}</td>
+          <td>{{type}}</td>
           <td onclick="toggleSibling(this)">
             <div class="last-cell">
-              <p class="status">{{status.status_name}}</p>
+              <p class="status {{status.status_id}}">{{status.status_name}}</p>
               <i class="bi bi-chevron-down" style="color: black"></i>
             </div>
           </td>
         </tr>
-        <tr class="extra">
+        <tr class="extra" id="{{id}}">
           <td colspan="6" class="expand_row">
             <div class="header">
               <h3>Chi tiết phản ánh</h3>
@@ -96,14 +96,7 @@
               </div>
 
               <div class="feedback-content">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Exercitationem suscipit corporis debitis eaque rem, repellendus
-                deleniti saepe, alias porro neque non harum ut accusantium!
-                Molestiae maxime ullam, pariatur tenetur quis beatae dolorem
-                doloribus cupiditate eum alias culpa maiores commodi tempore facere
-                eius velit labore aut. Quasi, maxime tempore? Nam facere molestiae
-                perspiciatis velit totam omnis ratione non repellat quibusdam
-                dolorem.
+                {{content}}
               </div>
 
               <div class="info img">
@@ -116,10 +109,9 @@
               </div>
 
               <div class="feedback-img">
-                <img src="https://i.pinimg.com/736x/76/0e/44/760e443f48e717902335cb1744dfd408.jpg" alt="Not Found!" />
-                <img
-                  src="https://phinf.wevpstatic.net/MjAyMzExMjBfMTA0/MDAxNzAwNDY4NjYzOTEw.KHCc59RdWa4v0FOcQvHOLMMTrVql7nQ6QWy-IIsPuI8g.jNXEdBpAU3_ic2ROJTA__l-CYcCasi2-Uz5FE3S_1H4g.PNG/358533087601650753fc1239b-0c62-45b7-a2dc-95a6ceecff4c.png?type=f960_540"
-                  alt="Not found!" />
+                {{#each image_path}}
+                <img src="{{this}}" alt="Not Found!" />
+                {{/each}}
               </div>
 
             </div>
@@ -151,7 +143,7 @@
 
                 <div class="feedback-content">{{{solution}}}</div>
                 {{else}}
-                <textarea class="report_solotion_area" placeholder="Hướng giải quyêt"></textarea>
+                <textarea class="report_solotion_area" id="{{id}}" placeholder="Hướng giải quyêt"></textarea>
 
                 {{/ifEquals}}
 
@@ -160,8 +152,8 @@
               <div class="button-report-field">
                 {{#ifEquals status.status_id "solved"}}
                 {{else}}
-                <button class="button-report send-report" role="button">Gửi</button>
-                <button class="button-report cancel-report" role="button">Hủy</button>
+                <button class="button-report send-report" id="{{id}}" role="button"
+                  onclick="updateSolution(this)">Gửi</button>
                 {{/ifEquals}}
               </div>
 

@@ -210,7 +210,13 @@ function createArea(e) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
-    }).then(res => res.json())
+    }).then(res => {
+        if(res.status === 200) return res.json()
+        else {
+            displayNotification("Có lỗi xảy ra", 'error');
+            throw new Error(res.message);
+        }
+    })
     .then(res => {
         if(res.status === 'success') {
             let data = res.data;
@@ -222,48 +228,12 @@ function createArea(e) {
                 newRow.classList.remove("new-row");
             }, 3000);
             cancelAddArea();
-            Toastify({
-                text: "Thêm khu vực thành công",
-                duration: 3000,
-                close: false,
-                gravity: "bottom", // `top` or `bottom`
-                position: "right", // `left`, `center` or `right`
-                stopOnFocus: true, // Prevents dismissing of toast on hover
-                style: {
-                    background: "#C1F2B0",
-                    color: "#000"
-                },
-                onClick: function(){} // Callback after click
-            }).showToast();
+            displayNotification("Thêm khu vực thành công", 'success');
         } else if (res.status === 'error') {
-            Toastify({
-                text: res.message,
-                duration: 3000,
-                close: false,
-                gravity: "bottom", // `top` or `bottom`
-                position: "right", // `left`, `center` or `right`
-                stopOnFocus: true, // Prevents dismissing of toast on hover
-                style: {
-                    background: "#FF6969",
-                    
-                },
-                onClick: function(){} // Callback after click
-            }).showToast();
+            displayNotification(res.message, 'error');
         }
     }).catch(err => {
-        Toastify({
-            text: err.message,
-            duration: 3000,
-            close: false,
-            gravity: "bottom", // `top` or `bottom`
-            position: "right", // `left`, `center` or `right`
-            stopOnFocus: true, // Prevents dismissing of toast on hover
-            style: {
-                background: "#FF6969",
-                color: "#000"
-            },
-            onClick: function(){} // Callback after click
-        }).showToast();
+        displayNotification(err.message, 'error');
     })
 } 
 

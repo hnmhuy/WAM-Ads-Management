@@ -1,5 +1,20 @@
 // Filter function component
-
+function displayNotification(message, type) {
+    const color = type === 'success' ? "#C1F2B0" : "#FF6969";
+    Toastify({
+        text: message,
+        duration: 3000,
+        close: false,
+        gravity: "bottom", // `top` or `bottom`
+        position: "right", // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+            background: color,
+            color: "#000"
+        },
+        onClick: function(){} // Callback after click
+    }).showToast();
+}
 
 function removeDiacritics(str) {
     return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');

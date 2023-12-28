@@ -12,9 +12,6 @@ async function getAllOfficers() {
             where:{
                 areaLevel: {[models.Sequelize.Op.not]: 0}
             },
-            order: [
-                ['createdAt', 'DESC']
-            ],
             include: [
                 {
                     model: models.area,
@@ -71,9 +68,6 @@ async function getOfficersByArea(areaId, includeChild = false) {
                 areaLevel: {[models.Sequelize.Op.not]: 0},
                 delegation: areaId
             },
-            order: [
-                ['createdAt', 'DESC']
-            ],
             include: [
                 {
                     model: models.area,
@@ -102,6 +96,77 @@ controller.getOfficer = async (req, res) => {
         res.json(await getOfficersByArea(areaId, includeChild));
     } else {
         res.json(await getAllOfficers());
+    }
+}
+
+async function updateAccountDelegation(uid, areaId, res) {
+    await models.area.findOne({
+        attributes: ['id', 'parent_id'],
+        where: {id: areaId}
+    }).then(data => {
+        if(data.length === 0) {
+            res.status(400).json({
+                status:"error",
+                message:"Area not found"
+            })
+        }
+        let areaLevel = data.parent_id === null ? 1 : 2;
+        models.account.update({
+            areaLevel: areaLevel,
+            delegation: areaId
+        }, {
+            where: {id: uid}
+        }).then(data => {
+            res.json({
+                status:"success",
+                message:"Update officer success"
+            })
+        }).catch(err => {
+            console.log(err);
+            res.status(500).json({
+                status:"error",
+                message:"Internal server error"
+            })
+        
+        })
+    }).catch(err => {
+        console.log(err);
+        res.status(500).json({
+            status:"error",
+            message:"Internal server error"
+        })
+    })
+} 
+
+async function updateAccountStatus(uid, status, res) {
+    await models.account.update(
+        {status: status},
+        {where: {id: uid}}
+    ).then(data => {
+        res.json({
+            message: "success",
+            data: data
+        })
+    }).catch(err => {
+        res.json({
+            message: "error",
+            data: err.errors
+        })
+    })
+}
+
+controller.updateOfficer = async (req, res) => {
+    console.log (req.body);
+    const {uid, opt, areaId, status} = req.body;
+    if(opt === 'area') {
+        await updateAccountDelegation(uid, areaId, res);
+    } else if (opt ==='status') {
+        await updateAccountStatus(uid, status, res);
+    } else {
+        res.status(400).json({
+            status:"error",
+            message:"Invalid option"
+        })
     }
 }
 

@@ -18,17 +18,6 @@
           <th>Số lượng</th>
           <th>Mục đích</th>
           <th>Trạng thái</th>
-          <div class="dropdown">
-            <a style="color: white !important" href="#"
-              class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
-              aria-expanded="false">Trạng thái</a>
-            <div style="padding: 10px" class="dropdown-menu">
-              <input type="checkbox" id="da-quy-hoach" name="da-quy-hoach" value="da-quy-hoach" />
-              <label for="da-quy-hoach">Đã quy hoạch</label><br />
-              <input type="checkbox" id="chua-quy-hoach" name="chua-quy-hoach" value="chua-quy-hoach" />
-              <label for="chua-quy-hoach">Chưa quy hoạch</label><br />
-            </div>
-          </div>
           <th></th>
         </tr>
       </thead>
@@ -37,22 +26,22 @@
         {{#each data_rows}}
         <tr class="tr_in_table_in_location">
           <td>
-            <p class="table-cell-type">{{district}}</p>
+            <p class="table-cell-type">{{address.district}}</p>
           </td>
           <td>
-            <p class="table-cell-type">{{ward}}</p>
+            <p class="table-cell-type">{{address.ward}}</p>
           </td>
           <td>
-            <p class="table-cell-type">{{address}}</p>
+            <p class="table-cell-type">{{address.street}}</p>
           </td>
           <td>
-            <p class="table-cell-type">{{type}}</p>
+            <p class="table-cell-type">{{type_ad}}</p>
           </td>
           <td>
-            <p class="table-cell-type text-align-center">{{number}}</p>
+            <p class="table-cell-type text-align-center">{{capacity}}</p>
           </td>
           <td>
-            <p class="table-cell-type">{{purpose}}</p>
+            <p class="table-cell-type">{{purpose_ad}}</p>
           </td>
           <td>
             <p style="margin: 0" class="status {{status.status_id}}">{{status.status_name}}</p>
@@ -60,7 +49,8 @@
           <td>
             <div class="last-cell">
               <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#location_extend"
-                aria-controls="offcanvasRight" style="margin-left: auto">
+                aria-controls="offcanvasRight" style="margin-left: auto" id="{{id}}"
+                onclick="getSpecificLocation(this)">
                 <i class="bi bi-arrow-up-right-square" style="color: black"></i>
               </button>
             </div>
@@ -89,15 +79,9 @@
               <button type="button" data-bs-target="#ad-detail-img" data-bs-slide-to="0" class="active"
                 aria-current="true" aria-label="Slide 1"></button>
               <button type="button" data-bs-target="#ad-detail-img" data-bs-slide-to="1" aria-label="Slide 2"></button>
-              <button type="button" data-bs-target="#ad-detail-img" data-bs-slide-to="2" aria-label="Slide 3"></button>
             </div>
             <div class="carousel-inner">
               <div class="carousel-item active">
-                <img
-                  src="https://images.unsplash.com/photo-1541535650810-10d26f5c2ab3?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  class="h-100 w-100" alt="">
-              </div>
-              <div class="carousel-item">
                 <img
                   src="https://images.unsplash.com/photo-1541535650810-10d26f5c2ab3?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                   class="h-100 w-100" alt="">
@@ -123,33 +107,114 @@
           <table style="padding: 0;" id="info-ad-location" class="table" id="inf-table">
             <tr>
               <th><i class="bi bi-geo-alt"> Địa chỉ</i></th>
-              <td>47, Đ. Điện Biên Phủ, P. Đa Kao, Quận 1</td>
+              <td id="address_formated">47, Đ. Điện Biên Phủ, P. Đa Kao, Quận 1</td>
             </tr>
             <tr>
               <th><i class="bi bi-hash"></i> Số lượng</th>
-              <td>2 bảng/điểm</td>
+              <td id="capacity">2 bảng/điểm</td>
             </tr>
             <tr>
               <th><i class="bi bi-tag"></i> Loại vị trí</th>
-              <td>Nhà riêng</td>
+              <td id="type_id">Nhà riêng</td>
             </tr>
             <tr>
               <th><i class="bi bi-activity"></i> Trạng thái</th>
-              <td>Chưa quy hoạch</td>
+              <td id="status">Chưa quy hoạch</td>
             </tr>
             <tr>
               <th><i class="bi bi-bullseye"></i> Mục đích</th>
-              <td>Thương mại</td>
-            </tr>
-            <tr>
-              <th><i class="bi bi-boxes"></i> Loại bảng</th>
-              <td>2 bảng/điểm</td>
+              <td id="purpose_id">Thương mại</td>
             </tr>
           </table>
         </div>
+
+        <div class="d-flex justify-content-end w-100 align-item">
+          <div class="btn btn-outline-secondary" id="showPopUp">
+            <i class="bi bi-pencil-square"></i> Yêu cầu chỉnh sửa
+          </div>
+          <div id="popup-parent">
+            <img id="form-img" src="/public/images/form.png" alt="" />
+            <div class="popup" id="location-popup">
+              <h2 style="margin-top: 60px">Yêu cầu chỉnh sửa</h2>
+              <button style="position: fixed; right: 10px; top: 10px" type="button" class="btn-close"
+                onclick="hidePopup()" id="close-edit-request"></button>
+              <hr />
+
+              <div class="ads-info">
+                <div class="form-field-col">
+                  <label for="location-type-selection">Loại ví trị</label>
+                  <select id="location-type-selection" required>
+                    <option selected value="">Chọn loại vị trí</option>
+                    <option value="1">Nhà riêng</option>
+                    <option value="2">Đất công</option>
+                  </select>
+                </div>
+                <div class="form-field-col">
+                  <label for="purpose-type-selection">Hình thức quảng cáo</label>
+                  <select id="purpose-type-selection" required>
+                    <option selected value="">Chọn hình thức quảng cáo</option>
+                    <option value="1">Thương mại</option>
+                    <option value="2">Cổ động chính trị</option>
+                  </select>
+                </div>
+                <div class="ads-amount">
+                  <label for="ads-amount">Số lượng</label>
+                  <input type="number" id="ads-amount" min="1" max="10" placeholder="0" required>
+                  <p>bảng / địa điểm</p>
+                </div>
+                <div class="ads-type">
+                  <label for="ads-type">Loại bảng quảng cáo</label>
+                  <select id="ads-type" required>
+                    <option selected value="">Chọn loại bảng quảng cáo</option>
+                    <option value="1">Trụ/cụm pano</option>
+                    <option value="2">Băng rôn</option>
+                    <option value="3">Màn hình led</option>
+                  </select>
+                </div>
+                <div style="width: 100%; height: 200px">
+                  <div class="upload-field" id="create-location-form-upload-img">
+                    <label for="imgFile" class="drag-drop">
+                      <input type="file" name="imgFile" id="imgFile" accept=".png, .jpeg, .gif" multiple hidden>
+                      <div class="holder">
+                        <i class="bi bi-cloud-arrow-up-fill"></i>
+                        <h4>Kéo và thả ảnh vào đây</h4> hoặc Click để duyệt file
+                      </div>
+                    </label>
+                    <div class="preview" style="display: none;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <p style="
+                        text-align: left;
+                        font-weight: bold;
+                        margin-top: 25px;
+                      ">
+                Lý do chỉnh sửa
+              </p>
+              <textarea style="width: 100%; padding: 12px; border-radius: 12px" name="" id="" cols="30"
+                rows="5"></textarea>
+              <button id="submit-request" style="
+                        width: 100%;
+                        outline: none;
+                        border-color;
+                        padding: 10px;
+                        border-radius: 12px;
+                        background-color: #262058;
+                        color: white;
+                        margin-top: 50px;
+                      " onclick="hidePopup()">
+                <h5 style="margin: 0">Gửi yêu cầu</h5>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="overlay collapse" id="detail-location-overlay"></div>
+
+    {{!-- <div class="overlay collapse" id="detail-location-overlay"></div>
+
     <div class="ad-detail-info-container">
       <div class="ad-detail-card">
         <div class="view">
@@ -202,232 +267,145 @@
             <div class="view-info-status">
               Đang quảng cáo
             </div>
-          </div>
-        </div>
 
-      </div>
-      <div class="ad-detail-card">
-        <div class="view">
-          <div id="ad-detail-card-imgs-c001" class="carousel slide view-imgs" data-bs-ride="carousel">
-            <div class="carousel-indicators">
-              <button data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide-to="0" class="active" aria-current="true"
-                aria-label="First slide"></button>
-              <button data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide-to="1"
-                aria-label="Second slide"></button>
-              <button data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide-to="2" aria-label="Third slide"></button>
-            </div>
-            <div class="carousel-inner" role="listbox">
-              <div class="carousel-item active">
-                <img
-                  src="https://images.unsplash.com/photo-1700451761286-67c601f012d8?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  class="w-100 d-block" alt="First slide">
+            <div class="d-flex justify-content-end w-100 align-item-">
+              <div class="btn btn-outline-secondary" onclick="showPopup()">
+                <i class="bi bi-pencil-square"></i>
               </div>
-              <div class="carousel-item">
-                <img
-                  src="https://images.unsplash.com/photo-1700451761286-67c601f012d8?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  class="w-100 d-block" alt="Second slide">
+              <div id="popup-parent">
+                <img id="form-img" src="/public/images/form.png" alt="" />
+                <div class="popup" id="location-popup">
+                  <h2 style="margin-top: 60px">Yêu cầu chỉnh sửa</h2>
+                  <button style="position: fixed; right: 10px; top: 10px" type="button" class="btn-close"
+                    onclick="hidePopup()" id="close-edit-request"></button>
+                  <hr />
+                  <p style="text-align: left; font-weight: bold">
+                    Tên người gửi
+                  </p>
+                  <input type="text" class="form-control" placeholder="Tên người gửi" />
+                  <p style="
+                              text-align: left;
+                              font-weight: bold;
+                              margin-top: 25px;
+                            ">
+                    Quận
+                  </p>
+                  <select style="margin: 0" id="typeSelect" class="form-select" aria-label="Default select example"
+                    onchange="filterByType(this.value)">
+                    <option selected>Quận</option>
+                    <option value="1">Quận 1</option>
+                    <option value="1">Quận 2</option>
+                    <option value="1">Quận 3</option>
+                    <option value="1">Quận 4</option>
+                    <option value="1">Quận 5</option>
+                    <option value="1">Quận 6</option>
+                    <option value="1">Quận 7</option>
+                    <option value="1">Quận 8</option>
+                    <option value="1">Quận 10</option>
+                    <option value="1">Quận 11</option>
+                    <option value="1">Quận 12</option>
+                    <option value="1">Quận Bình Tân</option>
+                    <option value="1">Quận Bình Thạnh</option>
+                    <option value="1">Quận Gò Vấp</option>
+                    <option value="1">Quận Phú Nhuận</option>
+                    <option value="1">Quận Tân Bình</option>
+                    <option value="1">Quận Tân Phú</option>
+                    <option value="1">Quận Bình Chánh</option>
+                    <option value="1">Quận Thủ Đức</option>
+                    <option value="1">Huyện Cần Giờ</option>
+                    <option value="1">Huyện Củ Chi</option>
+                    <option value="1">Huyện Hóc Môn</option>
+                    <option value="1">Huyện Nhà Bè</option>
+                  </select>
+                  <p style="
+                              text-align: left;
+                              font-weight: bold;
+                              margin-top: 25px;
+                            ">
+                    Phường
+                  </p>
+                  <select style="margin: 0" id="typeSelect" class="form-select" aria-label="Default select example"
+                    onchange="filterByType(this.value)">
+                    <option selected>Phường</option>
+                    <option value="1">Phường 1</option>
+                    <option value="1">Phường 2</option>
+                    <option value="1">Phường 3</option>
+                  </select>
+                  <p style="
+                              text-align: left;
+                              font-weight: bold;
+                              margin-top: 25px;
+                            ">
+                    Đường
+                  </p>
+                  <input type="text" class="form-control" placeholder="Số, đường" />
+                  <p style="
+                              text-align: left;
+                              font-weight: bold;
+                              margin-top: 25px;
+                            ">
+                    Loại vị trí
+                  </p>
+                  <select style="margin: 0" id="typeSelect" class="form-select" aria-label="Default select example"
+                    onchange="filterByType(this.value)">
+                    <option selected>Loại vị trí</option>
+                    <option value="1">Đất công/</option>
+                    <option value="1">
+                      Hành lang an toàn giao thông
+                    </option>
+                    <option value="1">Công viên</option>
+                    <option value="1">Nhà riêng</option>
+                  </select>
+                  <p style="
+                              text-align: left;
+                              font-weight: bold;
+                              margin-top: 25px;
+                            ">
+                    Mục đích
+                  </p>
+                  <select style="margin: 0" id="typeSelect" class="form-select" aria-label="Default select example"
+                    onchange="filterByType(this.value)">
+                    <option selected>Mục đích</option>
+                    <option value="1">Cổ động chính trị</option>
+                    <option value="1">Quảng cáo thương mại</option>
+                    <option value="1">Xã hội hoá</option>
+                  </select>
+                  <p style="
+                              text-align: left;
+                              font-weight: bold;
+                              margin-top: 25px;
+                            ">
+                    Số lượng
+                  </p>
+                  <input type="text" class="form-control" placeholder="Số lượng" />
+                  <p style="
+                              text-align: left;
+                              font-weight: bold;
+                              margin-top: 25px;
+                            ">
+                    Lý do chỉnh sửa
+                  </p>
+                  <textarea style="width: 100%" name="" id="" cols="30" rows="5"></textarea>
+                  <button id="submit-request" style="
+                              width: 100%;
+                              outline: none;
+                              border: 0;
+                              padding: 10px;
+                              border-radius: 5px;
+                              background-color: #262058;
+                              color: white;
+                              margin-top: 50px;
+                            " onclick="hidePopup()">
+                    <h5 style="margin: 0">Gửi yêu cầu</h5>
+                  </button>
+                </div>
               </div>
-              <div class="carousel-item">
-                <img
-                  src="https://images.unsplash.com/photo-1700451761286-67c601f012d8?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  class="w-100 d-block" alt="Third slide">
-              </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#ad-detail-card-imgs-c001"
-              data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#ad-detail-card-imgs-c001"
-              data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
-          </div>
-          <div class="view-info">
-            <div class="view-info-attribute">
-              <span>Kích thước</span> 2m x 3m
-            </div>
-            <div class="view-info-attribute">
-              <span>Bắt đầu</span> 11/11/2023
-            </div>
-            <div class="view-info-attribute">
-              <span>Kết thúc</span> 11/12/2023
-            </div>
-            <div class="view-info-status">
-              Đang quảng cáo
-            </div>
-          </div>
-        </div>
-
-      </div>
-      <div class="ad-detail-card">
-        <div class="view">
-          <div id="ad-detail-card-imgs-c001" class="carousel slide view-imgs" data-bs-ride="carousel">
-            <div class="carousel-indicators">
-              <button data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide-to="0" class="active" aria-current="true"
-                aria-label="First slide"></button>
-              <button data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide-to="1"
-                aria-label="Second slide"></button>
-              <button data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide-to="2" aria-label="Third slide"></button>
-            </div>
-            <div class="carousel-inner" role="listbox">
-              <div class="carousel-item active">
-                <img
-                  src="https://images.unsplash.com/photo-1700451761286-67c601f012d8?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  class="w-100 d-block" alt="First slide">
-              </div>
-              <div class="carousel-item">
-                <img
-                  src="https://images.unsplash.com/photo-1700451761286-67c601f012d8?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  class="w-100 d-block" alt="Second slide">
-              </div>
-              <div class="carousel-item">
-                <img
-                  src="https://images.unsplash.com/photo-1700451761286-67c601f012d8?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  class="w-100 d-block" alt="Third slide">
-              </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#ad-detail-card-imgs-c001"
-              data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#ad-detail-card-imgs-c001"
-              data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
-          </div>
-          <div class="view-info">
-            <div class="view-info-attribute">
-              <span>Kích thước</span> 2m x 3m
-            </div>
-            <div class="view-info-attribute">
-              <span>Bắt đầu</span> 11/11/2023
-            </div>
-            <div class="view-info-attribute">
-              <span>Kết thúc</span> 11/12/2023
-            </div>
-            <div class="view-info-status">
-              Đang quảng cáo
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="ad-detail-card">
-        <div class="view">
-          <div id="ad-detail-card-imgs-c001" class="carousel slide view-imgs" data-bs-ride="carousel">
-            <div class="carousel-indicators">
-              <button data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide-to="0" class="active" aria-current="true"
-                aria-label="First slide"></button>
-              <button data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide-to="1"
-                aria-label="Second slide"></button>
-              <button data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide-to="2" aria-label="Third slide"></button>
-            </div>
-            <div class="carousel-inner" role="listbox">
-              <div class="carousel-item active">
-                <img
-                  src="https://images.unsplash.com/photo-1700451761286-67c601f012d8?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  class="w-100 d-block" alt="First slide">
-              </div>
-              <div class="carousel-item">
-                <img
-                  src="https://images.unsplash.com/photo-1700451761286-67c601f012d8?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  class="w-100 d-block" alt="Second slide">
-              </div>
-              <div class="carousel-item">
-                <img
-                  src="https://images.unsplash.com/photo-1700451761286-67c601f012d8?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  class="w-100 d-block" alt="Third slide">
-              </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#ad-detail-card-imgs-c001"
-              data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#ad-detail-card-imgs-c001"
-              data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
-          </div>
-          <div class="view-info">
-            <div class="view-info-attribute">
-              <span>Kích thước</span> 2m x 3m
-            </div>
-            <div class="view-info-attribute">
-              <span>Bắt đầu</span> 11/11/2023
-            </div>
-            <div class="view-info-attribute">
-              <span>Kết thúc</span> 11/12/2023
-            </div>
-            <div class="view-info-status">
-              Đang quảng cáo
             </div>
           </div>
         </div>
 
       </div>
-      <div class="ad-detail-card">
-        <div class="view">
-          <div id="ad-detail-card-imgs-c001" class="carousel slide view-imgs" data-bs-ride="carousel">
-            <div class="carousel-indicators">
-              <button data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide-to="0" class="active" aria-current="true"
-                aria-label="First slide"></button>
-              <button data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide-to="1"
-                aria-label="Second slide"></button>
-              <button data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide-to="2" aria-label="Third slide"></button>
-            </div>
-            <div class="carousel-inner" role="listbox">
-              <div class="carousel-item active">
-                <img
-                  src="https://images.unsplash.com/photo-1700451761286-67c601f012d8?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  class="w-100 d-block" alt="First slide">
-              </div>
-              <div class="carousel-item">
-                <img
-                  src="https://images.unsplash.com/photo-1700451761286-67c601f012d8?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  class="w-100 d-block" alt="Second slide">
-              </div>
-              <div class="carousel-item">
-                <img
-                  src="https://images.unsplash.com/photo-1700451761286-67c601f012d8?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  class="w-100 d-block" alt="Third slide">
-              </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#ad-detail-card-imgs-c001"
-              data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#ad-detail-card-imgs-c001"
-              data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
-          </div>
-          <div class="view-info">
-            <div class="view-info-attribute">
-              <span>Kích thước</span> 2m x 3m
-            </div>
-            <div class="view-info-attribute">
-              <span>Bắt đầu</span> 11/11/2023
-            </div>
-            <div class="view-info-attribute">
-              <span>Kết thúc</span> 11/12/2023
-            </div>
-            <div class="view-info-status">
-              Đang quảng cáo
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
+    </div> --}}
   </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"

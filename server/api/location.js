@@ -3,6 +3,8 @@
 const controller = {}
 const models = require('../models');
 
+
+
 controller.createTypeAndPurpose = async (req, res) => {
     // Type id
     let data_type_id = [
@@ -25,6 +27,10 @@ controller.createTypeAndPurpose = async (req, res) => {
         {
             name: "Nhà chờ xe buýt",
             description: "Nhà chờ xe buýt",
+        },
+        {
+            name: "Cây xăng",
+            description: "Cây xăng",
         }
     ];
 
@@ -60,7 +66,7 @@ controller.createTypeAndPurpose = async (req, res) => {
     let field_purpose_id = await models.field.findOne({
         attribute: ['id'],
         where: {
-            name: "Loại QC"
+            name: "Mục đích"
         }
     }).then(result => result.id);
 
@@ -74,28 +80,179 @@ controller.createTypeAndPurpose = async (req, res) => {
     });
 };
 
-controller.getLocations = async (req, res) => {
-    let locations = await models.ad_place.findAll({
-        attribute: ['address-formatted', 'capacity', 'status'],
-        include: [
-            {
-                model: models.category,
-                as: 'Type',
-                attributes: ['type_ad_id', 'name']
-            },
-            {
-                model: models.category,
-                as: 'Purpose',
-                attributes: ['purpose_id', 'name']
-            },
-            {
-                model: models.place,
-            }
-        ]
-    })
+controller.createTypeAdContent = async (req, res) => {
+    let data = [
+        {
+            name: "Trụ bảng hiflex",
+            description: "Trụ bảng hiflex",
+        },
+        {
+            name: "Trụ màn hình điện tử LED",
+            description: "Trụ màn hình điện tử LED"
+        },
+        {
+            name: "Trụ hộp đèn",
+            description: "Trụ hộp đèn"
+        },
+        {
+            name: "Bảng hiflex ốp tường",
+            description: "Bảng hiflex ốp tường"
+        },
+        {
+            name: "Trụ treo băng rôn dọc",
+            description: "Trụ treo băng rôn ngang"
+        },
+        {
+            name: "Trụ/Cụm pano",
+            description: "Trụ/Cụm pano"
+        },
+        {
+            name: "Cổng chào",
+            description: "Cổng chào"
+        },
+        {
+            name: "Trung tâm thương mại",
+            description: "Trung tâm thương mại"
+        },
+    ]
 
-    // Process data
+    let type_id = await models.field.findOne({
+        attribute: ['id'],
+        where: {
+            name: "Loại QC"
+        }
+    }).then(result => result.id);
 
+    for (let i = 0; i < data.length; i++) {
+        data[i].field_id = type_id;
+        await models.category.create(data[i]);
+    }
+
+    res.json({
+        message: "Create Successfully"
+    });
 }
 
+controller.createFeedbackCategory = async (req, res) => {
+    let data = [
+        {
+            name: "Tố giác sai phạm",
+            description: "Tố giác sai phạm"
+        },
+        {
+            name: "Đóng góp ý kiến",
+            description: "Đóng góp ý kiến"
+        },
+        {
+            name: "Giải đáp thắc mắc",
+            description: "Giải đáp thắc mắc"
+        },
+        {
+            name: "Đăng ký nội dung",
+            description: "Đăng ký nội dung"
+        }
+    ]
+
+    let type_id = await models.field.findOne({
+        attribute: ['id'],
+        where: {
+            name: "Phản ánh"
+        }
+    }).then(result => result.id);
+
+    for (let i = 0; i < data.length; i++) {
+        data[i].field_id = type_id;
+        await models.category.create(data[i]);
+    }
+
+    res.json({
+        message: "Create Successfully"
+    });
+}
+controller.getLocations = (req, res) => {
+    models.ad_place.findAll({
+        attributes: ['id', 'capacity', 'status'],
+        include: [
+            {
+                model: models.place,
+                as: "place",
+                attributes: ['address_formated']
+            },
+            {
+                model: models.category,
+                as: 'TypeAds',
+                attributes: ['name'],
+            },
+            {
+                model: models.category,
+                as: 'PurposeAds',
+                attributes: ['name'],
+            }
+        ]
+    }).then((data) => {
+        let data_row = []
+        data.forEach((item) => {
+            let tmp = {};
+            tmp.id = item.id
+            tmp.capacity = item.capacity;
+            tmp.type_ad = item.TypeAds.name;
+            tmp.purpose_ad = item.PurposeAds.name;
+            if (item.status === 1) {
+                tmp.status = {
+                    "status_id": "delivered",
+                    "status_name": "Đã quy hoạch"
+                }
+            }
+            else {
+                tmp.status = {
+                    "status_id": "cancelled",
+                    "status_name": "Chưa quy hoạch"
+                }
+            }
+            tmp.address = splitAddressFormatted(item.place.address_formated)
+            data_row.push(tmp)
+        })
+
+        res.json({
+            data_row: data_row
+        })
+    })
+}
+
+controller.getLocationById = (req, res) => {
+    let ad_place_id = req.query.ad_place_id;
+    models.ad_place.findAll({
+        attributes: ['id', 'capacity', 'status'],
+        include: [
+            {
+                model: models.place,
+                as: "place",
+                attributes: ['address_formated']
+            },
+            {
+                model: models.category,
+                as: 'TypeAds',
+                attributes: ['id', 'name'],
+            },
+            {
+                model: models.category,
+                as: 'PurposeAds',
+                attributes: ['id', 'name'],
+            }
+        ],
+        where: {
+            id: ad_place_id
+        }
+    }).then((data) => {
+        res.json({
+            message: "Update successfully",
+            data: data
+        })
+    }).catch((err) => {
+        res.status(500).json({
+            message: err.message,
+        });
+        console.log(err);
+    })
+}
 module.exports = controller;
