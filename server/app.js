@@ -4,6 +4,7 @@ const path = require("path");
 const port = 4000 || process.env.port;
 const expressHbs = require("express-handlebars");
 app.use("/public", express.static(path.join(__dirname, "public")));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 const hbs = expressHbs.create({});
 var bodyParser = require("body-parser");
 const cookiesParser = require('cookie-parser');
@@ -165,6 +166,15 @@ app.use("/createTemp", (req, res) => {
 app.listen(port, (req, res) => {
   console.log(`Server is running on ${port}`);
 });
+
+
+app.get("/createResponse", (req, res) => {
+  models.feedback_response.create({
+    content: "hahahahahahahahaha liuliu",
+    officer: null,
+  })
+  res.send("success");
+})
 
 // CAPTCHA ver2
 app.use(cors());

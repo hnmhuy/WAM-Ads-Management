@@ -82,7 +82,8 @@
   border-radius: 10px;
   z-index: 99;
   border: 1px solid rgba(0, 0, 0, 0.2);
-
+  max-height: 218px;
+  overflow-y: auto;
   opacity: 0;
   visibility: hidden;
 }

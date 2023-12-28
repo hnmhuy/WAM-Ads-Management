@@ -55,13 +55,16 @@ function selecteOption(e)
   const arrow = container.querySelector("i");
   const selectedField = container.querySelector(".selected-display");
   const noLocation = document.querySelector(".no-location");
-  const feedbackDetail = document.querySelector(".feedback-detail");
-  const noFeedback = feedbackDetail.querySelector(".no-feedback");
+  const feedbackDetailContainer = document.querySelector(".feedback-detail");
+  const noFeedback = feedbackDetailContainer.querySelector(".no-feedback");
+  const feedbackDetail = feedbackDetailContainer.querySelector(".feedback-respond")
+  const responseDetail = feedbackDetailContainer.querySelector(".respond-info")
   let id = e.getAttribute("data-id");
   selectedField.textContent = e.textContent;
   selectedField.setAttribute("data-id", id);
 
   handleDropdown(container, arrow, false);
+  restoreFeedbackDetail(feedbackDetail,responseDetail,noFeedback);
   
   
 
@@ -69,7 +72,7 @@ function selecteOption(e)
     if(id != "") {
       container.style.borderColor = "#4f3ed7";
       stepArrow.classList.add("active-arrow");
-
+  
       const ward = document.querySelector("#ward-dropdown");  
       restoreDropdown(ward, "Chọn Phường", false);
       ward.classList.remove("disabled");
@@ -82,7 +85,7 @@ function selecteOption(e)
     {
       container.style.borderColor = "#4f3ed7";
       noLocation.classList.add("collapse");
-      feedbackDetail.classList.remove("collapse");
+      feedbackDetailContainer.classList.remove("collapse");
       noFeedback.classList.remove("collapse")
       restoreFeedbackTable(table);
       getFeedbackList(id);
@@ -267,15 +270,17 @@ function restoreFeedbackTable(table)
 
 }
 
-async function selectFeedback (e, loading, feedbackDetail)
+async function selectFeedback (e, loading, feedbackDetail, responseDetail)
 {
   let id = e.getAttribute('feedback-id');
   console.log("Feedback ID: ", id);
-  fetch(`/api/feedback/getFeedback?id=${id}`).then(res => res.json()).then(data => 
+  fetch(`/api/feedback/getFeedback?id=${id}&includeResponse=true`).then(res => res.json()).then(data => 
     {
       loading.classList.add("collapse");
       feedbackDetail.classList.remove("collapse")
+      responseDetail.classList.remove("collapse")
       generateFeedbackDetail(data);
+      generateFeedbackResponse(data);
 
     })
 }
@@ -289,12 +294,13 @@ async function onClickFeedback(e) {
   const arrow = e.querySelector("i");
   const loading = allFeedbacksContainer.querySelector(".feedback-loading");
   const feedbackDetail = allFeedbacksContainer.querySelector(".feedback-info");
+  const responseDetail = allFeedbacksContainer.querySelector(".respond-info");
 
   noFeedback.classList.add("collapse");
 
   closeAllFeedbackRow();
   handleFeedback(e, arrow, feedback, true);
-  selectFeedback(e, loading, feedbackDetail);
+  selectFeedback(e, loading, feedbackDetail, responseDetail);
 
   
   
@@ -315,17 +321,43 @@ async function onClickFeedback(e) {
 
 function generateFeedbackDetail(data)
 {
-  let container = document.querySelector(".feedback-info");
+  let container = document.querySelector(".feedback-respond .feedback-info");
   let content = container.querySelectorAll(".tag-content");
   let description = container.querySelector(".feedback-content");
+  let imgDiv = container.querySelector(".feedback-img");
   content[0].textContent = data.name;
   content[1].textContent = data.phone;
   content[2].textContent = data.email;
   content[3].textContent = data.category.name;
   description.innerHTML = data.content;
-  
+  imgDiv.innerHTML ="";
+  if(!data.image1 && !data.image2)
+  {
+    imgDiv.innerHTML = `<p>Không có hình ảnh phản hồi</p>`
+  }
+  else
+  {
+    if(data.image1)
+    {
+      img1 = generateFeedbackImg(data.image1);
+      imgDiv.appendChild(img1);
+    }
+    if(data.image2)
+    {
+      img2 = generateFeedbackImg(data.image2);
+      imgDiv.appendChild(img2);
+    }
+  }
+
 }
 
+
+function generateFeedbackImg(src)
+{
+  let img = document.createElement("img");
+  img.src = src;
+  return img;
+}
 
 
 function handleFeedback(row, arrow, feedback, open) {
@@ -349,8 +381,43 @@ function closeAllFeedbackRow(e)
     if(e !== row)
     {
       const arrow = row.querySelector("i");
-      arrow.classList.remove("collapse");
+      arrow.classList.add("collapse");
       row.classList.remove("active-row");
     }
   });
+}
+
+function restoreFeedbackDetail(feedback, response, noFeedback)
+{
+  feedback.classList.add("collapse");
+  response.classList.add("collapse");
+  noFeedback.classList.remove("collapse");
+}
+
+function generateFeedbackResponse(data)
+{
+  let container = document.querySelector(".respond-info .feedback-info");
+  let content = container.querySelectorAll(".tag-content");
+  console.log("Content: ", content);
+  let description = container.querySelector(".feedback-content");
+  let noResponse = document.querySelector(".no-response");
+  let responseData = data.responseFeedback.data;
+  if(!responseData)
+  {
+    noResponse.classList.remove("collapse");
+    container.classList.add("collapse");
+  }
+  else
+  {
+    container.classList.remove("collapse");
+
+    let fName = responseData.account.first_name;
+    let lName = responseData.account.last_name;
+    noResponse.classList.add("collapse");
+    
+    content[0].textContent = `${fName} ${lName}`;
+    content[1].textContent = responseData.createdAt;
+    description.innerHTML = responseData.content;
+  }
+  
 }

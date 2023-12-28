@@ -85,9 +85,32 @@ async function getFeedbackByArea(areaId)
     })
 }
 
+async function getResponse(response_id) {
+    try {
+        let data = await models.feedback_response.findOne({
+            attributes: ['officer', 'createdAt', 'content'],
+            where: {id: response_id},
+            include: [
+                {model: models.account, attributes:['first_name', 'last_name']},
+            ]
+        })
+        return {
+            isSuccess: true,
+            data: data
+        }
+    }
+    catch {(err) => {
+        console.log(err);
+        return {
+            isSuccess: false,
+            data: data
+        }
+    }}
+}
+
 
 controller.getFeedback = async (req, res) => {
-    let {opts, areaId, id} = req.query;
+    let {opts, areaId, id, includeResponse} = req.query;
     if (opts === "list")
     {
         let data = await getFeedbackByArea(areaId);
@@ -102,18 +125,30 @@ controller.getFeedback = async (req, res) => {
             include: [
                 {model: models.category, attributes: ['name']},
             ]
-        }).then((data) => res.json(data)).catch((err) => res.json(err));
+        }).then(async (data) => {
+            if(includeResponse) {
+                let fbRes = await getResponse(data.response_id);
+                data.dataValues.responseFeedback = fbRes;
+                res.json(data)
+            }
+            else{
+                res.json(data);
+            }
+        }).catch((err) => res.json(err));
     }
 }
 
 
-controller.getResponse = async (req, res) =>
-{
-    let {id} = req.query;
-    await models.feedback_response.findOne({
-        attributes: ['officer', 'createdAt', 'content'],
-        where: {id: id},
-    }).then((data) => res.json(data)).catch((err) => res.json(err));
-}
+// controller.getResponse = async (req, res) =>
+// {
+//     let {id} = req.query;
+//     await models.feedback_response.findOne({
+//         attributes: ['officer', 'createdAt', 'content'],
+//         where: {id: id},
+//         include: [
+//             {model: models.account, attributes:['first_name', 'last_name']},
+//         ]
+//     }).then((data) => res.json(data)).catch((err) => res.json(err));
+// }
 
 module.exports = controller;
