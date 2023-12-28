@@ -222,7 +222,7 @@ controller.getLocations = (req, res) => {
 controller.getLocationById = (req, res) => {
     let ad_place_id = req.query.ad_place_id;
     models.ad_place.findAll({
-        attributes: ['id', 'capacity', 'status'],
+        attributes: ['id', 'capacity', 'status', 'image1', 'image2'],
         include: [
             {
                 model: models.place,
@@ -238,10 +238,35 @@ controller.getLocationById = (req, res) => {
                 model: models.category,
                 as: 'PurposeAds',
                 attributes: ['id', 'name'],
+            },
+            {
+                model: models.category,
+                as: 'Ads',
+                attributes: ['id', 'name'],
             }
         ],
         where: {
             id: ad_place_id
+        }
+    }).then((data) => {
+        res.json({
+            message: "Update successfully",
+            data: data
+        })
+    }).catch((err) => {
+        res.status(500).json({
+            message: err.message,
+        });
+        console.log(err);
+    })
+}
+
+controller.getAds = (req, res) => {
+    let ad_place_id = req.query.ad_place_id;
+    models.ad_content.findAll({
+        attributes: ['id', 'company_name', 'width', 'height', 'start', 'end', 'image1', 'image2'],
+        where: {
+            ad_place_id: ad_place_id
         }
     }).then((data) => {
         res.json({

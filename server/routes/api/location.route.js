@@ -9,4 +9,5 @@ router.get("/createTypeAd", controller.createTypeAdContent)
 router.get('/createFeedbackCategory', controller.createFeedbackCategory)
 router.get('/getLocations', controller.getLocations);
 router.get('/getLocationById', controller.getLocationById)
+router.get('/getAds', controller.getAds)
 module.exports = router
