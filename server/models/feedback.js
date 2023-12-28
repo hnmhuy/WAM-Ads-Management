@@ -21,14 +21,14 @@ module.exports = (sequelize, DataTypes) => {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
-      primaryKey: true,
+      primaryKey: true
     },
     name: DataTypes.STRING,
     email: DataTypes.STRING,
     phone: DataTypes.STRING,
     status: {
       type: DataTypes.STRING,
-      defaultValue: 'sent',
+      defaultValue: "sent"
     },
     content: DataTypes.STRING,
     image1: DataTypes.STRING,
@@ -42,6 +42,7 @@ module.exports = (sequelize, DataTypes) => {
   //   // Get the current maximum number in the database
   //   return feedback.max('id', { raw: true })
   //     .then((maxNumber) => {
+  //       console.log(maxNumber);
   //       const newNumber = maxNumber ? parseInt(maxNumber.substring(1)) + 1 : 1;
   //       instance.id = `F${newNumber}`;
   //     });

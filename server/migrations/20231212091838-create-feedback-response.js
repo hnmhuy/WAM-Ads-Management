@@ -7,7 +7,7 @@ module.exports = {
         allowNull: false,
         autoIncrement: false,
         primaryKey: true,
-        type: Sequelize.STRING
+        type: Sequelize.UUID
       },
       content: {
         type: Sequelize.STRING

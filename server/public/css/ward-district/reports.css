@@ -141,6 +141,7 @@ thead th {
   left: 0;
   background-color: rgb(79, 62, 215);
   color: white;
+  z-index: 1000;
 }
 
 tbody tr {
@@ -223,39 +224,111 @@ tbody td.active {
 .expand_row {
   height: 40%;
   width: 40px;
-  background-color: red;
   padding: 0.5em;
 }
 
-.more-information {
-  transition: ease-in-out 10s linear 10s;
-  display: flex;
-  flex-direction: row;
-}
-
-.name {
+.header {
+  top: 0;
   width: 100%;
-  display: flex;
-  flex-direction: row;
-  padding: 0 1em;
-}
-
-.title {
-  font-weight: bold;
-  height: fit-content;
-  width: 20%;
+  padding: 20px 10px 10px 10px;
   text-align: left;
-}
-.bx {
-  height: 30px;
-  width: 30px;
-}
-.content {
-  height: fit-content;
+  border-bottom: 1px solid #262058;
+  z-index: 20;
+  margin-bottom: 5%;
 }
 
-.report_solution {
-  padding: 0 0.5em;
+.header h3 {
+  font-weight: bold;
+  margin: 0;
+}
+
+.feedback-info {
+  padding: 20px 20px 15px 20px;
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  border-radius: 15px;
+  position: relative;
+}
+
+.feedback-info > * {
+  margin-bottom: 10px;
+}
+
+.feedback-info p {
+  font-size: 16px;
+}
+
+.feedback-detail .tag {
+  font-weight: bold;
+}
+
+.feedback-info .label {
+  position: absolute;
+  top: 0;
+  left: 13px;
+  transform: translate(0, -60%);
+}
+
+.feedback-info .label p {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.feedback-info .info {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.feedback-info .icon-tag {
+  align-items: center;
+  display: flex;
+  margin-right: 50px;
+  width: 200px;
+}
+
+.feedback-info i {
+  margin-right: 10px;
+  font-size: 25px;
+}
+.feedback-info i::before {
+  font-weight: bolder !important;
+}
+.feedback-info .content_solution {
+  padding: 0;
+}
+
+.feedback-info .feedback-content {
+  border-radius: 15px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 10px;
+}
+
+.feedback-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  /* padding: 10px; */
+  /* border-top: 1px solid rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2); */
+}
+
+.feedback-img img {
+  margin-right: 10px;
+  width: 210px;
+  height: 140px;
+  border-radius: 6px;
+}
+
+.active-row {
+  background-color: #b5c2eb !important;
+}
+
+.respond-info {
+  margin-top: 4%;
 }
 
 .report_solotion_area {

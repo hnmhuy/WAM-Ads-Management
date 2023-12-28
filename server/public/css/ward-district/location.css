@@ -328,3 +328,7 @@ tbody tr.hide td p {
   height: auto;
   padding: 5px;
 }
+
+.offcanvas.offcanvas-end {
+  width: 60% !important;
+}

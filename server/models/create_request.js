@@ -17,21 +17,14 @@ module.exports = (sequelize, DataTypes) => {
   }
   create_request.init({
     id: {
-      type: DataTypes.STRING,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true
     },
     status: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'create_request',
-  });
-  create_request.beforeCreate((instance, options) => { // Tạo ra ID có format
-    // Get the current maximum number in the database
-    return create_request.max('id', { raw: true })
-      .then((maxNumber) => {
-        const newNumber = maxNumber ? parseInt(maxNumber.substring(1)) + 1 : 1;
-        instance.id = `RN${newNumber}`;
-      });
   });
   return create_request;
 };

@@ -411,13 +411,18 @@
 
 .deligate-table th,
 .deligate-table td {
-  font-size: 18px;
-  padding: 10px 20px;
+  padding: 10px;
+}
+
+.deligate-table th:first-child,
+.deligate-table td:first-child {
+  width: 280px;
+  padding-left: 20px;
 }
 
 .deligate-table th:nth-child(4),
 .deligate-table td:nth-child(4) {
-  width: 421px;
+  width: 430px;
 }
 
 .deligate-table td {
@@ -481,6 +486,7 @@
   justify-content: flex-start;
 }
 .deligate-table .name {
+  max-width: 280px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -514,7 +520,7 @@
 
 /* --------------- AREA EDIT --------------*/
 .area-wrapper-dropdown {
-  width: 250px;
+  width: 310px;
   background-color: #fff;
   transition: all 0.3s ease;
   padding: 5px 10px;
@@ -590,6 +596,7 @@
   display: flex;
   padding: 0 15px;
   align-items: center;
+  justify-content: flex-start;
 }
 
 .add-new-area {
@@ -704,4 +711,8 @@ h6 {
   background-color: #f5f3ff;
   pointer-events: none;
   opacity: 0.5;
+}
+
+.wrapper-dropdown .selected-display {
+  width: 100%;
 }
