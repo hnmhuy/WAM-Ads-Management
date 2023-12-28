@@ -50,6 +50,10 @@ controller.getField = (req, res) => {
 }
 
 controller.getCategory = (req, res) => {
+    res.set({
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+    })
     let fieldId = req.query.fieldId;
     if(!fieldId) {
         // Query all category   
