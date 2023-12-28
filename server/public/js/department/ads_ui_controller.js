@@ -386,23 +386,66 @@ function addImgs(files, previewArea, dragDropArea, fieldId) {
 }
 
 // -----Logic for create location form -------
-function fetchAndAddOption(selectedElement, kindOfData) {
+function generateOption(data) {
+    let option = document.createElement("option");
+    option.value = data.id;
+    option.textContent = data.name;
+    return option;
+}
+
+function fetchAndAddOption(selectElement, kindOfData, placeHolder, idDistrict) {
     // Implement later
+    let url = "";
+    if(kindOfData === 'district') {
+       url = "/api/area/getArea?opts=db&level=1" 
+    } else if (kindOfData === 'ward') {
+        url = `/api/area/getArea?opts=db&level=2&idDistrict=${idDistrict}`
+    }
+    selectElement.innerHTML = `
+        <option selected value="">${placeHolder}</option>
+        <option value="">
+            Đang tải dữ liệu ....
+        </option>
+    `
+
+    fetch(url)
+    .then(res => res.json())
+    .then(data => {
+        if(data.status === 'success') {
+            if(data.data.length === 0) {
+                selectElement.innerHTML = `
+                    <option selected value="">Không có dữ liệu</option>
+                `
+            } else {
+                selectElement.innerHTML = `
+                    <option selected value="">${placeHolder}</option>
+                `
+            }
+            data.data.forEach(item => {
+                selectElement.appendChild(generateOption(item));
+            })
+        } else {
+            console.log(data.message);
+        }
+    })
+
     return null;
 }
 
 function formControl(form_id) {
     const districtSelection = document.querySelector(
-        `#${form_id} #district-selection`
+        `#${form_id} select[name="district-selection"]`
     );
-    const wardSelection = document.querySelector(`#${form_id} #ward-selection`);
+    const wardSelection = document.querySelector(`#${form_id} select[name="ward-selection"]`);
 
-    const streetSelection = document.querySelector(`#${form_id} #street`);
+    const streetSelection = document.querySelector(`#${form_id} input[name="street"]`);
+
+    fetchAndAddOption(districtSelection, 'district', 'Chọn quận/huyện');
 
     districtSelection.addEventListener("change", () => {
         if (districtSelection.value != "") {
-            // fetchAndAddOption(districtSelection, 'ward');
             wardSelection.disabled = false;
+            fetchAndAddOption(wardSelection, 'ward', 'Chọn phường/xã', districtSelection.value);
             wardSelection.addEventListener("change", () => {
                 if (wardSelection.value != "") {
                     streetSelection.disabled = false;

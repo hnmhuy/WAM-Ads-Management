@@ -83,6 +83,9 @@ geocoder.on("result", (event) => {
     // You can perform additional actions with the search result data if needed
 });
 
+// Get user location
+navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+
 function successCallback(position) {
     console.log(position.coords.longitude, position.coords.latitude)
     map.flyTo({
