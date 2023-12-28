@@ -73,16 +73,47 @@ controller.sendFeedback = async (req, res) =>
 }
 
 
-controller.getFeedback = async (req, res) => {
-    let id = req.query.id;
-    console.log("Thiss is id: ", id);
-    await models.feedback.findAll({
-        where: {id: id},
-    }).then((data) => res.json(data)).catch((err) => res.json(err));
-
+async function getFeedbackByArea(areaId)
+{
+    return await models.feedback.findAll({
+        // attribute:['name', 'email', 'phone','content', 'type', 'image1', 'image2'],
+        attributes: ['id','createdAt', 'type', 'status'],
+        include: [
+            {model: models.place, where: {area_id: areaId}},
+            {model: models.category, attributes: ['name']},
+        ]          
+    })
 }
 
 
+controller.getFeedback = async (req, res) => {
+    let {opts, areaId, id} = req.query;
+    if (opts === "list")
+    {
+        let data = await getFeedbackByArea(areaId);
+        res.json(data);
 
+    }
+    else
+    {
+        await models.feedback.findOne({
+            attributes:['name', 'email', 'phone','content', 'type', 'image1', 'image2', 'response_id'],
+            where: {id: id},
+            include: [
+                {model: models.category, attributes: ['name']},
+            ]
+        }).then((data) => res.json(data)).catch((err) => res.json(err));
+    }
+}
+
+
+controller.getResponse = async (req, res) =>
+{
+    let {id} = req.query;
+    await models.feedback_response.findOne({
+        attributes: ['officer', 'createdAt', 'content'],
+        where: {id: id},
+    }).then((data) => res.json(data)).catch((err) => res.json(err));
+}
 
 module.exports = controller;

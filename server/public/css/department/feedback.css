@@ -100,6 +100,11 @@
   padding: 0.5rem !important;
 }
 
+.wrapper-dropdown span
+{
+  width: 100%;
+}
+
 .wrapper-dropdown .dropdown li:hover {
   background-color: #fff3f0;
   border-radius: 10px;
@@ -367,3 +372,13 @@
 }
 
 /* ----------------- RESPOND-INFO ----------------- */
+
+
+/* LOADING SPINNER */
+
+.loading td > div, .feedback-loading
+{
+  display: flex;
+  justify-content: center; 
+  width: 100%
+}
