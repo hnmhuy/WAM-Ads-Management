@@ -1,13 +1,33 @@
 .month-report {
     width: 100%;
     height: 200px;
+    position: relative;
 }
 
 .subtitle {
     height: 50px;
     display: flex;
-    align-items: last baseline;
+    align-items: center;
     justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 30px;
+    z-index: 10;
+    position: absolute;
+
+}
+
+.choose-month
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.choose-month p{
+    margin: 0;
+    font-weight: 700;
+    margin-right: 10px;
 }
 
 .subtitle h3 {
@@ -21,6 +41,8 @@
     justify-content: flex-start;
     gap: 15px;
     align-items: center;
+    position:absolute;
+    top: 50px
 }
 .report-card {
     height: 110px;
@@ -60,15 +82,22 @@
 
 .percent p {
     margin: 0;
+
 }
 
-.subtitle input[type="date"] {
+.subtitle input[type="date"], .subtitle input[type="month"] {
     border-radius: 10px;
     width: 150px;
     height: 45px;
     border: none;
     background-color: var(--report-card-backgroud);
     padding: 5px;
+}
+
+.subtitle input[type="month"]
+{
+    width: 250px;
+    
 }
 
 .date-range {
@@ -85,19 +114,49 @@
     margin: 0px 10px;
 }
 
-.doughnut-report {
+.all-charts
+{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
     width: 100%;
-    height: 650px;
+    height: 645px;
+}
+
+
+.doughnut-report {
+    width: calc(50% - 20px);
+    height: 100%;
+    position: relative;
 }
 
 .chart-display {
-    padding: 20px;
+    border-radius: 12px;
+    background-color: #f9fafd;
+    margin-top: 10px;
+    padding: 20px 20px 20px 0;
     width: 100%;
-    height: calc(100% - 50px);
+    height: calc(100% - 70px);
     display: flex;
     justify-content: flex-start;
     align-items: center;
     gap: 20px;
+    position: absolute;
+    z-index: 1;
+    top: 50px;
+}
+
+.linechart-container
+{
+    padding: 0 0 0 20px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    position: relative;
 }
 
 .chart-container {
@@ -121,8 +180,8 @@
 }
 
 .detail-container {
-    width: 305px;
-    height: 100%;
+    width: 290px;
+    height: 400px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
