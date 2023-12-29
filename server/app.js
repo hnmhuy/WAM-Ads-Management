@@ -14,11 +14,15 @@ const facebookStrategy = require('passport-facebook');
 const googleStrategy = require('passport-google-oauth20');
 const cors = require("cors"); //use for captcha
 
+const models = require('./models');
+const User = require("./models").account;
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-const initializePassport = require("./passportConfig");
+// const initializePassport = require("./passportConfig");
 const { randomBytes } = require("crypto");
-initializePassport(passport);
+const { profile } = require("console");
+// initializePassport(passport);
 
 app.get("/createTables", (req, res) => {
   let models = require("./models");
@@ -42,12 +46,31 @@ app.use(
 );
 
 app.use(passport.initialize());
-app.use(passport.session())
+app.use(passport.session());
+
 passport.use(new googleStrategy({
-  clientID: '465034546763-b9e5sei88fv81k72go64kkq14ks3e7rb.apps.googleusercontent.com',
-  clientSecret: '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',
-  callbackURL: '/auth/google/callback'
-}, (accessToken, refreshToken, profile, done) => {
+  clientID: '900777213307-q8qc0tphopvtmke922drco89a94pk6ph.apps.googleusercontent.com',
+  clientSecret: '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',
+  callbackURL: 'http://localhost:4000/auth/google/callback',
+  passReqToCallback: true,
+}, async (req, accessToken, refreshToken, profile, done) => {
+  req.bind_account = false;
+  if(req.session.bind){
+    let user_bind_account = await User.findOne({where: {bindAccount: profile.emails[0].value} });
+    if(user_bind_account){
+      req.isExisted = true;
+    } else {
+      await models.account.update(
+          {
+            bindAccount: profile.emails[0].value,
+          },
+          { where: {id: req.session.user.id}}
+        );
+      req.session.user.bindAccount = profile.emails[0].value;
+    }
+    req.bind_account = true;
+    req.cur_user = req.session.user;
+  }
   done(null, profile)
 }))
 
@@ -61,6 +84,12 @@ passport.deserializeUser((obj, done) => {
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+expressHbs.create({
+  runtimeOptions: {
+    allowProtoPropertiesByDefault: true,
+  },
+});
 
 app.engine(
   "hbs",
@@ -228,7 +257,7 @@ app.use('/createTmp', (req, res) => {
 //   res.send("Success")
 // })
 app.listen(port, (req, res) => {
-  console.log(`Server is running on ${port}`);
+  console.log(`http://localhost:${port}`);
 });
 
 

@@ -5,13 +5,10 @@ const {sendOTP} = require("../controllers/otp.controller")
 router.post("/", async(req, res)=>{
     try {
         const email = "kenshiro.pn@gmail.com"
-        const subject = "Email Verification"
-        const message= "Verify your email with the code below"
         const duration = 1
         const createdOTP = await sendOTP({
             email,
             subject,
-            message,
             duration
         });
         res.status(200).json(createdOTP);

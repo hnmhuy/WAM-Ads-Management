@@ -3,10 +3,10 @@ const User = require("../models").account;
 const passport = require("passport");
 const models = require("../models");
 const bcrypt = require('bcrypt');
+const OTPmodel = require('../models').OTP;
 
 const location = require('../testing_vew_data/location.json');
-
-const JWT_SECRET = 'Top secret...'
+const {sendOTP} = require("../controllers/otp.controller")
 
 controller.showIndex = (req, res) => {
   res.redirect("/home");
@@ -29,7 +29,8 @@ controller.login = async (req, res) => {
   let { email, password, rememberMe } = req.body;
   if(!email || !password){
     return res.render("partials/login", {
-      message: "Please enter all fields."
+      layout: "login_layout",
+      message: `<p style="color: red; font-weight: 600;">* Hãy điền đầy đủ các ô.</p>`
     })
   }
   let user = await User.findOne({
@@ -38,9 +39,13 @@ controller.login = async (req, res) => {
         "email",
         "first_name",
         "last_name",
+        "phone",
+        "dob",
+        "areaLevel",
         "status",
         "delegation",
         "password",
+        "bindAccount",
     ],
     include: [{model: models.area, attributes: ["parent_id"]}],
     where: { email: email},
@@ -48,7 +53,7 @@ controller.login = async (req, res) => {
   if(user){
     const passwordMatch = await bcrypt.compare(password, user.password);
     if(passwordMatch){
-        if(user.status == "1"){
+        if(user.status == "active"){
         let reqUrl = "";
         if(user.delegation){
           reqUrl = req.body.reqUrl ? req.body.reqUrl : "/home";
@@ -75,33 +80,40 @@ controller.login = async (req, res) => {
       }
       else{
         return res.render("partials/login", {
-            message: "User is non-existed.",
+          layout: "login_layout",
+          message: `<p style="color: red; font-weight: 600;">* Tài khoản không tồn tại.</p>`
         });
       }
     }
     else{
       return res.render("partials/login", {
-        message: "Password is not correct"
+        layout: "login_layout",
+        message: `<p style="color: red; font-weight: 600;">* Mật khẩu không đúng.</p>`
       })
     }
   }
   else{
     res.render("partials/login", {
-      message: "Email is not registered"
+      layout: "login_layout",
+      message: `<p style="color: red; font-weight: 600;">* Email chưa được đăng ký.</p>`
     })
   }
 }
 
 controller.logout = (req, res, next) => {
-  req.session.destroy(function (error) {
-    if(error) return next(error);
-    res.redirect("/login");
+  req.logout(function(err) {
+    req.session.destroy(function (error) {
+      if(error) return next(error);
+      res.redirect("/login");
+    });
+
   });
+  
 }
 
-controller.showHome = (req, res) => {
-    res.locals.page_name = "Trang chủ"
-    res.render('district/home', { layout: "district_layout" })
+controller.showHome = async (req, res) => {
+  res.locals.page_name = "Trang chủ"
+  res.render('district/home', { layout: "district_layout" })
 }
 
 controller.showLocation = (req, res) => {
@@ -124,22 +136,21 @@ controller.showReport = (req, res) => {
 }
 
 controller.showProfile = (req, res) =>{
+  const bind_message = req.session.bind_message;
+  req.session.bind_message = null;
   res.render("partials/profile", {
-    layout: "district_layout"
+    layout: "district_layout",
+    bind_message: bind_message,
   });
 }
 
 controller.isLoggedIn = async (req, res, next) => {
   if(req.session.user) {
-    res.locals.user = req.session.user;
-    return next();
-  }
-  if(req.isAuthenticated()) {
-    const lastName = req.user.name.familyName;
-    const firstName = req.user.name.givenName;
-    const email = req.user.emails[0].value;
-    const user = {last_name: lastName,first_name: firstName,email: email};
-    res.locals.user = user;
+    if(req.isAuthenticated()){
+      res.locals.user = req.session.user;
+    } else {
+      res.locals.user = req.session.user;
+    }
     return next();
   }
   res.redirect(`/login?reqUrl=${req.originalUrl}`);
@@ -147,21 +158,45 @@ controller.isLoggedIn = async (req, res, next) => {
 
 controller.changeProfile = async(req, res) =>{
   const user = req.session.user;
-  let {newFirstName, newLastName, email} = req.body;
-  try{
-    await models.account.update(
-      {
-        first_name: newFirstName, last_name: newLastName
-      },
-      { where: {id: user.id}}
-    );
-    req.session.user.first_name = newFirstName;
-    req.session.user.last_name = newLastName;
-    req.session.user.email = email;
-    res.redirect("/profile");
-  } catch(error){
-    res.send("Can not update user!");
-    console.log(error);
+  let {newFirstName, newLastName, newDOB, newContact, email} = req.body;
+  let check = await User.findOne({
+    attributes:[
+      "id"
+    ],
+    where: {email},
+  });
+  if(check && (check.id != user.id)){
+    res.json({
+      message: "Email đã tồn tại.",
+      data: req.session.user,
+      updateSuccess: false,
+    })
+  } else {
+      try{
+      await models.account.update(
+        {
+          first_name: newFirstName, last_name: newLastName, dob: newDOB, phone: newContact, email: email,
+        },
+        { where: {id: user.id}}
+      );
+      req.session.user.first_name = newFirstName;
+      req.session.user.last_name = newLastName;
+      req.session.user.email = email;
+      req.session.user.dob = newDOB;
+      req.session.user.phone = newContact;
+
+      res.json({
+        message: "Cập nhật thành công",
+        data: req.session.user,
+        updateSuccess: true,
+      })
+    } catch(error){
+      res.json({
+        message: error,
+        data: req.session.user,
+        updateSuccess: false,
+      })
+    }
   }
 }
 
@@ -195,12 +230,6 @@ controller.changePassword = async(req, res, next) =>{
   }
 }
 
-let tmp_user = {
-  id: "U000",
-  email: "kenshiro.pn@gmail.com",
-  password: "asiodjaosdjasdoi",
-};
-
 const sendPasswordResetOTPEmail = async(email) => {
   try {
     //check if the account exists
@@ -221,12 +250,181 @@ const sendPasswordResetOTPEmail = async(email) => {
 }
 
 controller.forgotPassword = async (req, res) =>{
-  try {
-    const {email} = req.body;
+  const {email} = req.body;
 
-  } catch (error) {
-    
+  let user = await User.findOne({
+    where: { email: email},
+  });
+  if(user){
+    duration = 1;
+    subject = "Mã Xác Thực Tài Khoản"
+    const createdOTP = await sendOTP({
+        email,
+        subject,
+        duration
+    });
+    res.status(200).render("partials/otp", {
+      layout: "login_layout",
+      email: email,
+    });
+  } else {
+    res.render("partials/login", {
+      layout: "login_layout",
+      forgot_message: `<p style="color: red; font-weight: 600;">* Tài khoản không tồn tại</p>`
+    })
   }
+  
+}
+
+controller.verify = async (req, res, next) => {
+  const {email, otp} = req.body;
+  try {
+      const otpUser = await OTPmodel.findOne({
+          attribute: [
+              "email",
+              "otp",
+              "expireAt"
+          ],
+          where: {email}
+      })
+      if(otpUser){
+        const isMatch = await bcrypt.compare(otp, otpUser.otp)
+        if(isMatch){
+          const timestamp = Date.now();
+          const Datetime =  new Date(timestamp);
+          if(otpUser.expireAt > Datetime){
+            await OTPmodel.destroy({
+                where: {email},
+            });
+            res.render("partials/resetPassword", {
+              layout: "login_layout",
+              email: email,
+            });
+          } else {
+            res.render("partials/otp", {
+              email: email,
+              layout: "login_layout",
+              message: `<p style="color: red; font-weight: 600;">* OTP quá hạn, hãy yêu cầu một OTP khác.</p>`
+            })
+          }
+        } else {
+          res.render("partials/otp", {
+            email: email,
+            layout: "login_layout",
+            message: `<p style="color: red; font-weight: 600;">* OTP không đúng.</p>`
+          })
+        }
+      }
+  } catch (error) {
+      throw error
+  }
+}
+
+controller.showResetPassword = (req, res)=>{
+  res.render("partials/resetPassword", {
+    layout: "login_layout"
+  });
+}
+
+controller.resetPassword = async (req, res)=>{
+  const {password, confirmPassword, email} = req.body;
+  if(password === confirmPassword){
+    let user = await User.findOne({
+      attributes: [
+          "password",
+      ],
+      where: { email: email},
+    });
+    try{
+        const hashedPassword = await bcrypt.hash(password, 10);
+        await models.account.update(
+          {
+            password: hashedPassword,
+          },
+          { where: {email}}
+        );
+        res.redirect("/login")
+      } catch(error){
+        res.send("Can not update user!");
+        console.log(error);
+      }
+  } else {
+    res.render("partials/resetPassword", {
+      layout: "login_layout",
+      email: email,
+      message: `<p style="color: red; font-weight: 600;">* Mật khẩu không khớp</p>`
+    });
+  }
+}
+
+controller.bindAccount = async (req, res)=>{
+  req.session.bind = true;
+  req.session.isExisted = false;
+  passport.authenticate('google', { scope: ['profile', 'email'] })(req, res);
+}
+
+controller.googleCallback = async (req, res, next) => {
+  if(req.isExisted){
+    req.session.user = req.cur_user;
+    console.log(req.cur_user);
+    res.render("partials/profile", {
+      user: req.cur_user,
+      layout: "district_layout",
+      bind_message: `<p style="color: red; font-weight: 800">Tài khoản gmail đã được liên kết, hãy thử gmail khác</p>`
+    })
+  } else {
+    let user = await User.findOne({
+      attributes: [
+          "id",
+          "email",
+          "first_name",
+          "last_name",
+          "phone",
+          "dob",
+          "areaLevel",
+          "status",
+          "delegation",
+          "password",
+          "bindAccount",
+      ],
+      include: [{model: models.area, attributes: ["parent_id"]}],
+      where: { bindAccount: req.user.emails[0].value},
+    });
+    if(user){
+      console.log(user);
+      req.session.user = user;
+      res.locals.user = req.session.user;
+      console.log(req.session.user);
+      if(req.bind_account){
+        req.session.bind_message = `<p style="color: green; font-weight: 800;">Liên kết thành công</p>`
+        res.redirect("/profile");
+      } else {
+        res.redirect("/home");
+      }
+      
+    } else {
+      res.render("partials/login", {
+        layout: "login_layout",
+        message: `<p style="color:red; font-weight:800">Tài khoản gmail chưa liên kết</p>`
+      })
+    }
+  }
+  
+}
+
+controller.unbindAccount = async (req, res, next)=>{
+  console.log(req.session.user)
+  await models.account.update(
+    {
+      bindAccount: null,
+    },
+    { where: {id: req.session.user.id}}
+  );
+  req.session.user.bindAccount = null;
+  res.render("partials/profile", {
+    layout: "district_layout",
+    bind_message: `<p style="color: green; font-weight: 800;">Huỷ liên kết thành công</p>`
+  });
 }
 
 // controller.forgotPassword = async(req, res)=>{
@@ -286,10 +484,10 @@ controller.forgotPassword = async (req, res) =>{
 async function preprocessData(formData) {
   let {email, name, phone, dob, delegation, areaLevel} = formData;
   var formattedDate = dob.replace(/-/g, '');
-  var sortedDate = formattedDate.slice(4, 8) + formattedDate.slice(0, 2) + formattedDate.slice(2, 4);
+  var sortedDate = formattedDate.slice(6, 8) + formattedDate.slice(4, 6) + formattedDate.slice(0, 4);
   const hashedPassword = await bcrypt.hash(sortedDate, 10); 
-  const nameParts = name.split(' ');
 
+  const nameParts = name.split(' ');
   // The first part is the last name
   const lastName = nameParts.shift();
 

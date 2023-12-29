@@ -1,9 +1,8 @@
 <div class="login-content">
     
-    <div class="login-div-content active-div">
-        <h1 class="login-title">Welcome</h1>
-        <p class="login-para {{#if message}}alert-danger danger{{/if}}"> {{#if message}}{{message}}{{else}}Please enter your
-            email and password. {{/if}}</p>
+    <div style="{{#if forgot_message}}display: none;{{/if}}" class="login-div-content active-div">
+        <h1 class="login-title">Xin chào,</h1>
+        <p class="login-para {{#if message}}alert-danger danger{{/if}}"> {{#if message}}{{{message}}}{{else}}Nhập vào thông tin đăng nhập bạn nhé 🚀{{/if}}</p>
         <form action="/login" method="post">
             <div class="form-outline mb-4">
                 <label class="form-label login-label" for="email">Email</label>
@@ -11,7 +10,7 @@
             </div>
         
             <div class="form-outline mb-4">
-                <label class="form-label login-label" for="password">Password</label>
+                <label class="form-label login-label" for="password">Mật khẩu</label>
                 <input type="password" id="password" name="password" class="form-control form-control-lg"
                     value="{{password}}" />
                 <div class="toggle-password">
@@ -23,7 +22,7 @@
                 <!-- Checkbox -->
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="remember-me" name="rememberMe" tabindex="3" />
-                    <label class="form-check-label" for="remember-me"> Remember Me </label>
+                    <label class="form-check-label" for="remember-me"> Nhớ mật khẩu </label>
                 </div>
             </div>
         
@@ -32,10 +31,10 @@
                     Sign in
                     <i class="bi bi-chevron-right"></i>
                 </button>
-                <a href="#" class="login-label forgot-password fs-16">Forgot password?</a>
+                <a href="#" class="login-label forgot-password fs-16">Quên mật khẩu?</a>
             </div>
             <div class="divider d-flex justify-content-center align-items-center">
-                <p class="text-center fw-bold mt-4 text-muted">Or</p>
+                <p class="text-center fw-bold mt-4 text-muted">Hoặc</p>
             </div>
         
         
@@ -46,9 +45,9 @@
             </a>
         </div>
     </div>
-    <div class="forgot-div-content">
-        <h1 class="login-title">Forgot password?</h1>
-        <p class="forgot-para {{#if message}}alert-danger danger{{/if}}"> {{#if message}}{{message}}{{else}}Please enter your email. {{/if}}</p>
+    <div style="{{#if forgot_message}}display: block;{{/if}}" class="forgot-div-content">
+        <h1 class="login-title">Quên mật khẩu?</h1>
+        <p class="forgot-para {{#if forgot_message}}alert-danger danger{{/if}} mt-2"> {{#if forgot_message}}{{{forgot_message}}}{{else}}Nhập vào email. {{/if}}</p>
         <form action="/forgotPassword" method="post">
             <div class="form-outline mb-4">
                 <label class="form-label login-label" for="email">Email</label>
@@ -56,10 +55,10 @@
             </div>
             <div class="forgot-submit">
                 <button class="btn forgot-submit login-button" type="submit" tabindex="4">
-                    Send
+                    Gửi OTP
                     <i class="bi bi-chevron-right"></i>
                 </button>
-                <a href="#" class="forgot-label fs-16">Back to login</a>
+                <a href="#" class="forgot-label fs-16">Trở về Đăng nhập</a>
             </div>
         </form>
     </div>
