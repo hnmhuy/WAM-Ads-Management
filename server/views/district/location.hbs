@@ -82,14 +82,12 @@
             </div>
             <div class="carousel-inner">
               <div class="carousel-item active">
-                <img
-                  src="https://images.unsplash.com/photo-1541535650810-10d26f5c2ab3?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  class="h-100 w-100" alt="">
+                <img src="https://www.ecommerce-nation.com/wp-content/uploads/2018/10/404-error.jpg" class="h-100 w-100"
+                  alt="404 Not Found" id="image1">
               </div>
               <div class="carousel-item">
-                <img
-                  src="https://images.unsplash.com/photo-1541535650810-10d26f5c2ab3?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  class="h-100 w-100" alt="">
+                <img src="https://www.ecommerce-nation.com/wp-content/uploads/2018/10/404-error.jpg" class="h-100 w-100"
+                  alt="" id="image2">
               </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#ad-detail-img" data-bs-slide="prev">
@@ -125,6 +123,10 @@
               <th><i class="bi bi-bullseye"></i> Mục đích</th>
               <td id="purpose_id">Thương mại</td>
             </tr>
+            <tr>
+              <th><i class="bi bi-boxes"></i> Loại bảng</th>
+              <td id="ad_id">2 bảng/điểm</td>
+            </tr>
           </table>
         </div>
 
@@ -144,17 +146,13 @@
                 <div class="form-field-col">
                   <label for="location-type-selection">Loại ví trị</label>
                   <select id="location-type-selection" required>
-                    <option selected value="">Chọn loại vị trí</option>
-                    <option value="1">Nhà riêng</option>
-                    <option value="2">Đất công</option>
+
                   </select>
                 </div>
                 <div class="form-field-col">
                   <label for="purpose-type-selection">Hình thức quảng cáo</label>
                   <select id="purpose-type-selection" required>
-                    <option selected value="">Chọn hình thức quảng cáo</option>
-                    <option value="1">Thương mại</option>
-                    <option value="2">Cổ động chính trị</option>
+
                   </select>
                 </div>
                 <div class="ads-amount">
@@ -165,10 +163,7 @@
                 <div class="ads-type">
                   <label for="ads-type">Loại bảng quảng cáo</label>
                   <select id="ads-type" required>
-                    <option selected value="">Chọn loại bảng quảng cáo</option>
-                    <option value="1">Trụ/cụm pano</option>
-                    <option value="2">Băng rôn</option>
-                    <option value="3">Màn hình led</option>
+
                   </select>
                 </div>
                 <div style="width: 100%; height: 200px">
@@ -213,7 +208,7 @@
       </div>
     </div>
 
-    {{!-- <div class="overlay collapse" id="detail-location-overlay"></div>
+    <div class="overlay collapse" id="detail-location-overlay"></div>
 
     <div class="ad-detail-info-container">
       <div class="ad-detail-card">
@@ -233,15 +228,10 @@
                   class="w-100 d-block" alt="First slide">
               </div>
               <div class="carousel-item">
-                <img
-                  src="https://images.unsplash.com/photo-1700451761286-67c601f012d8?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                <img src="https://www.ecommerce-nation.com/wp-content/uploads/2018/10/404-error.jpg"
                   class="w-100 d-block" alt="Second slide">
               </div>
-              <div class="carousel-item">
-                <img
-                  src="https://images.unsplash.com/photo-1700451761286-67c601f012d8?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  class="w-100 d-block" alt="Third slide">
-              </div>
+
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#ad-detail-card-imgs-c001"
               data-bs-slide="prev">
@@ -268,125 +258,57 @@
               Đang quảng cáo
             </div>
 
-            <div class="d-flex justify-content-end w-100 align-item-">
-              <div class="btn btn-outline-secondary" onclick="showPopup()">
+            <div class="d-flex justify-content-end w-100 align-item">
+              <div class="btn btn-outline-secondary" onclick="showPopupAds()">
                 <i class="bi bi-pencil-square"></i>
               </div>
-              <div id="popup-parent">
-                <img id="form-img" src="/public/images/form.png" alt="" />
-                <div class="popup" id="location-popup">
+              <div id="popup-parent-ads">
+                <img id="form-img-ads" src="/public/images/form.png" alt="" />
+                <div class="popup-ads" id="location-popup-ads">
                   <h2 style="margin-top: 60px">Yêu cầu chỉnh sửa</h2>
                   <button style="position: fixed; right: 10px; top: 10px" type="button" class="btn-close"
-                    onclick="hidePopup()" id="close-edit-request"></button>
+                    onclick="hidePopupAds()" id="close-edit-request-ads"></button>
                   <hr />
-                  <p style="text-align: left; font-weight: bold">
-                    Tên người gửi
-                  </p>
-                  <input type="text" class="form-control" placeholder="Tên người gửi" />
-                  <p style="
-                              text-align: left;
-                              font-weight: bold;
-                              margin-top: 25px;
-                            ">
-                    Quận
-                  </p>
-                  <select style="margin: 0" id="typeSelect" class="form-select" aria-label="Default select example"
-                    onchange="filterByType(this.value)">
-                    <option selected>Quận</option>
-                    <option value="1">Quận 1</option>
-                    <option value="1">Quận 2</option>
-                    <option value="1">Quận 3</option>
-                    <option value="1">Quận 4</option>
-                    <option value="1">Quận 5</option>
-                    <option value="1">Quận 6</option>
-                    <option value="1">Quận 7</option>
-                    <option value="1">Quận 8</option>
-                    <option value="1">Quận 10</option>
-                    <option value="1">Quận 11</option>
-                    <option value="1">Quận 12</option>
-                    <option value="1">Quận Bình Tân</option>
-                    <option value="1">Quận Bình Thạnh</option>
-                    <option value="1">Quận Gò Vấp</option>
-                    <option value="1">Quận Phú Nhuận</option>
-                    <option value="1">Quận Tân Bình</option>
-                    <option value="1">Quận Tân Phú</option>
-                    <option value="1">Quận Bình Chánh</option>
-                    <option value="1">Quận Thủ Đức</option>
-                    <option value="1">Huyện Cần Giờ</option>
-                    <option value="1">Huyện Củ Chi</option>
-                    <option value="1">Huyện Hóc Môn</option>
-                    <option value="1">Huyện Nhà Bè</option>
-                  </select>
-                  <p style="
-                              text-align: left;
-                              font-weight: bold;
-                              margin-top: 25px;
-                            ">
-                    Phường
-                  </p>
-                  <select style="margin: 0" id="typeSelect" class="form-select" aria-label="Default select example"
-                    onchange="filterByType(this.value)">
-                    <option selected>Phường</option>
-                    <option value="1">Phường 1</option>
-                    <option value="1">Phường 2</option>
-                    <option value="1">Phường 3</option>
-                  </select>
-                  <p style="
-                              text-align: left;
-                              font-weight: bold;
-                              margin-top: 25px;
-                            ">
-                    Đường
-                  </p>
-                  <input type="text" class="form-control" placeholder="Số, đường" />
-                  <p style="
-                              text-align: left;
-                              font-weight: bold;
-                              margin-top: 25px;
-                            ">
-                    Loại vị trí
-                  </p>
-                  <select style="margin: 0" id="typeSelect" class="form-select" aria-label="Default select example"
-                    onchange="filterByType(this.value)">
-                    <option selected>Loại vị trí</option>
-                    <option value="1">Đất công/</option>
-                    <option value="1">
-                      Hành lang an toàn giao thông
-                    </option>
-                    <option value="1">Công viên</option>
-                    <option value="1">Nhà riêng</option>
-                  </select>
-                  <p style="
-                              text-align: left;
-                              font-weight: bold;
-                              margin-top: 25px;
-                            ">
-                    Mục đích
-                  </p>
-                  <select style="margin: 0" id="typeSelect" class="form-select" aria-label="Default select example"
-                    onchange="filterByType(this.value)">
-                    <option selected>Mục đích</option>
-                    <option value="1">Cổ động chính trị</option>
-                    <option value="1">Quảng cáo thương mại</option>
-                    <option value="1">Xã hội hoá</option>
-                  </select>
-                  <p style="
-                              text-align: left;
-                              font-weight: bold;
-                              margin-top: 25px;
-                            ">
-                    Số lượng
-                  </p>
-                  <input type="text" class="form-control" placeholder="Số lượng" />
-                  <p style="
-                              text-align: left;
-                              font-weight: bold;
-                              margin-top: 25px;
-                            ">
-                    Lý do chỉnh sửa
-                  </p>
-                  <textarea style="width: 100%" name="" id="" cols="30" rows="5"></textarea>
-                  <button id="submit-request" style="
+
+                  <div class="edit-ad-form-officer">
+                    <form action="" class="edit-ad-form-officer">
+                      <div class="imgs-field">
+                        <div class="upload-field" id="edit-ad-form-img-c001">
+                          <label for="imgFile" class="drag-drop">
+                            <input type="file" name="imgFile" id="imgFile" accept=".png, .jpeg, .gif" multiple hidden>
+                            <div class="holder">
+                              <i class="bi bi-cloud-arrow-up-fill"></i>
+                              <h4>Kéo và thả ảnh vào đây</h4> hoặc Click để duyệt file
+                            </div>
+                          </label>
+                          <div class="preview">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="info-field">
+                        <div class="ads-amount">
+                          <label for="ad-w">Chiều rộng</label>
+                          <input type="number" id="ad-w" placeholder="0" required>
+                          <p>m</p>
+                        </div>
+                        <div class="ads-amount">
+                          <label for="ad-h">Chiều dài</label>
+                          <input type="number" id="ads-h" placeholder="0" required>
+                          <p>m</p>
+                        </div>
+                        <div class="form-field">
+                          <label for="start-date">Bắt đầu</label>
+                          <input type="date" id="start-date" placeholder="" required>
+                        </div>
+                        <div class="form-field">
+                          <label for="end-date">Kết thúc</label>
+                          <input type="date" id="end-date" placeholder="" required>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+
+                  <button id="submit-request-ads" style="
                               width: 100%;
                               outline: none;
                               border: 0;
@@ -395,7 +317,7 @@
                               background-color: #262058;
                               color: white;
                               margin-top: 50px;
-                            " onclick="hidePopup()">
+                            " onclick="hidePopupAds()">
                     <h5 style="margin: 0">Gửi yêu cầu</h5>
                   </button>
                 </div>
@@ -405,7 +327,7 @@
         </div>
 
       </div>
-    </div> --}}
+    </div>
   </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"

@@ -221,7 +221,8 @@ tbody td.active {
   padding: 3px;
 }
 
-#popup-parent {
+#popup-parent,
+#popup-parent-ads {
   position: fixed;
   top: 0;
   left: 0;
@@ -235,7 +236,8 @@ tbody td.active {
   align-items: center;
 }
 
-#form-img {
+#form-img,
+#form-img-ads {
   position: fixed;
   width: 100px;
   top: 10%;
@@ -248,7 +250,8 @@ tbody td.active {
   visibility: hidden;
 }
 
-.popup {
+.popup,
+.popup-ads {
   width: 40%;
   height: 80%;
   position: absolute;
@@ -527,4 +530,57 @@ tbody tr.hide td p {
   bottom: 5px;
   right: 50%;
   transform: translateX(50%);
+}
+
+.edit-ad-form {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 10px;
+  z-index: inherit;
+}
+
+.edit-ad-form-officer .imgs-field {
+  width: 100%;
+  height: 30%;
+}
+
+.edit-ad-form-officer .info-field {
+  width: 100%;
+  height: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.edit-ad-form-officer .info-field input {
+  width: 20%;
+}
+.edit-ad-form-officer .info-field .ads-amount {
+  width: 50%;
+  text-align: left;
+  margin-bottom: 3%;
+}
+
+.edit-ad-form-officer .info-field .ads-amount label {
+  width: fit-content;
+}
+.edit-ad-form-officer .info-field .form-field {
+  width: 100%;
+  text-align: left;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.edit-ad-form-officer .info-field label {
+  width: 15%;
+}
+
+.view-info-attribute {
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
 }

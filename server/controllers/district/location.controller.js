@@ -19,7 +19,7 @@ controller.show = async (req, res) => {
 
 
     let data_row = await models.ad_place.findAll({
-        attributes: ['id', 'capacity', 'status'],
+        attributes: ['id', 'capacity', 'status', 'image1', 'image2'],
         include: [
             {
                 model: models.place,
@@ -45,6 +45,8 @@ controller.show = async (req, res) => {
             tmp.capacity = item.capacity;
             tmp.type_ad = item.TypeAds.name;
             tmp.purpose_ad = item.PurposeAds.name;
+            tmp.image1 = item.image1;
+            tmp.image2 = item.image2;
             if (item.status == 1) {
                 tmp.status = {
                     "status_id": "delivered",
