@@ -1,5 +1,23 @@
 let areaLevel = null;
 
+const options = {
+  hour: "2-digit",
+  minute: "2-digit",
+  day: "2-digit",
+  month: "2-digit",
+  year: "numeric",
+};
+
+
+function formattedDate(date)
+{
+  const isoTimestamp = date; // Assuming you want 13:30 time
+  const tempDate = new Date(isoTimestamp);
+  const formatDate = tempDate.toLocaleDateString("vi-VN", options);
+  return formatDate;
+
+}
+
 window.addEventListener("click", function (e) {
   if (e.target.closest(".wrapper-dropdown") === null) {
     closeAllDropdown();
@@ -231,9 +249,11 @@ function generateFeedbackRow(data)
   row.setAttribute("feedback-id", data.id);
   const solvedClass = data.status === "done" ? "solved" : "not-solved";
   const status = data.status === "done" ? "Đã giải quyết" : "Chưa giải quyết";
+  const date = formattedDate(data.createdAt);
+  console.log("This is date: ", date);
   row.innerHTML =
   `
-  <td>${data.createdAt}</td>
+  <td>${date}</td>
   <td>${data.category.name}</td>
   <td class="status">
     <p class="status-tag ${solvedClass}">${status}</p></td>
@@ -415,8 +435,8 @@ function generateFeedbackResponse(data)
     let lName = responseData.account.last_name;
     noResponse.classList.add("collapse");
     
-    content[0].textContent = `${fName} ${lName}`;
-    content[1].textContent = responseData.createdAt;
+    content[0].textContent = `${lName} ${fName}`;
+    content[1].textContent = formattedDate(responseData.createdAt);
     description.innerHTML = responseData.content;
   }
   
