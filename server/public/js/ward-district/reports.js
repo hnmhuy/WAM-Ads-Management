@@ -134,7 +134,7 @@ function updateResponse(data) {
 function updateSolution(button) {
     let buttonId = button.id
     //! Get officer later
-    let officier = 'bfd79bdc-a150-40f3-b429-468600bf4efc'
+    let officier = 'b4586350-7725-4c9f-a546-167ebdde8ce7'
     let textareaElements = document.getElementsByTagName('textarea')
 
     const targetTextarea = Array.from(textareaElements).find(element => element.id === buttonId);
@@ -169,6 +169,7 @@ function updateSolution(button) {
         })
             .then(res => res.json())
             .then(data => {
+                console.log(data)
                 let data_2 = {
                     fb_id: buttonId,
                     fbRes_id: data.data.id

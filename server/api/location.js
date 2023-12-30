@@ -66,7 +66,7 @@ controller.createTypeAndPurpose = async (req, res) => {
     let field_purpose_id = await models.field.findOne({
         attribute: ['id'],
         where: {
-            name: "Loại QC"
+            name: "Mục đích"
         }
     }).then(result => result.id);
 
@@ -80,6 +80,95 @@ controller.createTypeAndPurpose = async (req, res) => {
     });
 };
 
+controller.createTypeAdContent = async (req, res) => {
+    let data = [
+        {
+            name: "Trụ bảng hiflex",
+            description: "Trụ bảng hiflex",
+        },
+        {
+            name: "Trụ màn hình điện tử LED",
+            description: "Trụ màn hình điện tử LED"
+        },
+        {
+            name: "Trụ hộp đèn",
+            description: "Trụ hộp đèn"
+        },
+        {
+            name: "Bảng hiflex ốp tường",
+            description: "Bảng hiflex ốp tường"
+        },
+        {
+            name: "Trụ treo băng rôn dọc",
+            description: "Trụ treo băng rôn ngang"
+        },
+        {
+            name: "Trụ/Cụm pano",
+            description: "Trụ/Cụm pano"
+        },
+        {
+            name: "Cổng chào",
+            description: "Cổng chào"
+        },
+        {
+            name: "Trung tâm thương mại",
+            description: "Trung tâm thương mại"
+        },
+    ]
+
+    let type_id = await models.field.findOne({
+        attribute: ['id'],
+        where: {
+            name: "Loại QC"
+        }
+    }).then(result => result.id);
+
+    for (let i = 0; i < data.length; i++) {
+        data[i].field_id = type_id;
+        await models.category.create(data[i]);
+    }
+
+    res.json({
+        message: "Create Successfully"
+    });
+}
+
+controller.createFeedbackCategory = async (req, res) => {
+    let data = [
+        {
+            name: "Tố giác sai phạm",
+            description: "Tố giác sai phạm"
+        },
+        {
+            name: "Đóng góp ý kiến",
+            description: "Đóng góp ý kiến"
+        },
+        {
+            name: "Giải đáp thắc mắc",
+            description: "Giải đáp thắc mắc"
+        },
+        {
+            name: "Đăng ký nội dung",
+            description: "Đăng ký nội dung"
+        }
+    ]
+
+    let type_id = await models.field.findOne({
+        attribute: ['id'],
+        where: {
+            name: "Phản ánh"
+        }
+    }).then(result => result.id);
+
+    for (let i = 0; i < data.length; i++) {
+        data[i].field_id = type_id;
+        await models.category.create(data[i]);
+    }
+
+    res.json({
+        message: "Create Successfully"
+    });
+}
 controller.getLocations = (req, res) => {
     models.ad_place.findAll({
         attributes: ['id', 'capacity', 'status'],
@@ -130,4 +219,65 @@ controller.getLocations = (req, res) => {
     })
 }
 
+controller.getLocationById = (req, res) => {
+    let ad_place_id = req.query.ad_place_id;
+    models.ad_place.findAll({
+        attributes: ['id', 'capacity', 'status', 'image1', 'image2'],
+        include: [
+            {
+                model: models.place,
+                as: "place",
+                attributes: ['address_formated']
+            },
+            {
+                model: models.category,
+                as: 'TypeAds',
+                attributes: ['id', 'name'],
+            },
+            {
+                model: models.category,
+                as: 'PurposeAds',
+                attributes: ['id', 'name'],
+            },
+            {
+                model: models.category,
+                as: 'Ads',
+                attributes: ['id', 'name'],
+            }
+        ],
+        where: {
+            id: ad_place_id
+        }
+    }).then((data) => {
+        res.json({
+            message: "Update successfully",
+            data: data
+        })
+    }).catch((err) => {
+        res.status(500).json({
+            message: err.message,
+        });
+        console.log(err);
+    })
+}
+
+controller.getAds = (req, res) => {
+    let ad_place_id = req.query.ad_place_id;
+    models.ad_content.findAll({
+        attributes: ['id', 'company_name', 'width', 'height', 'start', 'end', 'image1', 'image2'],
+        where: {
+            ad_place_id: ad_place_id
+        }
+    }).then((data) => {
+        res.json({
+            message: "Update successfully",
+            data: data
+        })
+    }).catch((err) => {
+        res.status(500).json({
+            message: err.message,
+        });
+        console.log(err);
+    })
+}
 module.exports = controller;

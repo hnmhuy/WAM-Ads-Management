@@ -4,6 +4,7 @@ const path = require("path");
 const port = 4000 || process.env.port;
 const expressHbs = require("express-handlebars");
 app.use("/public", express.static(path.join(__dirname, "public")));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 const hbs = expressHbs.create({});
 var bodyParser = require("body-parser");
 const cookiesParser = require('cookie-parser');
@@ -13,11 +14,15 @@ const facebookStrategy = require('passport-facebook');
 const googleStrategy = require('passport-google-oauth20');
 const cors = require("cors"); //use for captcha
 
+const models = require('./models');
+const User = require("./models").account;
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-const initializePassport = require("./passportConfig");
+// const initializePassport = require("./passportConfig");
 const { randomBytes } = require("crypto");
-initializePassport(passport);
+const { profile } = require("console");
+// initializePassport(passport);
 
 app.get("/createTables", (req, res) => {
   let models = require("./models");
@@ -41,12 +46,31 @@ app.use(
 );
 
 app.use(passport.initialize());
-app.use(passport.session())
+app.use(passport.session());
+
 passport.use(new googleStrategy({
-  clientID: '465034546763-b9e5sei88fv81k72go64kkq14ks3e7rb.apps.googleusercontent.com',
-  clientSecret: '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',
-  callbackURL: '/auth/google/callback'
-}, (accessToken, refreshToken, profile, done) => {
+  clientID: '900777213307-q8qc0tphopvtmke922drco89a94pk6ph.apps.googleusercontent.com',
+  clientSecret: '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',
+  callbackURL: 'http://localhost:4000/auth/google/callback',
+  passReqToCallback: true,
+}, async (req, accessToken, refreshToken, profile, done) => {
+  req.bind_account = false;
+  if(req.session.bind){
+    let user_bind_account = await User.findOne({where: {bindAccount: profile.emails[0].value} });
+    if(user_bind_account){
+      req.isExisted = true;
+    } else {
+      await models.account.update(
+          {
+            bindAccount: profile.emails[0].value,
+          },
+          { where: {id: req.session.user.id}}
+        );
+      req.session.user.bindAccount = profile.emails[0].value;
+    }
+    req.bind_account = true;
+    req.cur_user = req.session.user;
+  }
   done(null, profile)
 }))
 
@@ -60,6 +84,12 @@ passport.deserializeUser((obj, done) => {
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+expressHbs.create({
+  runtimeOptions: {
+    allowProtoPropertiesByDefault: true,
+  },
+});
 
 app.engine(
   "hbs",
@@ -146,25 +176,97 @@ app.get("/area", (req, res) => {
 
 app.use("/api", require("./routes/api/api.route"));
 
-// Tmp data for test
-const models = require('./models');
-app.use("/createTemp", (req, res) => {
-  models.feedback.create({
-    name: "Nguyễn Khang Hy",
-    email: "khanghy@gmail.com",
-    phone: "0987654321",
-    status: 'sent',
-    content: 'Điểm quảng cáo nhìn quá đẹp, mãi mê!',
-    image1: "/public/images/location1.png",
+app.use('/createTmp', (req, res) => {
+  models.ad_content.create({
+    company_name: "Công ty TNHH ABC",
+    width: 1,
+    height: 2,
+    description: "Công ty okela",
+    start: "2023-12-28 10:41:28.403 +0700",
+    end: "2024-1-28 10:41:28.403 +0700",
+    image1: "/public/images/location3.png",
     image2: "/public/images/location3.png",
-    type: "09283565-b8ea-48e5-a722-ec26b3861e1d",
-    place_id: "abd930ba-d46b-47ac-a55c-3204bce1cf2d"
-  });
+    ad_place_id: "c2ead701-d057-438f-9bcd-6c32520cb860"
+  })
+
+  models.ad_content.create({
+    company_name: "Công ty TNHH BCD",
+    width: 4,
+    height: 5,
+    description: "Công ty okela",
+    start: "2023-12-28 10:41:28.403 +0700",
+    end: "2024-1-28 10:41:28.403 +0700",
+    image1: "/public/images/location3.png",
+    image2: "/public/images/location3.png",
+    ad_place_id: "c2ead701-d057-438f-9bcd-6c32520cb860"
+  })
+
+  models.ad_content.create({
+    company_name: "Công ty TNHH CDE",
+    width: 4,
+    height: 5,
+    description: "Công ty okela",
+    start: "2023-12-28 10:41:28.403 +0700",
+    end: "2024-1-28 10:41:28.403 +0700",
+    image1: "/public/images/location3.png",
+    image2: "/public/images/location3.png",
+    ad_place_id: "156e20c3-2688-4bb8-b1b8-612d3cc7a5bd"
+  })
+
+  models.ad_content.create({
+    company_name: "Công ty TNHH DEF",
+    width: 4,
+    height: 5,
+    description: "Công ty okela",
+    start: "2023-12-28 10:41:28.403 +0700",
+    end: "2024-1-28 10:41:28.403 +0700",
+    image1: "/public/images/location3.png",
+    image2: "/public/images/location3.png",
+    ad_place_id: "156e20c3-2688-4bb8-b1b8-612d3cc7a5bd"
+  })
   res.send("Success")
 })
+// Tmp data for test
+// const models = require('./models');
+// app.use("/createTemp", (req, res) => {
+//   models.ad_place.create({
+//     capacity: 2,
+//     status: true,
+//     image1: "/public/images/location3.png",
+//     image2: "/public/images/location1.png",
+//     place_id: "d87e9fa2-1603-4529-a03f-b046f0f74ee1",
+//     type_ad_id: "15922ecb-3cea-4f9f-9e50-eebf679f8398",
+//     purpose_id: "b8e2dbbf-5f2c-4630-82c6-acaca365d033",
+//     ad_id: "99a9cff7-8822-4a19-9533-3c667662c3f8"
+//   });
+
+//   models.ad_place.create({
+//     capacity: 4,
+//     status: false,
+//     image1: "/public/images/location3.png",
+//     image2: "/public/images/location1.png",
+//     place_id: "cbac256c-10fb-492d-96fa-eecd564db081",
+//     type_ad_id: null,
+//     purpose_id: "d4b6b4a0-0e12-4fba-846e-d6ac0652d5a0",
+//     ad_id: "dd933a80-8c42-48d7-a20e-2289ab4ac153"
+//   });
+//   models.ad_place.create({
+
+//   });
+//   res.send("Success")
+// })
 app.listen(port, (req, res) => {
-  console.log(`Server is running on ${port}`);
+  console.log(`http://localhost:${port}`);
 });
+
+
+app.get("/createResponse", (req, res) => {
+  models.feedback_response.create({
+    content: "hahahahahahahahaha liuliu",
+    officer: null,
+  })
+  res.send("success");
+})
 
 // CAPTCHA ver2
 app.use(cors());

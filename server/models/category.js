@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       category.hasMany(models.ad_place, { foreignKey: 'location_type'});
       category.hasMany(models.ad_place, { foreignKey: 'purpose'});
       category.hasMany(models.feedback, { foreignKey: 'type' })
+      category.hasOne(models.ad_content, { foreignKey: 'ad_type' })
     }
   }
   category.init({

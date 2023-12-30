@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       ad_content.hasMany(models.feedback, { foreignKey: 'ad_id' })
       ad_content.hasMany(models.create_request, { foreignKey: 'ad_id' })
       ad_content.hasMany(models.update_request, { foreignKey: 'ad_id' })
+      ad_content.belongsTo(models.category, {foreignKey: "ad_type"})
     }
   }
   ad_content.init({

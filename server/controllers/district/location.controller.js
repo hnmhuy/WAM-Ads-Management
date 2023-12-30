@@ -15,11 +15,12 @@ const splitAddressFormatted = (address_formatted) => {
     return address_part
 }
 controller.show = async (req, res) => {
+    req.session.prev_url = req.originalUrl;
     res.locals.page_name = "Danh sách điểm quảng cáo"
 
 
     let data_row = await models.ad_place.findAll({
-        attributes: ['id', 'capacity', 'status'],
+        attributes: ['id', 'capacity', 'status', 'image1', 'image2'],
         include: [
             {
                 model: models.place,
@@ -45,7 +46,9 @@ controller.show = async (req, res) => {
             tmp.capacity = item.capacity;
             tmp.type_ad = item.TypeAds.name;
             tmp.purpose_ad = item.PurposeAds.name;
-            if (item.status === 1) {
+            tmp.image1 = item.image1;
+            tmp.image2 = item.image2;
+            if (item.status == 1) {
                 tmp.status = {
                     "status_id": "delivered",
                     "status_name": "Đã quy hoạch"

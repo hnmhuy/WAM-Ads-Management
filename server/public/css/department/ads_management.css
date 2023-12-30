@@ -1,7 +1,7 @@
 .sidepeek-location {
-    width: 900px !important;
-    height: 100vh;
-    border-radius: 20px 0px 0px 20px;
+  width: 900px !important;
+  height: 100vh;
+  border-radius: 20px 0px 0px 20px;
 }
 
 .map {
@@ -10,536 +10,536 @@
 }
 
 .sidepeek-location-header {
-    justify-content: flex-start;
-    gap: 5px;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+  justify-content: flex-start;
+  gap: 5px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.3);
 }
 
 .sidepeek-location-header button {
-    margin-right: 10px !important;
+  margin-right: 10px !important;
 }
 
 .sidepeek-location-header h5 {
-    font-weight: 800;
+  font-weight: 800;
 }
 
 .tab-bar {
-    display: flex;
-    gap: 10px;
-    padding: 0 !important;
-    justify-content: flex-start;
-    align-items: last baseline;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-    margin-bottom: 10px;
-    transition: all 0.3s ease-in-out;
+  display: flex;
+  gap: 10px;
+  padding: 0 !important;
+  justify-content: flex-start;
+  align-items: last baseline;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  margin-bottom: 10px;
+  transition: all 0.3s ease-in-out;
 }
 
 .tab-bar button {
-    background-color: transparent;
-    color: black;
-    padding: 8px;
-    border: 1px solid rgba(0, 0, 0, 0.3);
-    border-radius: 10px 10px 0px 0px;
-    border-bottom: none;
+  background-color: transparent;
+  color: black;
+  padding: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 10px 10px 0px 0px;
+  border-bottom: none;
 }
 
 .tab-btn-active {
-    color: white !important;
-    background-color: var(--nav-background) !important;
+  color: white !important;
+  background-color: var(--nav-background) !important;
 }
 
 .rotate-btn {
-    transform: rotate(180deg) !important;
+  transform: rotate(180deg) !important;
 }
 
 .req-accordion-header {
-    font-size: 22px;
-    font-weight: 800;
-    background-color: rgb(249, 250, 253);
-    margin: 10px 0px;
-    border-radius: 15px !important;
+  font-size: 22px;
+  font-weight: 800;
+  background-color: rgb(249, 250, 253);
+  margin: 10px 0px;
+  border-radius: 15px !important;
 }
 
 .req-accordion-header h4 {
-    margin-bottom: 0px;
+  margin-bottom: 0px;
 }
 
 .area-accordion-header {
-    display: flex;
-    justify-content: flex-start;
-    gap: 10px;
-    align-items: center;
-    padding: 0;
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  align-items: center;
+  padding: 0;
 }
 
 .area-accordion-header button {
-    width: 60px;
+  width: 60px;
 }
 
 .area-accordion-header * {
-    margin: 0;
+  margin: 0;
 }
 
 .area-accordion-header span {
-    height: 30px;
-    width: 1px;
-    background-color: rgba(0, 0, 0, 0.3);
+  height: 30px;
+  width: 1px;
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
 .area-accordion-header h5 {
-    font-weight: 800;
+  font-weight: 800;
 }
 
 .area-accordion-header p {
-    color: rgba(0, 0, 0, 0.3);
+  color: rgba(0, 0, 0, 0.3);
 }
 
 #req_create_table .collapsed-content {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    min-height: 700px;
-    justify-content: center;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  min-height: 700px;
+  justify-content: center;
 }
 
 #req_create_table .collapsed-content .loading {
-    min-height: 100px !important;
-    padding: 10px;
+  min-height: 100px !important;
+  padding: 10px;
 }
 
 #req_create_table .content-table {
-    min-width: 600px;
-    padding: 10px;
-    height: -moz-fit-content;
-    height: fit-content;
-    flex-direction: column;
+  min-width: 600px;
+  padding: 10px;
+  height: -moz-fit-content;
+  height: fit-content;
+  flex-direction: column;
 }
 
 #req_create_table .content-table button {
-    border: none;
-    background-color: transparent;
+  border: none;
+  background-color: transparent;
 }
 
 #req_create_table .content-detail {
-    min-width: 800px;
-    height: 700px;
-    width: calc(100% - 620px);
-    background-color: rgb(249, 250, 253);
-    border-radius: 15px;
-    padding: 10px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0px;
+  min-width: 800px;
+  height: 700px;
+  width: calc(100% - 620px);
+  background-color: rgb(249, 250, 253);
+  border-radius: 15px;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0px;
 }
 
 #req_create_table .content-detail-header {
-    width: 100%;
-    height: -moz-fit-content;
-    height: fit-content;
-    padding-top: 10px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  width: 100%;
+  height: -moz-fit-content;
+  height: fit-content;
+  padding-top: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 #req_create_table .content-detail-header h5 {
-    font-weight: 800;
+  font-weight: 800;
 }
 
 #req_create_table .content-detail-info {
-    width: calc((100% - 20px) / 2);
-    min-height: 400px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding: 20px 10px;
+  width: calc((100% - 20px) / 2);
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px 10px;
 }
 #req_create_table .content-detail-imgs {
-    width: calc((100% - 20px) / 2);
-    min-width: 400px;
-    display: flex;
-    align-items: center;
+  width: calc((100% - 20px) / 2);
+  min-width: 400px;
+  display: flex;
+  align-items: center;
 }
 
 #req_create_table .content-detail-description {
-    width: 100%;
-    min-height: calc(100% - 70px - 400px - 20px);
-    max-height: calc(100% - 70px - 400px - 20px);
-    padding: 15px;
-    border-radius: 15px;
-    border: 1px solid rgba(0, 0, 0, 0.3);
+  width: 100%;
+  min-height: calc(100% - 70px - 400px - 20px);
+  max-height: calc(100% - 70px - 400px - 20px);
+  padding: 15px;
+  border-radius: 15px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 #req_create_table .content-detail-description div {
-    padding: 10px;
-    height: 100%;
-    width: 100%;
-    overflow: auto;
-    margin-bottom: 10px;
-    background-color: white;
-    text-align: justify;
+  padding: 10px;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  margin-bottom: 10px;
+  background-color: white;
+  text-align: justify;
 }
 
 #req_create_table #req_imgs {
-    border-radius: 10px;
-    overflow: hidden;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 #req_create_table .content-detail-btns {
-    width: 100%;
-    min-height: 60px;
-    display: flex;
-    margin: 5px;
-    justify-content: flex-end;
-    gap: 10px;
+  width: 100%;
+  min-height: 60px;
+  display: flex;
+  margin: 5px;
+  justify-content: flex-end;
+  gap: 10px;
 }
 
 #req_create_table .content-detail-btns button {
-    padding: 2px 10px !important;
-    height: 40px;
-    background-color: transparent;
-    border-radius: 10px;
-    font-weight: 800;
-    border: none;
+  padding: 2px 10px !important;
+  height: 40px;
+  background-color: transparent;
+  border-radius: 10px;
+  font-weight: 800;
+  border: none;
 }
 
 #req_create_table .content-detail-btns button:first-child {
-    border: 1px solid green;
-    color: green;
+  border: 1px solid green;
+  color: green;
 }
 
 #req_create_table .content-detail-btns button:last-child {
-    border: 1px solid red;
-    color: red;
+  border: 1px solid red;
+  color: red;
 }
 
 #req_create_table .content-detail-btns button:first-child:hover {
-    border: 1px solid green;
-    background-color: green;
-    color: white;
+  border: 1px solid green;
+  background-color: green;
+  color: white;
 }
 
 #req_create_table .content-detail-btns button:last-child:hover {
-    border: 1px solid red;
-    background-color: red;
-    color: white;
+  border: 1px solid red;
+  background-color: red;
+  color: white;
 }
 
 #req_create_table .content-detail-attribute {
-    width: 100%;
-    display: flex;
-    gap: 10px;
+  width: 100%;
+  display: flex;
+  gap: 10px;
 }
 #req_create_table .atribute-header {
-    width: 150px;
-    font-weight: 800;
+  width: 150px;
+  font-weight: 800;
 }
 #req_create_table .atribute-data {
-    padding: 5px;
+  padding: 5px;
 }
 
 #req_create_table .selected-row td {
-    background-color: rgba(79, 62, 215, 0.3);
+  background-color: rgba(79, 62, 215, 0.3);
 }
 
 #req_create_table {
-    max-height: calc(100vh - 6rem - 25px - 110px);
+  max-height: calc(100vh - 6rem - 25px - 110px);
 }
 
 .table-header {
-    position: sticky;
-    top: 0;
-    z-index: 1;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 .collapsed-content .collapsed-content {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 #location_table {
-    max-height: calc(100vh - 6rem - 25px - 110px);
+  max-height: calc(100vh - 6rem - 25px - 110px);
 }
 
 #req_update {
-    margin: 10px 0px;
+  margin: 10px 0px;
 }
 
 /* Form */
 
 .create-form {
-    width: 100%;
-    height: calc(100% - 15rem);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
+  width: 100%;
+  height: calc(100% - 15rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 .form-field {
-    width: 100%;
-    padding: 10px 15px;
-    border-radius: 10px;
-    position: relative;
-    margin: 16px 0px;
-    border: 1px solid rgba(0, 0, 0, 0.3);
-    display: flex;
-    justify-content: space-between;
+  width: 100%;
+  padding: 10px 15px;
+  border-radius: 10px;
+  position: relative;
+  margin: 16px 0px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: space-between;
 }
 
 .form-field label {
-    position: absolute;
-    top: -15px;
-    left: 10px;
-    background-color: white;
-    font-size: 16px;
-    font-weight: 600;
-    padding: 0px 5px;
-    width: max-content;
+  position: absolute;
+  top: -15px;
+  left: 10px;
+  background-color: white;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 0px 5px;
+  width: max-content;
 }
 
 .form-field input {
-    flex: 1;
-    border: none;
-    outline: none;
-    background-color: transparent;
+  flex: 1;
+  border: none;
+  outline: none;
+  background-color: transparent;
 }
 
 .form-field select {
-    flex: 1;
-    border: none;
-    outline: none;
-    background-color: transparent;
+  flex: 1;
+  border: none;
+  outline: none;
+  background-color: transparent;
 }
 
 .form-field-col {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 10px;
 }
 
 .form-field-col label {
-    font-size: 18px;
-    font-weight: 800;
+  font-size: 18px;
+  font-weight: 800;
 }
 
 .form-field-col select {
-    flex: 1;
-    padding: 10px 15px;
-    border-radius: 10px;
-    position: relative;
-    border: 1px solid rgba(0, 0, 0, 0.3);
-    outline: none;
-    background-color: transparent;
+  flex: 1;
+  padding: 10px 15px;
+  border-radius: 10px;
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  outline: none;
+  background-color: transparent;
 }
 
 .area-selection {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 10px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .area-selection .form-field:not(:last-child) {
-    width: calc((100% - 10px) / 2);
+  width: calc((100% - 10px) / 2);
 }
 
 .ads-info {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 .ads-info .form-field-col {
-    width: calc((100% - 20px) / 2);
+  width: calc((100% - 20px) / 2);
 }
 
 .ads-amount {
-    width: 100%;
-    display: flex;
-    gap: 10px;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .ads-amount p {
-    margin: 0;
-    font-size: 16px;
-    font-weight: 600;
-    color: rgba(0, 0, 0, 0.3);
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.3);
 }
 
 .ads-amount label {
-    font-size: 18px;
-    font-weight: 800;
+  font-size: 18px;
+  font-weight: 800;
 }
 
 .ads-amount input {
-    border-radius: 10px;
-    padding-left: 12px;
-    position: relative;
-    border: 1px solid rgba(0, 0, 0, 0.3);
-    outline: none;
-    background-color: transparent;
-    text-align: center;
+  border-radius: 10px;
+  padding-left: 12px;
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  outline: none;
+  background-color: transparent;
+  text-align: center;
 }
 
 .ads-type {
-    width: 100%;
-    display: flex;
-    gap: 10px;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .ads-type label {
-    font-size: 18px;
-    font-weight: 800;
+  font-size: 18px;
+  font-weight: 800;
 }
 
 .ads-type select {
-    border-radius: 10px;
-    padding: 10px 15px;
-    position: relative;
-    border: 1px solid rgba(0, 0, 0, 0.3);
-    outline: none;
-    background-color: transparent;
+  border-radius: 10px;
+  padding: 10px 15px;
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  outline: none;
+  background-color: transparent;
 }
 
 /*Image upload*/
 
 .upload-field {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-    position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  position: relative;
 }
 
 .drag-drop {
-    width: 90%;
-    height: 90%;
-    padding: 20px;
-    border: 2px dashed #ccc;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.3s ease-in-out;
-    cursor: pointer;
-    z-index: 1;
+  width: 90%;
+  height: 90%;
+  padding: 20px;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  z-index: 1;
 }
 
 .holder {
-    text-align: center;
+  text-align: center;
 }
 
 .holder i {
-    font-size: 40px;
-    width:40px;
-    height: 40px;
-    color: #ccc;
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+  color: #ccc;
 }
 
 .holder h4 {
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 10px !important;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px !important;
 }
 
 .holder p {
-    font-size: 16px;
-    font-weight: 400;
-    margin-bottom: 10px !important;
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 10px !important;
 }
 
 .holder p:last-child {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 .preview {
-    max-width: 80%!important;
-    height: 80%!important;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
-    overflow: auto;
-    gap: 20px;
-    position: relative;
-    z-index: 2;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    padding: 0 10px;
-    transform: translate(-50%, -50%);
+  max-width: 80% !important;
+  height: 80% !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  overflow: auto;
+  gap: 20px;
+  position: relative;
+  z-index: 2;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  padding: 0 10px;
+  transform: translate(-50%, -50%);
 }
 
 .fileHolder {
-    width: auto;
-    height: 80%;
-    border-radius: 4px;
-    position: relative;
+  width: auto;
+  height: 80%;
+  border-radius: 4px;
+  position: relative;
 }
 
 .fileHolder img {
-    width: auto;
-    max-width: 90%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 10px;
+  width: auto;
+  max-width: 90%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
 }
 
 .fileHolder button {
-    background-color: rgba(0, 0, 0, 0.5);
-    position: absolute;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.3s ease-in-out;
-    width: 22px;
-    height: 22px;
-    top: 0;
-    right: 0;
-    padding: 0px;
-    border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+  width: 22px;
+  height: 22px;
+  top: 0;
+  right: 0;
+  padding: 0px;
+  border-radius: 50%;
 }
 
 .fileHolder i::before {
-    color: #fff;
+  color: #fff;
 }
 
 .drag-drop-dragging {
-    border: 2px dashed #4f3ed7;
-    width: 95%;
-    height: 95%;
+  border: 2px dashed #4f3ed7;
+  width: 95%;
+  height: 95%;
 }
 
 .fileHolder button:hover {
-    background-color: rgba(255, 0, 0, 0.5);
+  background-color: rgba(255, 0, 0, 0.5);
 }
 
 .preview > span {
-    font-size: 16px;
-    font-weight: 500;
-    margin-top: 10px;
-    display: block;
-    position: absolute;
-    bottom: 5px;
-    right: 50%;
-    transform: translateX(50%);
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 10px;
+  display: block;
+  position: absolute;
+  bottom: 5px;
+  right: 50%;
+  transform: translateX(50%);
 }
 
 .submit-btn {
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
 }
 
 .inside-btns {
@@ -571,289 +571,288 @@
 }
 /* Ad detail information */
 .edit-location-btn {
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    margin: 10px 0px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin: 10px 0px;
 }
 
 .edit-location-btn button {
-    background-color: #fff7dd;
-    color: black;
-    border: none;
-    border-radius: 10px;
-    padding: 5px 10px;
+  background-color: #fff7dd;
+  color: black;
+  border: none;
+  border-radius: 10px;
+  padding: 5px 10px;
 }
 
 .edit-location-btn button:hover {
-    background-color: #fcac5d;
-    color: white;
+  background-color: #fcac5d;
+  color: white;
 }
 
 .extend-btn .edit-location-btn {
-    justify-content: center;
+  justify-content: center;
 }
 
 .ad-detail-imgs {
-    display: flex;
-    padding: 10px;
-    gap: 10px;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  padding: 10px;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
 }
 
 .ad-detail-imgs img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    border-radius: 10px;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 10px;
 }
 
 .ad-detail-info-container {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 10px;
-    padding: 10px 0px;
-    margin: 0;
-    position: relative;
-    transition: all 1s ease-in-out;
-    border-top: 0.8px solid rgba(0, 0, 0, 0.3);
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px 0px;
+  margin: 0;
+  position: relative;
+  transition: all 1s ease-in-out;
+  border-top: 0.8px solid rgba(0, 0, 0, 0.3);
 }
 
 /*Detail info ads*/
 
 .ad-detail-card {
-    width: calc(50% - 5px);
-    height: 150px;
-    border-radius: 15px;
-    padding: 0;
-    overflow: hidden;
-    border: 0.8px solid rgba(0, 0, 0, 0.3);
-    padding-right: 10px;
-    position: relative;
-    transition: all 0.3s ease-in-out;
+  width: calc(50% - 5px);
+  height: auto;
+  border-radius: 15px;
+  padding: 0;
+  overflow: hidden;
+  border: 0.8px solid rgba(0, 0, 0, 0.3);
+  padding-right: 10px;
+  position: relative;
+  transition: all 0.3s ease-in-out;
 }
 
 .view {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    gap: 10px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  gap: 10px;
 }
 
 .view-imgs {
-    width: 50%;
-    padding: 0;
-    overflow: hidden;
+  width: 50%;
+  padding: 0;
+  overflow: hidden;
 }
 .view-info {
-    width: 50%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    gap: 10px;
-    padding: 10px;
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 10px;
 }
 
 .view-info-attribute span {
-    font-weight: 800;
-    width: 90px;
-    display: inline-block;
+  font-weight: 800;
+  width: 90px;
+  display: inline-block;
 }
 
 .edit-ad-btn {
-    position: absolute;
-    width: 22px;
-    height: 22px;
-    font-size: 12px;
-    bottom: 10px;
-    right: 10px;
-    background-color: #fff7dd;
-    border: none;
-    padding: 2px;
-    border-radius: 5px;
-    line-height: 22px;
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  font-size: 12px;
+  bottom: 10px;
+  right: 10px;
+  background-color: #fff7dd;
+  border: none;
+  padding: 2px;
+  border-radius: 5px;
+  line-height: 22px;
 }
 
 .edit-ad-btn:hover {
-    background-color: #fcac5d;
-    color: white;
+  background-color: #fcac5d;
+  color: white;
 }
 
 .ad-detail-card-editing {
-    width: 100%!important;
-    height: 260px!important;
-    background-color: white!important;
-    border:rgb(47, 29, 177) 1px solid!important;
-    z-index: 2!important;
-    position: absolute;
-    top: 10px;
-    left: 0;
+  width: 100% !important;
+  height: 260px !important;
+  background-color: white !important;
+  border: rgb(47, 29, 177) 1px solid !important;
+  z-index: 2 !important;
+  position: absolute;
+  top: 10px;
+  left: 0;
 }
 
 .ad-detail-card-editing .view {
-    display: none;
+  display: none;
 }
 
 .ad-detail-card-editing .edit-ad-form {
-    display: flex;
+  display: flex;
 }
 
 .edit-ad-form {
-    width: 100%;
-    height: 100%;
-    display: none;
-    justify-content: space-around;
-    align-items: center;
-    gap: 10px;
-    z-index: inherit;
+  width: 100%;
+  height: 100%;
+  display: none;
+  justify-content: space-around;
+  align-items: center;
+  gap: 10px;
+  z-index: inherit;
 }
 
 .edit-ad-form .imgs-field {
-    width: 60%;
-    height: 100%;
+  width: 60%;
+  height: 100%;
 }
 
 .edit-ad-form .info-field {
-    width: 40%;
-    height: 100%;
-    padding: 10px;
+  width: 40%;
+  height: 100%;
+  padding: 10px;
 }
 
 .edit-ad-form .info-field input {
-    width: 20%;
+  width: 20%;
 }
 
 .edit-ad-form .info-field label {
-    width: 35%;
+  width: 35%;
 }
 
 .overlay {
-    position: absolute;
-    width: 900px;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.3);
-    z-index: 1;
-    transition: all 0.3s ease-in-out;
-    top: 0;
-    left: 0;    
-    border-radius: 20px 0px 0px 20px;
+  position: absolute;
+  width: 900px;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+  transition: all 0.3s ease-in-out;
+  top: 0;
+  left: 0;
+  border-radius: 20px 0px 0px 20px;
 }
 
 /*Update request*/
-.req-update-common-info{
-    display: flex;
-    margin-bottom: 10px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-    padding: 5px;
-    flex-direction: column;
-    gap: 5px;
-    position: relative;
+.req-update-common-info {
+  display: flex;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  padding: 5px;
+  flex-direction: column;
+  gap: 5px;
+  position: relative;
 }
 
-.req-update-common-info h5{
-    font-weight: 800;
+.req-update-common-info h5 {
+  font-weight: 800;
 }
 
 .req-update-common-info button {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 10px;
-    background-color: rgb(245, 243, 255);
-    color: black;
-    transition: all 0.3s ease-in-out;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 10px;
+  background-color: rgb(245, 243, 255);
+  color: black;
+  transition: all 0.3s ease-in-out;
 }
 
 .req-update-common-info button:hover {
-    background-color: rgb(47, 29, 177);
-    color: white;
+  background-color: rgb(47, 29, 177);
+  color: white;
 }
 
 .req-update-common-info .table th,
-.req-update-common-info .table td{
-    border: none;
-    background-color: transparent;
-    padding: 2px;
+.req-update-common-info .table td {
+  border: none;
+  background-color: transparent;
+  padding: 2px;
 }
 
 .req-update-common-info .table th {
-    width: 150px;
+  width: 150px;
 }
 
 .req-update-common-info h4 {
-    font-weight: 800;
-    border-bottom: 0.8px solid rgba(0, 0, 0, 0.3);
-    padding: 10px 0px;
+  font-weight: 800;
+  border-bottom: 0.8px solid rgba(0, 0, 0, 0.3);
+  padding: 10px 0px;
 }
 
-.collapse{
-    width: 100%;
-    padding: 10px;
-    border-bottom: 0.8px solid rgba(0, 0, 0, 0.3);
+.collapse {
+  width: 100%;
+  padding: 10px;
+  border-bottom: 0.8px solid rgba(0, 0, 0, 0.3);
 }
-.req-update-detail-info{
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    padding: 10px;
-    border-bottom: 0.8px solid rgba(0, 0, 0, 0.3);
+.req-update-detail-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px;
+  border-bottom: 0.8px solid rgba(0, 0, 0, 0.3);
 }
 
 .req-update-detail-info h4 {
-    font-weight: 800;
-    border-bottom: 0.8px solid rgba(0, 0, 0, 0.3);
-    padding: 10px 0px;
+  font-weight: 800;
+  border-bottom: 0.8px solid rgba(0, 0, 0, 0.3);
+  padding: 10px 0px;
 }
 
-.ru-reason{
-    width: 100%;
-    max-height: 20%;
-    padding: 10px;
-    overflow: auto;
-    border-radius: 10px;
-    border: 1px solid rgba(0, 0, 0, 0.3);
-    margin-bottom: 5px;
+.ru-reason {
+  width: 100%;
+  max-height: 20%;
+  padding: 10px;
+  overflow: auto;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  margin-bottom: 5px;
 }
-.ru-table-cell{
-    display: flex;
-    flex-direction: row;
-    gap: 5px;
-}
-
-.ru-table-cell-changing div{
-    width: calc(50% - 2.5px);
-    padding: 0px 2px;
+.ru-table-cell {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
 }
 
-.ru-table-cell-changing div:first-child{
-    border-right: 1px solid rgba(0, 0, 0, 0.3);
+.ru-table-cell-changing div {
+  width: calc(50% - 2.5px);
+  padding: 0px 2px;
 }
 
+.ru-table-cell-changing div:first-child {
+  border-right: 1px solid rgba(0, 0, 0, 0.3);
+}
 
 .req-update-detail-info .table th {
-    width: 150px;
+  width: 150px;
 }
 
 .ru-table-cell-changing p {
-    display: block;
-    padding: 2px;
-    width: calc(100% - 4px);
-    margin: 2px;
-    overflow: auto;
-    border-radius: 10px;
-    border: 1px solid rgba(0, 0, 0, 0.3);
+  display: block;
+  padding: 2px;
+  width: calc(100% - 4px);
+  margin: 2px;
+  overflow: auto;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .req-update-btns {
-    display: flex;
-    justify-content: flex-end;
-    padding: 10px;
-    gap: 5px;
-    width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+  gap: 5px;
+  width: 100%;
 }
