@@ -9,8 +9,8 @@ async function createAdPlace(data) {
             image1: data.image1,
             image2: data.image2,
             place_id: data.place_id,
-            type_ad_id: data.type_ad_id,
-            purpose_id: data.purpose_id,
+            location_type: data.location_type,
+            purpose: data.purpose,
         })
         return ad_place.dataValues;
     } catch (error) {
@@ -21,11 +21,12 @@ async function createAdPlace(data) {
 
 controller.createAdPlace = async (req, res) => {
     console.log(req.body);  
+    console.log(req.files);
     // Create a place
     const placeData = {};
     placeData.geometry = req.body.geometry;
     placeData.address_formated = req.body.street;
-    placeData.area_id = req.body['ward-selection'];
+    placeData.area_id = req.body['ward'];
     let placeRes = await addPlace(placeData);
     if(placeRes) {
         const data = {};
@@ -33,8 +34,8 @@ controller.createAdPlace = async (req, res) => {
         data.image1 = null;
         data.image2 = null;
         data.place_id = req.body.place_id;
-        data.type_ad_id = req.body['location-type-selection'];
-        data.purpose_id = req.body['purpose-type-selection'];
+        data.location_type = req.body['location-type'];
+        data.purpose = req.body['purpose-type'];
         data.place_id = placeRes.id;
         let adPlaceRes = await createAdPlace(data);
         if (adPlaceRes) {

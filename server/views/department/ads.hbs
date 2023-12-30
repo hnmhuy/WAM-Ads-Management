@@ -642,14 +642,14 @@
         <form class="create-form" id="create-location-form" enctype="multipart/form-data">
             <div class="area-selection">
                 <div class="form-field">
-                    <label for="distict-selection">Quận</label>
-                    <select name="district-selection" title="Chọn quận" required>
+                    <label for="distict">Quận</label>
+                    <select name="district" title="Chọn quận" required>
                         <option selected value="">Chọn quận</option>
                     </select>
                 </div>
                 <div class="form-field">
-                    <label for="ward-selection">Phường</label>
-                    <select name="ward-selection" title="Chọn phường" required disabled>
+                    <label for="ward">Phường</label>
+                    <select name="ward" title="Chọn phường" required disabled>
                         <option selected value="">Chọn phường</option>
                     </select>
                 </div>
@@ -664,16 +664,16 @@
             </div>
             <div class="ads-info">
                 <div class="form-field-col">
-                    <label for="location-type-selection">Loại ví trị</label>
-                    <select name="location-type-selection" title="Chọn loại vị trí" required>
+                    <label for="location-type">Loại ví trị</label>
+                    <select name="location-type" title="Chọn loại vị trí" required>
                         <option selected value="">Chọn loại vị trí</option>
                         <option value="1">Nhà riêng</option>
                         <option value="2">Đất công</option>
                     </select>
                 </div>
                 <div class="form-field-col">
-                    <label for="purpose-type-selection">Hình thức quảng cáo</label>
-                    <select name="purpose-type-selection"title="Chọn hình thức quảng cáo" required>
+                    <label for="purpose-type">Hình thức quảng cáo</label>
+                    <select name="purpose-type"title="Chọn hình thức quảng cáo" required>
                         <option selected value="">Chọn hình thức quảng cáo</option>
                         <option value="1">Thương mại</option>
                         <option value="2">Cổ động chính trị</option>
@@ -708,7 +708,7 @@
                 </div>
             </div>
             <div class="submit-btn">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="offcanvas" onclick="clearForm()">Hủy</button>
+                <button type="button" class="btn btn-secondary" onclick="clearForm('create-location-form')">Hủy</button>
                 <button type="submit" class="btn btn-primary" onclick="createLocation(event)">Tạo mới</button>
             </div>
         </form>
@@ -730,16 +730,16 @@
         <form action="#" class="create-form" id="edit-location-form">
             <div class="area-selection">
                 <div class="form-field">
-                    <label for="distict-selection">Quận</label>
-                    <select name="district-selection" title="Chọn quận" required>
+                    <label for="distict">Quận</label>
+                    <select name="district" title="Chọn quận" required>
                         <option value="">Chọn quận</option>
                         <option value="1">Quận 5</option>
                         <option selected value="2">Quận 8</option>
                     </select>
                 </div>
                 <div class="form-field">
-                    <label for="ward-selection">Phường</label>
-                    <select name="ward-selection" title="Chọn phường" required>
+                    <label for="ward">Phường</label>
+                    <select name="ward" title="Chọn phường" required>
                         <option value="">Chọn phường</option>
                         <option value="1">Phường 1</option>
                         <option selected value="2">Phường 2</option>
@@ -763,16 +763,16 @@
             </div>
             <div class="ads-info">
                 <div class="form-field-col">
-                    <label for="location-type-selection">Loại ví trị</label>
-                    <select id="location-type-selection" required>
+                    <label for="location-type">Loại ví trị</label>
+                    <select id="location-type" required>
                         <option value="">Chọn loại vị trí</option>
                         <option selected value="1">Nhà riêng</option>
                         <option value="2">Đất công</option>
                     </select>
                 </div>
                 <div class="form-field-col">
-                    <label for="purpose-type-selection">Hình thức quảng cáo</label>
-                    <select id="purpose-type-selection" required>
+                    <label for="purpose-type">Hình thức quảng cáo</label>
+                    <select id="purpose-type" required>
                         <option value="">Chọn hình thức quảng cáo</option>
                         <option selected value="1">Thương mại</option>
                         <option value="2">Cổ động chính trị</option>
@@ -805,13 +805,11 @@
                     </div>
                 </div>
                 <div class="submit-btn">
-                    <button type="button" class="btn btn-secondary" data-bs-toggle="offcanvas"
-                        data-bs-target="#location_extend" aria-controls="location_extend"
-                        onclick="clearForm()">Hủy</button>
+                    <button type="button" class="btn btn-secondary" onclick="clearForm('edit-location-form')">Hủy</button>
                     <button type="submit" class="btn btn-primary">Tạo mới</button>
                 </div>
             </div>
-        </form>
+        </form>         
     </div>
 </div>
 

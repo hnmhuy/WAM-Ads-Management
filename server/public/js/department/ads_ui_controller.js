@@ -8,6 +8,15 @@ const location_area = document.querySelector("#location-area");
 const req_area = document.querySelector("#req-area");
 let currpage = swap_button.getAttribute("target");
 let geometry = undefined;
+let createLocationCanvas = undefined;
+let updateLocationCanvas = undefined;
+
+document.addEventListener("DOMContentLoaded", () => {
+    let createLocation = document.getElementById('location_create');
+    let updateLocation = document.getElementById('location_edit');
+    createLocationCanvas = new bootstrap.Offcanvas(createLocation);
+    updateLocationCanvas = new bootstrap.Offcanvas(updateLocation);
+})
 
 function createLoadingHolder() {
     const loadingHolder = document.createElement("div");
@@ -272,6 +281,7 @@ function imgInputController(fieldId) {
 
     imgInputField.addEventListener("change", () => {
         const files = imgInputField.files;
+        console.log(files);
         addImgs(files, previewArea, dragDropArea, fieldId);
     });
 
@@ -414,13 +424,13 @@ function fetchAndAddOption(selectElement, kindOfData, placeHolder, idDistrict) {
     .then(res => res.json())
     .then(data => {
         if(data.status === 'success') {
+            selectElement.disabled = false;
             if(data.data.length === 0) {
                 selectElement.parentNode.style.border = "1px solid red";
                 selectElement.innerHTML = `
                     <option selected value=""><strong style="color:red;">Không có dữ liệu</strong></option>
                 `
             } else {
-                selectElement.disabled = false;
                 selectElement.parentNode.style.border = "1px solid rgba(0, 0, 0, 0.3)";
                 selectElement.innerHTML = `
                     <option selected value="">${placeHolder}</option>
@@ -447,7 +457,7 @@ function areaSelectionController(districtSelection, wardSelection, streetSelecti
     });
     geocodeBtn.addEventListener("click", async () => {
         let data = await geocoding(mapForCreate, address, false, true, 18);
-        geometry = data.features[0].geometry
+        geometry = preProcessGeoJson(data.features[0])
     })
     districtSelection.addEventListener("change", () => {
         if (districtSelection.value != "") {
@@ -485,9 +495,9 @@ function areaSelectionController(districtSelection, wardSelection, streetSelecti
 
 function formControl(form_id) {
     const districtSelection = document.querySelector(
-        `#${form_id} select[name="district-selection"]`
+        `#${form_id} select[name="district"]`
     );
-    const wardSelection = document.querySelector(`#${form_id} select[name="ward-selection"]`);
+    const wardSelection = document.querySelector(`#${form_id} select[name="ward"]`);
     const streetSelection = document.querySelector(`#${form_id} input[name="street"]`);
     areaSelectionController(districtSelection, wardSelection, streetSelection);
 }
@@ -553,36 +563,49 @@ function fetchDropDown(url, element, placeHolder) {
 async function openCreateLocationForm() {
     geometry = {};
     const form = document.querySelector("#create-location-form");
-    const locationType = form.querySelector("select[name='location-type-selection']");
-    const adPurpose = form.querySelector("select[name='purpose-type-selection']");
-    const districtSelection = form.querySelector("select[name='district-selection']");
-    const wardSelection = form.querySelector("select[name='ward-selection']");
+    const locationType = form.querySelector("select[name='location-type']");
+    const adPurpose = form.querySelector("select[name='purpose-type']");
+    const districtSelection = form.querySelector("select[name='district']");
+    const wardSelection = form.querySelector("select[name='ward']");
     const streetSelection = form.querySelector("input[name='street']");
 
     await fetchDropDown("/api/category/getCategory?fieldId=T1", locationType, "Chọn loại vị trí");
     await fetchDropDown("/api/category/getCategory?fieldId=T2", adPurpose, "Chọn hình thức quảng cáo");
     await fetchAndAddOption(districtSelection, 'district', 'Chọn quận/huyện');
-
 }
 
-function createLocation(event) {
+async function createLocation(event) {
     const form = document.getElementById('create-location-form');
     if(!form.checkValidity()) {
         return;
     }
-
     event.preventDefault();
     const formData = new FormData(form);
     let coordinate = mapForCreate.getCenter();
     geometry.coordinates = [coordinate.lng, coordinate.lat];
     formData.append('geometry', JSON.stringify(geometry));
+    const imgFiles = form.querySelector("#imgFile");
+    console.log(imgFiles.files);
+    // try {
+    //     let res = await fetch('/api/ad_place/create', {
+    //         method: 'POST',
+    //         body: formData
+    //     })
+    //     res = await res.json();
+    //     if(res.success) {
+    //        clearForm('create-location-form');
+    //     }
+    // } catch (error) {
+    //     console.log(error);
+    // }
+}
 
-    fetch('/api/ad_place/create', {
-        method: 'POST',
-        body: formData
-    }).then(res => res.json())
-    .then(data => {
-        console.log(data);
-    })
-    return;
+function clearForm(formId) {
+    let form = document.getElementById(formId);
+    form.reset();
+    if(formId === 'create-location-form') {
+        createLocationCanvas.hide();
+    } else if(formId === 'edit-location-form') {
+        updateLocationCanvas.hide();
+    }
 }
