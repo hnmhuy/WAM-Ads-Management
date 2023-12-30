@@ -19,7 +19,7 @@ const map = new mapboxgl.Map({
 });
 
 map.addControl(new mapboxgl.AttributionControl({
-    customAttribution: 'Map design by WAM Team'
+    customAttribution: 'Bản đồ được thiết kế bở WAM Team'
 }));
 
 map.addControl(new mapboxgl.NavigationControl(), "bottom-right");

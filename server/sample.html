@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #json-display {
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <form action="#" onsubmit="geocoding(event)">
+        <label for="search"></label>
+        <input type="text" name="search" id="search" title="search" style="width: 80vw; height: 20px; border-radius: 5px;">
+        <label for="tool">
+        </label>
+        <select name="tool" title="tool" id="tool-geocode">
+            <option value="openstreetmap">OpenStreet map</option>
+            <option value="mapbox">Mapbox</option>
+            <option value="here">Here</option>
+        </select>
+        <button type="submit">Search</button>
+    </form>
+
+    <form action="#" onsubmit="reverseGeocode(event)">
+        <label for="long">
+            Long
+            <input type="text" name="long" id="long" title="long" style="width: 80vw; height: 20px; border-radius: 5px;">
+        </label>
+        <br>
+        <label for="lat">
+            Lat
+            <input type="text" name="lat" id="lat" title="lat" style="width: 80vw; height: 20px; border-radius: 5px;">
+        </label>
+        <label for="tool"></label>
+        <select name="tool" title="tool-revgeocode" id="tool-revgeocode">
+            <option value="openstreetmap">OpenStreet map</option>
+            <option value="mapbox">Mapbox</option>
+            <option value="here">Here</option>
+        </select>
+        <button type="submit">Reverse Geocode</button>
+    </form>
+    <div id="json-display"></div>
+    <script>
+    const token = "pk.eyJ1IjoiZGV2LWhubWh1eSIsImEiOiJjbHBwYXY3ZW8weTdvMnBxbm85cnV2ZTFvIn0.6e8fwVmpoLxVSkyBWksYBg";
+       function geocoding(event) {
+        console.log('geocoding');
+        event.preventDefault();
+        let searchQuery = document.getElementById('search').value;
+        // searchQuery = searchQuery.replace(" ", "+");
+        searchQuery = searchQuery.replaceAll(" ", "+");
+        
+        let tool = document.getElementById('tool-geocode').value;
+        let url;
+        if(tool == 'openstreetmap') {
+            url = `https://nominatim.openstreetmap.org/search?q=${searchQuery}&format=geojson&addressdetails=1&accept-language=vi-VN&countrycodes=VN&limit=1`
+        } else if(tool == 'mapbox') {
+            url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${searchQuery}.json?country=VN&access_token=${token}`;
+        } else if(tool == 'here') {
+            url = `https://geocode.search.hereapi.com/v1/geocode?q=${searchQuery}&apiKey=-2h_c-TPWWThqQbHlTMFFRHAlyUc7ItXFErGrJ42iqw`
+        }
+        // Open new tab with the url
+        console.log(url);
+        fetch(url, {
+            cors: 'no-cors' 
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('json-display').innerHTML = JSON.stringify(data, null, 2);
+            document.getElementById('json-display').style.border = '2px solid green';
+            setTimeout(() => {
+                document.getElementById('json-display').style.border = '1px solid #ccc';
+            }, 1000);
+            // Auto fill long lat
+            document.getElementById('long').value = data.features[0].geometry.coordinates[0];
+            document.getElementById('lat').value = data.features[0].geometry.coordinates[1];
+        })
+       }
+
+       function reverseGeocode(event) {
+        console.log('reverse geocoding');
+        event.preventDefault();
+        let long = document.getElementById('long').value;
+        let lat = document.getElementById('lat').value;
+        let url;
+        let tool = document.getElementById('tool-revgeocode').value;
+        if(tool == 'openstreetmap') {
+            url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${long}&format=geojson&=1&addressdetails=1&accept-language=vi-VN&countrycodes=VN&limit=1`
+        } else if(tool == 'mapbox') {
+            url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${long},${lat}.json?country=VN&access_token=${token}`;
+        } else if(tool == 'here') {
+            url = `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${lat}%2C${long}&apiKey=-2h_c-TPWWThqQbHlTMFFRHAlyUc7ItXFErGrJ42iqw`
+        }
+        // Open new tab with the url
+        console.log(url);
+        fetch(url, {
+            cors: 'no-cors' 
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('json-display').innerHTML = JSON.stringify(data, null, 2);
+        })
+       }
+    </script>
+</body>
+</html>

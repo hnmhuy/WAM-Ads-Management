@@ -26,7 +26,10 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true
     },
     capacity: DataTypes.INTEGER,
-    status: DataTypes.BOOLEAN
+    status: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
+    }
   }, {
     sequelize,
     modelName: 'ad_place',

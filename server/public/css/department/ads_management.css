@@ -4,7 +4,7 @@
     border-radius: 20px 0px 0px 20px;
 }
 
-#map {
+.map {
     height: 100%;
     width: 100%;
 }
@@ -542,6 +542,33 @@
     margin-top: 10px;
 }
 
+.inside-btns {
+    display: flex;
+    gap: 5px;
+}
+
+.inside-btns button {
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 5px;
+}
+
+
+.inside-btns button:first-child:hover {
+    background-color: #5da7fc;
+    color: white;
+}
+
+.inside-btns button:last-child:hover {
+    background-color: #fc5d5d;
+    color: white;
+}
+
+.inside-btns button[disabled]:hover {
+    background-color: transparent;
+    color: #ccc;
+}
 /* Ad detail information */
 .edit-location-btn {
     width: 100%;
