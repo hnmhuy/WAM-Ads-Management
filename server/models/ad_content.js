@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       ad_content.hasMany(models.feedback, { foreignKey: 'ad_id' })
       ad_content.hasMany(models.create_request, { foreignKey: 'ad_id' })
       ad_content.hasMany(models.update_request, { foreignKey: 'ad_id' })
+      ad_content.belongsTo(models.category, {foreignKey: "ad_type"})
     }
   }
   ad_content.init({
@@ -29,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.TEXT,
     start: DataTypes.DATE,
     end: DataTypes.DATE,
-    status: DataTypes.STRING,
+    status: DataTypes.BOOLEAN,
     image1: DataTypes.STRING,
     image2: DataTypes.STRING
   }, {

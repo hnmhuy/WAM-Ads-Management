@@ -15,6 +15,7 @@ const splitAddressFormatted = (address_formatted) => {
 }
 
 controller.show = async (req, res) => {
+    req.session.prev_url = req.originalUrl;
     res.locals.page_name = "Danh sách cấp phép";
 
     let data_rows = await models.feedback.findAll({

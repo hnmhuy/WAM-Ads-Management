@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true
     },
-    content: DataTypes.STRING
+    content: DataTypes.TEXT
   }, {
     sequelize,
     modelName: 'feedback_response',

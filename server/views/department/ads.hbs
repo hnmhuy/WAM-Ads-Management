@@ -22,8 +22,10 @@
         </div>
     </div>
 
-    <button class="primary-button" id="new_location_btn" type="button" data-bs-toggle="offcanvas"
-        data-bs-target="#location_create" aria-controls="location_create">
+    <button class="primary-button" id="new_location_btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#location_create"
+        aria-controls="location_create"
+        onclick="openCreateLocationForm()"
+        >
         <i class="bi bi-plus-circle"></i>
         Tạo mới
     </button>
@@ -277,8 +279,8 @@
                         <div class="imgs-field">
                             <div class="upload-field" id="edit-ad-form-img-c001">
                                 <label for="imgFile" class="drag-drop">
-                                    <input type="file" name="imgFile" id="imgFile" accept=".png, .jpeg, .gif" multiple
-                                        hidden>
+                                    <input type="file" name="imgFile" id="imgFile" accept=".png, .jpeg, .gif, .jpg"
+                                        multiple hidden>
                                     <div class="holder">
                                         <i class="bi bi-cloud-arrow-up-fill"></i>
                                         <h4>Kéo và thả ảnh vào đây</h4> hoặc Click để duyệt file
@@ -629,42 +631,41 @@
     </div>
     <div class="offcanvas-body">
         <div class="map-container" style="width: 100%; height: 15rem;">
-            <div id="map">
-                Waiting for map ...
+            <div class="map" id="map-for-create">
             </div>
         </div>
-        <form action="#" class="create-form" id="create-location-form">
+        {{!-- <div>
+            <p id="lng">Long: </p>
+            <p id="lat">Lat: </p>
+            <p id="address">Address: </p>
+        </div> --}}
+        <form class="create-form" id="create-location-form" enctype="multipart/form-data">
             <div class="area-selection">
                 <div class="form-field">
                     <label for="distict-selection">Quận</label>
-                    <select id="district-selection" required>
+                    <select name="district-selection" title="Chọn quận" required>
                         <option selected value="">Chọn quận</option>
-                        <option value="1">Quận 5</option>
-                        <option value="2">Quận 8</option>
                     </select>
                 </div>
                 <div class="form-field">
                     <label for="ward-selection">Phường</label>
-                    <select id="ward-selection" required disabled>
+                    <select name="ward-selection" title="Chọn phường" required disabled>
                         <option selected value="">Chọn phường</option>
-                        <option value="1">Phường 1</option>
-                        <option value="2">Phường 2</option>
-                        <option value="3">Phường 3</option>
-                        <option value="4">Phường 4</option>
-                        <option value="5">Phường 5</option>
-                        <option value="6">Phường 6</option>
-                        <option value="7">Phường 7</option>
                     </select>
                 </div>
                 <div class="form-field">
                     <label for="street">Đường</label>
-                    <input type="text" id="street" placeholder="Nhập số và tên đường" required disabled>
+                    <input type="text" name="street" placeholder="Nhập số và tên đường" title="Tên đường" required disabled>
+                    <div class="inside-btns">
+                        <button type="button" title="Tìm địa chỉ" disabled><i class="bi bi-geo"></i></button>
+                        <button type="button" title="Xóa" disabled><i class="bi bi-x"></i></button>
+                    </div>
                 </div>
             </div>
             <div class="ads-info">
                 <div class="form-field-col">
                     <label for="location-type-selection">Loại ví trị</label>
-                    <select id="location-type-selection" required>
+                    <select name="location-type-selection" title="Chọn loại vị trí" required>
                         <option selected value="">Chọn loại vị trí</option>
                         <option value="1">Nhà riêng</option>
                         <option value="2">Đất công</option>
@@ -672,7 +673,7 @@
                 </div>
                 <div class="form-field-col">
                     <label for="purpose-type-selection">Hình thức quảng cáo</label>
-                    <select id="purpose-type-selection" required>
+                    <select name="purpose-type-selection"title="Chọn hình thức quảng cáo" required>
                         <option selected value="">Chọn hình thức quảng cáo</option>
                         <option value="1">Thương mại</option>
                         <option value="2">Cổ động chính trị</option>
@@ -680,18 +681,18 @@
                 </div>
                 <div class="ads-amount">
                     <label for="ads-amount">Số lượng</label>
-                    <input type="number" id="ads-amount" min="1" max="10" placeholder="0" required>
+                    <input type="number" name="ads-amount" min="1" max="10" placeholder="0" title="Số lượng" required>
                     <p>bảng / địa điểm</p>
                 </div>
-                <div class="ads-type">
+                {{!-- <div class="ads-type">
                     <label for="ads-type">Loại bảng quảng cáo</label>
-                    <select id="ads-type" required>
+                    <select name="ads-type" title="Chọn loại bảng quảng cáo" required>
                         <option selected value="">Chọn loại bảng quảng cáo</option>
                         <option value="1">Trụ/cụm pano</option>
                         <option value="2">Băng rôn</option>
                         <option value="3">Màn hình led</option>
                     </select>
-                </div>
+                </div> --}}
                 <div style="width: 100%; height: 200px">
                     <div class="upload-field" id="create-location-form-upload-img">
                         <label for="imgFile" class="drag-drop">
@@ -707,9 +708,8 @@
                 </div>
             </div>
             <div class="submit-btn">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="offcanvas"
-                    onclick="clearForm()">Hủy</button>
-                <button type="submit" class="btn btn-primary">Tạo mới</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="offcanvas" onclick="clearForm()">Hủy</button>
+                <button type="submit" class="btn btn-primary" onclick="createLocation(event)">Tạo mới</button>
             </div>
         </form>
     </div>
@@ -724,15 +724,14 @@
     </div>
     <div class="offcanvas-body">
         <div class="map-container" style="width: 100%; height: 15rem;">
-            <div id="map">
-                Waiting for map ...
+            <div class="map" id="map-for-update">
             </div>
         </div>
         <form action="#" class="create-form" id="edit-location-form">
             <div class="area-selection">
                 <div class="form-field">
                     <label for="distict-selection">Quận</label>
-                    <select id="district-selection" required>
+                    <select name="district-selection" title="Chọn quận" required>
                         <option value="">Chọn quận</option>
                         <option value="1">Quận 5</option>
                         <option selected value="2">Quận 8</option>
@@ -740,7 +739,7 @@
                 </div>
                 <div class="form-field">
                     <label for="ward-selection">Phường</label>
-                    <select id="ward-selection" required>
+                    <select name="ward-selection" title="Chọn phường" required>
                         <option value="">Chọn phường</option>
                         <option value="1">Phường 1</option>
                         <option selected value="2">Phường 2</option>
@@ -753,8 +752,13 @@
                 </div>
                 <div class="form-field">
                     <label for="street">Đường</label>
-                    <input type="text" id="street" placeholder="Nhập số và tên đường" required
+                    <input type="text" name="street" placeholder="Nhập số và tên đường" title="Tên đường và số nhà" required
                         value="181/37 Âu Dương Lân">
+
+                    <div class="inside-btns">
+                        <button type="button" title="Tìm địa chỉ" disabled><i class="bi bi-geo"></i></button>
+                        <button type="button" title="Xóa" disabled><i class="bi bi-x"></i></button>
+                    </div>
                 </div>
             </div>
             <div class="ads-info">
@@ -841,5 +845,7 @@
     }
 
     filterComponent("#filter-sample", filterConfig);
+
+    
 
 </script>

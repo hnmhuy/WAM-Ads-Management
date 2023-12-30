@@ -15,6 +15,7 @@ const splitAddressFormatted = (address_formatted) => {
     return address_part
 }
 controller.show = async (req, res) => {
+    req.session.prev_url = req.originalUrl;
     res.locals.page_name = "Danh sách điểm quảng cáo"
 
 
