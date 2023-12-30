@@ -1,10 +1,11 @@
 let type;
+let feedbackType;
 document.addEventListener("DOMContentLoaded", () =>{
 // Get the custom dropdown container
-  const customDropdown = document.getElementById("customDropdown");
+  feedbackType = document.getElementById("feedback-type");
 
   // Attach click event listeners to each option
-  const optionElements = customDropdown.querySelectorAll(".option");
+  const optionElements = feedbackType.querySelectorAll(".option");
   optionElements.forEach(function (option) {
     option.addEventListener("click", function () {
       // Get the text content of the selected option
@@ -16,6 +17,33 @@ document.addEventListener("DOMContentLoaded", () =>{
   });
 })
 
+function eventListenerForDropdown()
+{
+  const optionMenu = document.querySelector(".select-menu"),
+    selectBtn = optionMenu.querySelector(".select-btn"),
+    options = optionMenu.querySelectorAll(".option"),
+    optionList = optionMenu.querySelector(".options"),
+    sBtn_text = optionMenu.querySelector(".sBtn-text");
+
+  selectBtn.addEventListener("click", () => {
+    optionList.classList.toggle("hidden");
+    optionMenu.classList.toggle("active");
+  });
+
+  options.forEach((option) => {
+    option.addEventListener("click", () => {
+      let selectedOption = option.querySelector(".option-text").innerText;
+      sBtn_text.innerText = selectedOption;
+      sBtn_text.setAttribute("data-id", option.getAttribute("data-id"));
+      optionList.classList.add("hidden");
+      optionMenu.classList.remove("active");
+      selectBtn.style.backgroundColor = "#e8f0fe";
+      selectBtn.style.boxShadow = "0 0 0 0.01rem rgba(13,110,253,.25)";
+      selectBtn.style.border = "0.1px solid #dee2e6";
+    });
+  });
+  
+}
 
 
 const form = document.querySelector("form");
@@ -26,38 +54,18 @@ form.addEventListener("submit", async (e) => {
     throw new Error("Captcha not complete");
   }
 
-  const content = tinymce.get("mytextarea").getContent().trim();
-  const captcha = new FormData();
-  captcha.append("g-recaptcha-response", captchaResponse)
-
-  const email = document.querySelector("form #email").value;
-  const name = document.querySelector("form #name").value;
-  const phone = document.querySelector("form #phone").value;
-  const file = document.querySelector("form #file");
-  const fd = new FormData();
-
-  fd.append("type", type);
-  fd.append("email", email);
-  fd.append("name", name);
-  fd.append("phone", phone);
-  fd.append("content", content);
-  fd.append("file", file.files[0]);
-  console.log(fd.get("file"));
-  // const blob = new Blob([content], { type: "text/xml" });
-  // fd.append("content", blob);
+  // const captcha = new FormData();
+  // captcha.append("g-recaptcha-response", captchaResponse)
   
+  const content = tinymce.get("mytextarea").getContent().trim();
+  const type = form.querySelector(".sBtn-text").getAttribute("data-id");
+  const fd = new FormData(form);
+  
+  fd.append("type", type);
+  fd.set("mytextarea", content);
+  
+  const params = new URLSearchParams(fd);
 
-  // fd.type = type
-  // fd.email = email
-  // fd.name = name
-  // fd.phone = phone
-  // fd.content= content
-
-  // console.log(fd);
-
-
-  const params = new URLSearchParams(captcha);
-  // console.log(params.toString());
 
   const res = await fetch("http://localhost:4000/api/feedback/reCaptcha", {
     method: "POST",
@@ -74,8 +82,7 @@ form.addEventListener("submit", async (e) => {
         body: fd, // Convert the object to a JSON string
       });
       const data2 = await res1.json();
-      console.log(data2.message);
-      console.log(res1);
+      console.log(data2);
 
       alert("Đã gửi phản hồi thành công");
       document.querySelector("form").classList.add("hidden");
@@ -85,5 +92,23 @@ form.addEventListener("submit", async (e) => {
     }
 
 });
+
+
+fetch("http://localhost:4000/api/category/getCategory?fieldId=T4").then((res) => res.json()).then((data) => {
+  data.data.forEach((item) => {
+    generateOptions(item);
+  })
+  eventListenerForDropdown();
+});
+
+function generateOptions(data)
+{
+  let li = document.createElement("li");
+  li.className = "option";
+  li.setAttribute("data-id", data.id);
+  li.innerHTML = `<span class="option-text">${data.name}</span>`;
+  let ul = feedbackType.querySelector("ul");
+  ul.appendChild(li);
+}
 
 

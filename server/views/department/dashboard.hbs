@@ -3,7 +3,7 @@
         <h3>Thống kê theo tháng</h3>
         <div class="choose-month">
             <label for="month"></label>
-            <input type="month" name="month" id="month">
+            <input type="month" name="month" id="month" oninput="getDate(this)">
         </div>
     </div>
     <div class="report-container">
@@ -11,12 +11,12 @@
             <p>Số lượng phản ánh</p>
             <div class="report-card-amount">1,345</div>
             <div class="percent" style="background-color: var(--report-card-down);">
-                <img src="/public/images/down-arrow.svg" alt="arrow-up" />
+                <img src="/public/images/down-arrow.svg" alt="arrow-down" />
                 <p>5%</p>
             </div>
         </div>
         <div class="report-card">
-            <p>Đăng ký mới</p>
+            <p>Số lượng đăng ký mới</p>
             <div class="report-card-amount">1,345</div>
             <div class="percent" style="background-color: var(--report-card-up)">
                 <img src="/public/images/up-arrow.svg" alt="arrow-up" />
@@ -24,10 +24,10 @@
             </div>
         </div>
         <div class="report-card">
-            <p>Số lượng phản ánh</p>
+            <p>Số lượng bảng quảng cáo</p>
             <div class="report-card-amount">1,345</div>
             <div class="percent" style="background-color: var(--report-card-noChange);">
-                <img src="/public/images/noChange-arrow.svg" alt="arrow-up" />
+                <img src="/public/images/noChange-arrow.svg" alt="arrow" />
                 <p>5%</p>
             </div>
         </div>
@@ -41,11 +41,6 @@
         <div class="subtitle">
             <h3>Thông kê theo loại phản ánh</h3>
             <div id="filter-date-container">
-                {{!-- <label for="startDate"></label>
-                <input type="date" id="startDate" name="startDate" />
-                <span></span>
-                <label for="endDate"></label>
-                <input type="date" id="endDate" name="endDate" /> --}}
             </div>
         </div>
         <div class="chart-display">

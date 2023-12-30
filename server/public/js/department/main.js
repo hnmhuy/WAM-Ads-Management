@@ -398,7 +398,7 @@ function unselectSearchOption(e) {
 
 
 function convertDateFormat(inputDate) {
-    // Split the input date string into day, month, and year
+ 
     var dateParts = inputDate.split('/');
     var day = dateParts[0];
     var month = dateParts[1];

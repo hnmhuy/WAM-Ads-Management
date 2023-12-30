@@ -51,6 +51,7 @@
     <script type="module" src="./maps/maps.js"></script>
 
     <script src="./public/js/sidepeek.js"></script>
+    <script src="./public/js/upload-file.js""></script>
 
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script
@@ -912,25 +913,13 @@
         <div class="type-email">
           <div>
             <label for="dropdown" class="form-label">Hình thức báo cáo</label>
-            <div class="select-menu" id="customDropdown">
+            <div class="select-menu" id="feedback-type">
               <div class="select-btn">
                 <span class="sBtn-text">Hình thức báo cáo</span>
                 <i class="bi bi-chevron-down"></i>
               </div>
 
               <ul class="options hidden">
-                <li class="option">
-                  <span class="option-text">Tố giác sai phạm</span>
-                </li>
-                <li class="option">
-                  <span class="option-text">Đăng ký nội dung</span>
-                </li>
-                <li class="option">
-                  <span class="option-text">Đóng góp ý kiến</span>
-                </li>
-                <li class="option">
-                  <span class="option-text">Giải đáp thắc mắc</span>
-                </li>
               </ul>
             </div>
           </div>
@@ -941,6 +930,7 @@
               type="email"
               class="form-control"
               id="email"
+              name="email"
               aria-describedby="emailHelp"
               required
             />
@@ -950,11 +940,11 @@
           <div>
             <label for="name" class="form-label">Họ và tên</label>
 
-            <input type="text" class="form-control" id="name" required />
+            <input type="text" class="form-control" id="name" name="name" required />
           </div>
           <div>
             <label for="phone" class="form-label">Số điện thoại</label>
-            <input type="tel" class="form-control" id="phone" required />
+            <input type="tel" class="form-control" id="phone" name="phone" required />
           </div>
         </div>
 
@@ -964,9 +954,8 @@
           <div id="tooltip" class="hidden">Vui lòng điền Nội dung báo cáo.</div>
         </div>
 
-        <input type="file" name="file" id="file" style="display: block;">
 
-        <div class="upload-file">
+        <!-- <div class="upload-file">
           <label for="upload-file">Hình ảnh báo cáo</label>
           <div class="drop_box">
             <header>
@@ -982,7 +971,19 @@
             />
             <button class="btn">Chọn ảnh</button>
           </div>
-        </div>
+        </div> -->
+        <div style="width: 100%; height: 200px">
+          <div class="upload-field" id="feedback-upload-img">
+              <label for="imgFile" class="drag-drop">
+                  <input type="file" name="imgFile" id="imgFile" accept=".png, .jpeg, .gif" multiple hidden>
+                  <div class="holder">
+                      <i class="bi bi-cloud-arrow-up-fill"></i>
+                      <h4>Kéo và thả ảnh vào đây</h4> hoặc Click để duyệt file
+                  </div>
+              </label>
+              <div class="preview" style="display: none;"></div>
+          </div>
+      </div>
         <div class="submit-captcha">
           <div
             class="g-recaptcha"
@@ -1098,13 +1099,9 @@
     <script src="./public/js/feedback.js"></script>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script>
-      async function fetchData() {
-        const response = await fetch("http://127.0.0.1:4000/api/area/getArea?opts=hierarchy"); 
-        const data = await response.json();
-        console.log(data);        
-      }
-
-      fetchData();
+      imgInputController("feedback-upload-img");
     </script>
+
+
   </body>
 </html>

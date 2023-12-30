@@ -139,65 +139,65 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // DROPDOWN
-document.addEventListener("DOMContentLoaded", () => {
-  const optionMenu = document.querySelector(".select-menu"),
-    selectBtn = optionMenu.querySelector(".select-btn"),
-    options = optionMenu.querySelectorAll(".option"),
-    optionList = optionMenu.querySelector(".options"),
-    sBtn_text = optionMenu.querySelector(".sBtn-text");
+// document.addEventListener("DOMContentLoaded", () => {
+//   const optionMenu = document.querySelector(".select-menu"),
+//     selectBtn = optionMenu.querySelector(".select-btn"),
+//     options = optionMenu.querySelectorAll(".option"),
+//     optionList = optionMenu.querySelector(".options"),
+//     sBtn_text = optionMenu.querySelector(".sBtn-text");
 
-  selectBtn.addEventListener("click", () => {
-    optionList.classList.toggle("hidden");
-    optionMenu.classList.toggle("active");
-  });
+//   selectBtn.addEventListener("click", () => {
+//     optionList.classList.toggle("hidden");
+//     optionMenu.classList.toggle("active");
+//   });
 
-  options.forEach((option) => {
-    option.addEventListener("click", () => {
-      let selectedOption = option.querySelector(".option-text").innerText;
-      sBtn_text.innerText = selectedOption;
-      optionList.classList.add("hidden");
+//   options.forEach((option) => {
+//     option.addEventListener("click", () => {
+//       let selectedOption = option.querySelector(".option-text").innerText;
+//       sBtn_text.innerText = selectedOption;
+//       optionList.classList.add("hidden");
 
-      optionMenu.classList.remove("active");
-      selectBtn.style.backgroundColor = "#e8f0fe";
-      selectBtn.style.boxShadow = "0 0 0 0.01rem rgba(13,110,253,.25)";
-      selectBtn.style.border = "0.1px solid #dee2e6";
-    });
-  });
-});
+//       optionMenu.classList.remove("active");
+//       selectBtn.style.backgroundColor = "#e8f0fe";
+//       selectBtn.style.boxShadow = "0 0 0 0.01rem rgba(13,110,253,.25)";
+//       selectBtn.style.border = "0.1px solid #dee2e6";
+//     });
+//   });
+// });
 
 //UPLOAD FILE
-document.addEventListener("DOMContentLoaded", () => {
-  const dropArea = document.querySelector(".drop_box"),
-    button = dropArea.querySelector("button"),
-    dragText = dropArea.querySelector("header"),
-    input = dropArea.querySelector("input");
-  let file;
-  var filename;
+// document.addEventListener("DOMContentLoaded", () => {
+//   const dropArea = document.querySelector(".drop_box"),
+//     button = dropArea.querySelector("button"),
+//     dragText = dropArea.querySelector("header"),
+//     input = dropArea.querySelector("input");
+//   let file;
+//   var filename;
 
-  button.onclick = () => {
-    input.click();
-  };
+//   button.onclick = () => {
+//     input.click();
+//   };
 
-  input.addEventListener("change", function (e) {
-    var fileName = e.target.files[0].name;
-    let maxFile = e.target.files.length;
-    console.log(e.target.files);
-    console.log(e.target.files.length);
-    if (maxFile < 2) {
-    } else {
-      alert("Chỉ được chọn tối đa 2 ảnh");
-    }
-    let filedata = `
-    <form action="" method="post">
-    <div class="form">
-    <h4>${fileName}</h4>
-    <input type="email" placeholder="Enter email upload file">
-    <button class="btn">Upload</button>
-    </div>
-    </form>`;
-    dropArea.innerHTML = filedata;
-  });
-});
+//   input.addEventListener("change", function (e) {
+//     var fileName = e.target.files[0].name;
+//     let maxFile = e.target.files.length;
+//     console.log(e.target.files);
+//     console.log(e.target.files.length);
+//     if (maxFile < 2) {
+//     } else {
+//       alert("Chỉ được chọn tối đa 2 ảnh");
+//     }
+//     let filedata = `
+//     <form action="" method="post">
+//     <div class="form">
+//     <h4>${fileName}</h4>
+//     <input type="email" placeholder="Enter email upload file">
+//     <button class="btn">Upload</button>
+//     </div>
+//     </form>`;
+//     dropArea.innerHTML = filedata;
+//   });
+// });
 
 //Carousel-swipe
 document.addEventListener("DOMContentLoaded", () => {
