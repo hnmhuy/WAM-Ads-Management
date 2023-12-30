@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       defaultValue: "sent"
     },
-    content: DataTypes.STRING,
+    content: DataTypes.TEXT,
     image1: DataTypes.STRING,
     image2: DataTypes.STRING
   }, {

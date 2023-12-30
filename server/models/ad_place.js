@@ -12,10 +12,8 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       ad_place.belongsTo(models.place, { foreignKey: 'place_id' })
-      ad_place.belongsTo(models.category, { foreignKey: 'type_ad_id', as: 'TypeAds' })
-      ad_place.belongsTo(models.category, { foreignKey: 'purpose_id', as: 'PurposeAds' })
-      ad_place.belongsTo(models.category, { foreignKey: 'ad_id', as: 'Ads' })
-
+      ad_place.belongsTo(models.category, { foreignKey: 'location_type', as: "locationType"})
+      ad_place.belongsTo(models.category, { foreignKey: 'purpose', as: "purposeType" })
       ad_place.hasMany(models.ad_content, { foreignKey: 'ad_place_id' })
       ad_place.hasMany(models.update_request, { foreignKey: 'ad_place_id' })
     }
@@ -27,9 +25,12 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true
     },
     capacity: DataTypes.INTEGER,
-    status: DataTypes.BOOLEAN,
-    image1: DataTypes.STRING,
-    image2: DataTypes.STRING
+    status: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
+    },
+    image1: DataTypes.TEXT,
+    image2: DataTypes.TEXT,
   }, {
     sequelize,
     modelName: 'ad_place',

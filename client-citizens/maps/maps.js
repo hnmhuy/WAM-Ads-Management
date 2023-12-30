@@ -19,7 +19,7 @@ const map = new mapboxgl.Map({
 });
 
 map.addControl(new mapboxgl.AttributionControl({
-    customAttribution: 'Map design by WAM Team'
+    customAttribution: 'Bản đồ được thiết kế bở WAM Team'
 }));
 
 map.addControl(new mapboxgl.NavigationControl(), "bottom-right");
@@ -82,6 +82,9 @@ geocoder.on("result", (event) => {
 
     // You can perform additional actions with the search result data if needed
 });
+
+// Get user location
+navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
 
 function successCallback(position) {
     console.log(position.coords.longitude, position.coords.latitude)

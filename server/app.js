@@ -27,7 +27,7 @@ const { profile } = require("console");
 app.get("/createTables", (req, res) => {
   let models = require("./models");
   models.sequelize.sync().then(() => {
-    res.send("Create Tables");
+    res.redirect("/api/category/restoreField")
   });
 });
 

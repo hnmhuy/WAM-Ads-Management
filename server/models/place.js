@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true
     },
     geometry: DataTypes.STRING,
-    address_formated: DataTypes.STRING
+    address_formated: DataTypes.TEXT
   }, {
     sequelize,
     modelName: 'place',

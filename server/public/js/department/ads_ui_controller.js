@@ -7,6 +7,7 @@ const req_update = document.querySelector("#req_update");
 const location_area = document.querySelector("#location-area");
 const req_area = document.querySelector("#req-area");
 let currpage = swap_button.getAttribute("target");
+let geometry = undefined;
 
 function createLoadingHolder() {
     const loadingHolder = document.createElement("div");
@@ -386,38 +387,109 @@ function addImgs(files, previewArea, dragDropArea, fieldId) {
 }
 
 // -----Logic for create location form -------
-function fetchAndAddOption(selectedElement, kindOfData) {
+function generateOption(data) {
+    let option = document.createElement("option");
+    option.value = data.id;
+    option.textContent = data.name;
+    return option;
+}
+
+function fetchAndAddOption(selectElement, kindOfData, placeHolder, idDistrict) {
     // Implement later
+    let url = "";
+    if(kindOfData === 'district') {
+       url = "/api/area/getArea?opts=db&level=1" 
+    } else if (kindOfData === 'ward') {
+        url = `/api/area/getArea?opts=db&level=2&idDistrict=${idDistrict}`
+    }
+    selectElement.disabled = true;
+    selectElement.parentNode.style.border = "1px solid rgba(0, 0, 255, 0.3)";
+    selectElement.innerHTML = `
+        <option value="">
+            <strong>Đang tải dữ liệu ....</strong>
+        </option>
+    `
+
+    fetch(url)
+    .then(res => res.json())
+    .then(data => {
+        if(data.status === 'success') {
+            if(data.data.length === 0) {
+                selectElement.parentNode.style.border = "1px solid red";
+                selectElement.innerHTML = `
+                    <option selected value=""><strong style="color:red;">Không có dữ liệu</strong></option>
+                `
+            } else {
+                selectElement.disabled = false;
+                selectElement.parentNode.style.border = "1px solid rgba(0, 0, 0, 0.3)";
+                selectElement.innerHTML = `
+                    <option selected value="">${placeHolder}</option>
+                `
+            }
+            data.data.forEach(item => {
+                selectElement.appendChild(generateOption(item));
+            })
+        } else {
+            console.log(data.message);
+        }
+    })
+
     return null;
 }
 
-function formControl(form_id) {
-    const districtSelection = document.querySelector(
-        `#${form_id} #district-selection`
-    );
-    const wardSelection = document.querySelector(`#${form_id} #ward-selection`);
 
-    const streetSelection = document.querySelector(`#${form_id} #street`);
-
+function areaSelectionController(districtSelection, wardSelection, streetSelection) {
+    let address = "";
+    const geocodeBtn = streetSelection.parentNode.querySelector(".inside-btns button:first-child");
+    const clearAddressBtn = streetSelection.parentNode.querySelector(".inside-btns button:last-child");
+    clearAddressBtn.addEventListener("click", () => {
+        streetSelection.value = "";
+    });
+    geocodeBtn.addEventListener("click", async () => {
+        let data = await geocoding(mapForCreate, address, false, true, 18);
+        geometry = data.features[0].geometry
+    })
     districtSelection.addEventListener("change", () => {
         if (districtSelection.value != "") {
-            // fetchAndAddOption(districtSelection, 'ward');
+            geocoding(mapForCreate, districtSelection.options[districtSelection.selectedIndex].text, true);
             wardSelection.disabled = false;
+            fetchAndAddOption(wardSelection, 'ward', 'Chọn phường/xã', districtSelection.value);
             wardSelection.addEventListener("change", () => {
                 if (wardSelection.value != "") {
+                    address = `${wardSelection.options[wardSelection.selectedIndex].text}, ${districtSelection.options[districtSelection.selectedIndex].text}`
+                    geocoding(mapForCreate, address, true);
                     streetSelection.disabled = false;
+                    geocodeBtn.disabled = false;
+                    clearAddressBtn.disabled = false;
+                    streetSelection.value = "";
+                    streetSelection.addEventListener("input", () => {
+                        address = `${streetSelection.value}, ${wardSelection.options[wardSelection.selectedIndex].text}, ${districtSelection.options[districtSelection.selectedIndex].text}`;
+                    });
                 } else {
                     streetSelection.value = "";
                     streetSelection.disabled = true;
+                    geocodeBtn.disabled = true;
+                    clearAressBtn.disabled = true;
                 }
             });
         } else {
             wardSelection.disabled = true;
             streetSelection.disabled = true;
+            geocodeBtn.disabled = true;
+            clearAddressBtn.disabled = true;
             wardSelection.value = "";
             streetSelection.value = "";
         }
     });
+}
+
+function formControl(form_id) {
+    const districtSelection = document.querySelector(
+        `#${form_id} select[name="district-selection"]`
+    );
+    const wardSelection = document.querySelector(`#${form_id} select[name="ward-selection"]`);
+    const streetSelection = document.querySelector(`#${form_id} input[name="street"]`);
+    areaSelectionController(districtSelection, wardSelection, streetSelection);
 }
 
 function clearImgInputField(fieldId) {
@@ -425,17 +497,13 @@ function clearImgInputField(fieldId) {
     if (inputFieldIndex === -1) {
         return;
     }
-
     //Remove all the files in the preview area
     let previewArea = document.querySelector(`#${fieldId} .preview`);
     previewArea.innerHTML = "";
     previewArea.style.display = "none";
-
     document.querySelector(`#${fieldId} .holder`).style.display = "block";
-
     // Remove this in window.inputFieldArray
     window.inputFieldArray.splice(inputFieldIndex, 1);
-
     // Remove this in window.uploadedFiles
     window.uploadedFiles.splice(inputFieldIndex, 1);
 
@@ -443,7 +511,6 @@ function clearImgInputField(fieldId) {
 
 
 // Detail location - edit ad button
-
 function editAd(e) {
     let adCard = e.parentNode.parentNode;
     let imgField = adCard.querySelector(".imgs-field .upload-field");
@@ -462,4 +529,60 @@ function cancelAdEdit(e) {
     let overlay = document.querySelector("#detail-location-overlay");
     overlay.classList.add("collapse");
     clearImgInputField(imgFieldId);
+}
+
+function fetchDropDown(url, element, placeHolder) {
+    fetch(url)
+    .then(res => res.json())
+    .then(data => {
+        if(data.data.length === 0) {
+            element.innerHTML = `
+                <option selected value="">Không có dữ liệu</option>
+            `
+        } else {
+            element.innerHTML = `
+                <option selected value="">${placeHolder}</option>
+            `
+        }
+        data.data.forEach(item => {
+            element.appendChild(generateOption(item));
+        })
+    })
+}
+
+async function openCreateLocationForm() {
+    geometry = {};
+    const form = document.querySelector("#create-location-form");
+    const locationType = form.querySelector("select[name='location-type-selection']");
+    const adPurpose = form.querySelector("select[name='purpose-type-selection']");
+    const districtSelection = form.querySelector("select[name='district-selection']");
+    const wardSelection = form.querySelector("select[name='ward-selection']");
+    const streetSelection = form.querySelector("input[name='street']");
+
+    await fetchDropDown("/api/category/getCategory?fieldId=T1", locationType, "Chọn loại vị trí");
+    await fetchDropDown("/api/category/getCategory?fieldId=T2", adPurpose, "Chọn hình thức quảng cáo");
+    await fetchAndAddOption(districtSelection, 'district', 'Chọn quận/huyện');
+
+}
+
+function createLocation(event) {
+    const form = document.getElementById('create-location-form');
+    if(!form.checkValidity()) {
+        return;
+    }
+
+    event.preventDefault();
+    const formData = new FormData(form);
+    let coordinate = mapForCreate.getCenter();
+    geometry.coordinates = [coordinate.lng, coordinate.lat];
+    formData.append('geometry', JSON.stringify(geometry));
+
+    fetch('/api/ad_place/create', {
+        method: 'POST',
+        body: formData
+    }).then(res => res.json())
+    .then(data => {
+        console.log(data);
+    })
+    return;
 }

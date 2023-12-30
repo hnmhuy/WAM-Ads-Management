@@ -17,11 +17,14 @@ controller.showAds = (req, res) => {
         css: ["/public/css/department/ads_management.css"],
         swap: true,
         title: "QUẢN LÝ QUẢNG CÁO",
-        jsHeader: ["/public/js/shared/handler_table_ui.js"],
+        jsHeader: [
+            "/public/js/shared/handler_table_ui.js",
+            "/public/js/maps/map.js"
+        ],
     };
     res.render("department/ads", {
         layout: "department_layout",
-        jsHeader: componentDependcy.js,
+        jsHeader: componentDependcy.jsHeader,
         css: componentDependcy.css,
         swap: componentDependcy.swap,
         title: componentDependcy.title,

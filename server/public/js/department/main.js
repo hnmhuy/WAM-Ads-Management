@@ -1,4 +1,3 @@
-// Filter function component
 function displayNotification(message, type) {
     const color = type === 'success' ? "#C1F2B0" : "#FF6969";
     Toastify({
@@ -15,6 +14,8 @@ function displayNotification(message, type) {
         onClick: function(){} // Callback after click
     }).showToast();
 }
+
+// Filter function component
 
 function removeDiacritics(str) {
     return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
