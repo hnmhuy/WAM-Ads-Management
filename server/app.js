@@ -95,6 +95,7 @@ app.use("/label", require("./routes/department/label.route"));
 app.use("/feedback", require("./routes/department/feedback.route"));
 
 
+
 app.get("/delegate", (req, res) => {
   let navBarData = require("./nav_link.json");
   navBarData.nav_link.forEach((link) => {

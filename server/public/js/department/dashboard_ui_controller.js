@@ -1,3 +1,18 @@
+// --------------- SET DEFAULT VALUE FOR THE DATE --------
+
+function setDefaultMonth()
+{
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+
+  const defaultValue = `${year}-${month}`;
+  document.getElementById('month').value = defaultValue;
+}
+
+window.onload = setDefaultMonth;
+
+
 // -------------- FILTER ------------------
 
 
@@ -115,6 +130,28 @@ new Chart(lineChart, {
     },
 })
 
+// ------------------ FETCH DATA FOR TAG ------------------
+// function getFeedbackNumber()
+// {
+
+// }
+function getDate(e)
+{
+  console.log("get Date: ", e.value);
+}
+
+
+
+const startDate =  dateChild.querySelector(".doughnut-report #filter-date-start");
+const endDate =  dateChild.querySelector(".doughnut-report #filter-date-end");
+const oneDate =  dateChild.querySelector(".doughnut-report #filter-one-date")
+console.log("Start date: ", startDate);
+console.log("End date: ", endDate);
+console.log("One date: ", oneDate);
+
+startDate.setAttribute("change" ,"getDate(this)");
+endDate.setAttribute("onchange" ,"getDate(this)");
+oneDate.setAttribute("onchange" ,"getDate(this)");
 
 
 
@@ -123,5 +160,3 @@ new Chart(lineChart, {
 
 
 
-
-// ------------------ FETCH DATA FOR TAG ------------------
