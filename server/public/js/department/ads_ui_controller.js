@@ -16,6 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let updateLocation = document.getElementById('location_edit');
     createLocationCanvas = new bootstrap.Offcanvas(createLocation);
     updateLocationCanvas = new bootstrap.Offcanvas(updateLocation);
+    console.log(window.inputFieldArray);
+    console.log(window.uploadedFiles);
 })
 
 function createLoadingHolder() {
@@ -264,6 +266,9 @@ function handleCopplaseContent(e) {
 
 // ------Control the upload image------
 
+
+// ------Control the upload image------
+
 const maxAmountOfFiles = 2;
 window.inputFieldArray = [];
 window.uploadedFiles = [];
@@ -271,20 +276,17 @@ window.uploadedFiles = [];
 function imgInputController(fieldId) {
     window.inputFieldArray.push(fieldId);
     window.uploadedFiles.push([]);
-    let imgInputField = document.querySelector(`#${fieldId} #imgFile`);
+    let imgInputField = document.querySelector(`#${fieldId} input[name="imgFile"]`);
     let dragDropArea = document.querySelector(`#${fieldId} .drag-drop`);
     let previewArea = document.querySelector(`#${fieldId} .preview`);
 
     console.log(`${fieldId} controller is running`);
     console.log(window.inputFieldArray);
     console.log(window.uploadedFiles);
-
     imgInputField.addEventListener("change", () => {
         const files = imgInputField.files;
-        console.log(files);
         addImgs(files, previewArea, dragDropArea, fieldId);
     });
-
     dragDropArea.addEventListener("dragover", (e) => {
         e.preventDefault();
         dragDropArea.classList.add("drag-drop-dragging");
@@ -298,13 +300,14 @@ function imgInputController(fieldId) {
         e.preventDefault();
         dragDropArea.classList.remove("drag-drop-dragging");
         const files = e.dataTransfer.files;
+        console.log(files);
         addImgs(files, previewArea, dragDropArea, fieldId);
     });
 }
 
 function removeImg(index, fieldId) {
     let inputFieldIndex = window.inputFieldArray.indexOf(fieldId);
-    let imgInputField = document.querySelector(`#${fieldId} #imgFile`);
+    let imgInputField = document.querySelector(`#${fieldId} input[name="imgFile"]`);
     let dragDropArea = document.querySelector(`#${fieldId} .drag-drop`);
     let previewArea = document.querySelector(`#${fieldId} .preview`);
     let fileHolder = previewArea.querySelector(
@@ -407,8 +410,8 @@ function generateOption(data) {
 function fetchAndAddOption(selectElement, kindOfData, placeHolder, idDistrict) {
     // Implement later
     let url = "";
-    if(kindOfData === 'district') {
-       url = "/api/area/getArea?opts=db&level=1" 
+    if (kindOfData === 'district') {
+        url = "/api/area/getArea?opts=db&level=1"
     } else if (kindOfData === 'ward') {
         url = `/api/area/getArea?opts=db&level=2&idDistrict=${idDistrict}`
     }
@@ -421,28 +424,28 @@ function fetchAndAddOption(selectElement, kindOfData, placeHolder, idDistrict) {
     `
 
     fetch(url)
-    .then(res => res.json())
-    .then(data => {
-        if(data.status === 'success') {
-            selectElement.disabled = false;
-            if(data.data.length === 0) {
-                selectElement.parentNode.style.border = "1px solid red";
-                selectElement.innerHTML = `
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === 'success') {
+                selectElement.disabled = false;
+                if (data.data.length === 0) {
+                    selectElement.parentNode.style.border = "1px solid red";
+                    selectElement.innerHTML = `
                     <option selected value=""><strong style="color:red;">Không có dữ liệu</strong></option>
                 `
-            } else {
-                selectElement.parentNode.style.border = "1px solid rgba(0, 0, 0, 0.3)";
-                selectElement.innerHTML = `
+                } else {
+                    selectElement.parentNode.style.border = "1px solid rgba(0, 0, 0, 0.3)";
+                    selectElement.innerHTML = `
                     <option selected value="">${placeHolder}</option>
                 `
+                }
+                data.data.forEach(item => {
+                    selectElement.appendChild(generateOption(item));
+                })
+            } else {
+                console.log(data.message);
             }
-            data.data.forEach(item => {
-                selectElement.appendChild(generateOption(item));
-            })
-        } else {
-            console.log(data.message);
-        }
-    })
+        })
 
     return null;
 }
@@ -503,6 +506,7 @@ function formControl(form_id) {
 }
 
 function clearImgInputField(fieldId) {
+    console.log(`Clearing ${fieldId}`);
     let inputFieldIndex = window.inputFieldArray.indexOf(fieldId);
     if (inputFieldIndex === -1) {
         return;
@@ -516,7 +520,8 @@ function clearImgInputField(fieldId) {
     window.inputFieldArray.splice(inputFieldIndex, 1);
     // Remove this in window.uploadedFiles
     window.uploadedFiles.splice(inputFieldIndex, 1);
-
+    console.log(window.inputFieldArray);
+    console.log(window.uploadedFiles);
 }
 
 
@@ -543,21 +548,21 @@ function cancelAdEdit(e) {
 
 function fetchDropDown(url, element, placeHolder) {
     fetch(url)
-    .then(res => res.json())
-    .then(data => {
-        if(data.data.length === 0) {
-            element.innerHTML = `
+        .then(res => res.json())
+        .then(data => {
+            if (data.data.length === 0) {
+                element.innerHTML = `
                 <option selected value="">Không có dữ liệu</option>
             `
-        } else {
-            element.innerHTML = `
+            } else {
+                element.innerHTML = `
                 <option selected value="">${placeHolder}</option>
             `
-        }
-        data.data.forEach(item => {
-            element.appendChild(generateOption(item));
+            }
+            data.data.forEach(item => {
+                element.appendChild(generateOption(item));
+            })
         })
-    })
 }
 
 async function openCreateLocationForm() {
@@ -569,6 +574,8 @@ async function openCreateLocationForm() {
     const wardSelection = form.querySelector("select[name='ward']");
     const streetSelection = form.querySelector("input[name='street']");
 
+    imgInputController('create-location-form-upload-img');
+
     await fetchDropDown("/api/category/getCategory?fieldId=T1", locationType, "Chọn loại vị trí");
     await fetchDropDown("/api/category/getCategory?fieldId=T2", adPurpose, "Chọn hình thức quảng cáo");
     await fetchAndAddOption(districtSelection, 'district', 'Chọn quận/huyện');
@@ -576,36 +583,45 @@ async function openCreateLocationForm() {
 
 async function createLocation(event) {
     const form = document.getElementById('create-location-form');
-    if(!form.checkValidity()) {
+    if (!form.checkValidity()) {
         return;
     }
+    const btn = form.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    btn.querySelector('.spinner-border').classList.remove('collapse');
     event.preventDefault();
     const formData = new FormData(form);
     let coordinate = mapForCreate.getCenter();
     geometry.coordinates = [coordinate.lng, coordinate.lat];
     formData.append('geometry', JSON.stringify(geometry));
-    const imgFiles = form.querySelector("#imgFile");
-    console.log(imgFiles.files);
-    // try {
-    //     let res = await fetch('/api/ad_place/create', {
-    //         method: 'POST',
-    //         body: formData
-    //     })
-    //     res = await res.json();
-    //     if(res.success) {
-    //        clearForm('create-location-form');
-    //     }
-    // } catch (error) {
-    //     console.log(error);
-    // }
+    console.log(formData.get('imgFile'))
+    try {
+        let res = await fetch('/api/ad_place/create', {
+            method: 'POST',
+            body: formData
+        })
+        res = await res.json();
+        if (res.success) {
+            btn.disabled = false;
+            btn.querySelector('.spinner-border').classList.add('collapse');
+            displayNotification("Tạo vị trí quảng cáo thành công", "success");
+            clearForm('create-location-form');
+        }
+    } catch (error) {
+        console.log(error);
+        btn.disabled = false;
+        btn.querySelector('.spinner-border').classList.add('collapse');
+        displayNotification(error, "error");
+    }
 }
 
 function clearForm(formId) {
     let form = document.getElementById(formId);
     form.reset();
-    if(formId === 'create-location-form') {
+    clearImgInputField(`${formId}-upload-img`);
+    if (formId === 'create-location-form') {
         createLocationCanvas.hide();
-    } else if(formId === 'edit-location-form') {
+    } else if (formId === 'edit-location-form') {
         updateLocationCanvas.hide();
     }
 }

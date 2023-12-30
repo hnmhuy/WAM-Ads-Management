@@ -4,6 +4,6 @@ const controller = require('../../api/ad_place');
 const multer = require('multer');
 const upload = multer({dest: 'uploads/ad_place'});
 
-router.post('/create', upload.array("imgFile"), controller.createAdPlace);
+router.post('/create', upload.array("imgFile", 2), controller.createAdPlace);
 
 module.exports = router;

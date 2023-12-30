@@ -20,8 +20,6 @@ async function createAdPlace(data) {
 }
 
 controller.createAdPlace = async (req, res) => {
-    console.log(req.body);  
-    console.log(req.files);
     // Create a place
     const placeData = {};
     placeData.geometry = req.body.geometry;
@@ -31,8 +29,8 @@ controller.createAdPlace = async (req, res) => {
     if(placeRes) {
         const data = {};
         data.capacity = req.body['ads-amount'];
-        data.image1 = null;
-        data.image2 = null;
+        data.image1 = req.files[0] ? req.files[0].path : null;
+        data.image2 = req.files[1] ? req.files[1].path : null;
         data.place_id = req.body.place_id;
         data.location_type = req.body['location-type'];
         data.purpose = req.body['purpose-type'];
