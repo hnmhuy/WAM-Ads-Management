@@ -176,7 +176,6 @@ app.get("/area", (req, res) => {
 
 app.use("/api", require("./routes/api/api.route"));
 
-const models = require('./models');
 app.use('/createTmp', (req, res) => {
   models.ad_content.create({
     company_name: "Công ty TNHH ABC",
