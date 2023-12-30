@@ -9,7 +9,10 @@ const location = require('../testing_vew_data/location.json');
 const {sendOTP} = require("../controllers/otp.controller")
 
 controller.showIndex = (req, res) => {
-  res.redirect("/home");
+  if(req.session.prev_url){
+    res.redirect(req.session.prev_url);
+  }
+  res.redirect("/login");
 };
 
 controller.showLogin = async (req, res) => {
@@ -55,11 +58,11 @@ controller.login = async (req, res) => {
     if(passwordMatch){
         if(user.status == "active"){
         let reqUrl = "";
-        if(user.delegation){
+        if(user.areaLevel == 1 || user.areaLevel == 2){
           reqUrl = req.body.reqUrl ? req.body.reqUrl : "/home";
         }
-        else{
-          reqUrl = req.body.reqUrl ? req.body.reqUrl : "/department/dashboard";
+        else if(user.areaLevel == 0){
+          reqUrl = req.body.reqUrl ? req.body.reqUrl : "/dashboard";
         }
 
         req.session.user = user;
@@ -138,6 +141,24 @@ controller.showReport = (req, res) => {
 controller.showProfile = (req, res) =>{
   const bind_message = req.session.bind_message;
   req.session.bind_message = null;
+  if(req.session.user.areaLevel == 0){
+    const navBarData = require("../nav_link.json");
+    navBarData.nav_link.forEach((link) => {
+          link.active = false;
+      });  
+    let componentDependcy = {
+      css: ["/public/css/shared/profile.css"],
+      jsHeader: ["/public/js/shared/profile.js"],
+    };
+    res.render("partials/profile", {
+      layout: "profile_department_layout",
+      jsHeader: componentDependcy.jsHeader,
+      css: componentDependcy.css,
+      title: componentDependcy.title,
+      nav_link: navBarData.nav_link,
+      bind_message: bind_message,
+    });
+  }
   res.render("partials/profile", {
     layout: "district_layout",
     bind_message: bind_message,
@@ -154,6 +175,20 @@ controller.isLoggedIn = async (req, res, next) => {
     return next();
   }
   res.redirect(`/login?reqUrl=${req.originalUrl}`);
+}
+
+controller.isOfficer = async(req, res, next)=>{
+  console.log(req.session.prev_url);
+  if(req.session.user.areaLevel == 2 || req.session.user.areaLevel == 1)
+    return next();
+  res.redirect(req.session.prev_url);
+}
+
+controller.isDepartment = async(req, res, next)=>{
+  if(req.session.user.areaLevel == 0){
+    return next();
+  }
+  res.redirect(`${req.prev_url}`);
 }
 
 controller.changeProfile = async(req, res) =>{
@@ -366,7 +401,6 @@ controller.bindAccount = async (req, res)=>{
 controller.googleCallback = async (req, res, next) => {
   if(req.isExisted){
     req.session.user = req.cur_user;
-    console.log(req.cur_user);
     res.render("partials/profile", {
       user: req.cur_user,
       layout: "district_layout",
@@ -391,10 +425,8 @@ controller.googleCallback = async (req, res, next) => {
       where: { bindAccount: req.user.emails[0].value},
     });
     if(user){
-      console.log(user);
       req.session.user = user;
       res.locals.user = req.session.user;
-      console.log(req.session.user);
       if(req.bind_account){
         req.session.bind_message = `<p style="color: green; font-weight: 800;">Liên kết thành công</p>`
         res.redirect("/profile");
@@ -413,7 +445,6 @@ controller.googleCallback = async (req, res, next) => {
 }
 
 controller.unbindAccount = async (req, res, next)=>{
-  console.log(req.session.user)
   await models.account.update(
     {
       bindAccount: null,

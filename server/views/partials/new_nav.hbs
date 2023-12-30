@@ -17,12 +17,13 @@
     </div>
 
     <div class="acc-area">
-        <img src="/public/images/navIcon/account.svg" alt="account" />
+        <a href="/profile"><img src="/public/images/navIcon/account.svg" alt="account" /></a>
         <div class="user">
-            <p>Ông Thập</p>
-            <p>Làng địa ngục</p>
+            <p>{{user.last_name}} {{user.first_name}}</p>
+            <p>Quản lý Sở</p>
         </div>
-        <i class="bi bi-box-arrow-in-right button"></i>
+        <a href="/logout"><i class="bi bi-box-arrow-in-right button"></i></a>
+        
     </div>
 </div>
 

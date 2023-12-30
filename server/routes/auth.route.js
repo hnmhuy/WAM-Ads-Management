@@ -16,10 +16,10 @@ router.get("/login", controller.showLogin);
 router.post("/login", upload.none(), controller.login);
 router.post("/register", upload.none(), controller.register);
 
-router.get("/home", controller.isLoggedIn, controller.showHome);
-router.get("/location", controller.isLoggedIn, controller.showLocation);
-router.get("/permission", controller.isLoggedIn, controller.showPermission);
-router.get("/report", controller.isLoggedIn, controller.showReport);
+// router.get("/home", controller.isLoggedIn, controller.isOfficer, controller.showHome);
+// router.get("/location", controller.isLoggedIn, controller.isOfficer, controller.showLocation);
+// router.get("/permission", controller.isLoggedIn, controller.isOfficer, controller.showPermission);
+// router.get("/report", controller.isLoggedIn, controller.isOfficer, controller.showReport);
 
 router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), controller.googleCallback);
