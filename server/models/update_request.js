@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true
     },
-    resquest_data: DataTypes.STRING,
+    resquest_data: DataTypes.TEXT,
     status: DataTypes.STRING
   }, {
     sequelize,

@@ -13,7 +13,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       address_formated: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       createdAt: {
         allowNull: false,

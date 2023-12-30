@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.TEXT,
     start: DataTypes.DATE,
     end: DataTypes.DATE,
-    status: DataTypes.STRING,
+    status: DataTypes.BOOLEAN,
     image1: DataTypes.STRING,
     image2: DataTypes.STRING
   }, {

@@ -10,7 +10,7 @@ module.exports = {
         type: Sequelize.UUID
       },
       resquest_data: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       status: {
         type: Sequelize.STRING

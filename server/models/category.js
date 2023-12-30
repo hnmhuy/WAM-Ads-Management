@@ -12,8 +12,8 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       category.belongsTo(models.field, { foreignKey: 'field_id' })
-      category.hasMany(models.ad_place, { foreignKey: 'type_ad_id', as: 'TypeAds' });
-      category.hasMany(models.ad_place, { foreignKey: 'purpose_id', as: 'PurposeAds' });
+      category.hasMany(models.ad_place, { foreignKey: 'location_type'});
+      category.hasMany(models.ad_place, { foreignKey: 'purpose'});
       category.hasMany(models.feedback, { foreignKey: 'type' })
     }
   }
