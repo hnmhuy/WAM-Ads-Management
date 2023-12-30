@@ -235,12 +235,27 @@ app.listen(port, (req, res) => {
 
 app.get("/createResponse", (req, res) => {
   models.feedback_response.create({
-    content: "hahahahahahahahaha liuliu",
+    content: "hehe",
     officer: null,
   })
   res.send("success");
 })
 
+
+
+app.get("/createRequest", (req, res) => {
+  models.create_request.create({
+    status: 'not sent',
+  })
+  res.send("success");
+})
+
+app.get("/createAdContent", (req, res) => {
+  models.ad_content.create({
+    company_name: 'HOHO',
+  })
+  res.send("success");
+})
 // CAPTCHA ver2
 app.use(cors());
 
