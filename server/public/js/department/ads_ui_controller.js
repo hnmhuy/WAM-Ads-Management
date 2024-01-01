@@ -9,13 +9,11 @@ const req_area = document.querySelector("#req-area");
 let currpage = swap_button.getAttribute("target");
 let geometry = undefined;
 let createLocationCanvas = undefined;
-let updateLocationCanvas = undefined;
 
 document.addEventListener("DOMContentLoaded", () => {
     let createLocation = document.getElementById('location_create');
     let updateLocation = document.getElementById('location_edit');
     createLocationCanvas = new bootstrap.Offcanvas(createLocation);
-    updateLocationCanvas = new bootstrap.Offcanvas(updateLocation);
     console.log(window.inputFieldArray);
     console.log(window.uploadedFiles);
 })
@@ -459,8 +457,19 @@ function areaSelectionController(districtSelection, wardSelection, streetSelecti
         streetSelection.value = "";
     });
     geocodeBtn.addEventListener("click", async () => {
+        geocodeBtn.disabled = true;
+        geocodeBtn.querySelector(".spinner-grow").classList.remove("collapse");
+        geocodeBtn.querySelector("i").classList.add("collapse");
         let data = await geocoding(mapForCreate, address, false, true, 18);
-        geometry = preProcessGeoJson(data.features[0])
+        if (data) {
+            geometry = data.features[0].geometry;
+        } else {
+            geometry = undefined;
+            displayNotification("Không tìm thấy địa chỉ", "error");
+        }
+        geocodeBtn.disabled = false;
+        geocodeBtn.querySelector(".spinner-grow").classList.add("collapse");
+        geocodeBtn.querySelector("i").classList.remove("collapse");
     })
     districtSelection.addEventListener("change", () => {
         if (districtSelection.value != "") {
@@ -546,6 +555,8 @@ function cancelAdEdit(e) {
     clearImgInputField(imgFieldId);
 }
 
+// Create location form controller
+
 function fetchDropDown(url, element, placeHolder) {
     fetch(url)
         .then(res => res.json())
@@ -581,6 +592,11 @@ async function openCreateLocationForm() {
     await fetchAndAddOption(districtSelection, 'district', 'Chọn quận/huyện');
 }
 
+async function deleteLocation(id) {
+    let res = await fetch(`/api/ad_place/delete?id=${id}`).then(res => res.json());
+    return res.success;
+}
+
 async function createLocation(event) {
     const form = document.getElementById('create-location-form');
     if (!form.checkValidity()) {
@@ -604,14 +620,39 @@ async function createLocation(event) {
         if (res.success) {
             btn.disabled = false;
             btn.querySelector('.spinner-border').classList.add('collapse');
-            displayNotification("Tạo vị trí quảng cáo thành công", "success");
-            clearForm('create-location-form');
+            console.log(res.data);
+            try {
+                let newLocation = await fetch(`/api/ad_place/getOne?id=${res.data.ad.id}`).then(res => res.json());
+                console.log(newLocation);
+                if (newLocation.success) { 
+                    let table = document.getElementById("ad-location-table").querySelector("tbody");
+                    let row = generateAdPlaceRow(newLocation.data);
+                    row.classList.add("new-row");
+                    setTimeout(() => {
+                        row.classList.remove("new-row");
+                    }, 2000);
+                    console.log(row);
+                    console.log(table);
+                    // Append the new to the table as a first row
+                    table.insertBefore(row, table.firstChild);
+                }
+                else {
+                    console.log(newLocation.message);
+                }
+                displayNotification("Tạo vị trí quảng cáo thành công", "success");
+                clearForm('create-location-form');
+                createLocationCanvas.hide();
+            } catch (error) {
+                console.log(error);
+                displayNotification(error, "error");
+            }
         }
     } catch (error) {
         console.log(error);
         btn.disabled = false;
         btn.querySelector('.spinner-border').classList.add('collapse');
         displayNotification(error, "error");
+        deleteLocation(res.data.id);
     }
 }
 

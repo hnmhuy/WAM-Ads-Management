@@ -32,7 +32,38 @@
 </div>
 
 <div id="location-area">
-    {{>new_table table_data=table1}}
+    <div class="table-container" id="ad-location-table">
+        <table class="table table-hover">
+           <thead>
+                <tr>
+                    <th scope="col">Quận</th>
+                    <th scope="col">Phường</th>
+                    <th scope="col">Loại ví trí</th>
+                    <th scope="col">Hình thức</th>
+                    <th scope="col">Số lượng</th>
+                    <th scope="col">Trạng thái</th>
+                    <th scope="col extend-btn"></th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <tr class="nodata collapse">
+                    <td colspan="7" style="text-align: center;">Không có dữ liệu</td>
+                </tr>
+                <tr class="loading">
+                    <td colspan="7" style="text-align: center;">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div
+                                class="spinner-border text-secondary spinner-border"
+                                role="status"
+                            >
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 {{! Location-detail }}
@@ -41,34 +72,36 @@
     <div class="offcanvas-header sidepeek-location-header">
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         <h5 class="offcanvas-title" id="location_extend_header">Thông tin chi tiết điểm đặt quảng cáo</h5>
+        <div class="edit-location-btn">
+            <button class="" id="edit-location-btn" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#location_edit" aria-controls="location_edit">
+                <i class="bi bi-pencil-fill"></i>
+                Chỉnh sửa
+            </button>
+        </div>
     </div>
     <div class="offcanvas-body">
         <div class="fluid-container mb-3">
             <div class="row">
-                <div class="col-6">
-                    <div id="ad-detail-img" class="carousel slide mb-6"
+                <div id="ad-place-img" style="width: 50%">
+                    <div class="mb-6 placeholder-wave" id="img-holder-ad-detail" style="height: 100%;">
+                        <span class="placeholder" style="height: 100%; width: 100%; display: block"></span>
+                    </div>
+                    <div class="mb-6 collapse" style="position: relative;" id="no-img-ad-detail">
+                        <img src="/public/images/No data-pana.svg" style="height: 70%; width: auto" alt="No data">
+                        <div style="font-weight: 800; width: 100%; text-align: center; position: absolute; bottom: 0;">
+                            Không có hình ảnh quảng cáo
+                        </div>
+                    </div>
+                    <div id="ad-detail-img" class="carousel slide mb-6 collapse"
                         style="border-radius: 10px; overflow: hidden; width: 100%" data-bs-ride="carousel">
                         <div class="carousel-indicators">
                             <button type="button" data-bs-target="#ad-detail-img" data-bs-slide-to="0" class="active"
                                 aria-current="true" aria-label="Slide 1"></button>
                             <button type="button" data-bs-target="#ad-detail-img" data-bs-slide-to="1"
                                 aria-label="Slide 2"></button>
-                            <button type="button" data-bs-target="#ad-detail-img" data-bs-slide-to="2"
-                                aria-label="Slide 3"></button>
                         </div>
                         <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img src="https://images.unsplash.com/photo-1541535650810-10d26f5c2ab3?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                    class="h-100 w-100" alt="">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="https://images.unsplash.com/photo-1541535650810-10d26f5c2ab3?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                    class="h-100 w-100" alt="">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="https://images.unsplash.com/photo-1541535650810-10d26f5c2ab3?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                    class="h-100 w-100" alt="">
-                            </div>
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#ad-detail-img"
                             data-bs-slide="prev">
@@ -87,36 +120,61 @@
                     <table style="padding: 0;" id="info-ad-location" class="table" id="inf-table">
                         <tr>
                             <th><i class="bi bi-geo-alt"> Địa chỉ</i></th>
-                            <td>47, Đ. Điện Biên Phủ, P. Đa Kao, Quận 1</td>
+                            <td>
+                                <p class="placeholder-glow" style="width: 100%">
+                                    <span class="placeholder col-12"></span>
+                                </p>
+                                <span></span>
+                            </td>
                         </tr>
                         <tr>
                             <th><i class="bi bi-hash"></i> Số lượng</th>
-                            <td>2 bảng/điểm</td>
+                            <td>
+                                <p class="placeholder-glow" style="width: 100%">
+                                    <span class="placeholder col-12"></span>
+                                </p>
+                                <span></span>
+                            </td>
                         </tr>
                         <tr>
                             <th><i class="bi bi-tag"></i> Loại vị trí</th>
-                            <td>Nhà riêng</td>
+                            <td>
+                                <p class="placeholder-glow" style="width: 100%">
+                                    <span class="placeholder col-12"></span>
+                                </p>
+                                <span></span>
+                            </td>
                         </tr>
                         <tr>
                             <th><i class="bi bi-activity"></i> Trạng thái</th>
-                            <td>Chưa quy hoạch</td>
+                            <td>
+                                <p class="placeholder-glow" style="width: 100%">
+                                    <span class="placeholder col-12"></span>
+                                </p>
+                                <span></span>
+                            </td>
                         </tr>
                         <tr>
                             <th><i class="bi bi-bullseye"></i> Mục đích</th>
-                            <td>Thương mại</td>
+                            <td>
+                                <p class="placeholder-glow" style="width: 100%">
+                                    <span class="placeholder col-12"></span>
+                                </p>
+                                <span></span>
+                            </td>
                         </tr>
-                        <tr>
+                        {{!-- <tr>
                             <th><i class="bi bi-boxes"></i> Loại bảng</th>
                             <td>2 bảng/điểm</td>
-                        </tr>
+                        </tr> --}}
                     </table>
-                    <div class="edit-location-btn">
+                    {{!-- <div class="edit-location-btn">
                         <button class="" id="edit-location-btn" type="button" data-bs-toggle="offcanvas"
                             data-bs-target="#location_edit" aria-controls="location_edit">
                             <i class="bi bi-pencil-fill"></i>
                             Chỉnh sửa
                         </button>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -260,7 +318,12 @@
                     <label for="street-for-create">Đường</label>
                     <input type="text" name="street" id="street-for-create" placeholder="Nhập số và tên đường" title="Tên đường" required disabled>
                     <div class="inside-btns">
-                        <button type="button" title="Tìm địa chỉ" disabled><i class="bi bi-geo"></i></button>
+                        <button type="button" title="Tìm địa chỉ" disabled>
+                            <i class="bi bi-geo"></i>
+                            <div class="spinner-grow text-secondary spinner-grow-sm collapse" role="status">
+                                <span class="sr-only"></span>
+                            </div>
+                        </button>
                         <button type="button" title="Xóa" disabled><i class="bi bi-x"></i></button>
                     </div>
                 </div>
@@ -391,15 +454,13 @@
                     <input type="number" id="ads-amount-for-edit" min="1" max="10" placeholder="0" required value="2">
                     <p>bảng / địa điểm</p>
                 </div>
-                {{!-- <div class="ads-type">
-                    <label for="location-type-for-edit">Loại bảng quảng cáo</label>
-                    <select id="location-type-for-edit" name="location-type" required>
-                        <option value="">Chọn loại bảng quảng cáo</option>
-                        <option selected value="1">Trụ/cụm pano</option>
-                        <option value="2">Băng rôn</option>
-                        <option value="3">Màn hình led</option>
+                <div class="ads-type">
+                    <label for="location-status">Trạng thái quy hoạch</label>
+                    <select id="location-status" name="location-status" required>
+                        <option value="true" selected>Đã quy hoạch</option>
+                        <option value="false">Chưa quy hoạch</option>
                     </select>
-                </div> --}}
+                </div>
                 <div style="width: 100%; height: 200px">
                     <div class="upload-field" id="edit-location-form-upload-img">
                         <label for="imgFile-for-edit" class="drag-drop">

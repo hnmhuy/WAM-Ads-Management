@@ -399,21 +399,25 @@ function unselectSearchOption(e) {
 
 function convertDateFormat(inputDate) {
  
-    var dateParts = inputDate.split('/');
-    var day = dateParts[0];
-    var month = dateParts[1];
-    var year = dateParts[2];
+    if(inputDate) {
+        var dateParts = inputDate.split('/');
+        var day = dateParts[0];
+        var month = dateParts[1];
+        var year = dateParts[2];
 
-    // Create a new Date object using the components
-    var formattedDate = new Date(`${year}-${month}-${day}`);
+        // Create a new Date object using the components
+        var formattedDate = new Date(`${year}-${month}-${day}`);
 
-    // Extract the formatted date in "YYYY-MM-DD" format
-    var result = formattedDate.toISOString().split('T')[0];
+        // Extract the formatted date in "YYYY-MM-DD" format
+        var result = formattedDate.toISOString().split('T')[0];
 
-    return result;
+        return result;
+    } else {
+        return "";
+    }
 }
 
-function dateFilterHandlers(element) {
+function dateFilterHandlers(element, callback) {
 
     let filterBtnText = element.querySelector(".filter-btn span");
     console.log(filterBtnText);
@@ -445,6 +449,7 @@ function dateFilterHandlers(element) {
             filterOneDateInput.value = "";
             return;
         }
+        callback(dateStr);
         element.classList.add("applied-filter");
         filterBtnText.innerHTML = `${defaultBtnText} <span>| ${dateStr}</span>`;
         filterOneDateInput.value = convertDateFormat(dateStr);
@@ -469,6 +474,7 @@ function dateFilterHandlers(element) {
                     filterDateEndInput.value = "";
                     return;
                 }
+                callback(dateStr);
                 element.classList.add("applied-filter");
                 filterBtnText.innerHTML = `${defaultBtnText} <span>| ${dateStr}</span>`;
                 filterDateStartInput.value = convertDateFormat(dateStr.split(" to ")[0]);
@@ -504,6 +510,7 @@ function dateFilterHandlers(element) {
                     filterOneDateInput.value = "";
                     return;
                 }
+                callback(dateStr);
                 element.classList.add("applied-filter");
                 filterBtnText.innerHTML = `${defaultBtnText} <span>| ${dateStr}</span>`;
                 filterOneDateInput.value = convertDateFormat(dateStr);

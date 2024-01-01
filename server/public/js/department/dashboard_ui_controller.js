@@ -21,13 +21,14 @@ filter.appendChild(createChoiceCheck("filterID", "Chọn Quận"));
 
 const filterDate = document.querySelector("#filter-date-container");
 const dateChild = createFilterDate("filter-date", "Chọn ngày");
-dateFilterHandlers(dateChild);
+
+const callBackForDate = function (dateStr) {
+  console.log("Date: ", dateStr);
+}
+
+dateFilterHandlers(dateChild, callBackForDate);
 
 filterDate.appendChild(dateChild);
-
-
-
-
 
 
 const ctx = document.getElementById("chart");
