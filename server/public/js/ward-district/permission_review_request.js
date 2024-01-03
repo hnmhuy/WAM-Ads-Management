@@ -9,6 +9,9 @@ popup_parent.addEventListener('click', (event) => {
         hidePopup_review();
     }
 });
+
+
+
 close_btn.addEventListener('click', () => {
     hidePopup_review();
 });

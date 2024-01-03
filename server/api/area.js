@@ -205,4 +205,4 @@ controller.createArea = async (req, res) => {
     })
 }
 
-module.exports = controller; ``
+module.exports = controller;
