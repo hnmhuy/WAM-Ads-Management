@@ -139,6 +139,7 @@ controller.showReport = (req, res) => {
 }
 
 controller.showProfile = (req, res) =>{
+  req.session.prev_url = req.originalUrl;
   const bind_message = req.session.bind_message;
   req.session.bind_message = null;
   if(req.session.user.areaLevel == 0){
