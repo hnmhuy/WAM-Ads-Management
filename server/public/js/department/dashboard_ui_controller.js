@@ -1,4 +1,4 @@
-const today = new Date('2024-03-01');
+const today = new Date();
 
 // Extract year, month, and day components
 const year = today.getFullYear();
