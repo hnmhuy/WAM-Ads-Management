@@ -1,4 +1,16 @@
+const today = new Date();
+
+// Extract year, month, and day components
+const year = today.getFullYear();
+const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-indexed
+const day = today.getDate().toString().padStart(2, '0');
+
+// Formatted date string
+const formattedToday = `${year}-${month}-${day}`
+
 // --------------- SET DEFAULT VALUE FOR THE DATE --------
+const monthInput = document.getElementById('month');
+console.log(monthInput.value);
 
 function setDefaultMonth()
 {
@@ -7,21 +19,96 @@ function setDefaultMonth()
   const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
 
   const defaultValue = `${year}-${month}`;
-  document.getElementById('month').value = defaultValue;
+  monthInput.value = defaultValue;
 }
 
-window.onload = setDefaultMonth;
+setDefaultMonth();
+
+
+// --------------------- ONLOAD SCREEN --------------------
+const monthReportContainer = document.querySelector(".month-report");
+
+const feedbackID = monthReportContainer.querySelector("#feedback-tag");
+const requestID = monthReportContainer.querySelector("#request-tag");
+const adID = monthReportContainer.querySelector("#ad-tag");
+
+
+window.onload = fetchMonthReportData(feedbackID, requestID, adID, monthInput.value);
+
+
+
+
+
+// ------------------ FETCH DATA FOR CHART -----------------
+const doughnutChartContainer = document.querySelector(".chart-container");
+const totalFeedback = doughnutChartContainer.querySelector(".total");
+let labelsDoughnut = [], dataDoughnut = [];
+function convertDate (date)
+{
+  
+    const dateString = date.split("/");
+    let day = dateString[0];
+    let month = dateString[1];
+    let year = dateString[2];
+    return `${year}-${month}-${day}`
+  
+}
+
+async function getFilterDate(e)
+{
+  console.log("today",e);
+  fetchFeedbackFilterDate(e);
+  
+}
+
+async function fetchFeedbackFilterDate(e)
+{
+  let date, mode;
+  let container = document.querySelector(".detail-container");
+
+  if (e.includes(" to "))
+  {
+    const periodString = e.split(" to ");
+    const startDate = convertDate(periodString[0]);
+    const endDate = convertDate(periodString[1]) ;
+    date = `${startDate}to${endDate}`
+    mode = "period";
+
+  }
+  else if (e.includes("/"))
+  {
+    date = convertDate(e);
+    mode = "date";
+  }
+  else
+  {
+    date = e;
+    mode = "date";
+  }
+  console.log("DATE",date);
+  let feedbackData = await fetch(`/api/analysis/getQuantity?type=feedback&mode=${mode}&date=${date}`).then(res => res.json());
+  feedbackData = preProcessFeedbackData(feedbackData);
+  await generateDoughnutChart(feedbackData);
+  console.log("DATA: ", feedbackData);
+  generateDetailChart(container, feedbackData)
+  
+}
+
+window.onload = fetchFeedbackFilterDate(formattedToday);
+
+
+
+
 
 
 // -------------- FILTER ------------------
-
 
 const filter = document.querySelector("#filter");
 filter.appendChild(createChoiceCheck("filterID", "Chọn Quận"));
 
 const filterDate = document.querySelector("#filter-date-container");
 const dateChild = createFilterDate("filter-date", "Chọn ngày");
-dateFilterHandlers(dateChild);
+dateFilterHandlers(dateChild, getFilterDate);
 
 filterDate.appendChild(dateChild);
 
@@ -36,19 +123,15 @@ const lineChart = document.getElementById("line-chart");
 
 // ------------ CREATE CHART ------------------
 
-new Chart(ctx, {
+
+const doughnut = new Chart(ctx, {
     type: "doughnut",
     data: {
-        labels: [
-            "Đóng góp ý kiến",
-            "Giải đáp thắc mắc",
-            "Đăng ký thông tin",
-            "Tố cáo sai phạm",
-        ],
+        labels: [],
         datasets: [
             {
                 label: "Phần trăm",
-                data: [29, 25, 31, 15],
+                data: [],
                 backgroundColor: [
                     "rgb(38, 32, 88)",
                     "rgb(79, 62, 215)",
@@ -89,7 +172,7 @@ const data = {
   labels: labels,
   datasets: [{
     label: 'Dataset 1',
-    data: [0, 59, 80, 81, 56, 55, 40, 52, 60, 80, 90, 1000, 50],
+    data: [0, 59, 80, 81, 56, 55],
     fill: true,
     borderColor: 'rgb(79, 62, 215)',
     backgroundColor: 'rgba(79, 62, 215,.2)',
@@ -113,6 +196,7 @@ new Chart(lineChart, {
     data: data,
     options: {
       responsive: true,
+      hoverBorderWidth: 5,
       interaction: {
         mode: 'index',
         intersect: false,
@@ -130,32 +214,177 @@ new Chart(lineChart, {
     },
 })
 
-// ------------------ FETCH DATA FOR TAG ------------------
-// function getFeedbackNumber()
-// {
 
-// }
-function getDate(e)
+const addRequestData = async function (e)
 {
-  console.log("get Date: ", e.value);
+  const requestData = await fetch("api/analysis/getQuantity?type=request&mode=month&areaId=772")
 }
 
 
+function generateDoughnutChart (data)
+{
+  let total = 0;
+  let percentDoughnut = [];
 
-const startDate =  dateChild.querySelector(".doughnut-report #filter-date-start");
-const endDate =  dateChild.querySelector(".doughnut-report #filter-date-end");
-const oneDate =  dateChild.querySelector(".doughnut-report #filter-one-date")
-console.log("Start date: ", startDate);
-console.log("End date: ", endDate);
-console.log("One date: ", oneDate);
+  for (let i = 0; i < data.length; i++)
+  {
+    labelsDoughnut[i] = data[i].categoryName;
+    dataDoughnut[i] = data[i].count
+    total += parseInt(dataDoughnut[i]);
+  }
 
-startDate.setAttribute("change" ,"getDate(this)");
-endDate.setAttribute("onchange" ,"getDate(this)");
-oneDate.setAttribute("onchange" ,"getDate(this)");
+  for (let i = 0; i < data.length; i++)
+  {
+    percentDoughnut[i] = (parseInt(dataDoughnut[i]) / total) * 100;
+  }
+
+  totalFeedback.textContent = total === 0 ? "Không có dữ liệu" : total;
+
+  doughnut.data.labels = [];
+  doughnut.data.datasets[0].data = [];
+  doughnut.data.labels = labelsDoughnut;
+  doughnut.data.datasets[0].data = percentDoughnut;
+  doughnut.data.datasets[0].backgroundColor = [];
+  doughnut.data.datasets[0].backgroundColor = bgColorArray;
+
+
+  console.log("chart: ", doughnut.data.datasets[0].data);
+
+  doughnut.update();
+  
+}
+
+let bgColorArray;
+
+const setBg = () => {
+  const randomColor = Math.floor(Math.random()*16777215).toString(16);
+  return `#${randomColor}`;
+}
+
+function preProcessFeedbackData(data)
+{
+  let length = data.length;
+  if (bgColorArray === undefined)
+  {
+    bgColorArray = new Array(length).fill().map(()=>setBg());
+  }
+  else
+  {
+    if (bgColorArray.length < data.length);
+    bgColorArray = bgColorArray.concat(new Array(length - bgColorArray.length).fill().map(()=>setBg()));
+  }
+  data.forEach((data, index) => {
+    data.color = bgColorArray[index];
+  })
+  return data;
+}
+
+function generateDetailFeedback(data)
+{
+  let detailDiv = document.createElement("div");
+  detailDiv.classList.add("detail");
+  let done = parseInt(data.done);
+  let count = parseInt(data.count);
+
+
+  let percentDone = count === 0 ? 0 : (done/count) * 100;
+
+  
+  let percentDoneCircle = 219.911 - (percentDone / 100) * 219.911;
+  detailDiv.innerHTML = ` 
+  <div class="detail-amount">
+        <p style="color: ${data.color};">${data.categoryName}</p>
+        <p>${data.count}</p>
+  </div>
+      <div class="circle-container">
+        <svg width="80" height="80" style=" stroke-dashoffset: ${percentDoneCircle};">
+            <circle cx="40" cy="40" r="35"></circle>
+        </svg>
+      <div class="percentage-text">${percentDone.toFixed(1)}</div>
+  </div>`
+
+  return detailDiv;
+}
+
+function generateDetailChart(container, data)
+{
+  container.innerHTML =`
+  <div
+                    style="position: sticky; top: 0; background-color: rgb(249, 250, 253); width: 100%; z-index: 2; padding-top: 15px;">
+                    <h4>Chi tiết</h4>
+                    <p>Số lượng và tỉ lệ hoàn thành</p>
+                </div>
+  `
+  data.forEach(data => {
+    container.appendChild(generateDetailFeedback(data));
+  })
+}
+
+
+// ------------------ FETCH DATA FOR TAG ------------------
 
 
 
-// ------------------ FETCH DATA FOR CHART -----------------
+async function fetchMonthReportData(feedbackID, requestID, adID, date)
+{
+  try
+  {
+    const feedbackData = await fetch(`/api/analysis/getQuantity?type=feedback&mode=month&date=${date}`).then(res => res.json());
+    console.log(feedbackData);
+    generateTag(feedbackID, feedbackData);
+    const requestData = await fetch(`/api/analysis/getQuantity?type=request&mode=month&areaId=all&date=${date}`).then(res => res.json());
+    generateTag(requestID, requestData);
+    const adData = await fetch(`/api/analysis/getQuantity?type=adPlace&mode=month&date=${date}`).then(res => res.json());
+    generateTag(adID, adData);
+  }catch(err)
+  {
+    console.log(err);
+  }
+}
+
+function onClickDate(e)
+{
+  fetchMonthReportData(feedbackID, requestID, adID, e.value);
+}
+
+function generateTag(tagId, data)
+{
+  let percent;
+  let amountDiv = tagId.children[1];
+  let percentDiv = tagId.children[2];
+  let img = percentDiv.children[0];
+  let percentContent = percentDiv.children[1];
+  amountDiv.textContent = data.thisMonth.count;
+  let lastMonth = data.lastMonth.count
+  percent = lastMonth === 0 ? 100 : ((data.thisMonth.count - lastMonth) / lastMonth) * 100;
+  if (data.thisMonth.count === 0 && lastMonth === 0)
+    percent = 0;
+  if(percent < 0)
+  {
+
+    percent = -percent;
+    percentDiv.style.backgroundColor = 'var(--report-card-down)';
+    img.src = "/public/images/down-arrow.svg"
+    img.alt = "arrow-down"
+    percentContent.textContent = `${percent.toFixed(1)}%`
+  }
+  else if(percent > 0)
+  {
+    percentDiv.style.backgroundColor = 'var(--report-card-up)';
+    img.src = "/public/images/up-arrow.svg"
+    img.alt = "arrow-up"
+    percentContent.textContent = `${percent.toFixed(1)}%`
+  }
+  else
+  {
+    percentDiv.style.backgroundColor = 'var(--report-card-noChange)';
+
+    img.src = "/public/images/noChange-arrow.svg"
+    img.alt = "arrow"
+    percentContent.textContent = `${percent}%`
+  }
+
+}
 
 
 

@@ -48,6 +48,8 @@ function eventListenerForDropdown()
 
 const form = document.querySelector("form");
 form.addEventListener("submit", async (e) => {
+  console.log("Đã gửi");
+
   e.preventDefault();
   const captchaResponse = grecaptcha.getResponse();
   if (!captchaResponse.length > 0) {
@@ -73,6 +75,7 @@ form.addEventListener("submit", async (e) => {
   })
   const data = await res.json();
 
+
     if (data.captchaSuccess && content) {
       console.log("Validation Successful!");
 
@@ -82,8 +85,6 @@ form.addEventListener("submit", async (e) => {
         body: fd, // Convert the object to a JSON string
       });
       const data2 = await res1.json();
-      console.log(data2);
-
       alert("Đã gửi phản hồi thành công");
       document.querySelector("form").classList.add("hidden");
       document.querySelector(".overlay").classList.add("hidden");

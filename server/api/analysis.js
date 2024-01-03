@@ -1,6 +1,6 @@
 const controller = {};
 const models = require("../models");
-const { Op } = require('sequelize');
+const { Op, where } = require('sequelize');
 const {sequelize} = require("../models")
 
 
@@ -47,6 +47,66 @@ async function getQuantityPerMonth(type, date)
     }  
 }
 
+async function getQuantityFeedbackGroupBy(mode, date)
+{
+    // Get all feedbacks for the given month and group them by the type (4 types)
+    // Generate the date for period date
+    const allCategories = await models.category.findAll({ attributes: ['id', 'name', 'createdAt'], where: {field_id: 'T4'}, order: [['createdAt', 'ASC']] });
+    let startDate, endDate;
+    if (mode === "period")
+    {
+        startDate = date.split("to")[0];
+        endDate = date.split("to")[1].trim();
+        console.log("Start: ",startDate);
+        console.log("End: ", endDate);
+    }
+    else
+    {
+        startDate = endDate = date;
+    }
+    let queryString = [];
+    console.log("The date: ", date);
+    queryString[0] = `TIMESTAMP '${startDate} 00:00:00+00'::timestamp with time zone`;
+    queryString[1] = `TIMESTAMP '${endDate} 23:59:59+00'::timestamp with time zone`
+    try{
+        let data = await models.feedback.findAll({
+            attributes: [
+                'type',
+                    [
+                        sequelize.fn(
+                            'COUNT',
+                            sequelize.literal('CASE WHEN "feedback"."status" = \'done\' THEN 1 END')
+                        ),
+                        'countDone'
+                    ],
+                        [sequelize.fn('COUNT', sequelize.col('feedback.id')), 'count']],
+            where: { 
+                createdAt: {
+                [Op.gte]: sequelize.literal(`${queryString[0]}`),
+                [Op.lt]: sequelize.literal(`${queryString[1]}`)
+            }},
+            group: ['type'],
+        })
+
+        const formatData = allCategories.map(category => {
+            const feedbackData = data.find(item => item.dataValues.type === category.dataValues.id);
+    
+            return {
+                categoryId: feedbackData ? feedbackData.dataValues.type : category.dataValues.id,
+                categoryName: category.dataValues.name,
+                count: feedbackData ? feedbackData.dataValues.count : 0,
+                done: feedbackData ? feedbackData.dataValues.countDone : 0
+            };
+        });
+    
+        return formatData;
+        
+    }catch(error){
+        console.log(error)
+        return [];
+    }
+}
+
 
 async function getQuantityFeedback(mode, date)
 {
@@ -60,80 +120,82 @@ async function getQuantityFeedback(mode, date)
         return {thisMonth, lastMonth};
                                            
     }
-    else if (mode === "date")
+    else if (mode === "date" || mode === "period")
     {
-        queryString[0] = `TIMESTAMP '${date} 00:00:00+00'::timestamp with time zone`;
-        queryString[1] = `TIMESTAMP '${date} 23:59:59+00'::timestamp with time zone`
+        let data = await getQuantityFeedbackGroupBy(mode, date);
+        return data;
     }
-    else if (mode === "period")
-    {
-        date = date.split("to");
-        queryString[0] = `TIMESTAMP '${date[0]} 00:00:00+00'::timestamp with time zone`;
-        queryString[1] = `TIMESTAMP '${date[1]} 23:59:59+00'::timestamp with time zone`
-    }
-    try
-        {
-        const count = await models.feedback.count({
-            where: {
-                createdAt: {
-                    [Op.gte]: sequelize.literal(`${queryString[0]}`),
-                    [Op.lt]: sequelize.literal(`${queryString[1]}`)
-                }
-            }
-         });
-         return {count: count};
-        } catch (err)
-        {
-            console.log("EMPTY: " ,err);
-            return {count: 0};
-            
-        }  
+
+    
 }
 
-async function getQuantityRequestPerMonth(areaID)
+async function getQuantityRequestPerMonth(areaID) 
 {
     try {
-        const counts = await models.create_request.findAll({
-            attributes: [
-                [sequelize.fn('EXTRACT', sequelize.literal('MONTH FROM "createdAt"')), 'month'],
-                'areaID', // Include areaID in the results
-                [sequelize.fn('COUNT', sequelize.col('*')), 'count'] // Count all records for each areaID and month
-            ],
-            include: [
-                {model: models.ad_content,
-                include:[
-                    {model: models.ad_place,
-                    include: [
-                        {model: models.place,
-                        include: {model: models.area}, attributes: ['id']},
-                    ]}
-                ]},
+        const currentDate = new Date('2023-12-31');
+        
+        const startDate = new Date(Date.UTC(currentDate.getFullYear(), 0 , 1, 0, 0, 0, 0));
+        console.log("START: ", startDate.toLocaleDateString(), startDate.toLocaleTimeString());
+        const endDate = new Date(currentDate);
 
-            ],
+        let areaName = await models.area.findOne({
+            attributes: ['name'],
             where: {
                 id: areaID,
-            },
-            group: ['areaID', sequelize.fn('EXTRACT', sequelize.literal('MONTH FROM "createdAt"'))] // Group by areaID and month
-        });
-
-        // Create an array to store counts for each month, initialized to 0
-        const monthlyCounts = {};
-
-        // Update the object with the actual counts from the database
-        counts.forEach(count => {
-            const areaID = count.get('areaID');
-            const monthIndex = count.get('month') - 1;
-
-            // Initialize the area in the object if it doesn't exist
-            if (!monthlyCounts[areaID]) {
-                monthlyCounts[areaID] = { areaID, counts: Array.from({ length: 12 }, (_, idx) => ({ month: idx + 1, count: 0 })) };
             }
-
-            // Update the count for the specific month
-            monthlyCounts[areaID].counts[monthIndex].count = count.get('count');
         });
+        areaName = areaName.name;
 
-        return Object.values(monthlyCounts);
+        const data = await models.create_request.findAll({
+            attributes: [ 
+                [sequelize.fn('date_trunc', 'month', sequelize.col('create_request.createdAt')), 'month'],
+                [sequelize.fn('COUNT', sequelize.col('create_request.id')), 'count']],
+            where: {
+                createdAt: {
+                    [Op.gte]: startDate,
+                    [Op.lte]: endDate
+                },
+                '$account.area.id$': areaID,
+            },
+            include: [
+                {model: models.account, attributes: [],
+                include: [
+                    {model: models.area, attributes: []}]}
+            ],
+            group: ['month'],
+            order: [['month', 'ASC']],
+        })
+        const monthsArray = [];
+        let tempDate = new Date(startDate);
+
+        while (tempDate<= endDate) {
+            // Create a new Date with the same year and month, but set the day to 1
+            const monthBeginning = new Date(tempDate.getFullYear(), tempDate.getMonth() + 1, 0, 17, 0, 0, 0);
+
+            monthsArray.push(monthBeginning);
+
+            console.log("Tempdate: ", tempDate);
+            tempDate.setMonth(tempDate.getMonth() + 1);
+        }
+
+        const monthData = monthsArray.map(month => {
+            const feedbackData = data.find(item => {
+                let itemDate = item.dataValues.month;
+                return (
+                    itemDate &&
+                    itemDate.getUTCFullYear() === month.getUTCFullYear() &&
+                    itemDate.getUTCMonth() === month.getUTCMonth()
+                );
+            });
+            // return {
+            //     date: `${month.getFullYear()} - ${month.getMonth() + 1}`,
+            //     count: feedbackData ? feedbackData.dataValues.count : 0
+            // };
+            return  feedbackData ? parseInt(feedbackData.dataValues.count) : 0;
+        });
+        
+        return {areaName, monthData};
+        
     } catch (err) {
         console.error("Error counting requests:", err);
         return [];
@@ -195,6 +257,8 @@ controller.getQuantity = async (req, res) =>
         if(type === "feedback")
         {
             data = await getQuantityFeedback(mode, date);
+            console.log("DATA 1 : ", data);
+
         }
         else if (type === "request")
         {

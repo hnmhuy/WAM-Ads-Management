@@ -399,6 +399,8 @@ function unselectSearchOption(e) {
 
 function convertDateFormat(inputDate) {
  
+    if (inputDate === undefined)
+        return "";
     var dateParts = inputDate.split('/');
     var day = dateParts[0];
     var month = dateParts[1];
@@ -413,7 +415,7 @@ function convertDateFormat(inputDate) {
     return result;
 }
 
-function dateFilterHandlers(element) {
+function dateFilterHandlers(element, callback) {
 
     let filterBtnText = element.querySelector(".filter-btn span");
     console.log(filterBtnText);
@@ -445,6 +447,7 @@ function dateFilterHandlers(element) {
             filterOneDateInput.value = "";
             return;
         }
+        callback(dateStr);
         element.classList.add("applied-filter");
         filterBtnText.innerHTML = `${defaultBtnText} <span>| ${dateStr}</span>`;
         filterOneDateInput.value = convertDateFormat(dateStr);
@@ -469,6 +472,7 @@ function dateFilterHandlers(element) {
                     filterDateEndInput.value = "";
                     return;
                 }
+                callback(dateStr);
                 element.classList.add("applied-filter");
                 filterBtnText.innerHTML = `${defaultBtnText} <span>| ${dateStr}</span>`;
                 filterDateStartInput.value = convertDateFormat(dateStr.split(" to ")[0]);
@@ -502,6 +506,7 @@ function dateFilterHandlers(element) {
                 if (selectedDates.length === 0) {
                     element.classList.remove("applied-filter");
                     filterOneDateInput.value = "";
+                    callback(dateStr);
                     return;
                 }
                 element.classList.add("applied-filter");
