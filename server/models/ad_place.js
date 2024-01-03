@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     capacity: DataTypes.INTEGER,
     status: {
       type: DataTypes.BOOLEAN,
-      defaultValue: true
+      defaultValue: false
     },
     image1: DataTypes.TEXT,
     image2: DataTypes.TEXT,

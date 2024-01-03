@@ -132,7 +132,7 @@ async function getQuantityFeedback(mode, date)
 async function getQuantityRequestPerMonth(areaID) 
 {
     try {
-        const currentDate = new Date('2023-12-31');
+        const currentDate = new Date('2024-03-01');
         
         const startDate = new Date(Date.UTC(currentDate.getFullYear(), 0 , 1, 0, 0, 0, 0));
         console.log("START: ", startDate.toLocaleDateString(), startDate.toLocaleTimeString());

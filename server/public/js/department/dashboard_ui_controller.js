@@ -1,4 +1,4 @@
-const today = new Date();
+const today = new Date('2024-03-01');
 
 // Extract year, month, and day components
 const year = today.getFullYear();
@@ -113,10 +113,6 @@ dateFilterHandlers(dateChild, getFilterDate);
 filterDate.appendChild(dateChild);
 
 
-
-
-
-
 const ctx = document.getElementById("chart");
 const lineChart = document.getElementById("line-chart");
 
@@ -158,40 +154,25 @@ const doughnut = new Chart(ctx, {
     },
 });
 
-const date = new Date();
 
-// Get an array of month names
-const months = Array.from({ length: 12 }, (_, index) => {
-  date.setMonth(index);
-  return date.toLocaleString('en-US', { month: 'long' });
+const currentMonth = today.getMonth() + 1; // Adding 1 because months are zero-indexed
+const months = Array.from({ length: currentMonth }, (_, index) => {
+  const newDate = new Date(today);
+  newDate.setMonth(today.getMonth() - index);
+  return newDate.toLocaleString('en-US', { month: 'long' });
 });
 
 
+console.log("MONTH: ", months);
 const labels = months;
 const data = {
-  labels: labels,
-  datasets: [{
-    label: 'Dataset 1',
-    data: [0, 59, 80, 81, 56, 55],
-    fill: true,
-    borderColor: 'rgb(79, 62, 215)',
-    backgroundColor: 'rgba(79, 62, 215,.2)',
-    tension: 0.4
-  },
-  {
-    label: 'Dataset 2',
-    data: [0, 30, 600, 15, 4, 36, 40, 45, 68, 82, 350, 100, 96],
-    fill: true,
-    borderColor: 'rgb(207, 149, 19)',
-    backgroundColor: 'rgba(207, 149, 19,.2)',
-    tension: 0.4
-  }
-]
+  labels: '',
+  datasets: []
 };
 
 
 
-new Chart(lineChart, {
+const areaChart = new Chart(lineChart, {
     type: 'line',
     data: data,
     options: {
@@ -215,10 +196,67 @@ new Chart(lineChart, {
 })
 
 
-const addRequestData = async function (e)
+const onClickAddRequestDataset = async function (e)
 {
-  const requestData = await fetch("api/analysis/getQuantity?type=request&mode=month&areaId=772")
+  const requestData = await fetch(`api/analysis/getQuantity?type=request&mode=month&areaId=${e}`).then(res => res.json());
+  console.log("REQUEST: ",requestData.areaName);
+  await addDataset(requestData);
+  await addData();
+  await onClickRemoveRequestData("Quận 5");
+  
 }
+
+
+
+
+function addDataset(requestData)
+{
+  const color = setBg();
+  const rgbaColor = hexToRgba(color,0.2);
+  const newDataset = {
+    label: requestData.areaName,
+    backgroundColor: rgbaColor,
+    borderColor: color,
+    data: requestData.monthData,
+    tension: 0.4,
+    fill: true,
+  };  
+  console.log("DATA SET", newDataset);
+  areaChart.data.datasets.push(newDataset);
+  areaChart.update();
+
+}
+
+function addData()
+{
+  const data = areaChart.data;
+  if (data.datasets.length > 0) {
+    data.labels = months;
+    areaChart.update();
+  }
+
+}
+
+
+onClickAddRequestDataset("774");
+onClickAddRequestDataset("772");
+
+const onClickRemoveRequestData = function (areaName)
+{
+  // areaChart.data.datasets.forEach(dataset => {
+  //   if (dataset.label === areaName)
+  //   {
+  //     areaChart.data.datasets.pop();
+
+  //   }
+  // })
+  // areaChart.update();
+  areaChart.data.datasets = areaChart.data.datasets.filter(dataset => dataset.label !== areaName);
+  console.log("DELETE", areaChart.data.datasets);
+
+
+}
+
 
 
 function generateDoughnutChart (data)
@@ -259,6 +297,15 @@ let bgColorArray;
 const setBg = () => {
   const randomColor = Math.floor(Math.random()*16777215).toString(16);
   return `#${randomColor}`;
+}
+
+function hexToRgba(hex, alpha) {
+  hex = hex.replace(/^#/, '');
+  const bigint = parseInt(hex, 16);
+  const r = (bigint >> 16) & 255;
+  const g = (bigint >> 8) & 255;
+  const b = bigint & 255;
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
 function preProcessFeedbackData(data)
@@ -385,7 +432,4 @@ function generateTag(tagId, data)
   }
 
 }
-
-
-
 

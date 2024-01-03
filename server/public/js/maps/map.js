@@ -91,7 +91,7 @@ async function geocoding(map, address, fitBounds = false, flyTo = false, zoom = 
     // Using the openstreetmap api
     address = address + ", Thành phố Hồ Chí Minh"
     const encodeAdress = address.replaceAll(" ", "+");
-    const url = `https://nominatim.openstreetmap.org/search?q=${encodeAdress}&format=geojson&accept-language=vi-VN&countrycodes=VN&limit=1`;
+    const url = `https://nominatim.openstreetmap.org/search?q=${encodeAdress}&format=geojson&accept-language=vi-VN&countrycodes=VN&limit=1&addressdetails=1`;
     try {
         let data = await fetch(url, {
             cors: "no-cors",
@@ -131,11 +131,15 @@ async function geocoding(map, address, fitBounds = false, flyTo = false, zoom = 
 function preProcessGeoJson(geoJson) {
     const res = {};
     if(geoJson) {
-        console.log(geoJson);
         res.geometry = geoJson.geometry;
         res.properties = {};
         res.properties.formatedAddress = geoJson.properties.display_name;
-        res.properties.address = geoJson.properties.address;
+        res.properties.address = {}
+        res.properties.address.street = geoJson.properties.address.road;
+        res.properties.address.ward = geoJson.properties.address.suburb;
+        res.properties.address.district = geoJson.properties.address.quarter;
+        res.properties.address.city = geoJson.properties.address.city;
+        res.properties.address.amenity = geoJson.properties.address.amenity;
         res.properties.name = geoJson.properties.name;
         res.bbox = geoJson.bbox;
     }

@@ -19,7 +19,8 @@ controller.showAds = (req, res) => {
         title: "QUẢN LÝ QUẢNG CÁO",
         jsHeader: [
             "/public/js/shared/handler_table_ui.js",
-            "/public/js/maps/map.js"
+            "/public/js/maps/map.js",
+            "/public/js/department/adPlaceController.js",
         ],
     };
     res.render("department/ads", {

@@ -10,7 +10,7 @@ module.exports = {
         type: Sequelize.UUID
       },
       geometry: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       address_formated: {
         type: Sequelize.TEXT

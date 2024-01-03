@@ -19,7 +19,7 @@ controller.createPlace = async (req, res) => {
     const data = {};
     data.geometry = req.body.geometry;
     data.address_formated = req.body.street;
-    data.area_id = req.body['ward-selection'];
+    data.area_id = req.body['ward'];
     let placeRes = await controller.addPlace(data);
     if (placeRes) {
         res.json({

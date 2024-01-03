@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true
     },
-    geometry: DataTypes.STRING,
+    geometry: DataTypes.TEXT,
     address_formated: DataTypes.TEXT
   }, {
     sequelize,

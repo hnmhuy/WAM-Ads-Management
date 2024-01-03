@@ -399,20 +399,22 @@ function unselectSearchOption(e) {
 
 function convertDateFormat(inputDate) {
  
-    if (inputDate === undefined)
+    if(inputDate) {
+        var dateParts = inputDate.split('/');
+        var day = dateParts[0];
+        var month = dateParts[1];
+        var year = dateParts[2];
+
+        // Create a new Date object using the components
+        var formattedDate = new Date(`${year}-${month}-${day}`);
+
+        // Extract the formatted date in "YYYY-MM-DD" format
+        var result = formattedDate.toISOString().split('T')[0];
+
+        return result;
+    } else {
         return "";
-    var dateParts = inputDate.split('/');
-    var day = dateParts[0];
-    var month = dateParts[1];
-    var year = dateParts[2];
-
-    // Create a new Date object using the components
-    var formattedDate = new Date(`${year}-${month}-${day}`);
-
-    // Extract the formatted date in "YYYY-MM-DD" format
-    var result = formattedDate.toISOString().split('T')[0];
-
-    return result;
+    }
 }
 
 function dateFilterHandlers(element, callback) {
@@ -509,6 +511,7 @@ function dateFilterHandlers(element, callback) {
                     callback(dateStr);
                     return;
                 }
+                callback(dateStr);
                 element.classList.add("applied-filter");
                 filterBtnText.innerHTML = `${defaultBtnText} <span>| ${dateStr}</span>`;
                 filterOneDateInput.value = convertDateFormat(dateStr);

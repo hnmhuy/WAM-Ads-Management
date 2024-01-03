@@ -571,10 +571,10 @@
 }
 /* Ad detail information */
 .edit-location-btn {
-  width: 100%;
+  flex: 1;
   display: flex;
   justify-content: flex-end;
-  margin: 10px 0px;
+  margin: 0px;
 }
 
 .edit-location-btn button {
@@ -855,4 +855,20 @@
   padding: 10px;
   gap: 5px;
   width: 100%;
+}
+
+/* Ad location info table */
+
+#info-ad-location th {
+  vertical-align: middle;
+  width: 25%;
+}
+
+#info-ad-location td {
+  vertical-align: middle;
+  width:65%;
+}
+
+.new-row td {
+  background-color: rgba(123, 109, 231, 0.3);
 }
