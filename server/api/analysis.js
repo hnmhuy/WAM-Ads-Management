@@ -7,7 +7,7 @@ const {sequelize} = require("../models")
 function generateLastMonth(date)
 {
     const [year, month] = date.split('-').map(Number);
-    let previousMonth = month === 1 ? `${year - 1}-12` : `${year}-${month - 1}`;
+    let previousMonth = month === 1 ? `${year - 1}-12` : `${year}-${month - 1}`; 
     return previousMonth;
 }
 

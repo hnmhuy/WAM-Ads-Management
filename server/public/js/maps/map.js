@@ -1,9 +1,6 @@
 mapboxgl.accessToken = "pk.eyJ1IjoiZGV2LWhubWh1eSIsImEiOiJjbHBwYXY3ZW8weTdvMnBxbm85cnV2ZTFvIn0.6e8fwVmpoLxVSkyBWksYBg";
 
-let mapForCreate = null;
-let mapForUpdate = null;
-
-function initMap(elementId) {
+function initMap(elementId, centerMaker = true) {
     let map = new mapboxgl.Map({
         container: elementId,
         style: "mapbox://styles/mapbox/standard",
@@ -18,47 +15,110 @@ function initMap(elementId) {
         customAttribution: 'Bản đồ được thiết kế bở WAM Team'
     }));
 
+    if(centerMaker) {
+        var marker = new mapboxgl.Marker({
+            color: "blue",
+        }).setLngLat(map.getCenter()).addTo(map);
+
+        // Add event listener for marker
+        marker.on("onclick", () => {
+            let coordinates = marker.getLngLat();
+        });
+
+        map.on('move', () => {
+            marker.setLngLat(map.getCenter());
+        })
+    }
+    map.on('load', () =>{
+        map.addSource('polygon', {
+            type: 'geojson',
+            data: {
+                type: 'Feature',
+                geometry: {
+                    type: 'Polygon',
+                    coordinates: []
+                }
+            }
+        })
+
+        map.addLayer({
+            'id': 'outline',
+            'type': 'line',
+            'source': 'polygon',
+            'layout': {},
+            'paint': {
+                'line-color': '#0080ff',
+                'line-width': 2
+            }
+        })
+    })
+
+    document.getElementById(elementId).appendChild(generateLngLatDisplay());
+
     return map;
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+function successCallback(position) {
+    console.log(position.coords.longitude, position.coords.latitude)
+    mapForCreate.flyTo({
+        center: [position.coords.longitude, position.coords.latitude],
+        zoom: 17,
+        speed: 1.2
+    });
+}
 
-    // Create map
-    mapForCreate = initMap("map-for-create");
-    mapForUpdate = initMap("map-for-update");
-
-    navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
-
-    function successCallback(position) {
-        console.log(position.coords.longitude, position.coords.latitude)
-        mapForCreate.flyTo({
-            center: [position.coords.longitude, position.coords.latitude],
-            zoom: 17,
-            speed: 1.2
-        });
-    }
-
-    function errorCallback(error) {
-        console.log(error);
-    }
-
-    // add markers to center of the map
-    var marker = new mapboxgl.Marker({
-        color: "blue",
-    }).setLngLat(mapForCreate.getCenter()).addTo(mapForCreate);
-
-    mapForCreate.on('move', () => {
-        marker.setLngLat(mapForCreate.getCenter());
+function addDataLayer(map, geojson, sourceId, layerId, callBackFunction = undefined) {
+    map.addSource(sourceId, {
+        type: 'geojson',
+        data: geojson
     })
 
-    // mapForCreate.on('moveend', () => {
-    //     let coordinates = marker.getLngLat();
-    //     // document.getElementById("lat").textContent = `Lat: ${coordinates.lat}`;
-    //     // document.getElementById("lng").textContent = `Lng: ${coordinates.lng}`;
-    //     revGeocoding(mapForCreate, coordinates.lng, coordinates.lat);
-    // })
+    map.addLayer({
+        id: layerId,
+        type: 'circle',
+        source: sourceId,
+        paint: {
+            'circle-radius': 6,
+            'circle-color': '#B42222'
+        }
+    })
 
-});
+    map.on('mouseenter', layerId, (e) => {
+        map.getCanvas().style.cursor = 'pointer';
+    })
+
+    map.on('mouseleave', layerId, (e) => {
+        map.getCanvas().style.cursor = '';
+    });
+
+    if(callBackFunction) {
+        map.on('click', layerId, callBackFunction);
+    } 
+}
+
+async function updatePolygonByAddress(map, address) {
+    const url = `https://nominatim.openstreetmap.org/search?q=${address}&format=geojson&accept-language=vi-VN&countrycodes=VN&limit=1&addressdetails=1&polygon_geojson=1`;
+    try {
+        let data = await fetch(url, {
+            cors: "no-cors",
+        })
+        data = await data.json();
+        console.log(data);
+        map.getSource('polygon').setData({
+            type: 'Feature',
+            geometry: data.features[0].geometry
+        }); 
+        return data;
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+}
+
+
+function errorCallback(error) {
+    console.log(error);
+}
 
 async function revGeocoding(map, lng, lat, fitToBound = false, flyTo = false, zoom = undefined) {
     // Using the openstreetmap api
@@ -127,21 +187,34 @@ async function geocoding(map, address, fitBounds = false, flyTo = false, zoom = 
     }
 }
 
+function generateLngLatDisplay() {
+    let div = document.createElement("div");
+    div.innerHTML = `
+    <div class="lng-lat-display" style="position: absolute; top: 2px; right: 2px; display: flex; justify-content: space-around; background-color: rgba(255, 255, 255, 0.8); width: 220px; padding: 5px; border-radius: 5px;">
+        <div>
+            <span style="font-weight: 800; width: 100px;">Kinh độ: </span>
+            <span>102.332321</span>
+        </div>
+        <div>
+            <span style="font-weight: 800; width: 100px;">Vĩ độ: </span>
+            <span>102.332321</span>
+        </div>
+    </div>
+    `
+    return div.children[0];
+}
+
+function updateLngLatDisplay(mapId, lng, lat) {
+    let display = document.querySelector(`#${mapId} .lng-lat-display`)
+    display.children[0].children[1].textContent = lng;
+    display.children[1].children[1].textContent = lat;
+}
 
 function preProcessGeoJson(geoJson) {
     const res = {};
     if(geoJson) {
-        res.geometry = geoJson.geometry;
-        res.properties = {};
-        res.properties.formatedAddress = geoJson.properties.display_name;
-        res.properties.address = {}
-        res.properties.address.street = geoJson.properties.address.road;
-        res.properties.address.ward = geoJson.properties.address.suburb;
-        res.properties.address.district = geoJson.properties.address.quarter;
-        res.properties.address.city = geoJson.properties.address.city;
-        res.properties.address.amenity = geoJson.properties.address.amenity;
-        res.properties.name = geoJson.properties.name;
-        res.bbox = geoJson.bbox;
+        res.type = geoJson.type;
+        res.coordinates = geoJson.coordinates;
     }
     return res;
 }

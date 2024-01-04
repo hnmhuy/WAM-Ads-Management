@@ -1,4 +1,5 @@
 let detailOffCanvas = undefined;
+let currAdPlaceData = undefined;
 
 document.addEventListener("DOMContentLoaded", () => {
     let detailOffCanvasElement = document.getElementById("location_extend");
@@ -129,10 +130,15 @@ function showLocationDetail(adPlaceId) {
         .then((res) => res.json())
         .then((data) => {
             if(data.success) {
+                currAdPlaceData = data.data;
                 updateAdInfoOffCanvas(data.data);
             } else {
                 console.log(data.message);
             }
         })
         .catch((err) => console.log(err));
+}
+
+function openEditLocationForm() {
+    
 }

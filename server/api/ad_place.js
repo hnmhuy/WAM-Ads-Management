@@ -68,9 +68,14 @@ controller.createAdPlace = async (req, res) => {
 
 }
 
-async function getAdPlace(limit = 10, page = 0, status = undefined, areaId = undefined, purpose = undefined, locationType = undefined) {
+async function getAdPlace(limit = 10, page = 0, status = undefined, areaId = undefined, purpose = undefined, locationType = undefined, includeGeometry = false) {
 
     let level = 0;
+
+    let attributes = ['id', 'address_formated'];
+    if(includeGeometry) {
+        attributes.push('geometry');
+    }
     
     if (areaId) { 
         let area = await models.area.findOne({
@@ -103,10 +108,7 @@ async function getAdPlace(limit = 10, page = 0, status = undefined, areaId = und
             include: [
                 {
                     model: models.place,
-                    attributes: [
-                        'id',
-                        'address_formated',
-                    ],
+                    attributes:attributes,
                     include: [
                         {model: models.area, attributes: ['id', 'name', 'formatedName', 'parent_id']}
                     ]
@@ -176,14 +178,14 @@ async function getOneAdPlace(id) {
 }
 
 controller.getAdPlace = async (req, res) => {
-    let {limit, page, status, areaId, purpose, locationType} = req.query;
+    let {limit, page, status, areaId, purpose, locationType, includeGeometry} = req.query;
     limit = limit ? parseInt(limit) : 10;
     page = page ? parseInt(page) : 1;
     status = status ? status : undefined;
     areaId = areaId ? parseInt(areaId) : undefined;
     purpose = purpose ? parseInt(purpose) : undefined;
     locationType = locationType ? parseInt(locationType) : undefined;
-    let adPlaceRes = await getAdPlace(limit, page, status, areaId, purpose, locationType);
+    let adPlaceRes = await getAdPlace(limit, page, status, areaId, purpose, locationType, includeGeometry);
     if (adPlaceRes.success) {
         res.json(adPlaceRes);
     } else {
@@ -256,6 +258,95 @@ controller.deleteAdPlace = async (req, res) => {
         } catch (error) {
             
         }
+    }
+}
+
+async function getAdPlaceAsGeojson(areaId = undefined) {
+    try {
+
+        let level = 0;
+        if (areaId) { 
+            let area = await models.area.findOne({
+                where: {
+                    id: `${areaId}`
+                }
+            })
+            if (area) {
+                if (area.parent_id) {
+                    level = 2;
+                } else {
+                    level = 1;
+                }
+            }
+        }
+
+
+        let data = await models.ad_place.findAll({
+            attributes: ['id', 'capacity', 'status'],
+            include: [
+                {
+                    model: models.place,
+                    attributes: ['id', 'address_formated', 'geometry'],
+                    include: [
+                        {model: models.area, attributes: ['id', 'name', 'formatedName', 'parent_id']}
+                    ]
+                }
+            ],
+            order: [['createdAt', 'DESC']],
+            where: {
+                [Op.and]: [
+                    areaId ? level === 1 ? { '$place.area.parent_id$': `${areaId}` } : { '$place.area.id$': `${areaId}` } : null,
+                ]
+            }
+        })
+        return {
+            sucess: true,
+            message: "Get ad place success",
+            data: data
+        }
+    } catch (error) {
+        return {
+            sucess: false,
+            message: "Get ad place fail",
+            data: null,
+            detail: error
+        }
+    }
+}
+
+function toGeojson(data) {
+    let res = {}
+    res.type = "FeatureCollection";
+    res.features = [];
+    data.forEach(item => {
+        let feature = {};
+        feature.type = "Feature";
+        feature.geometry = JSON.parse(item.place.geometry);
+        feature.properties = {
+            id: item.id,
+            capacity: item.capacity,
+            status: item.status,
+            address_formated: item.place.address_formated,
+            area: item.place.area,
+        }
+        res.features.push(feature);
+    })
+    // console.log(res);
+    return res;
+}
+
+controller.getAdPlaceGeojson = async (req, res) => {
+    let {areaId} = req.query;
+    let data = await getAdPlaceAsGeojson(areaId);
+    if(data.sucess) {
+        // Json data values of the ad_place
+        let jsonData = data.data.map(item => item.get({plain: true}));
+        // Convert json data to geojson
+        let geojson = toGeojson(jsonData);
+        data.data = geojson;
+        res.json(data);
+    } else {
+        res.json(data);
     }
 }
 

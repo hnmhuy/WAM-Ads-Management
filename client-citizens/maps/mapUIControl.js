@@ -43,13 +43,12 @@ export function openSidePeek(data) {
         sidepeek.className = 'sidepeek-container';
         sidepeek.classList.add(`${isReported ? 'sticky-left' : 'float'}`)
     } else if (category === 'fb') {
-        fbDetail.querySelector('.header .bi-chevron-double-left').onclick = closeAllSidePeek
+        fbDetail.querySelector('.header .bi-chevron-double-left').onclick = closeFeedbackDetail
         fbDetail.className = 'feedbackDetail-container';
         fbDetail.classList.add('float');
     }
 }
 
-window.openExtendSidePeek = () => {
-    fbDetail.className = 'feedbackDetail-container';
-    fbDetail.classList.add('feedbackDetail-float');
+export function closeFeedbackDetail() {
+    fbDetail.classList.add('hidden');
 }

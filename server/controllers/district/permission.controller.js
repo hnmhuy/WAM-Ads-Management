@@ -93,4 +93,4 @@ controller.show = async (req, res) => {
     res.render('district/permission', { layout: 'district_layout'});
 }
 
-module.exports = controller
+module.exports = controller; 
