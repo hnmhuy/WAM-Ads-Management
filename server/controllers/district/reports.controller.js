@@ -1,22 +1,10 @@
 const controller = {}
 const models = require('../../models');
-const splitAddressFormatted = (address_formatted) => {
-    let address_part = {
-        street: '',
-        ward: '',
-        district: ''
-    }
-
-    const addressParts = address_formatted.split(', ')
-    address_part.street = addressParts[0];
-    address_part.ward = addressParts[1];
-    address_part.district = addressParts[2];
-    return address_part
-}
 
 controller.show = async (req, res) => {
     req.session.prev_url = req.originalUrl;
     res.locals.page_name = "Danh sách cấp phép";
+    let delegation = req.session.user.delegation;
 
     let data_rows = await models.feedback.findAll({
         attributes: ['id', 'name', 'email', 'phone', 'status', 'content', 'image1', 'image2'],
@@ -24,7 +12,17 @@ controller.show = async (req, res) => {
             {
                 model: models.place,
                 as: "place",
-                attributes: ['address_formated']
+                attributes: ['address_formated'],
+                include: [
+                    {
+                        model: models.area,
+                        as: "area",
+                        attributes: ['formatedName']
+                    },
+                ],
+                where: {
+                    area_id: delegation
+                }
             },
             {
                 model: models.feedback_response,
@@ -38,14 +36,12 @@ controller.show = async (req, res) => {
             }
         ]
     }).then((data) => {
-        let data_row = [];
-
+        let data_row = []
         data.forEach((item) => {
-            let tmp = {};
+            let tmp = {}
             tmp.id = item.id;
             tmp.type = item.category.name;
-            tmp.content = item.content
-
+            tmp.content = item.content;
 
             if (item.feedback_response !== null) {
                 tmp.solution = item.feedback_response.content;
@@ -63,20 +59,10 @@ controller.show = async (req, res) => {
                     "status_name": "Chưa giải quyết"
                 }
             }
-            tmp.name = item.name == null ? "" : item.name;
-            tmp.phone = item.phone || "";
-            tmp.email = item.email || "";
 
-            tmp.address = splitAddressFormatted(item.place.address_formated);
-            tmp.image_path = [];
-
-            if (item.image1 !== null) {
-                tmp.image_path.push(item.image1);
-            }
-
-            if (item.image2 !== null) {
-                tmp.image_path.push(item.image2);
-            }
+            tmp.name = item.name;
+            tmp.phone = item.phone;
+            tmp.email = item.email;
 
             tmp.category = "";
 
@@ -87,7 +73,25 @@ controller.show = async (req, res) => {
             if (item.place !== null) {
                 tmp.category = "is_random collapse";
             }
-            data_row.push(tmp);
+
+            tmp.image_path = [];
+
+            if (item.image1 !== null) {
+                tmp.image_path.push(item.image1);
+            }
+
+            if (item.image2 !== null) {
+                tmp.image_path.push(item.image2);
+            }
+
+            let ward_district = item.place.area.formatedName.split(', ');
+            tmp.address = {
+                "street": item.place.address_formated,
+                "ward": ward_district[0],
+                "district": ward_district[1]
+            }
+
+            data_row.push(tmp)
 
         });
         console.log(data_row)
@@ -99,7 +103,6 @@ controller.show = async (req, res) => {
         });
         console.log(err);
     })
-    console.log(data_rows)
     res.locals.data_rows = data_rows
     res.render('district/reports', { layout: 'district_layout' });
 }
