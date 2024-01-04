@@ -2,32 +2,27 @@
 
 const controller = {};
 const models = require('../models');
-const splitAddressFormatted = (address_formatted) => {
-    let address_part = {
-        street: '',
-        ward: '',
-        district: ''
-    }
-
-    if (address_formatted != null) {
-
-        const addressParts = address_formatted.split(', ')
-        address_part.street = addressParts[0];
-        address_part.ward = addressParts[1];
-        address_part.district = addressParts[2];
-    }
-    return addressParts
-}
 
 
 controller.getReports = (req, res) => {
+    let delegation = req.query.delegation;
     models.feedback.findAll({
-        attributes: ['name', 'email', 'phone', 'status', 'content', 'image1', 'image2'],
+        attributes: ['id', 'name', 'email', 'phone', 'status', 'content', 'image1', 'image2'],
         include: [
             {
                 model: models.place,
                 as: "place",
-                attributes: ['address_formated']
+                attributes: ['address_formated'],
+                include: [
+                    {
+                        model: models.area,
+                        as: "area",
+                        attributes: ['formatedName']
+                    },
+                ],
+                where: {
+                    area_id: delegation
+                }
             },
             {
                 model: models.feedback_response,
@@ -41,30 +36,34 @@ controller.getReports = (req, res) => {
             }
         ]
     }).then((data) => {
-        let data_row = [];
 
+        let data_row = []
         data.forEach((item) => {
-            let tmp = {};
-            tmp.id = item.id || "";
-            tmp.type = item.category.name || "";
+            let tmp = {}
+            tmp.id = item.id;
+            tmp.type = item.category.name;
+            tmp.content = item.content;
 
-            // if (item.feedback_response !== null) {
-            //     tmp.solution = item.feedback_response.content || "";
-            //     tmp.time = item.feedback_response.updatedAt || "";
-            // }
-            // tmp.name = item.name == null ? "" : item.name;
-            tmp.phone = item.phone || "";
-            tmp.email = item.email || "";
-            // tmp.address = splitAddressFormatted(item.place.address_formated);
-            tmp.image_path = [];
-
-            if (item.image1 !== null) {
-                tmp.image_path.push(item.image1);
+            if (item.feedback_response !== null) {
+                tmp.solution = item.feedback_response.content;
+                tmp.status = {
+                    "status_id": "solved",
+                    "status_name": "Đã giải quyết"
+                }
+                tmp.time = item.feedback_response.updatedAt;
+            }
+            else {
+                tmp.solution = null;
+                tmp.time = null;
+                tmp.status = {
+                    "status_id": "unsolved",
+                    "status_name": "Chưa giải quyết"
+                }
             }
 
-            if (item.image2 !== null) {
-                tmp.image_path.push(item.image2);
-            }
+            tmp.name = item.name;
+            tmp.phone = item.phone;
+            tmp.email = item.email;
 
             tmp.category = "";
 
@@ -76,8 +75,25 @@ controller.getReports = (req, res) => {
                 tmp.category = "is_random collapse";
             }
 
-            data_row.push(tmp);
-        });
+            tmp.image_path = [];
+
+            if (item.image1 !== null) {
+                tmp.image_path.push(item.image1);
+            }
+
+            if (item.image2 !== null) {
+                tmp.image_path.push(item.image2);
+            }
+
+            let ward_district = item.place.area.formatedName.split(', ');
+            tmp.address = {
+                "street": item.place.address_formated,
+                "ward": ward_district[0],
+                "district": ward_district[1]
+            }
+
+            data_row.push(tmp)
+        })
 
         res.json({
             data_row: data_row
@@ -90,48 +106,52 @@ controller.getReports = (req, res) => {
     })
 }
 
-// controller.updateSolution = (req, res) => {
-//     let { solution, feedback_id, officer } = req.body;
-//     let res_id = ""
-//     model.feedback_response.create({
-//         content: solution,
-//         officier: officer
-//     }).then((data) => {
-//         res_id = data
-//         res.json({
-//             message: "Create response_feedback",
-//             data: data
-//         })
-//     }).catch((err) => {
-//         res.status(500).json({
-//             message: err.message,
-//         });
-//         console.log(err);
-//     })
+controller.updateSolution = (req, res) => {
+    let { solution, feedback_id, officer } = req.body;
+    let res_id = ""
+    model.feedback_response.create({
+        content: solution,
+        officier: officer
+    }).then((data) => {
+        res_id = data
+        res.json({
+            message: "Create response_feedback",
+            data: data
+        })
+    }).catch((err) => {
+        res.status(500).json({
+            message: err.message,
+        });
+        console.log(err);
+    })
 
-//     model.feedback.update({
-//         response_id: res_id
-//     }, {
-//         where: {
-//             id: feedback_id
-//         }
-//     }).then((data) => {
-//         res.json({
-//             message: "Update feedback!",
-//             data: data
-//         })
-//     }).catch((err) => {
-//         res.status(500).json({
-//             message: err.message,
-//         });
-//         console.log(err);
-//     })
+    model.feedback.update({
+        response_id: res_id
+    }, {
+        where: {
+            id: feedback_id
+        }
+    }).then((data) => {
+        res.json({
+            message: "Update feedback!",
+            data: data
+        })
+    }).catch((err) => {
+        res.status(500).json({
+            message: err.message,
+        });
+        console.log(err);
+    })
 
-// }
+}
 
 controller.createResponse = (req, res) => {
     console.log(req.body)
-    let { content, officer } = req.body;
+
+    let officer = (req.session.user.id)
+    console.log(officer)
+
+    let { content } = req.body;
     models.feedback_response.create({
         content: content,
         officer: officer
@@ -150,8 +170,6 @@ controller.createResponse = (req, res) => {
 
 controller.updateFeedback = (req, res) => {
     const { fb_id, fbRes_id } = req.body;
-    console.log(fb_id)
-    console.log(fbRes_id)
     models.feedback.update({
         response_id: fbRes_id,
     }, {

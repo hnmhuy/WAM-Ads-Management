@@ -170,34 +170,45 @@ controller.createFeedbackCategory = async (req, res) => {
     });
 }
 controller.getLocations = (req, res) => {
+    let delegation = req.query.delegation;
     models.ad_place.findAll({
-        attributes: ['id', 'capacity', 'status'],
+        attributes: ['id', 'capacity', 'status', 'image1', 'image2'],
         include: [
             {
                 model: models.place,
                 as: "place",
-                attributes: ['address_formated']
+                attributes: ['address_formated'],
+                include: {
+                    model: models.area,
+                    as: 'area',
+                    attributes: ['formatedName']
+                },
+                where: {
+                    area_id: delegation
+                }
             },
             {
                 model: models.category,
-                as: 'TypeAds',
+                as: 'locationType',
                 attributes: ['name'],
             },
             {
                 model: models.category,
-                as: 'PurposeAds',
+                as: 'purposeType',
                 attributes: ['name'],
             }
         ]
     }).then((data) => {
         let data_row = []
         data.forEach((item) => {
-            let tmp = {};
+            let tmp = {}
             tmp.id = item.id
             tmp.capacity = item.capacity;
-            tmp.type_ad = item.TypeAds.name;
-            tmp.purpose_ad = item.PurposeAds.name;
-            if (item.status === 1) {
+            tmp.type_ad = item.locationType.name;
+            tmp.purpose_ad = item.purposeType.name;
+            tmp.image1 = item.image1;
+            tmp.image2 = item.image2;
+            if (item.status == 1) {
                 tmp.status = {
                     "status_id": "delivered",
                     "status_name": "Đã quy hoạch"
@@ -209,10 +220,16 @@ controller.getLocations = (req, res) => {
                     "status_name": "Chưa quy hoạch"
                 }
             }
-            tmp.address = splitAddressFormatted(item.place.address_formated)
+
+            let ward_district = item.place.area.formatedName.split(', ');
+
+            tmp.address = {
+                "street": item.place.address_formated,
+                "ward": ward_district[0],
+                "district": ward_district[1]
+            }
             data_row.push(tmp)
         })
-
         res.json({
             data_row: data_row
         })
@@ -227,7 +244,14 @@ controller.getLocationById = (req, res) => {
             {
                 model: models.place,
                 as: "place",
-                attributes: ['address_formated']
+                attributes: ['address_formated'],
+                include: [
+                    {
+                        model: models.area,
+                        as: 'area',
+                        attributes: ['formatedName']
+                    }
+                ]
             },
             {
                 model: models.category,
@@ -237,11 +261,6 @@ controller.getLocationById = (req, res) => {
             {
                 model: models.category,
                 as: 'PurposeAds',
-                attributes: ['id', 'name'],
-            },
-            {
-                model: models.category,
-                as: 'Ads',
                 attributes: ['id', 'name'],
             }
         ],

@@ -134,7 +134,6 @@ function updateResponse(data) {
 function updateSolution(button) {
     let buttonId = button.id
     //! Get officer later
-    let officier = 'b4586350-7725-4c9f-a546-167ebdde8ce7'
     let textareaElements = document.getElementsByTagName('textarea')
 
     const targetTextarea = Array.from(textareaElements).find(element => element.id === buttonId);
@@ -152,7 +151,6 @@ function updateSolution(button) {
 
     let data = {
         content: targetTextarea.value,
-        officer: officier
     }
 
     const feedback_content = document.createElement('div');
