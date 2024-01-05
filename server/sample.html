@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        body {
+            background-color: antiquewhite;
+        }
         #json-display {
             white-space: pre-wrap;
             font-family: 'Courier New', monospace;
@@ -14,7 +17,17 @@
     </style>
 </head>
 <body>
-    <form action="#" onsubmit="geocoding(event)">
+    <div style="position: absolute; top: 2px; right: 2px; display: flex; justify-content: space-around; background-color: rgba(255, 255, 255, 0.3); width: 280px; padding: 5px; border-radius: 5px;">
+        <div>
+            <span style="font-weight: 800; width: 100px;">Kinh độ: </span>
+            <span>102.332321</span>
+        </div>
+        <div>
+            <span style="font-weight: 800; width: 100px;">Vĩ độ: </span>
+            <span>102.332321</span>
+        </div>
+    </div>
+    <!-- <form action="#" onsubmit="geocoding(event)">
         <label for="search"></label>
         <input type="text" name="search" id="search" title="search" style="width: 80vw; height: 20px; border-radius: 5px;">
         <label for="tool">
@@ -45,7 +58,7 @@
         </select>
         <button type="submit">Reverse Geocode</button>
     </form>
-    <div id="json-display"></div>
+    <div id="json-display"></div> -->
     <script>
     const token = "pk.eyJ1IjoiZGV2LWhubWh1eSIsImEiOiJjbHBwYXY3ZW8weTdvMnBxbm85cnV2ZTFvIn0.6e8fwVmpoLxVSkyBWksYBg";
        function geocoding(event) {
@@ -58,7 +71,7 @@
         let tool = document.getElementById('tool-geocode').value;
         let url;
         if(tool == 'openstreetmap') {
-            url = `https://nominatim.openstreetmap.org/search?q=${searchQuery}&format=geojson&addressdetails=1&accept-language=vi-VN&countrycodes=VN&limit=1`
+            url = `https://nominatim.openstreetmap.org/search?q=${searchQuery}&format=geojson&addressdetails=1&accept-language=vi-VN&countrycodes=VN&limit=1&polygon_geojson=1`
         } else if(tool == 'mapbox') {
             url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${searchQuery}.json?country=VN&access_token=${token}`;
         } else if(tool == 'here') {

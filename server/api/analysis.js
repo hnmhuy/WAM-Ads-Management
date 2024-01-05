@@ -7,7 +7,7 @@ const {sequelize} = require("../models")
 function generateLastMonth(date)
 {
     const [year, month] = date.split('-').map(Number);
-    let previousMonth = month === 1 ? `${year - 1}-12` : `${year}-${month - 1}`;
+    let previousMonth = month === 1 ? `${year - 1}-12` : `${year}-${month - 1}`; 
     return previousMonth;
 }
 
@@ -132,7 +132,7 @@ async function getQuantityFeedback(mode, date)
 async function getQuantityRequestPerMonth(areaID) 
 {
     try {
-        const currentDate = new Date('2024-03-01');
+        const currentDate = new Date();
         
         const startDate = new Date(Date.UTC(currentDate.getFullYear(), 0 , 1, 0, 0, 0, 0));
         console.log("START: ", startDate.toLocaleDateString(), startDate.toLocaleTimeString());

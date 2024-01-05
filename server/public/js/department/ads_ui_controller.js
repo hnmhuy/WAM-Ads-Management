@@ -10,13 +10,21 @@ let currpage = swap_button.getAttribute("target");
 let geometry = undefined;
 let createLocationCanvas = undefined;
 
+let mapForCreate = null;
+let mapForUpdate = null;
+
 document.addEventListener("DOMContentLoaded", () => {
+    mapForCreate = initMap("map-for-create");
+    mapForUpdate = initMap("map-for-update");
+
+    navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
     let createLocation = document.getElementById('location_create');
     let updateLocation = document.getElementById('location_edit');
     createLocationCanvas = new bootstrap.Offcanvas(createLocation);
-    console.log(window.inputFieldArray);
-    console.log(window.uploadedFiles);
-})
+    formControl("create-location-form", mapForCreate);
+    formControl("edit-location-form", mapForUpdate);
+
+});
 
 function createLoadingHolder() {
     const loadingHolder = document.createElement("div");
@@ -407,6 +415,7 @@ function generateOption(data) {
 
 function fetchAndAddOption(selectElement, kindOfData, placeHolder, idDistrict) {
     // Implement later
+    
     let url = "";
     if (kindOfData === 'district') {
         url = "/api/area/getArea?opts=db&level=1"
@@ -449,7 +458,7 @@ function fetchAndAddOption(selectElement, kindOfData, placeHolder, idDistrict) {
 }
 
 
-function areaSelectionController(districtSelection, wardSelection, streetSelection) {
+function areaSelectionController(districtSelection, wardSelection, streetSelection, map) {
     let address = "";
     const geocodeBtn = streetSelection.parentNode.querySelector(".inside-btns button:first-child");
     const clearAddressBtn = streetSelection.parentNode.querySelector(".inside-btns button:last-child");
@@ -460,9 +469,9 @@ function areaSelectionController(districtSelection, wardSelection, streetSelecti
         geocodeBtn.disabled = true;
         geocodeBtn.querySelector(".spinner-grow").classList.remove("collapse");
         geocodeBtn.querySelector("i").classList.add("collapse");
-        let data = await geocoding(mapForCreate, address, false, true, 18);
+        let data = await geocoding(map, address, false, true, 18);
         if (data) {
-            geometry = data.features[0].geometry;
+            geometry = preProcessGeoJson(data.features[0].geometry);
         } else {
             geometry = undefined;
             displayNotification("Không tìm thấy địa chỉ", "error");
@@ -473,13 +482,15 @@ function areaSelectionController(districtSelection, wardSelection, streetSelecti
     })
     districtSelection.addEventListener("change", () => {
         if (districtSelection.value != "") {
-            geocoding(mapForCreate, districtSelection.options[districtSelection.selectedIndex].text, true);
+            geocoding(map, districtSelection.options[districtSelection.selectedIndex].text, true);
+            updatePolygonByAddress(map, districtSelection.options[districtSelection.selectedIndex].text);
             wardSelection.disabled = false;
             fetchAndAddOption(wardSelection, 'ward', 'Chọn phường/xã', districtSelection.value);
             wardSelection.addEventListener("change", () => {
                 if (wardSelection.value != "") {
                     address = `${wardSelection.options[wardSelection.selectedIndex].text}, ${districtSelection.options[districtSelection.selectedIndex].text}`
-                    geocoding(mapForCreate, address, true);
+                    geocoding(map, address, true);
+                    updatePolygonByAddress(map, address);
                     streetSelection.disabled = false;
                     geocodeBtn.disabled = false;
                     clearAddressBtn.disabled = false;
@@ -505,13 +516,12 @@ function areaSelectionController(districtSelection, wardSelection, streetSelecti
     });
 }
 
-function formControl(form_id) {
-    const districtSelection = document.querySelector(
-        `#${form_id} select[name="district"]`
-    );
+function formControl(form_id, map) {
+    console.log("Form controller is running for " + form_id);
+    const districtSelection = document.querySelector(`#${form_id} select[name="district"]`);
     const wardSelection = document.querySelector(`#${form_id} select[name="ward"]`);
-    const streetSelection = document.querySelector(`#${form_id} input[name="street"]`);
-    areaSelectionController(districtSelection, wardSelection, streetSelection);
+    const streetSelection = document.querySelector(`#${form_id} input[name="street"]`);    
+    areaSelectionController(districtSelection, wardSelection, streetSelection, map);
 }
 
 function clearImgInputField(fieldId) {
@@ -576,9 +586,9 @@ function fetchDropDown(url, element, placeHolder) {
         })
 }
 
-async function openCreateLocationForm() {
+async function openForm(formId) {
     geometry = {};
-    const form = document.querySelector("#create-location-form");
+    const form = document.getElementById(formId);
     const locationType = form.querySelector("select[name='location-type']");
     const adPurpose = form.querySelector("select[name='purpose-type']");
     const districtSelection = form.querySelector("select[name='district']");

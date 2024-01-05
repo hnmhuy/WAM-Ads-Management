@@ -23,7 +23,7 @@
     </div>
 
     <button class="primary-button" id="new_location_btn" type="button" data-bs-toggle="offcanvas"
-        data-bs-target="#location_create" aria-controls="location_create" onclick="openCreateLocationForm()">
+        data-bs-target="#location_create" aria-controls="location_create" onclick="openForm('create-location-form')">
         <i class="bi bi-plus-circle"></i>
         Tạo mới
     </button>
@@ -69,7 +69,7 @@
         <h5 class="offcanvas-title" id="location_extend_header">Thông tin chi tiết điểm đặt quảng cáo</h5>
         <div class="edit-location-btn">
             <button class="" id="edit-location-btn" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#location_edit" aria-controls="location_edit">
+                data-bs-target="#location_edit" aria-controls="location_edit" onclick="openForm('edit-location-form')">
                 <i class="bi bi-pencil-fill"></i>
                 Chỉnh sửa
             </button>
@@ -99,7 +99,7 @@
                         <div class="carousel-inner">
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#ad-detail-img"
-                            data-bs-slide="prev">
+                            data-bs-slide="prev">``
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>
                         </button>
@@ -273,6 +273,594 @@
                     </form>
                 </div>
             </div>
+            <div class="ad-detail-card">
+                <div class="view">
+                    <div id="ad-detail-card-imgs-c001" class="carousel slide view-imgs" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            <button data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide-to="0" class="active"
+                                aria-current="true" aria-label="First slide"></button>
+                            <button data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide-to="1"
+                                aria-label="Second slide"></button>
+                            <button data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide-to="2"
+                                aria-label="Third slide"></button>
+                        </div>
+                        <div class="carousel-inner" role="listbox">
+                            <div class="carousel-item active">
+                                <img src="https://images.unsplash.com/photo-1700451761286-67c601f012d8?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    class="w-100 d-block" alt="First slide">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://images.unsplash.com/photo-1700451761286-67c601f012d8?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    class="w-100 d-block" alt="Second slide">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://images.unsplash.com/photo-1700451761286-67c601f012d8?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    class="w-100 d-block" alt="Third slide">
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#ad-detail-card-imgs-c001"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#ad-detail-card-imgs-c001"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                    <div class="view-info">
+                        <div class="view-info-attribute">
+                            <span>Kích thước</span> 2m x 3m
+                        </div>
+                        <div class="view-info-attribute">
+                            <span>Bắt đầu</span> 11/11/2023
+                        </div>
+                        <div class="view-info-attribute">
+                            <span>Kết thúc</span> 11/12/2023
+                        </div>
+                        <div class="view-info-status">
+                            Đang quảng cáo
+                        </div>
+                    </div>
+                    <button class="edit-ad-btn" id="" type="button" title="Chỉnh sửa" onclick="editAd(this)">
+                        <i class="bi bi-pencil-fill"></i>
+                    </button>
+                </div>
+                <div class="edit-ad-form">
+                    <form action="" class="edit-ad-form">
+                        <div class="imgs-field">
+                            <div class="upload-field" id="ad-content-id">
+                                <label for="img-ad-content-id" class="drag-drop">
+                                    <div class="holder">
+                                        <i class="bi bi-cloud-arrow-up-fill"></i>
+                                        <h4>Kéo và thả ảnh vào đây</h4> hoặc Click để duyệt file
+                                    </div>
+                                </label>
+                                <input type="file" name="imgFile" id="img-ad-content-id" accept=".png, .jpeg, .gif"
+                                    multiple hidden>
+                                <div class="preview" style="display: none;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="info-field">
+                            <div class="ads-amount">
+                                <label for="ad-w-ad-content-id">Chiều rộng</label>
+                                <input type="number" id="ad-w-ad-content-id" placeholder="0" required>
+                                <p>m</p>
+                            </div>
+                            <div class="ads-amount">
+                                <label for="ad-h-ad-content-id">Chiều dài</label>
+                                <input type="number" id="ad-h-ad-content-id" placeholder="0" required>
+                                <p>m</p>
+                            </div>
+                            <div class="form-field">
+                                <label for="start-date-ad-content-id">Bắt đầu</label>
+                                <input type="date" id="start-date-ad-content-id" placeholder="" required>
+                            </div>
+                            <div class="form-field">
+                                <label for="end-date-ad-content-id">Kết thúc</label>
+                                <input type="date" id="end-date-ad-content-id" placeholder="" required>
+                            </div>
+                            <div class="submit-btn">
+                                <button type="button" class="btn btn-secondary"
+                                    onclick="cancelAdEdit(this)">Hủy</button>
+                                <button type="submit" class="btn btn-primary">Xác nhận</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="ad-detail-card">
+                <div class="view">
+                    <div id="ad-detail-card-imgs-c001" class="carousel slide view-imgs" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            <button data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide-to="0" class="active"
+                                aria-current="true" aria-label="First slide"></button>
+                            <button data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide-to="1"
+                                aria-label="Second slide"></button>
+                            <button data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide-to="2"
+                                aria-label="Third slide"></button>
+                        </div>
+                        <div class="carousel-inner" role="listbox">
+                            <div class="carousel-item active">
+                                <img src="https://images.unsplash.com/photo-1700451761286-67c601f012d8?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    class="w-100 d-block" alt="First slide">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://images.unsplash.com/photo-1700451761286-67c601f012d8?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    class="w-100 d-block" alt="Second slide">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://images.unsplash.com/photo-1700451761286-67c601f012d8?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    class="w-100 d-block" alt="Third slide">
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#ad-detail-card-imgs-c001"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#ad-detail-card-imgs-c001"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                    <div class="view-info">
+                        <div class="view-info-attribute">
+                            <span>Kích thước</span> 2m x 3m
+                        </div>
+                        <div class="view-info-attribute">
+                            <span>Bắt đầu</span> 11/11/2023
+                        </div>
+                        <div class="view-info-attribute">
+                            <span>Kết thúc</span> 11/12/2023
+                        </div>
+                        <div class="view-info-status">
+                            Đang quảng cáo
+                        </div>
+                    </div>
+                    <button class="edit-ad-btn" id="" type="button" title="Chỉnh sửa" onclick="editAd(this)">
+                        <i class="bi bi-pencil-fill"></i>
+                    </button>
+                </div>
+                <div class="edit-ad-form">
+                    <form action="" class="edit-ad-form">
+                        <div class="imgs-field">
+                            <div class="upload-field" id="ad-content-id">
+                                <label for="img-ad-content-id" class="drag-drop">
+                                    <div class="holder">
+                                        <i class="bi bi-cloud-arrow-up-fill"></i>
+                                        <h4>Kéo và thả ảnh vào đây</h4> hoặc Click để duyệt file
+                                    </div>
+                                </label>
+                                <input type="file" name="imgFile" id="img-ad-content-id" accept=".png, .jpeg, .gif"
+                                    multiple hidden>
+                                <div class="preview" style="display: none;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="info-field">
+                            <div class="ads-amount">
+                                <label for="ad-w-ad-content-id">Chiều rộng</label>
+                                <input type="number" id="ad-w-ad-content-id" placeholder="0" required>
+                                <p>m</p>
+                            </div>
+                            <div class="ads-amount">
+                                <label for="ad-h-ad-content-id">Chiều dài</label>
+                                <input type="number" id="ad-h-ad-content-id" placeholder="0" required>
+                                <p>m</p>
+                            </div>
+                            <div class="form-field">
+                                <label for="start-date-ad-content-id">Bắt đầu</label>
+                                <input type="date" id="start-date-ad-content-id" placeholder="" required>
+                            </div>
+                            <div class="form-field">
+                                <label for="end-date-ad-content-id">Kết thúc</label>
+                                <input type="date" id="end-date-ad-content-id" placeholder="" required>
+                            </div>
+                            <div class="submit-btn">
+                                <button type="button" class="btn btn-secondary"
+                                    onclick="cancelAdEdit(this)">Hủy</button>
+                                <button type="submit" class="btn btn-primary">Xác nhận</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="ad-detail-card">
+                <div class="view">
+                    <div id="ad-detail-card-imgs-c001" class="carousel slide view-imgs" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            <button data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide-to="0" class="active"
+                                aria-current="true" aria-label="First slide"></button>
+                            <button data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide-to="1"
+                                aria-label="Second slide"></button>
+                            <button data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide-to="2"
+                                aria-label="Third slide"></button>
+                        </div>
+                        <div class="carousel-inner" role="listbox">
+                            <div class="carousel-item active">
+                                <img src="https://images.unsplash.com/photo-1700451761286-67c601f012d8?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    class="w-100 d-block" alt="First slide">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://images.unsplash.com/photo-1700451761286-67c601f012d8?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    class="w-100 d-block" alt="Second slide">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://images.unsplash.com/photo-1700451761286-67c601f012d8?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    class="w-100 d-block" alt="Third slide">
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#ad-detail-card-imgs-c001"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#ad-detail-card-imgs-c001"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                    <div class="view-info">
+                        <div class="view-info-attribute">
+                            <span>Kích thước</span> 2m x 3m
+                        </div>
+                        <div class="view-info-attribute">
+                            <span>Bắt đầu</span> 11/11/2023
+                        </div>
+                        <div class="view-info-attribute">
+                            <span>Kết thúc</span> 11/12/2023
+                        </div>
+                        <div class="view-info-status">
+                            Đang quảng cáo
+                        </div>
+                    </div>
+                    <button class="edit-ad-btn" id="" type="button" title="Chỉnh sửa" onclick="editAd(this)">
+                        <i class="bi bi-pencil-fill"></i>
+                    </button>
+                </div>
+                <div class="edit-ad-form">
+                    <form action="" class="edit-ad-form">
+                        <div class="imgs-field">
+                            <div class="upload-field" id="ad-content-id">
+                                <label for="img-ad-content-id" class="drag-drop">
+                                    <div class="holder">
+                                        <i class="bi bi-cloud-arrow-up-fill"></i>
+                                        <h4>Kéo và thả ảnh vào đây</h4> hoặc Click để duyệt file
+                                    </div>
+                                </label>
+                                <input type="file" name="imgFile" id="img-ad-content-id" accept=".png, .jpeg, .gif"
+                                    multiple hidden>
+                                <div class="preview" style="display: none;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="info-field">
+                            <div class="ads-amount">
+                                <label for="ad-w-ad-content-id">Chiều rộng</label>
+                                <input type="number" id="ad-w-ad-content-id" placeholder="0" required>
+                                <p>m</p>
+                            </div>
+                            <div class="ads-amount">
+                                <label for="ad-h-ad-content-id">Chiều dài</label>
+                                <input type="number" id="ad-h-ad-content-id" placeholder="0" required>
+                                <p>m</p>
+                            </div>
+                            <div class="form-field">
+                                <label for="start-date-ad-content-id">Bắt đầu</label>
+                                <input type="date" id="start-date-ad-content-id" placeholder="" required>
+                            </div>
+                            <div class="form-field">
+                                <label for="end-date-ad-content-id">Kết thúc</label>
+                                <input type="date" id="end-date-ad-content-id" placeholder="" required>
+                            </div>
+                            <div class="submit-btn">
+                                <button type="button" class="btn btn-secondary"
+                                    onclick="cancelAdEdit(this)">Hủy</button>
+                                <button type="submit" class="btn btn-primary">Xác nhận</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="ad-detail-card">
+                <div class="view">
+                    <div id="ad-detail-card-imgs-c001" class="carousel slide view-imgs" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            <button data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide-to="0" class="active"
+                                aria-current="true" aria-label="First slide"></button>
+                            <button data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide-to="1"
+                                aria-label="Second slide"></button>
+                            <button data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide-to="2"
+                                aria-label="Third slide"></button>
+                        </div>
+                        <div class="carousel-inner" role="listbox">
+                            <div class="carousel-item active">
+                                <img src="https://images.unsplash.com/photo-1700451761286-67c601f012d8?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    class="w-100 d-block" alt="First slide">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://images.unsplash.com/photo-1700451761286-67c601f012d8?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    class="w-100 d-block" alt="Second slide">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://images.unsplash.com/photo-1700451761286-67c601f012d8?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    class="w-100 d-block" alt="Third slide">
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#ad-detail-card-imgs-c001"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#ad-detail-card-imgs-c001"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                    <div class="view-info">
+                        <div class="view-info-attribute">
+                            <span>Kích thước</span> 2m x 3m
+                        </div>
+                        <div class="view-info-attribute">
+                            <span>Bắt đầu</span> 11/11/2023
+                        </div>
+                        <div class="view-info-attribute">
+                            <span>Kết thúc</span> 11/12/2023
+                        </div>
+                        <div class="view-info-status">
+                            Đang quảng cáo
+                        </div>
+                    </div>
+                    <button class="edit-ad-btn" id="" type="button" title="Chỉnh sửa" onclick="editAd(this)">
+                        <i class="bi bi-pencil-fill"></i>
+                    </button>
+                </div>
+                <div class="edit-ad-form">
+                    <form action="" class="edit-ad-form">
+                        <div class="imgs-field">
+                            <div class="upload-field" id="ad-content-id">
+                                <label for="img-ad-content-id" class="drag-drop">
+                                    <div class="holder">
+                                        <i class="bi bi-cloud-arrow-up-fill"></i>
+                                        <h4>Kéo và thả ảnh vào đây</h4> hoặc Click để duyệt file
+                                    </div>
+                                </label>
+                                <input type="file" name="imgFile" id="img-ad-content-id" accept=".png, .jpeg, .gif"
+                                    multiple hidden>
+                                <div class="preview" style="display: none;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="info-field">
+                            <div class="ads-amount">
+                                <label for="ad-w-ad-content-id">Chiều rộng</label>
+                                <input type="number" id="ad-w-ad-content-id" placeholder="0" required>
+                                <p>m</p>
+                            </div>
+                            <div class="ads-amount">
+                                <label for="ad-h-ad-content-id">Chiều dài</label>
+                                <input type="number" id="ad-h-ad-content-id" placeholder="0" required>
+                                <p>m</p>
+                            </div>
+                            <div class="form-field">
+                                <label for="start-date-ad-content-id">Bắt đầu</label>
+                                <input type="date" id="start-date-ad-content-id" placeholder="" required>
+                            </div>
+                            <div class="form-field">
+                                <label for="end-date-ad-content-id">Kết thúc</label>
+                                <input type="date" id="end-date-ad-content-id" placeholder="" required>
+                            </div>
+                            <div class="submit-btn">
+                                <button type="button" class="btn btn-secondary"
+                                    onclick="cancelAdEdit(this)">Hủy</button>
+                                <button type="submit" class="btn btn-primary">Xác nhận</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="ad-detail-card">
+                <div class="view">
+                    <div id="ad-detail-card-imgs-c001" class="carousel slide view-imgs" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            <button data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide-to="0" class="active"
+                                aria-current="true" aria-label="First slide"></button>
+                            <button data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide-to="1"
+                                aria-label="Second slide"></button>
+                            <button data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide-to="2"
+                                aria-label="Third slide"></button>
+                        </div>
+                        <div class="carousel-inner" role="listbox">
+                            <div class="carousel-item active">
+                                <img src="https://images.unsplash.com/photo-1700451761286-67c601f012d8?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    class="w-100 d-block" alt="First slide">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://images.unsplash.com/photo-1700451761286-67c601f012d8?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    class="w-100 d-block" alt="Second slide">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://images.unsplash.com/photo-1700451761286-67c601f012d8?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    class="w-100 d-block" alt="Third slide">
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#ad-detail-card-imgs-c001"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#ad-detail-card-imgs-c001"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                    <div class="view-info">
+                        <div class="view-info-attribute">
+                            <span>Kích thước</span> 2m x 3m
+                        </div>
+                        <div class="view-info-attribute">
+                            <span>Bắt đầu</span> 11/11/2023
+                        </div>
+                        <div class="view-info-attribute">
+                            <span>Kết thúc</span> 11/12/2023
+                        </div>
+                        <div class="view-info-status">
+                            Đang quảng cáo
+                        </div>
+                    </div>
+                    <button class="edit-ad-btn" id="" type="button" title="Chỉnh sửa" onclick="editAd(this)">
+                        <i class="bi bi-pencil-fill"></i>
+                    </button>
+                </div>
+                <div class="edit-ad-form">
+                    <form action="" class="edit-ad-form">
+                        <div class="imgs-field">
+                            <div class="upload-field" id="ad-content-id">
+                                <label for="img-ad-content-id" class="drag-drop">
+                                    <div class="holder">
+                                        <i class="bi bi-cloud-arrow-up-fill"></i>
+                                        <h4>Kéo và thả ảnh vào đây</h4> hoặc Click để duyệt file
+                                    </div>
+                                </label>
+                                <input type="file" name="imgFile" id="img-ad-content-id" accept=".png, .jpeg, .gif"
+                                    multiple hidden>
+                                <div class="preview" style="display: none;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="info-field">
+                            <div class="ads-amount">
+                                <label for="ad-w-ad-content-id">Chiều rộng</label>
+                                <input type="number" id="ad-w-ad-content-id" placeholder="0" required>
+                                <p>m</p>
+                            </div>
+                            <div class="ads-amount">
+                                <label for="ad-h-ad-content-id">Chiều dài</label>
+                                <input type="number" id="ad-h-ad-content-id" placeholder="0" required>
+                                <p>m</p>
+                            </div>
+                            <div class="form-field">
+                                <label for="start-date-ad-content-id">Bắt đầu</label>
+                                <input type="date" id="start-date-ad-content-id" placeholder="" required>
+                            </div>
+                            <div class="form-field">
+                                <label for="end-date-ad-content-id">Kết thúc</label>
+                                <input type="date" id="end-date-ad-content-id" placeholder="" required>
+                            </div>
+                            <div class="submit-btn">
+                                <button type="button" class="btn btn-secondary"
+                                    onclick="cancelAdEdit(this)">Hủy</button>
+                                <button type="submit" class="btn btn-primary">Xác nhận</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="ad-detail-card">
+                <div class="view">
+                    <div id="ad-detail-card-imgs-c001" class="carousel slide view-imgs" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            <button data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide-to="0" class="active"
+                                aria-current="true" aria-label="First slide"></button>
+                            <button data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide-to="1"
+                                aria-label="Second slide"></button>
+                            <button data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide-to="2"
+                                aria-label="Third slide"></button>
+                        </div>
+                        <div class="carousel-inner" role="listbox">
+                            <div class="carousel-item active">
+                                <img src="https://images.unsplash.com/photo-1700451761286-67c601f012d8?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    class="w-100 d-block" alt="First slide">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://images.unsplash.com/photo-1700451761286-67c601f012d8?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    class="w-100 d-block" alt="Second slide">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://images.unsplash.com/photo-1700451761286-67c601f012d8?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    class="w-100 d-block" alt="Third slide">
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#ad-detail-card-imgs-c001"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#ad-detail-card-imgs-c001"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                    <div class="view-info">
+                        <div class="view-info-attribute">
+                            <span>Kích thước</span> 2m x 3m
+                        </div>
+                        <div class="view-info-attribute">
+                            <span>Bắt đầu</span> 11/11/2023
+                        </div>
+                        <div class="view-info-attribute">
+                            <span>Kết thúc</span> 11/12/2023
+                        </div>
+                        <div class="view-info-status">
+                            Đang quảng cáo
+                        </div>
+                    </div>
+                    <button class="edit-ad-btn" id="" type="button" title="Chỉnh sửa" onclick="editAd(this)">
+                        <i class="bi bi-pencil-fill"></i>
+                    </button>
+                </div>
+                <div class="edit-ad-form">
+                    <form action="" class="edit-ad-form">
+                        <div class="imgs-field">
+                            <div class="upload-field" id="ad-content-id">
+                                <label for="img-ad-content-id" class="drag-drop">
+                                    <div class="holder">
+                                        <i class="bi bi-cloud-arrow-up-fill"></i>
+                                        <h4>Kéo và thả ảnh vào đây</h4> hoặc Click để duyệt file
+                                    </div>
+                                </label>
+                                <input type="file" name="imgFile" id="img-ad-content-id" accept=".png, .jpeg, .gif"
+                                    multiple hidden>
+                                <div class="preview" style="display: none;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="info-field">
+                            <div class="ads-amount">
+                                <label for="ad-w-ad-content-id">Chiều rộng</label>
+                                <input type="number" id="ad-w-ad-content-id" placeholder="0" required>
+                                <p>m</p>
+                            </div>
+                            <div class="ads-amount">
+                                <label for="ad-h-ad-content-id">Chiều dài</label>
+                                <input type="number" id="ad-h-ad-content-id" placeholder="0" required>
+                                <p>m</p>
+                            </div>
+                            <div class="form-field">
+                                <label for="start-date-ad-content-id">Bắt đầu</label>
+                                <input type="date" id="start-date-ad-content-id" placeholder="" required>
+                            </div>
+                            <div class="form-field">
+                                <label for="end-date-ad-content-id">Kết thúc</label>
+                                <input type="date" id="end-date-ad-content-id" placeholder="" required>
+                            </div>
+                            <div class="submit-btn">
+                                <button type="button" class="btn btn-secondary"
+                                    onclick="cancelAdEdit(this)">Hủy</button>
+                                <button type="submit" class="btn btn-primary">Xác nhận</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -300,7 +888,7 @@
             <div class="area-selection">
                 <div class="form-field">
                     <label for="district-for-create">Quận</label>
-                    <select name="district" id="district-for-create" title="Chọn quận" required>
+                    <select name="district" id="district-for-create" title="Chọn quận" required disabled>
                         <option selected value="">Chọn quận</option>
                     </select>
                 </div>
@@ -348,15 +936,6 @@
                         title="Số lượng" required>
                     <p>bảng / địa điểm</p>
                 </div>
-                {{!-- <div class="ads-type">
-                    <label for="ads-type">Loại bảng quảng cáo</label>
-                    <select name="ads-type" title="Chọn loại bảng quảng cáo" required>
-                        <option selected value="">Chọn loại bảng quảng cáo</option>
-                        <option value="1">Trụ/cụm pano</option>
-                        <option value="2">Băng rôn</option>
-                        <option value="3">Màn hình led</option>
-                    </select>
-                </div> --}}
                 <div style="width: 100%; height: 200px">
                     <div class="upload-field" id="create-location-form-upload-img">
                         <label for="imgFile-for-create" class="drag-drop">
@@ -400,33 +979,28 @@
         <form action="#" class="create-form" id="edit-location-form">
             <div class="area-selection">
                 <div class="form-field">
-                    <label for="distict-for-edit">Quận</label>
-                    <select name="district" id="distict-for-edit" title="Chọn quận" required>
-                        <option value="">Chọn quận</option>
-                        <option value="1">Quận 5</option>
-                        <option selected value="2">Quận 8</option>
+                    <label for="district-for-edit">Quận</label>
+                    <select name="district" id="district-for-edit" title="Chọn quận" required disabled>
+                        <option selected value="">Chọn quận</option>
                     </select>
                 </div>
                 <div class="form-field">
                     <label for="ward-for-edit">Phường</label>
-                    <select name="ward" id="ward-for-edit" title="Chọn phường" required>
-                        <option value="">Chọn phường</option>
-                        <option value="1">Phường 1</option>
-                        <option selected value="2">Phường 2</option>
-                        <option value="3">Phường 3</option>
-                        <option value="4">Phường 4</option>
-                        <option value="5">Phường 5</option>
-                        <option value="6">Phường 6</option>
-                        <option value="7">Phường 7</option>
+                    <select name="ward" id="ward-for-edit" title="Chọn phường" required disabled>
+                        <option selected value="">Chọn phường</option>
                     </select>
                 </div>
                 <div class="form-field">
                     <label for="street-for-edit">Đường</label>
                     <input type="text" name="street" id="street-for-edit" placeholder="Nhập số và tên đường"
-                        title="Tên đường và số nhà" required value="181/37 Âu Dương Lân">
-
+                        title="Tên đường" required disabled>
                     <div class="inside-btns">
-                        <button type="button" title="Tìm địa chỉ" disabled><i class="bi bi-geo"></i></button>
+                        <button type="button" title="Tìm địa chỉ" disabled>
+                            <i class="bi bi-geo"></i>
+                            <div class="spinner-grow text-secondary spinner-grow-sm collapse" role="status">
+                                <span class="sr-only"></span>
+                            </div>
+                        </button>
                         <button type="button" title="Xóa" disabled><i class="bi bi-x"></i></button>
                     </div>
                 </div>
@@ -450,12 +1024,13 @@
                 </div>
                 <div class="ads-amount">
                     <label for="ads-amount-for-edit">Số lượng</label>
-                    <input type="number" id="ads-amount-for-edit" min="1" max="10" placeholder="0" required value="2">
+                    <input name="new-amount" type="number" id="ads-amount-for-edit" min="1" max="10" placeholder="0"
+                        required value="2">
                     <p>bảng / địa điểm</p>
                 </div>
                 <div class="ads-type">
                     <label for="location-status">Trạng thái quy hoạch</label>
-                    <select id="location-status" name="location-status" required>
+                    <select id="location-status" name="new-location-status" required>
                         <option value="true" selected>Đã quy hoạch</option>
                         <option value="false">Chưa quy hoạch</option>
                     </select>
@@ -488,10 +1063,6 @@
 {{!Script section }}
 <script src="/public/js/department/ads_ui_controller.js"></script>
 <script>
-
-    formControl("create-location-form");
-    formControl("edit-location-form");
-
     const filterConfig = {
         filters: [
             {

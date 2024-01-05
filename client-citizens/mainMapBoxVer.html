@@ -211,16 +211,16 @@
             <button
               type="button"
               class="btn btn-primary feedback-button"
-              id="location-feedback"
+              onclick="openFeedbackForm()"
             >
               <i class="bi bi-send-fill"></i>
               Gửi phản hồi điểm đặt quảng cáo
             </button>
             <button
               type="button"
-              class="btn btn-primary show-feedback-button"
+              class="btn btn-primary show-feedback-button hidden"
               id="show-location-feedback"
-              onclick="openExtendSidePeek()"
+              onclick="openFeedbackDetail()"
             >
               <i class="bi bi-file-text-fill"></i> Xem phản hồi
             </button>
@@ -322,10 +322,10 @@
                 </button>
               </div>
               <div class="button-container">
-                <button type="button" class="btn btn-primary detail-button">
+                <button type="button" class="btn btn-primary detail-button" onclick="showAdDetail()">
                   <i class="bi bi-info-circle"></i> Chi tiết
                 </button>
-                <button type="button" class="btn btn-primary feedback-button">
+                <button type="button" class="btn btn-primary feedback-button" onclick="openFeedbackForm()">
                   <i class="bi bi-send-fill"></i> Phản hồi
                 </button>
 
@@ -333,344 +333,7 @@
                   type="button"
                   class="btn btn-primary hidden"
                   id="show-feedback-button"
-                >
-                  <i class="bi bi-file-text-fill"></i> Xem phản hồi
-                </button>
-              </div>
-            </div>
-
-            <div class="adcard-container">
-              <div class="header">
-                <h5 id="ad-name">Bảng quảng cáo 1</h5>
-                <i class="bi bi-exclamation-octagon-fill icon hidden"></i>
-              </div>
-
-              <div class="size">
-                <b>Kích thước</b>
-                <p id="ad-size">2.5m x 10m</p>
-              </div>
-
-              <div class="contrast">
-                <p><b>Thời hạn hợp đồng</b></p>
-                <div class="date-container">
-                  <img src="./public/images/Line 7.png" alt="Not found!" />
-
-                  <div class="date">
-                    <p id="start">Ngày 15 tháng 10 năm 2023</p>
-                    <p id="end">Ngày 16 tháng 10 năm 2023</p>
-                  </div>
-                </div>
-              </div>
-
-              <div
-                id="carouselId3"
-                class="carousel slide"
-                data-bs-ride="carousel"
-              >
-                <div class="carousel-indicators">
-                  <div
-                    data-bs-target="#carouselId3"
-                    data-bs-slide-to="0"
-                    class="active"
-                    aria-current="true"
-                    aria-label="First slide"
-                  ></div>
-                  <div
-                    data-bs-target="#carouselId3"
-                    data-bs-slide-to="1"
-                    aria-label="Second slide"
-                  ></div>
-                  <div
-                    data-bs-target="#carouselId3"
-                    data-bs-slide-to="2"
-                    aria-label="Third slide"
-                  ></div>
-                </div>
-                <div class="carousel-inner" id="imageList" role="listbox">
-                  <div class="carousel-item active">
-                    <img
-                      src="https://thedrum-media.imgix.net/thedrum-prod/s3/news/tmp/349138/uk_0.jpg?w=1280&ar=default&fit=crop&crop=faces,edges&auto=format"
-                      class="w-100 d-block"
-                      alt="First slide"
-                    />
-                  </div>
-                  <div class="carousel-item">
-                    <img
-                      src="https://thedrum-media.imgix.net/thedrum-prod/s3/news/tmp/349138/uk_0.jpg?w=1280&ar=default&fit=crop&crop=faces,edges&auto=format"
-                      class="w-100 d-block"
-                      alt="Second slide"
-                    />
-                  </div>
-                  <div class="carousel-item">
-                    <img
-                      src="https://thedrum-media.imgix.net/thedrum-prod/s3/news/tmp/349138/uk_0.jpg?w=1280&ar=default&fit=crop&crop=faces,edges&auto=format"
-                      class="w-100 d-block"
-                      alt="Third slide"
-                    />
-                  </div>
-                </div>
-                <button
-                  class="carousel-control-prev"
-                  type="button"
-                  data-bs-target="#carouselId3"
-                  data-bs-slide="prev"
-                >
-                  <span
-                    class="carousel-control-prev-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="visually-hidden">Previous</span>
-                </button>
-                <button
-                  class="carousel-control-next"
-                  type="button"
-                  data-bs-target="#carouselId3"
-                  data-bs-slide="next"
-                >
-                  <span
-                    class="carousel-control-next-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="visually-hidden">Next</span>
-                </button>
-              </div>
-              <div class="button-container">
-                <button type="button" class="btn btn-primary detail-button">
-                  <i class="bi bi-info-circle"></i> Chi tiết
-                </button>
-                <button type="button" class="btn btn-primary feedback-button">
-                  <i class="bi bi-send-fill"></i> Phản hồi
-                </button>
-
-                <button
-                  type="button"
-                  class="btn btn-primary hidden"
-                  id="show-feedback-button"
-                >
-                  <i class="bi bi-file-text-fill"></i> Xem phản hồi
-                </button>
-              </div>
-            </div>
-
-            <div class="adcard-container">
-              <div class="header">
-                <h5 id="ad-name">Bảng quảng cáo 1</h5>
-                <i class="bi bi-exclamation-octagon-fill icon hidden"></i>
-              </div>
-
-              <div class="size">
-                <b>Kích thước</b>
-                <p id="ad-size">2.5m x 10m</p>
-              </div>
-
-              <div class="contrast">
-                <p><b>Thời hạn hợp đồng</b></p>
-                <div class="date-container">
-                  <img src="./public/images/Line 7.png" alt="Not found!" />
-
-                  <div class="date">
-                    <p id="start">Ngày 15 tháng 10 năm 2023</p>
-                    <p id="end">Ngày 16 tháng 10 năm 2023</p>
-                  </div>
-                </div>
-              </div>
-
-              <div
-                id="carouselId4"
-                class="carousel slide"
-                data-bs-ride="carousel"
-              >
-                <div class="carousel-indicators">
-                  <div
-                    data-bs-target="#carouselId4"
-                    data-bs-slide-to="0"
-                    class="active"
-                    aria-current="true"
-                    aria-label="First slide"
-                  ></div>
-                  <div
-                    data-bs-target="#carouselId4"
-                    data-bs-slide-to="1"
-                    aria-label="Second slide"
-                  ></div>
-                  <div
-                    data-bs-target="#carouselId4"
-                    data-bs-slide-to="2"
-                    aria-label="Third slide"
-                  ></div>
-                </div>
-                <div class="carousel-inner" id="imageList" role="listbox">
-                  <div class="carousel-item active">
-                    <img
-                      src="https://thedrum-media.imgix.net/thedrum-prod/s3/news/tmp/349138/uk_0.jpg?w=1280&ar=default&fit=crop&crop=faces,edges&auto=format"
-                      class="w-100 d-block"
-                      alt="First slide"
-                    />
-                  </div>
-                  <div class="carousel-item">
-                    <img
-                      src="https://thedrum-media.imgix.net/thedrum-prod/s3/news/tmp/349138/uk_0.jpg?w=1280&ar=default&fit=crop&crop=faces,edges&auto=format"
-                      class="w-100 d-block"
-                      alt="Second slide"
-                    />
-                  </div>
-                  <div class="carousel-item">
-                    <img
-                      src="https://thedrum-media.imgix.net/thedrum-prod/s3/news/tmp/349138/uk_0.jpg?w=1280&ar=default&fit=crop&crop=faces,edges&auto=format"
-                      class="w-100 d-block"
-                      alt="Third slide"
-                    />
-                  </div>
-                </div>
-                <button
-                  class="carousel-control-prev"
-                  type="button"
-                  data-bs-target="#carouselId4"
-                  data-bs-slide="prev"
-                >
-                  <span
-                    class="carousel-control-prev-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="visually-hidden">Previous</span>
-                </button>
-                <button
-                  class="carousel-control-next"
-                  type="button"
-                  data-bs-target="#carouselId4"
-                  data-bs-slide="next"
-                >
-                  <span
-                    class="carousel-control-next-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="visually-hidden">Next</span>
-                </button>
-              </div>
-              <div class="button-container">
-                <button type="button" class="btn btn-primary detail-button">
-                  <i class="bi bi-info-circle"></i> Chi tiết
-                </button>
-                <button type="button" class="btn btn-primary feedback-button">
-                  <i class="bi bi-send-fill"></i> Phản hồi
-                </button>
-
-                <button
-                  type="button"
-                  class="btn btn-primary hidden"
-                  id="show-feedback-button"
-                >
-                  <i class="bi bi-file-text-fill"></i> Xem phản hồi
-                </button>
-              </div>
-            </div>
-
-            <div class="adcard-container">
-              <div class="header">
-                <h5 id="ad-name">Bảng quảng cáo 1</h5>
-                <i class="bi bi-exclamation-octagon-fill icon hidden"></i>
-              </div>
-
-              <div class="size">
-                <b>Kích thước</b>
-                <p id="ad-size">2.5m x 10m</p>
-              </div>
-
-              <div class="contrast">
-                <p><b>Thời hạn hợp đồng</b></p>
-                <div class="date-container">
-                  <img src="./public/images/Line 7.png" alt="Not found!" />
-
-                  <div class="date">
-                    <p id="start">Ngày 15 tháng 10 năm 2023</p>
-                    <p id="end">Ngày 16 tháng 10 năm 2023</p>
-                  </div>
-                </div>
-              </div>
-
-              <div
-                id="carouselId5"
-                class="carousel slide"
-                data-bs-ride="carousel"
-              >
-                <div class="carousel-indicators">
-                  <div
-                    data-bs-target="#carouselId5"
-                    data-bs-slide-to="0"
-                    class="active"
-                    aria-current="true"
-                    aria-label="First slide"
-                  ></div>
-                  <div
-                    data-bs-target="#carouselId5"
-                    data-bs-slide-to="1"
-                    aria-label="Second slide"
-                  ></div>
-                  <div
-                    data-bs-target="#carouselId5"
-                    data-bs-slide-to="2"
-                    aria-label="Third slide"
-                  ></div>
-                </div>
-                <div class="carousel-inner" id="imageList" role="listbox">
-                  <div class="carousel-item active">
-                    <img
-                      src="https://thedrum-media.imgix.net/thedrum-prod/s3/news/tmp/349138/uk_0.jpg?w=1280&ar=default&fit=crop&crop=faces,edges&auto=format"
-                      class="w-100 d-block"
-                      alt="First slide"
-                    />
-                  </div>
-                  <div class="carousel-item">
-                    <img
-                      src="https://thedrum-media.imgix.net/thedrum-prod/s3/news/tmp/349138/uk_0.jpg?w=1280&ar=default&fit=crop&crop=faces,edges&auto=format"
-                      class="w-100 d-block"
-                      alt="Second slide"
-                    />
-                  </div>
-                  <div class="carousel-item">
-                    <img
-                      src="https://thedrum-media.imgix.net/thedrum-prod/s3/news/tmp/349138/uk_0.jpg?w=1280&ar=default&fit=crop&crop=faces,edges&auto=format"
-                      class="w-100 d-block"
-                      alt="Third slide"
-                    />
-                  </div>
-                </div>
-                <button
-                  class="carousel-control-prev"
-                  type="button"
-                  data-bs-target="#carouselId5"
-                  data-bs-slide="prev"
-                >
-                  <span
-                    class="carousel-control-prev-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="visually-hidden">Previous</span>
-                </button>
-                <button
-                  class="carousel-control-next"
-                  type="button"
-                  data-bs-target="#carouselId5"
-                  data-bs-slide="next"
-                >
-                  <span
-                    class="carousel-control-next-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="visually-hidden">Next</span>
-                </button>
-              </div>
-              <div class="button-container">
-                <button type="button" class="btn btn-primary detail-button">
-                  <i class="bi bi-info-circle"></i> Chi tiết
-                </button>
-                <button type="button" class="btn btn-primary feedback-button">
-                  <i class="bi bi-send-fill"></i> Phản hồi
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-primary hidden"
-                  id="show-feedback-button"
+                  onclick="openFeedbackDetail()"
                 >
                   <i class="bi bi-file-text-fill"></i> Xem phản hồi
                 </button>
@@ -684,7 +347,7 @@
 
       <!-- ---------------------SIDEPEEK-NOAD Begin ---------------------  -->
 
-      <div class="sidepeek-container hidden" id="sidepeek-noAd">
+        <div class="sidepeek-container hidden" id="sidepeek-noAd">
         <div class="area-icon shadow-sm">
           <i class="bi bi-pin-map"></i>
           <h3 id="area">Phường 4, Quận 5</h3>
@@ -722,15 +385,16 @@
             <button
               type="button"
               class="btn btn-primary feedback-button"
-              id="location-feedback"
+              onclick="openFeedbackForm()"
             >
               <i class="bi bi-send-fill"></i>
               Gửi phản hồi điểm đặt quảng cáo
             </button>
             <button
               type="button"
-              class="btn btn-primary hidden show-feedback-button"
+              class="btn btn-primary show-feedback-button hidden"
               id="show-location-feedback"
+              onclick="openFeedbackDetail()"
             >
               <i class="bi bi-file-text-fill"></i> Xem phản hồi
             </button>
@@ -908,7 +572,7 @@
       <form class="feedback-form hidden" enctype="multipart/form-data" method="post">
         <div class="form-header">
           <h2 class="form-name">Đơn phản ánh</h2>
-          <i class="bi bi-x-circle"></i>
+          <i class="bi bi-x-circle" onclick="closeFeedbackForm()"></i>
         </div>
         <div class="type-email">
           <div>
@@ -1002,7 +666,7 @@
       <div class="ad-detail hidden">
         <div class="header-container">
           <h3 id="ad-name">BẢNG QUẢNG CÁO 1</h3>
-          <i class="bi bi-x-circle"></i>
+          <i class="bi bi-x-circle" onclick="closeAdDetail()"></i>
         </div>
         <div class="adetail-address">
           <i class="bi bi-geo"></i>

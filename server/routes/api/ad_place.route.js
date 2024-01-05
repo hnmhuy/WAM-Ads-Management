@@ -5,6 +5,7 @@ const multer = require('multer');
 const upload = multer({dest: 'uploads/ad_place'});
 
 router.get('/get', controller.getAdPlace);
+router.get('/getGeojson', controller.getAdPlaceGeojson);
 router.get('/delete', controller.deleteAdPlace);
 router.get('/getOne', controller.getOneAdPlace);
 router.post('/create', upload.array("imgFile", 2), controller.createAdPlace);

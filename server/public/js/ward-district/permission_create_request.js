@@ -1,3 +1,21 @@
+let permissionMap = undefined;
+let adPlaceData = {
+    type: "FeatureCollection",
+    features: []
+}
+let pin = undefined;
+let locationId = undefined;
+
+document.addEventListener("DOMContentLoaded", () => {
+    permissionMap = initMap('permission-map', false);
+    permissionMap.on('load', () => {
+        addDataLayer(permissionMap, adPlaceData, 'ad-place', 'ad-place-points', getAdLocationData);
+    })
+    pin = new mapboxgl.Marker({
+       color: 'blue' 
+    })
+})
+
 let sidebar = document.querySelector(".sidebar");
 let logOutBtn = document.querySelector("#log_out");
 
@@ -14,7 +32,7 @@ sidebar.addEventListener("mouseleave", () => {
 });
 
 let dropdown = document.querySelector(".permission-dropdown");
-dropdown.addEventListener('click', ()=>{
+dropdown.addEventListener('click', () => {
     dropdown.classList.toggle('active');
 })
 
@@ -105,42 +123,42 @@ let close_btn_ = document.getElementById("close-edit-request")
 let originalStyles_ = {}
 let originalImg_ = {}
 
-popup_parent_.addEventListener('click', (event)=>{
-    if(event.target.id === 'popup-parent') {
-        if(confirm('Bạn muốn thoát khỏi biểu mẫu?'))
+popup_parent_.addEventListener('click', (event) => {
+    if (event.target.id === 'popup-parent') {
+        if (confirm('Bạn muốn thoát khỏi biểu mẫu?'))
             hidePopup();
     }
 });
 // submit_.addEventListener('click', ()=>{
 //     hidePopup();
 // });  
-    
 
 
-close_btn_.addEventListener('click', ()=>{
-    if(confirm('Bạn muốn thoát khỏi biểu mẫu?'))
+
+close_btn_.addEventListener('click', () => {
+    if (confirm('Bạn muốn thoát khỏi biểu mẫu?'))
         hidePopup();
 });
 
-  let countries = [];
+let countries = [];
 
-  const menu_div = document.querySelector(".menu_div"),
+const menu_div = document.querySelector(".menu_div"),
     selectBtn = menu_div.querySelector(".select-btn"),
     searchInp = menu_div.querySelector("input"),
     options = menu_div.querySelector(".options");
 
-  function addCountry(selectedCountry) {
+function addCountry(selectedCountry) {
     options.innerHTML = "";
     countries.forEach(country => {
-      let isSelected = country.name == selectedCountry ? "selected" : "";
-      let li = `<li class="selectedAddress" onclick="updateName(this)" class="${isSelected}">${country.name}
+        let isSelected = country.name == selectedCountry ? "selected" : "";
+        let li = `<li class="selectedAddress" onclick="updateName(this)" class="${isSelected}">${country.name}
         <input style="display: none" id="${country.id}" name="${countries.id}">
       </li>`;
-      options.insertAdjacentHTML("beforeend", li);
+        options.insertAdjacentHTML("beforeend", li);
     });
-  }
+}
 
-  function updateName(selectedLi) {
+function updateName(selectedLi) {
     searchInp.value = "";
     addCountry(selectedLi.innerText);
     menu_div.classList.remove("active");
@@ -149,43 +167,69 @@ close_btn_.addEventListener('click', ()=>{
     console.log(selectedLi.firstElementChild);
     idSelected.value = selectedLi.firstElementChild.id;
     console.log(idSelected.value);
-  }
-  searchInp.addEventListener("keyup", () => {
+}
+searchInp.addEventListener("keyup", () => {
     let arr = [];
     let searchWord = searchInp.value.toLowerCase();
     arr = countries.filter(data => {
-      return data.toLowerCase().startsWith(searchWord);
+        return data.toLowerCase().startsWith(searchWord);
     }).map(data => {
-      let isSelected = data == selectBtn.firstElementChild.innerText ? "selected" : "";
-      return `<li class="selectedAddressOfAd" onclick="updateName(this)" class="${isSelected}">${data}</li>`;
+        let isSelected = data == selectBtn.firstElementChild.innerText ? "selected" : "";
+        return `<li class="selectedAddressOfAd" onclick="updateName(this)" class="${isSelected}">${data}</li>`;
     }).join("");
     options.innerHTML = arr ? arr : `<p style="margin-top: 10px;">Oops! Country not found</p>`;
-  });
-  selectBtn.addEventListener("click", () => menu_div.classList.toggle("active"));
+});
+selectBtn.addEventListener("click", () => menu_div.classList.toggle("active"));
 
+async function updateAdPlace(areaId) {
+    let geojson = await fetch(`/api/ad_place/getGeojson?areaId=${areaId}`).then(res => res.json());
+    if(!geojson.sucess) {
+        console.log("Error");
+        return;
+    } 
+    geojson = geojson.data;
+    permissionMap.getSource('ad-place').setData(geojson);
+}
 
-async function  showPopup (delegation){
-    await fetch(`api/ad_place/get?areaId=${delegation}`).then(res=>res.json()).then(
-        data => data.data.rows.forEach((item)=>{
-            countries.push({name: item.place.address_formated, id: item.id});
+function getAdLocationData(event) {
+    const coordinate = event.features[0].geometry.coordinates.slice();
+    const properties = event.features[0].properties;
+    permissionMap.flyTo({
+        center: coordinate,
+        zoom: 16.5,
+        speed: 1.2
+    })
+    pin.setLngLat(coordinate).addTo(permissionMap);
+    updateLngLatDisplay('permission-map', coordinate[0].toFixed(6), coordinate[1].toFixed(6));
+    properties.area = JSON.parse(properties.area);
+    let address = properties.address_formated + ", " + properties.area.formatedName;
+    document.getElementById("ad-location").value = address;
+    locationId = properties.id;
+}
+
+async function showPopup(delegation) {
+    await fetch(`api/ad_place/get?areaId=${delegation}`).then(res => res.json()).then(
+        data => data.data.rows.forEach((item) => {
+            countries.push({ name: item.place.address_formated, id: item.id });
         })
     )
     addCountry();
+    await updateAdPlace(delegation);
     console.log(countries)
-    fetch('api/category/getCategory?fieldId=T3').then(res=>res.json()).then(
-        data => data.data.forEach((item)=>{
+    fetch('api/category/getCategory?fieldId=T3').then(res => res.json()).then(
+        data => data.data.forEach((item) => {
             const div = document.createElement("div");
             div.classList.add("permission-dropdown-option-content");
             div.textContent = item.name;
             div.id = item.id;
-            div.onclick = function() {
+            div.onclick = function () {
                 showType(this);
             };
             document.querySelector(".permission-dropdown-option").appendChild(div);
         })
     )
-    
-    
+
+
     imgInputController("upload-img-request");
     document.querySelector('body').style.overflowY = 'hidden';
     originalStyles_.visibility = popup_.style.visibility || '';
@@ -198,18 +242,19 @@ async function  showPopup (delegation){
     img_.style.marginBottom = '45%';
     img_.style.transform = 'translate(-50%, -50%) scale(1)';
     img_.style.visibility = 'visible';
-    
+
     popup_parent_.style.visibility = 'visible';
     popup_.style.visibility = 'visible';
     popup_.style.top = '50%';
     popup_.style.left = '50%';
     popup_.style.transform = 'translate(-50%, -50%) scale(1)';
 }
-function hidePopup(){
+function hidePopup() {
     const div_list = document.querySelectorAll(".permission-dropdown-option-content");
-    div_list.forEach((item)=>{
+    div_list.forEach((item) => {
         item.parentNode.removeChild(item);
     })
+    locationId = undefined;
     document.querySelector('body').style.overflowY = 'auto';
     img_.style.marginBottom = originalImg_.marginBottom || '';
     img_.style.visibility = originalImg_.visibility || '';
@@ -369,26 +414,31 @@ function addImgs(files, previewArea, dragDropArea, fieldId) {
 
 async function submitForm(event) {
     const form = document.getElementById('create-request-form');
-    if(!form.checkValidity()) {
+    if (!form.checkValidity()) {
         return;
     }
     event.preventDefault();
+    if(!locationId) {
+        alert("Vui lòng chọn địa điểm quảng cáo");
+        return;
+    }
     const fd = new FormData(form);
+    fd.set('idAddressOfAd', locationId);
     let res = await fetch('/permission', {
         method: "POST",
         body: fd
     })
     res = await res.json();
     console.log(res);
-    if(res.message == "Success"){
+    if (res.message == "Success") {
         let request = res.request;
         let ad_content = res.ad_content;
         let address = res.address;
         let type = res.type;
         let tr = document.createElement("tr");
-        if(request.status === "sent"){
+        if (request.status === "sent") {
             request.status = "Đã gửi"
-        } else if (request.status === "approved"){
+        } else if (request.status === "approved") {
             request.status = "Đã cấp phép"
         } else {
             request.status = "Đã từ chối"

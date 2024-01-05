@@ -6,7 +6,7 @@
 
 .feedbackDetail-float {
   /* display: none; */
-  left: 27rem !important;
+  left: 28rem !important;
 }
 
 .feedbackDetail-container {
@@ -61,15 +61,6 @@
 .bi-chevron-double-left:hover {
   color: #4f3ed7;
   font-weight: bolder;
-}
-
-.feedbackDetail-container::-webkit-scrollbar {
-  display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
-}
-
-.feedbackDetail-container {
-  scrollbar-width: thin; /* For Firefox */
-  -ms-overflow-style: none; /* For Internet Explorer and Edge */
 }
 
 @media (max-width: 914px) {

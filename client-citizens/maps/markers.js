@@ -188,7 +188,7 @@ export function addMarkers(data, iconName, map) {
         const properties = e.features[0].properties;
         map.flyTo({
             center: coordinates,
-            zoom: 16,
+            zoom: 16.5,
             speed: 1.2
         })
         openSidePeek(properties);

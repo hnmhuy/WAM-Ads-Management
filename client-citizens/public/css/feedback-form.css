@@ -8,7 +8,8 @@
   background-color: #fff;
   border-radius: 12px;
   width: 58rem;
-  height: 49.5rem;
+  height: -moz-max-content;
+  height: max-content;
   position: absolute;
   top: 50%;
   left: 50%;
