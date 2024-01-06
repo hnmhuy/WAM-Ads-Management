@@ -174,6 +174,36 @@ function updateSolution(button) {
                 }
                 updateResponse(data_2)
 
+                if (data.status === 500) {
+                    Toastify({
+                        text: "Cập nhật thất bại",
+                        duration: 3000,
+                        close: false,
+                        gravity: "bottom",
+                        position: "right",
+                        stopOnFocus: true,
+                        style: {
+                            background: "#FF6969",
+                            color: "#000"
+                        },
+                        onClick: function () { } // Callback after click
+                    }).showToast();
+                }
+                else {
+                    Toastify({
+                        text: "Cập nhập thành công",
+                        duration: 3000,
+                        close: false,
+                        gravity: "bottom",
+                        position: "right",
+                        stopOnFocus: true,
+                        style: {
+                            background: "#C1F2B0",
+                            color: "#000"
+                        },
+                        onClick: function () { } // Callback after click
+                    }).showToast();
+                }
                 feedback_content.innerHTML = `
     <div class="label">
     <p>Thông tin phản hồi</p>
@@ -208,6 +238,19 @@ function updateSolution(button) {
                 res_info.appendChild(feedback_content)
             })
             .catch((err) => {
+                Toastify({
+                    text: "Có lỗi xảy ra",
+                    duration: 3000,
+                    close: false,
+                    gravity: "bottom",
+                    position: "right",
+                    stopOnFocus: true,
+                    style: {
+                        background: "#FF6969",
+                        color: "#000"
+                    },
+                    onClick: function () { } // Callback after click
+                }).showToast();
                 console.error('Error:', err);
             })
     }

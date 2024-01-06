@@ -141,7 +141,7 @@ async function getAdPlace(limit = 10, page = 0, status = undefined, areaId = und
     }
 }
 
-async function getOneAdPlace(id) {
+async function getOneAdPlace(id, includeAdContent=false) {
     try {
         let data = await models.ad_place.findOne({
             attributes: [
@@ -172,8 +172,18 @@ async function getOneAdPlace(id) {
                 id: id
             },
         });
-
-        data.place.geometry = JSON.parse(data.place.geometry);
+        if (includeAdContent)
+        {
+            try
+            {
+                let adContents = await getAdContents(id)
+                data.dataValues.adContents = adContents;
+                data.dataValues.adContentCapacity = adContents.length
+            }
+            catch (err) {
+                console.log(err);
+            }
+        }
         return data;
     } catch (err) {
         console.log(err);
@@ -198,9 +208,9 @@ controller.getAdPlace = async (req, res) => {
 }
 
 controller.getOneAdPlace = async (req, res) => {
-    let {id} = req.query;
+    let {id, includeAdContent} = req.query;
     console.log(id);
-    let adPlaceRes = await getOneAdPlace(id);
+    let adPlaceRes = await getOneAdPlace(id, includeAdContent);
     if (adPlaceRes) {
         res.json({
             success: true,
@@ -413,5 +423,39 @@ controller.updateAdPlace = async (req, res) => {
         })
     }
 }
+
+
+
+async function getAdContents(placeId)
+{
+    try
+    {
+        const currentDate = new Date();
+        let data = await models.ad_content.findAll({
+            attributes: ['width', 'height', 'start', 'end', 'status', 'image1', 'image2'],
+            where: {
+                ad_place_id: placeId,
+                status: true,
+                start: {[Op.lte]: currentDate},
+                end: {[Op.gte]: currentDate},
+            },
+            include: [{model: models.category, attributes:['name'], where: {field_id: 'T3'}}]
+        });
+        return data;
+    }catch(err)
+    {
+        console.log(err);
+        return null;
+    }
+}
+
+
+
+
+
+
+
+
+
 
 module.exports = controller;

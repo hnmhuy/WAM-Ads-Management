@@ -237,6 +237,7 @@ controller.getLocations = (req, res) => {
 }
 
 controller.getLocationById = (req, res) => {
+
     let ad_place_id = req.query.ad_place_id;
     models.ad_place.findAll({
         attributes: ['id', 'capacity', 'status', 'image1', 'image2'],
@@ -255,12 +256,12 @@ controller.getLocationById = (req, res) => {
             },
             {
                 model: models.category,
-                as: 'TypeAds',
+                as: 'locationType',
                 attributes: ['id', 'name'],
             },
             {
                 model: models.category,
-                as: 'PurposeAds',
+                as: 'purposeType',
                 attributes: ['id', 'name'],
             }
         ],

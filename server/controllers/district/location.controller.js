@@ -1,19 +1,6 @@
 const controller = {}
 const models = require('../../models');
-const splitAddressFormatted = (address_formatted) => {
-    let address_part = {
-        street: '',
-        ward: '',
-        district: ''
-    }
 
-
-    const addressParts = address_formatted.split(', ')
-    address_part.street = addressParts[0];
-    address_part.ward = addressParts[1];
-    address_part.district = addressParts[2];
-    return address_part
-}
 controller.show = async (req, res) => {
     req.session.prev_url = req.originalUrl;
     res.locals.page_name = "Danh sách điểm quảng cáo"
@@ -85,5 +72,13 @@ controller.show = async (req, res) => {
     res.render('district/location', { layout: 'district_layout' });
 }
 
-
+controller.multipleFilesUpload = (req, res) => {
+    res.json(
+        {
+            message: "Upload multiple files success",
+            files: req.files,
+            others: req.body
+        }
+    )
+}
 module.exports = controller

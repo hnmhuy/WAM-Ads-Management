@@ -32,6 +32,7 @@ export function closeAllSidePeek() {
 }
 
 export function openSidePeek(data) {
+    console.log("DTA: ", data);
     closeAllSidePeek();
     let category = data.category;
     let status = data.status;

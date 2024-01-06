@@ -31,14 +31,5 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'update_request',
   });
 
-  update_request.beforeCreate((instance, options) => { // Tạo ra ID có format
-    // Get the current maximum number in the database
-    return update_request.max('id', { raw: true })
-      .then((maxNumber) => {
-        const newNumber = maxNumber ? parseInt(maxNumber.substring(1)) + 1 : 1;
-        instance.id = `RU${newNumber}`;
-      });
-  });
-
   return update_request;
 };

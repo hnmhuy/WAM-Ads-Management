@@ -27,8 +27,7 @@ let originalImg_ads = {}
 
 popup_parent.addEventListener('click', (event) => {
   if (event.target.id === 'popup-parent') {
-    if (confirm('Bạn muốn thoát khỏi biểu mẫu?'))
-      hidePopup();
+    hidePopup();
   }
 });
 
@@ -36,8 +35,7 @@ submit.addEventListener('click', () => {
   hidePopup();
 });
 close_btn.addEventListener('click', () => {
-  if (confirm('Bạn muốn thoát khỏi biểu mẫu?'))
-    hidePopup();
+  hidePopup();
 });
 
 
@@ -328,26 +326,33 @@ function createAdViewInfo(adsList) {
         hidePopupAds(popup_ads[index], img_ads[index], popup_parent_ads[index]);
     });
   })
-  // const update_ad = document.querySelectorAll('.update-ad');
-  // update_ad.forEach(item => {
-  //   item.addEventListener('click', () => {
-  //     showPopupAds()
-  //   })
-  // })
+}
+
+function createUpdateRequest(data) {
+  fetch('/api/update_request/createUpdateRequestAdPlace', {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  }).then(res => res.json())
+    .then(data => {
+      console.log(data)
+      console.log("Updated Successfully!")
+    }).catch((err) => {
+      console.error('Error:', err);
+    })
 }
 
 
+function createUpdateLocation(request_data, ad_place_id) {
 
-
-
-function createUpdateLocation(request_data, officer, ad_place_id) {
-
+  console.log(request_data)
   const ads_amount = document.getElementById('ads-amount')
   ads_amount.placeholder = request_data.capacity
   ads_amount.value = request_data.capacity
 
   const location_type_selection = document.getElementById('location-type-selection');
-
   fetch(`/api/category/getCategory?fieldId=T1`)
     .then(res => res.json())
     .then(res => {
@@ -356,7 +361,7 @@ function createUpdateLocation(request_data, officer, ad_place_id) {
       }
       res.data.forEach(item => {
         var newOption = document.createElement('option')
-        newOption.value = item.id;
+        newOption.value = item.name;
         newOption.textContent = item.name;
         if (item.id === request_data.type_ad_id) {
           newOption.selected = true;
@@ -364,6 +369,13 @@ function createUpdateLocation(request_data, officer, ad_place_id) {
         location_type_selection.appendChild(newOption)
       })
     })
+
+  const status_selection = document.getElementById('status-selection')
+  if (request_data.status) {
+    status_selection.options[0].selected = true;
+  } else {
+    status_selection.options[1].selected = true;
+  }
 
   const purpose_type_selection = document.getElementById('purpose-type-selection');
 
@@ -375,7 +387,7 @@ function createUpdateLocation(request_data, officer, ad_place_id) {
       }
       res.data.forEach(item => {
         var newOption = document.createElement('option')
-        newOption.value = item.id;
+        newOption.value = item.name;
         newOption.textContent = item.name;
         if (item.id === request_data.purpose_id) {
           newOption.selected = true;
@@ -384,33 +396,108 @@ function createUpdateLocation(request_data, officer, ad_place_id) {
       })
     })
 
-  const ads_type = document.getElementById('ads-type');
 
-  fetch(`/api/category/getCategory?fieldId=T3`)
-    .then(res => res.json())
-    .then(res => {
+  let formData = purpose_type_selection.parentElement
+  while (formData && formData.tagName !== 'FORM') {
+    formData = formData.parentNode
+  }
+  formData.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const ad_place_form = new FormData(document.getElementById('updateAdPlaceForm'))
 
-      while (ads_type.firstChild) {
-        ads_type.removeChild(ads_type.firstChild);
-      }
-      res.data.forEach(item => {
-        var newOption = document.createElement('option')
-        newOption.value = item.id;
-        newOption.textContent = item.name;
-        if (item.id === request_data.ad_id) {
-          newOption.selected = true;
-        }
-        ads_type.appendChild(newOption)
-      })
+    fetch('/location/uploadUpdatePlace', {
+      method: 'POST',
+      body: ad_place_form
     })
+      .then(response => response.json())
+      .then(data => {
+        let request_data = {}
+        request_data.capacity = data.others.capacity;
+        request_data.locationType = data.others.locationType;
+        request_data.purposeType = data.others.purposeType;
+        request_data.reasonUpdate = data.others.reasonUpdate;
+        request_data.status = data.others.status
+        request_data.image = []
+        data.files.forEach(file => {
+          request_data.image.push(file.path)
+        })
+
+        request_data = JSON.stringify(request_data)
+        let status = false;
+
+        let dataCreate = {
+          request_data: request_data,
+          status: status,
+          ad_place_id: ad_place_id
+        }
+
+        createUpdateRequest(dataCreate)
+        if (data.status === 500) {
+          Toastify({
+            text: "Cập nhật thất bại",
+            duration: 3000,
+            close: false,
+            gravity: "bottom",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+              background: "#FF6969",
+              color: "#000"
+            },
+            onClick: function () { } // Callback after click
+          }).showToast();
+          setTimeout(() => {
+            console.log("Waiting...");
+          }, 1500);
+          location.reload();
+        }
+        else {
+          Toastify({
+            text: "Cập nhập thành công",
+            duration: 3000,
+            close: false,
+            gravity: "bottom",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+              background: "#C1F2B0",
+              color: "#000"
+            },
+            onClick: function () { } // Callback after click
+          }).showToast();
+          setTimeout(() => {
+            console.log("Waiting...");
+          }, 1500);
+          location.reload();
+        }
+      })
+      .catch(error => {
+        console.log("Error: ", error)
+        Toastify({
+          text: "Có lỗi xảy ra",
+          duration: 3000,
+          close: false,
+          gravity: "bottom",
+          position: "right",
+          stopOnFocus: true,
+          style: {
+            background: "#FF6969",
+            color: "#000"
+          },
+          onClick: function () { } // Callback after click
+        }).showToast();
+        setTimeout(() => {
+          console.log("Waiting...");
+        }, 1500);
+        location.reload();
+      });
+  }, { once: true })
 }
 function getSpecificLocation(button) {
   let buttonId = button.id;
-  let officer = 'bfd79bdc-a150-40f3-b429-468600bf4efc'
   fetch(`/api/location/getLocationById?ad_place_id=${buttonId}`)
     .then(res => res.json())
     .then(data => {
-
 
       const address = document.getElementById('address_formated')
       address.textContent = data.data[0].place.address_formated
@@ -419,10 +506,10 @@ function getSpecificLocation(button) {
       capacity.textContent = `${data.data[0].capacity} bảng/điểm`
 
       const type_id = document.getElementById('type_id')
-      type_id.textContent = data.data[0].TypeAds.name
+      type_id.textContent = data.data[0].locationType.name
 
       const purpose = document.getElementById('purpose_id')
-      purpose.textContent = data.data[0].PurposeAds.name
+      purpose.textContent = data.data[0].purposeType.name
 
       const status = document.getElementById('status')
       status.textContent = data.data[0].status == true ? "Đã quy hoạch" : "Chưa quy hoạch"
@@ -437,22 +524,19 @@ function getSpecificLocation(button) {
         image2.src = data.data[0].image2
       }
 
-      const ad_id = document.getElementById('ad_id');
-      ad_id.textContent = data.data[0].Ads.name;
+
       const show_popup = document.getElementById('showPopUp');
 
       let resquest_data = {
         capacity: data.data[0].capacity,
         status: data.data[0].status,
-        type_ad_id: data.data[0].TypeAds.id,
-        purpose_id: data.data[0].PurposeAds.id,
-        ad_id: data.data[0].Ads.id
+        type_ad_id: data.data[0].locationType.id,
+        purpose_id: data.data[0].purposeType.id,
       }
-
       show_popup.addEventListener('click', () => {
         showPopup()
-        createUpdateLocation(resquest_data, officer, data.data[0].id)
-      })
+        createUpdateLocation(resquest_data, buttonId)
+      }, { once: true })
     })
 
   fetch(`/api/location/getAds?ad_place_id=${buttonId}`)
@@ -462,6 +546,7 @@ function getSpecificLocation(button) {
     })
 }
 
+
 const maxAmountOfFiles = 2;
 window.inputFieldArray = [];
 window.uploadedFiles = [];
@@ -469,23 +554,17 @@ window.uploadedFiles = [];
 function imgInputController(fieldId) {
   window.inputFieldArray.push(fieldId);
   window.uploadedFiles.push([]);
-  let imgInputField = document.querySelector(`#${fieldId} #imgFile`);
+  let imgInputField = document.querySelector(`#${fieldId} input[name="imgFile"]`);
   let dragDropArea = document.querySelector(`#${fieldId} .drag-drop`);
   let previewArea = document.querySelector(`#${fieldId} .preview`);
-
-  console.log(imgInputField)
-  console.log(dragDropArea)
-  console.log(previewArea)
 
   console.log(`${fieldId} controller is running`);
   console.log(window.inputFieldArray);
   console.log(window.uploadedFiles);
-
   imgInputField.addEventListener("change", () => {
     const files = imgInputField.files;
     addImgs(files, previewArea, dragDropArea, fieldId);
   });
-
   dragDropArea.addEventListener("dragover", (e) => {
     e.preventDefault();
     dragDropArea.classList.add("drag-drop-dragging");
@@ -499,13 +578,14 @@ function imgInputController(fieldId) {
     e.preventDefault();
     dragDropArea.classList.remove("drag-drop-dragging");
     const files = e.dataTransfer.files;
+    console.log(files);
     addImgs(files, previewArea, dragDropArea, fieldId);
   });
 }
 
 function removeImg(index, fieldId) {
   let inputFieldIndex = window.inputFieldArray.indexOf(fieldId);
-  let imgInputField = document.querySelector(`#${fieldId} #imgFile`);
+  let imgInputField = document.querySelector(`#${fieldId} input[name="imgFile"]`);
   let dragDropArea = document.querySelector(`#${fieldId} .drag-drop`);
   let previewArea = document.querySelector(`#${fieldId} .preview`);
   let fileHolder = previewArea.querySelector(
@@ -596,3 +676,4 @@ function addImgs(files, previewArea, dragDropArea, fieldId) {
     };
   }
 }
+
