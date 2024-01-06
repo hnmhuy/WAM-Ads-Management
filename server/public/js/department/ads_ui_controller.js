@@ -17,10 +17,18 @@ document.addEventListener("DOMContentLoaded", () => {
     mapForCreate = initMap("map-for-create");
     mapForUpdate = initMap("map-for-update");
 
+    mapForCreate.on('move', () => {
+        let coordinate = mapForCreate.getCenter();
+        updateLngLatDisplay('map-for-create', coordinate.lng.toFixed(6), coordinate.lat.toFixed(6));
+    })
+
     navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
     let createLocation = document.getElementById('location_create');
     let updateLocation = document.getElementById('location_edit');
+    let detailLocation = document.getElementById('location_extend');
     createLocationCanvas = new bootstrap.Offcanvas(createLocation);
+    updateLocationCanvas = new bootstrap.Offcanvas(updateLocation);
+    detailLocationCanvas = new bootstrap.Offcanvas(detailLocation);
     formControl("create-location-form", mapForCreate);
     formControl("edit-location-form", mapForUpdate);
 
@@ -413,7 +421,7 @@ function generateOption(data) {
     return option;
 }
 
-function fetchAndAddOption(selectElement, kindOfData, placeHolder, idDistrict) {
+function fetchAndAddOption(selectElement, kindOfData, placeHolder, idDistrict, selectedValue = undefined) {
     // Implement later
     
     let url = "";
@@ -442,12 +450,19 @@ function fetchAndAddOption(selectElement, kindOfData, placeHolder, idDistrict) {
                 `
                 } else {
                     selectElement.parentNode.style.border = "1px solid rgba(0, 0, 0, 0.3)";
-                    selectElement.innerHTML = `
-                    <option selected value="">${placeHolder}</option>
-                `
+                    if (!selectedValue){
+                        selectElement.innerHTML = `
+                        <option selected value="">${placeHolder}</option>`
+                    } else {
+                        selectElement.innerHTML = `
+                        <option value="">${placeHolder}</option>`
+                    }
                 }
                 data.data.forEach(item => {
                     selectElement.appendChild(generateOption(item));
+                    if (selectedValue && selectedValue === item.id) {
+                        selectElement.value = item.id;
+                    }
                 })
             } else {
                 console.log(data.message);
@@ -517,7 +532,6 @@ function areaSelectionController(districtSelection, wardSelection, streetSelecti
 }
 
 function formControl(form_id, map) {
-    console.log("Form controller is running for " + form_id);
     const districtSelection = document.querySelector(`#${form_id} select[name="district"]`);
     const wardSelection = document.querySelector(`#${form_id} select[name="ward"]`);
     const streetSelection = document.querySelector(`#${form_id} input[name="street"]`);    
@@ -567,7 +581,7 @@ function cancelAdEdit(e) {
 
 // Create location form controller
 
-function fetchDropDown(url, element, placeHolder) {
+function fetchDropDown(url, element, placeHolder, selectedValue = undefined) {
     fetch(url)
         .then(res => res.json())
         .then(data => {
@@ -576,12 +590,21 @@ function fetchDropDown(url, element, placeHolder) {
                 <option selected value="">Không có dữ liệu</option>
             `
             } else {
-                element.innerHTML = `
-                <option selected value="">${placeHolder}</option>
-            `
+                if (selectedValue) {
+                    element.innerHTML = `
+                    <option value="">${placeHolder}</option>
+                    `
+                } else {
+                    element.innerHTML = `
+                    <option selected value="">${placeHolder}</option>
+                    `
+                }
             }
             data.data.forEach(item => {
                 element.appendChild(generateOption(item));
+                if (selectedValue && selectedValue === item.id) {
+                    element.value = item.id;
+                }
             })
         })
 }

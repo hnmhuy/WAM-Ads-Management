@@ -36,5 +36,23 @@ controller.createPlace = async (req, res) => {
     }
 }
 
+controller.updatePlace = async (data) => {
+    try {
+        let res = await models.place.update({
+            geometry: data.geometry,
+            address_formated: data.address_formated,
+            area_id: data.area_id
+        }, {
+            where: {
+                id: data.id
+            }
+        })
+        return res;
+    } catch(error) {
+        console.log(error);
+        return null;
+    }
+} 
+
 // export the createPlace function
 module.exports = controller;

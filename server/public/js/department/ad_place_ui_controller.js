@@ -7,6 +7,39 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchAndAddRowAdPlace();
 });
 
+function updateAdPlaceRow(data) {
+    const row = document.getElementById(data.id);
+    const ward = data.place.area.name;
+    let district = data.place.area.formatedName.replace(`${ward}, `, "")
+
+    const statusClass = data.status ? "active" : "pending"
+    const statusText = data.status ? "Đã quy hoạch" : "Chưa quy hoạch"
+    row.innerHTML = `
+        <td scope="col">${district}</td>
+        <td scope="col">${ward}</td>
+        <td scope="col">${data.place.address_formated}</td>
+        <td scope="col">${data.location_type}</td>
+        <td scope="col">${data.capacity}</td>
+        <td>
+            <div class="table-status status-location-${statusClass}">
+                ${statusText}
+            </div>
+        </td>
+        <td style="width: 60px" id="r001">
+            <button
+                title="Xem chi tiết"
+                class="btn"
+                type="button"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#location_extend"
+                aria-controls="location_extend"
+                data-location-id="${data.id}"
+                onclick = "showLocationDetail('${data.id}')"
+            ><i class="bi bi-three-dots"></i></button>
+        </td>
+    `;
+}
+
 function generateAdPlaceRow(data) {
     const row = document.createElement("tr");
     const ward = data.place.area.name;
@@ -139,6 +172,71 @@ function showLocationDetail(adPlaceId) {
         .catch((err) => console.log(err));
 }
 
-function openEditLocationForm() {
-    
+async function fillEditAdPlaceForm(data, formElement) {
+    let street = formElement.querySelector('#street-for-edit')
+    const geocodeBtn = street.parentNode.querySelector(".inside-btns button:first-child");
+    const clearAddressBtn = street.parentNode.querySelector(".inside-btns button:last-child");
+    let district = formElement.querySelector("#district-for-edit");
+    let ward = formElement.querySelector("#ward-for-edit");
+    let locationType = formElement.querySelector("#location-type-for-edit");
+    let adPurpose = formElement.querySelector("#purpose-for-edit");
+    await fetchDropDown("/api/category/getCategory?fieldId=T1", locationType, "Chọn loại vị trí", data.locationTypeId);
+    await fetchDropDown("/api/category/getCategory?fieldId=T2", adPurpose, "Chọn hình thức quảng cáo", data.purposeId);
+    await fetchAndAddOption(district, 'district', 'Chọn quận/ huyện',null, data.place.area.parent_id);
+    await fetchAndAddOption(ward, 'ward', 'Chọn phường/ xã', data.place.area.parent_id, data.place.area.id);
+    street.value = data.place.address_formated;
+    street.disabled = false;
+    geocodeBtn.disabled = false;
+    clearAddressBtn.disabled = false;
+    formElement.querySelector('#ads-amount-for-edit').value = data.capacity;
+    formElement.querySelector('#location-status').value = String(data.status);
+    console.log(data.place.geometry.coordinates);
+    let lng = data.place.geometry.coordinates[0];
+    let lat = data.place.geometry.coordinates[1];
+    mapForUpdate.flyTo({
+        center: [lng, lat],
+        zoom: 16.5,
+        speed: 1.2
+    });
+}
+
+async function openEditForm() {
+    let form = document.getElementById("edit-location-form");
+    await fillEditAdPlaceForm(currAdPlaceData, form);
+}
+
+async function updateAdPlace(e) {
+    let form = document.getElementById("edit-location-form");
+    if(!form.checkValidity()) {
+        return;
+    }
+    e.preventDefault();
+    let spinner = form.querySelector(".spinner-border");
+    spinner.classList.remove("collapse");
+    let btn = form.querySelector("button[type='submit']");
+    btn.disabled = true;
+    let formData = new FormData(form);
+    formData.append("id", currAdPlaceData.id);
+    let coordinate = mapForUpdate.getCenter();
+    currAdPlaceData.place.geometry.coordinates = [coordinate.lng, coordinate.lat];
+    formData.append('geometry', JSON.stringify(currAdPlaceData.place.geometry));
+    formData.append('place_id', currAdPlaceData.place.id);
+    let url = "/api/ad_place/update";
+    fetch(url, {
+        method: "POST",
+        body: formData
+    }).then((res) => res.json()).then(data => {
+        if(data.success) {
+            clearForm('edit-location-form');
+            currAdPlaceData = data.data;
+            updateAdInfoOffCanvas(currAdPlaceData);
+            updateAdPlaceRow(currAdPlaceData);
+            detailLocationCanvas.show();
+            displayNotification("Cập nhật vị trí quảng cáo thành công", "success");
+        } else {
+            displayNotification("Cập nhật vị trí quảng cáo thất bại", "error");
+        }
+        spinner.classList.add("collapse");
+        btn.disabled = false;
+    })
 }

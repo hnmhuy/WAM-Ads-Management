@@ -20,7 +20,7 @@ controller.showAds = (req, res) => {
         jsHeader: [
             "/public/js/shared/handler_table_ui.js",
             "/public/js/maps/map.js",
-            "/public/js/department/adPlaceController.js",
+            "/public/js/department/ad_place_ui_controller.js",
         ],
     };
     res.render("department/ads", {

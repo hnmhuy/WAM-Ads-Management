@@ -2,7 +2,7 @@ const controller = {}
 const models = require('../models');  
 const Op = require('../models').Sequelize.Op;
 const Sequelize = require('../models').Sequelize;
-const { addPlace } = require('./place');  
+const { addPlace, updatePlace } = require('./place');  
 
 const countAdContent = Sequelize.literal('(SELECT COUNT(*) FROM ad_contents WHERE ad_contents.ad_place_id = ad_place.id)');
 const purposeQuery = Sequelize.literal('(SELECT name FROM categories WHERE categories.id = ad_place.purpose)');
@@ -150,6 +150,8 @@ async function getOneAdPlace(id) {
                 'image1',
                 'image2',
                 'status',
+                ['location_type', 'locationTypeId'],
+                ['purpose', 'purposeId'],
                 [purposeQuery, 'purpose'],
                 [locationTypeQuery, 'location_type'],
             ],
@@ -170,6 +172,8 @@ async function getOneAdPlace(id) {
                 id: id
             },
         });
+
+        data.place.geometry = JSON.parse(data.place.geometry);
         return data;
     } catch (err) {
         console.log(err);
@@ -347,6 +351,66 @@ controller.getAdPlaceGeojson = async (req, res) => {
         res.json(data);
     } else {
         res.json(data);
+    }
+}
+
+controller.updateAdPlace = async (req, res) => {
+    const newPlaceData = {
+        geometry: req.body.geometry,
+        address_formated: req.body.street,
+        area_id: req.body['ward'],
+        id: req.body.place_id,
+    }
+    try {
+        let updatePlaceRes = await updatePlace(newPlaceData);
+        if(updatePlaceRes[0]) {
+            const newAdPlaceData = {
+                capacity: req.body['new-amount'],
+                location_type: req.body['location-type'],
+                purpose: req.body['purpose-type'],
+                status: req.body['new-location-status'] === 'true' ? true : req.body['new-location-status'] === 'false' ? false : null,
+                place_id: req.body.place_id,    
+            }
+            let updateAdPlaceRes = await models.ad_place.update({
+                capacity: newAdPlaceData.capacity,
+                location_type: newAdPlaceData.location_type,
+                purpose: newAdPlaceData.purpose,
+                status: newAdPlaceData.status,
+            }, {
+                where: {
+                    id: req.body.id
+                }
+            })
+
+            if(updateAdPlaceRes[0]) {
+                let data = await getOneAdPlace(req.body.id);
+                res.json({
+                    success: true,
+                    message: "Update place success",
+                    data: data
+                })
+            } else {
+                res.json({
+                    success: false,
+                    message: "Update place fail",
+                    data: null
+                })
+            }
+
+        } else {
+            res.json({
+                success: false,
+                message: "Update place fail",
+                data: null
+            })
+        }
+    } catch (error) {
+        console.log(error);
+        res.json({
+            success: false,
+            message: error,
+            data: null
+        })
     }
 }
 

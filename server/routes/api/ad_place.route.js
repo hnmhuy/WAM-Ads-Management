@@ -9,6 +9,6 @@ router.get('/getGeojson', controller.getAdPlaceGeojson);
 router.get('/delete', controller.deleteAdPlace);
 router.get('/getOne', controller.getOneAdPlace);
 router.post('/create', upload.array("imgFile", 2), controller.createAdPlace);
-
+router.post('/update', upload.array("imgFile", 2), controller.updateAdPlace);
 
 module.exports = router;
