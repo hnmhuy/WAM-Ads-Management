@@ -16,7 +16,34 @@ close_btn.addEventListener('click', () => {
     hidePopup_review();
 });
 
-function showPopup_review() {
+function showPopup_review(btn) {
+    // document.querySelector('#id').value = btn.dataset.id;    document.querySelector('#id').value = btn.dataset.id;
+    console.log(btn.dataset)
+    document.getElementById("review_company_name").value = btn.dataset.companyName;
+    document.getElementById("review_height").value = btn.dataset.height;
+    document.getElementById("review_width").value = btn.dataset.width;
+    const inputStart = new Date(btn.dataset.start)
+    const formattedStart = inputStart.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' });
+    const inputEnd = new Date(btn.dataset.end)
+    const formattedEnd = inputEnd.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' });
+    document.getElementById("review_start").value = formattedStart;
+    document.getElementById("review_end").value = formattedEnd;
+    document.getElementById("review_type").value = btn.dataset.type;
+    document.getElementById("review_ad_place").value = btn.dataset.adPlace;
+    document.getElementById("review_description").value = btn.dataset.description;
+    if(btn.dataset.img1){
+        const originalString  = btn.dataset.img1;
+        const converted_string = originalString.replace("\\", "/")
+        document.getElementById("review_img1").src = converted_string;
+    }
+    if(btn.dataset.img2){
+        const originalString  = btn.dataset.img2;
+        const converted_string = originalString.replace("\\", "/")
+        document.getElementById("review_img2").src = converted_string;
+    }
+    // document.getElementById("review_image1").src = btn.dataset.image1 ? "public/";
+    // document.getElementById("review_image2").src = btn.dataset.image2;
+
     document.querySelector('body').style.overflowY = 'hidden';
     originalStyles.visibility = popup.style.visibility || '';
     originalStyles.top = popup.style.top || '';

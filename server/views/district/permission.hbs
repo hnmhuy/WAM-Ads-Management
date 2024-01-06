@@ -23,7 +23,7 @@
             <div class="dropdown">
               <a style="color: white !important" href="#"
                 class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
-                aria-expanded="false">Mục đích</a>
+                aria-expanded="false">Loại bảng quảng cáo</a>
               <div style="padding: 10px" class="dropdown-menu">
                 <input type="checkbox" id="co-dong-chinh-tri" name="co-dong-chinh-tri" value="co-dong-chinh-tri" />
                 <label for="co-dong-chinh-tri">Cổ động chính trị</label><br />
@@ -57,27 +57,29 @@
       </thead>
       <!-- Table body -->
       <tbody>
+        {{#each data}}
         <tr class="tr_in_table_in_location">
           <td>
-            <p class="text-align-center table-cell-type">Công ty TNHH MTV Alone</p>
+            <p class="text-align-center table-cell-type">{{company_name}}</p>
           </td>
           <td>
-            <p class="table-cell-type">12 Đ. Nguyễn Thị Minh Khai</p>
+            <p class="table-cell-type">{{address_formated}}</p>
           </td>
           <td>
-            <p class="table-cell-type">Cổ động chính trị</p>
+            <p class="table-cell-type">{{name}}</p>
           </td>
           <td class="d-flex justify-content-center align-items-center">
-            <p class="mx-0 status delivered">Đã cấp phép</p>
+            <p class="mx-0 status delivered">{{#ifEquals status "sent"}}Đã gửi{{else}}{{#ifEquals status "accepted"}}Đã chấp thuận{{else}}Bị từ chối{{/ifEquals}}{{/ifEquals}}</p>
           </td>
           <td>
             <div class="last-cell">
-              <div class="btn" onclick="showPopup_review()">
-                <i class="bi bi-arrow-up-right-square" style="color: black"></i>
+              <div>
+                <i role="button" onclick="showPopup_review(this)" class="bi bi-arrow-up-right-square" style="color: black" data-id ="{{id}}" data-company-name = "{{company_name}}" data-email = "{{id}}" data-height = "{{height}}" data-width="{{width}}" data-location = "{{id}}" data-start = "{{start}}" data-end="{{end}}" data-type="{{name}}" data-ad-place="{{address_formated}}" data-description = {{description}} data-img1="{{image1}}" data-img2="{{image2}}"></i>
               </div>
             </div>
           </td>
         </tr>
+        {{/each}}
       </tbody>
     </table>
   </section>
@@ -98,40 +100,48 @@
         <p style="text-align: left; font-weight: bold;margin-top:25px">Tên công ty</p>
         <input
           style="margin:0;width: 100%; border:0; border-box:none; padding: 10px; text-align: left; border-radius: 5px"
-          disabled="disabled" placeholder="Công ty TNHH MTV Alone">
+          disabled="disabled" placeholder="" id="review_company_name">
         <p style="text-align: left; font-weight: bold;margin-top:25px">Kích thước</p>
-        <input
-          style="margin:0;width: 100%; border:0; border-box:none; padding: 10px; text-align: left; border-radius: 5px"
-          disabled="disabled" placeholder="0989898989">
+        <div class="d-flex justify-content-center align-items-center">
+          <input style="margin-right: 10px;width: 100%; border:0; border-box:none; padding: 10px; text-align: left; border-radius: 5px"
+            disabled="disabled" placeholder="" id="review_height">
+          x
+          <input style="margin-left:10px;width: 100%; border:0; border-box:none; padding: 10px; text-align: left; border-radius: 5px"
+            disabled="disabled" placeholder="" id="review_width">
+        </div>
         <p style="text-align: left; font-weight: bold;margin-top:25px">Ngày bắt đầu</p>
         <input
           style="margin:0;width: 100%; border:0; border-box:none; padding: 10px; text-align: left; border-radius: 5px"
-          disabled="disabled" placeholder="1/1/2024">
+          disabled="disabled" placeholder="" id="review_start">
         </input>
       </div>
       <div class="col-6">
         <p style="text-align: left; font-weight: bold;margin-top:25px">Email</p>
         <input
           style="margin:0;width: 100%; border:0; border-box:none; padding: 10px; text-align: left; border-radius: 5px"
-          disabled="disabled" placeholder="example@gmail.com">
+          disabled="disabled" placeholder="example@gmail.com" id="review_email">
         <p style="text-align: left; font-weight: bold;margin-top:25px">Địa chỉ công ty</p>
         <input
           style="margin:0;width: 100%; border:0; border-box:none; padding: 10px; text-align: left; border-radius: 5px"
-          disabled="disabled" placeholder="47, Đ. Điện Biên Phủ">
+          disabled="disabled" placeholder="47, Đ. Điện Biên Phủ" id="review_location">
         <p style="text-align: left; font-weight: bold;margin-top:25px">Ngày kết thúc</p>
         <input
           style="margin:0;width: 100%; border:0; border-box:none; padding: 10px; text-align: left; border-radius: 5px"
-          disabled="disabled" placeholder="1/1/2025">
+          disabled="disabled" placeholder="" id="review_end">
       </div>
     </div>
 
     <p style="text-align: left; font-weight: bold;margin-top:25px">Điểm đặt quảng cáo</p>
     <input style="margin:0;width: 100%; border:0; border-box:none; padding: 10px; text-align: left; border-radius: 5px"
-      disabled="disabled" placeholder="47, Đ. Điện Biên Phủ, P. Bến Nghé, Q. Bình Thạnh">
+      disabled="disabled" placeholder="" id="review_ad_place">
+    </input>
+    <p style="text-align: left; font-weight: bold;margin-top:25px">Loại bảng quảng cáo</p>
+    <input style="margin:0;width: 100%; border:0; border-box:none; padding: 10px; text-align: left; border-radius: 5px"
+      disabled="disabled" placeholder="" id="review_type">
     </input>
     <p style="text-align: left; font-weight: bold;margin-top:25px">Mô tả bảng quảng cáo</p>
-    <textarea class="form-control" name="" id="" rows="4"
-      disabled="disabled">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi ut, voluptas, architecto maiores corrupti amet eius nulla illum numquam ipsum est! Debitis ex quia illum nobis veniam cum, veritatis unde?</textarea>
+    <textarea class="form-control" name="review_description" id="review_description" rows="4"
+      disabled="disabled"></textarea>
     <p style="text-align: left; font-weight: bold;margin-top:25px">Hình ảnh mô tả</p>
     <div style="height: 300px; width: 100%">
       <div id="myCarousel" class="carousel slide mb-6" style="border-radius: 10px; overflow: hidden;"
@@ -140,18 +150,14 @@
           <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true"
             aria-label="Slide 1"></button>
           <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-          <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
         </div>
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <img src="/public/images/location3.png" class="h-100 w-100" alt="">
+            <img id="review_img1" src="public/images/place_holder.png" class="h-100 w-100" alt="">
 
           </div>
           <div class="carousel-item">
-            <img src="/public/images/location1.png" class="h-100 w-100" alt="">
-          </div>
-          <div class="carousel-item">
-            <img src="/public/images/location2.png" class="h-100 w-100" alt="">
+            <img id="review_img2" src="public/images/place_holder.png" class="h-100 w-100" alt="">
           </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
@@ -171,8 +177,7 @@
   <img id="form-img" src="/public/images/form.png" alt="">
   <div class="popup" id="location-popup">
     <h2 style="margin-top: 60px; ">Yêu cầu cấp phép</h2>
-    <button style="position:fixed; right: 10px; top:10px;" type="button" class="btn-close" onclick="hidePopup()"
-      id="close-edit-request">
+    <button style="position:fixed; right: 10px; top:10px;" type="button" class="btn-close" id="close-edit-request">
     </button>
     <hr>
     <div class="map-container" style="width: 100%; height: 15rem;">
@@ -195,9 +200,9 @@
           <div style="text-align: left;margin-top:30px">
             <label style="font-weight: bold;" for="size" class="form-label">Kích thước</label>
             <div class="d-flex justify-content-center align-items-center">
-              <input style="margin-right: 10px;" type="text" class="form-control" tabindex="3" id="height" name="size" required  placeholder="Cao"/>
+              <input style="margin-right: 10px;" type="number" class="form-control" tabindex="3" id="height" name="size" required  placeholder="Cao"/>
               x
-              <input style="margin-left: 10px;" type="text" class="form-control" tabindex="4" id="width" name="size" required  placeholder="Rộng"/>
+              <input style="margin-left: 10px;" type="number" class="form-control" tabindex="4" id="width" name="size" required  placeholder="Rộng"/>
             </div>
           </div>
           <div style="text-align: left;margin-top:30px">
@@ -251,8 +256,8 @@
       </div>
       <p style="text-align: left; font-weight: bold;margin-top:25px">Hình ảnh mô tả</p>
       <div class="imgs-field">
-        <div class="upload-field" id="upload-img-request">
-          <label for="img-illustration" class="drag-drop">
+        <div class="upload-field" id="upload-img-request" style="padding: 0px;height: 45%; width: 100%">
+          <label for="img-illustration" class="drag-drop" style="width: 100%">
             <div class="holder">
               <i class="bi bi-cloud-arrow-up-fill"></i>
               <h4>Kéo và thả ảnh vào đây</h4> hoặc Click để duyệt file
@@ -294,4 +299,5 @@
 <script src="/public/js/ward-district/permission_review_request.js"></script>
 <script src="/public/js/maps/map.js">
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <link rel="stylesheet" href="/public/css/ward-district/permission.css">

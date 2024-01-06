@@ -239,30 +239,50 @@ controller.changeProfile = async(req, res) =>{
 controller.changePassword = async(req, res, next) =>{
   const user = req.session.user;
   let {currentPassword, newPassword, confirmPassword} = req.body;
-
+  console.log(req.body);
+  
   const isMatch = await bcrypt.compare(currentPassword, user.password)
   if(isMatch){
-    if(newPassword === confirmPassword){
-      try{
-        const newHashedPassword = await bcrypt.hash(newPassword, 10);
-        await models.account.update(
-          {
-            password: newHashedPassword,
-          },
-          { where: {id: user.id}}
-        );
-        res.redirect("/logout")
-      } catch(error){
-        res.send("Can not update user!");
-        console.log(error);
+    if(newPassword.length >7){
+      if(newPassword === confirmPassword){
+        try{
+          const newHashedPassword = await bcrypt.hash(newPassword, 10);
+          await models.account.update(
+            {
+              password: newHashedPassword,
+            },
+            { where: {id: user.id}}
+          );
+          res.json({
+            success: true,
+            message: "Mật khẩu được thay đổi thành công",
+            data: null
+        })
+        } catch(error){
+          console.log(error);
+        }
       }
-    }
-    else{
-      console.log("Mật khẩu xác nhận và mật khẩu mới không khớp");
+      else{
+        res.json({
+            success: false,
+            message: "Mật khẩu xác nhận và mật khẩu mới không khớp.",
+            data: null
+        })
+      }
+    } else {
+        res.json({
+          success: false,
+          message: "Mật khẩu mới phải chứa ít nhất 8 ký tự",
+          data: null
+      })
     }
   }
   else{
-    console.log("Mật khẩu không đúng");
+    res.json({
+        success: false,
+        message: "Mật khẩu không đúng",
+        data: null
+    })
   }
 }
 
@@ -364,7 +384,8 @@ controller.showResetPassword = (req, res)=>{
 
 controller.resetPassword = async (req, res)=>{
   const {password, confirmPassword, email} = req.body;
-  if(password === confirmPassword){
+  if(password.length < 8){
+    if(password === confirmPassword){
     let user = await User.findOne({
       attributes: [
           "password",
@@ -384,12 +405,19 @@ controller.resetPassword = async (req, res)=>{
         res.send("Can not update user!");
         console.log(error);
       }
+    } else {
+      res.render("partials/resetPassword", {
+        layout: "login_layout",
+        email: email,
+        message: `<p style="color: red; font-weight: 600;">* Mật khẩu không khớp</p>`
+      });
+    }
   } else {
     res.render("partials/resetPassword", {
-      layout: "login_layout",
-      email: email,
-      message: `<p style="color: red; font-weight: 600;">* Mật khẩu không khớp</p>`
-    });
+        layout: "login_layout",
+        email: email,
+        message: `<p style="color: red; font-weight: 600;">* Mật khẩu phải có ít nhất 8 ký tự</p>`
+      });
   }
 }
 
@@ -429,7 +457,7 @@ controller.googleCallback = async (req, res, next) => {
       req.session.user = user;
       res.locals.user = req.session.user;
       if(req.bind_account){
-        req.session.bind_message = `<p style="color: green; font-weight: 800;">Liên kết thành công</p>`
+        req.session.bind_message = `<p id="bindMessage" style="color: green; font-weight: 800; display: none"></p>`
         res.redirect("/profile");
       } else {
         res.redirect("/home");
@@ -453,10 +481,14 @@ controller.unbindAccount = async (req, res, next)=>{
     { where: {id: req.session.user.id}}
   );
   req.session.user.bindAccount = null;
-  res.render("partials/profile", {
-    layout: "district_layout",
-    bind_message: `<p style="color: green; font-weight: 800;">Huỷ liên kết thành công</p>`
-  });
+  // res.render("partials/profile", {
+  //   layout: "district_layout",
+  //   bind_message: `<p id="bindMessage" style="color: green; font-weight: 800;">Huỷ liên kết thành công</p>`
+  // });
+  res.json({
+    success: true,
+    message: "Hủy liên kết thành công",
+  })
 }
 
 // controller.forgotPassword = async(req, res)=>{

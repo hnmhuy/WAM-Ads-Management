@@ -1,6 +1,8 @@
 const controller = {}
 const models = require('../../models');
 
+const { QueryTypes }=require('sequelize');
+
 controller.createRequest = async(req, res, next)=>{
     console.log(req.body);
     let img = req.files;
@@ -50,47 +52,17 @@ controller.show = async (req, res) => {
     req.session.prev_url = req.originalUrl;
     res.locals.page_name = "Danh sách cấp phép"
 
-    let data = await models.create_request.findAll({
-        attributes: [
-            "id",
-            "status",
-            "officer",
-            "ad_id"
-        ],
-        include: [{
-            model: models.ad_content, 
-            attributes: [
-                "id",
-                "company_name",
-                "width",
-                "height",
-                "description",
-                "start",
-                "end",
-                "image1",
-                "image2",
-                "ad_place_id",
-                "ad_type"
-            ],
-            include: [{
-                model: models.ad_place,
-                include: [{
-                    model: models.place,
-                    attributes: [
-                        "address_formated"
-                    ]
-                }]
-            }, {
-                model: models.category,
-                attributes: [
-                    "name"
-                ]
-            }]
-        }],
-        where: {officer: req.session.user.id},
-    })
-    console.log(data.name);
-    res.render('district/permission', { layout: 'district_layout'});
+    let data = await models.sequelize.query(
+        'SELECT create_requests.officer, create_requests.status, ad_contents.*, places.address_formated, categories.name, categories.field_id FROM create_requests JOIN ad_contents ON ad_contents.id = create_requests.ad_id JOIN ad_places ON ad_places.id = ad_contents.ad_place_id JOIN places ON places.id = ad_places.place_id JOIN categories ON ad_contents.ad_type = categories.id WHERE create_requests.officer = $1',
+        { 
+            bind: [req.session.user.id], 
+            type: models.Sequelize.QueryTypes.SELECT 
+        }
+    );
+    
+
+    console.log(data);
+    res.render('district/permission', { layout: 'district_layout', data: data});
 }
 
 module.exports = controller; 
