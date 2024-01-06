@@ -62,7 +62,7 @@
             {{#if bind_message}}
                 {{{bind_message}}}
             {{/if}}
-            <div style="padding: 15px 20px; background-color: #f7f8fa; border-radius: 10px; display: flex; justify-content: space-between; align-items: center">
+            <div id="bindDiv" style="padding: 15px 20px; background-color: #f7f8fa; border-radius: 10px; display: flex; justify-content: space-between; align-items: center">
                 <div style="display: flex" >  
                     <a title="google, Public domain, via Wikimedia Commons"
                         href="https://commons.wikimedia.org/wiki/File:Google-plus-blue.svg"><img width="70" alt="Google-plus-blue"
@@ -70,30 +70,29 @@
                     <div style="margin-left: 15px; color:#565b61">
                         <p style="font-weight: 800; font-size: 25px;margin: 0; ">Google</p>
                         {{#if user.bindAccount}}
-                            <div style="display: flex; justify-content:center; align-items:center">
+                            <div id="bindInformation" style="display: flex; justify-content:center; align-items:center">
                                 <p style="margin: 0 10px 0 0 ">{{user.bindAccount}}</p>
                                 <img src="../../public/images/tick.png" height="20" width="auto" alt="">
                             </div>
-                            
                         {{/if}}
                     </div>
                 </div>
                 {{#if user.bindAccount}}
-                <form action="/unbindAccount" id="form-to-unbind" >
+                <form action="/unbindAccount" onsubmit="unbind(event)" id="form-to-unbind" >
                     <button class="btn btn-outline-primary" type="submit" class="btn me-2" style="height: fit-content;"
-                        onclick="unbind(this)">Huỷ liên kết</button>
+                        >Huỷ liên kết</button>
                 </form>
                 {{else}}
-                    <form action="/bindAccount" id="form-to-bind">
+                    <form action="/bindAccount"  obsubmit="bind(event)" id="form-to-bind">
                         <button class="btn btn-outline-primary" type="submit" class="btn me-2" style="height: fit-content;"
-                            onclick="bind(this)">Liên kết</button>
+                           >Liên kết</button>
                     </form>
                 {{/if}}
             </div>
         </div>
         <div class="tab-contents" id="password">
             <div>
-                <form action="/profile" method="post">
+                <form action="/profile" id="form-update-password" onsubmit="Password(event)" method="post">
                     <div class="row">
                         <div class="mb-3 col-md-6">
                             <label for="current-password" class="form-label">Mật khẩu hiện tại</label>
@@ -120,7 +119,7 @@
                         <input class="form-control" type="text" id="email" name="email" value="{{user.email}}" placeholder="" readonly />
                     </div>
                     <button style="background-color: #4999ff; color: white;" type="submit"
-                        class="btn me-2" onclick="updateUserPassword(this)">Lưu thay đổi</button>
+                        class="btn me-2">Lưu thay đổi</button>
                 </form>
             </div>
         </div>

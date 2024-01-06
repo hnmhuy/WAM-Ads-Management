@@ -5,8 +5,8 @@ const auth = require("../../controllers/auth.controller");
 const multer = require("multer");
 const upload = multer({dest:`uploads/create_request`});
 
-router.get("/", auth.isLoggedIn, auth.isOfficer, controller.show)
+// router.get("/", controller.show)
 router.post("/",upload.array('imgFile', 2), controller.createRequest);
-// router.get("/", auth.isLoggedIn, auth.isOfficer, controller.show)
+router.get("/", auth.isLoggedIn, auth.isOfficer, controller.show)
 
 module.exports = router

@@ -123,10 +123,6 @@
               <th><i class="bi bi-bullseye"></i> Mục đích</th>
               <td id="purpose_id">Thương mại</td>
             </tr>
-            <tr>
-              <th><i class="bi bi-boxes"></i> Loại bảng</th>
-              <td id="ad_id">2 bảng/điểm</td>
-            </tr>
           </table>
         </div>
 
@@ -141,58 +137,57 @@
               <button style="position: fixed; right: 10px; top: 10px" type="button" class="btn-close"
                 id="close-edit-request"></button>
               <hr />
-
-              <div class="ads-info">
-                <div class="form-field-col">
-                  <label for="location-type-selection">Loại ví trị</label>
-                  <select id="location-type-selection" required>
-
-                  </select>
-                </div>
-                <div class="form-field-col">
-                  <label for="purpose-type-selection">Hình thức quảng cáo</label>
-                  <select id="purpose-type-selection" required>
-
-                  </select>
-                </div>
-                <div class="ads-amount">
-                  <label for="ads-amount">Số lượng</label>
-                  <input type="number" id="ads-amount" min="1" max="10" placeholder="0" required>
-                  <p>bảng / địa điểm</p>
-                </div>
-                <div class="ads-type">
-                  <label for="ads-type">Loại bảng quảng cáo</label>
-                  <select id="ads-type" required>
-
-                  </select>
-                </div>
-                <div style="width: 100%; height: 200px">
-                  <div class="imgs-field">
-                    <div class="upload-field" id="upload-img-file" onclick="imgInputController('upload-img-file')">
-                      <label for="imgFile" class="drag-drop">
-                        <input type="file" name="imgFile" id="imgFile" accept=".png, .jpeg, .gif, .jpg" multiple hidden>
-                        <div class="holder">
-                          <i class="bi bi-cloud-arrow-up-fill"></i>
-                          <h4>Kéo và thả ảnh vào đây</h4> hoặc Click để duyệt file
-                        </div>
-                      </label>
-                      <div class="preview" style="display: none;">
+              <form action="#" method="post" id="updateAdPlaceForm">
+                <div class="ads-info">
+                  <div class="form-field-col" style="width: 100%">
+                    <label for="location-type-selection">Loại ví trị</label>
+                    <select name="locationType" id="location-type-selection" required>
+                    </select>
+                  </div>
+                  <div class="form-field-col">
+                    <label for="purpose-type-selection">Hình thức quảng cáo</label>
+                    <select name="purposeType" id="purpose-type-selection" required>
+                    </select>
+                  </div>
+                  <div class="form-field-col">
+                    <label for="status-selection">Trạng thái</label>
+                    <select name="status" id="status-selection" required>
+                      <option value="1">Đã quy hoạch</option>
+                      <option value="0">Chưa quy hoạch</option>
+                    </select>
+                  </div>
+                  <div class="ads-amount">
+                    <label for="ads-amount">Số lượng</label>
+                    <input type="number" name="capacity" id="ads-amount" min="1" max="10" placeholder="0" required>
+                    <p>bảng / địa điểm</p>
+                  </div>
+                  <div style="width: 100%; height: 200px">
+                    <div class="imgs-field">
+                      <div class="upload-field" id="upload-img-file">
+                        <label for="imgFile-for-edit" class="drag-drop">
+                          <div class="holder">
+                            <i class="bi bi-cloud-arrow-up-fill"></i>
+                            <h4>Kéo và thả ảnh vào đây</h4> hoặc Click để duyệt file
+                          </div>
+                        </label>
+                        <input type="file" name="imgFile" id="imgFile-for-edit" accept=".png, .jpeg, .gif, .jpg"
+                          multiple hidden multiple="multiple">
+                        <div class="preview" style="display: none;"></div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <p style="
+                <p style="
                         text-align: left;
                         font-weight: bold;
                         margin-top: 25px;
                       ">
-                Lý do chỉnh sửa
-              </p>
-              <textarea style="width: 100%; padding: 12px; border-radius: 12px" name="" id="" cols="30"
-                rows="5"></textarea>
-              <button id="submit-request" style="
+                  Lý do chỉnh sửa
+                </p>
+                <input style="width: 100%; padding: 12px; border-radius: 12px;" name="reasonUpdate" id="" cols="30"
+                  rows="5"></input>
+                <button id="submit-request" style="
                         width: 100%;
                         outline: none;
                         border-color;
@@ -202,8 +197,9 @@
                         color: white;
                         margin-top: 50px;
                       ">
-                <h5 style="margin: 0">Gửi yêu cầu</h5>
-              </button>
+                  <h5 style="margin: 0">Gửi yêu cầu</h5>
+                </button>
+              </form>
             </div>
           </div>
         </div>
@@ -337,10 +333,10 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
   integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 <script src="/public/js/ward-district/location.js"></script>
-{{!--
+
 <script>
   imgInputController('upload-img-file');
-</script> --}}
+</script>
 
 
 <link rel="stylesheet" href="/public/css/ward-district/location.css" />
