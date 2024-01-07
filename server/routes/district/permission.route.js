@@ -7,6 +7,7 @@ const upload = multer({dest:`uploads/create_request`});
 
 // router.get("/", controller.show)
 router.post("/",upload.array('imgFile', 2), controller.createRequest);
+router.delete("/",upload.array('imgFile', 2), controller.deleteRequest);
 router.get("/", auth.isLoggedIn, auth.isOfficer, controller.show)
 
 module.exports = router
