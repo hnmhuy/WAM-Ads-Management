@@ -157,6 +157,9 @@ function showLoadingAdInfoCanvas() {
 }
 
 function showLocationDetail(adPlaceId) {
+    const editBtn = document.getElementById("edit-location-btn");
+    editBtn.setAttribute("data-location-id", adPlaceId);
+    editBtn.disabled = true;
     const url = `/api/ad_place/getOne?id=${adPlaceId}`;
     showLoadingAdInfoCanvas();
     fetch(url)
@@ -168,6 +171,7 @@ function showLocationDetail(adPlaceId) {
             } else {
                 console.log(data.message);
             }
+            editBtn.disabled = false;
         })
         .catch((err) => console.log(err));
 }
@@ -190,7 +194,6 @@ async function fillEditAdPlaceForm(data, formElement) {
     clearAddressBtn.disabled = false;
     formElement.querySelector('#ads-amount-for-edit').value = data.capacity;
     formElement.querySelector('#location-status').value = String(data.status);
-    console.log(data.place.geometry.coordinates);
     let lng = data.place.geometry.coordinates[0];
     let lat = data.place.geometry.coordinates[1];
     mapForUpdate.flyTo({
@@ -218,8 +221,11 @@ async function updateAdPlace(e) {
     let formData = new FormData(form);
     formData.append("id", currAdPlaceData.id);
     let coordinate = mapForUpdate.getCenter();
-    currAdPlaceData.place.geometry.coordinates = [coordinate.lng, coordinate.lat];
-    formData.append('geometry', JSON.stringify(currAdPlaceData.place.geometry));
+    let geometry = {
+        type: "Point",
+        coordinates: [coordinate.lng, coordinate.lat]
+    }
+    formData.append("geometry", JSON.stringify(geometry));
     formData.append('place_id', currAdPlaceData.place.id);
     let url = "/api/ad_place/update";
     fetch(url, {

@@ -172,6 +172,7 @@ async function getOneAdPlace(id, includeAdContent=false) {
                 id: id
             },
         });
+        data.dataValues.place.geometry = JSON.parse(data.dataValues.place.geometry);
         if (includeAdContent)
         {
             try
@@ -355,6 +356,7 @@ controller.getAdPlaceGeojson = async (req, res) => {
     if(data.sucess) {
         // Json data values of the ad_place
         let jsonData = data.data.map(item => item.get({plain: true}));
+        console.log(jsonData);
         // Convert json data to geojson
         let geojson = toGeojson(jsonData);
         data.data = geojson;

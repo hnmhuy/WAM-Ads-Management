@@ -182,13 +182,13 @@ searchInp.addEventListener("keyup", () => {
 selectBtn.addEventListener("click", () => menu_div.classList.toggle("active"));
 
 async function updateAdPlace(areaId) {
-    let geojson = await fetch(`/api/ad_place/getGeojson?areaId=${areaId}`).then(res => res.json());
-    if(!geojson.sucess) {
-        console.log("Error");
-        return;
-    } 
-    geojson = geojson.data;
-    permissionMap.getSource('ad-place').setData(geojson);
+    await fetch(`/api/ad_place/getGeojson?areaId=${areaId}`).then(res => res.json()).then(geojson => {
+        if(!geojson.sucess) {
+            console.log("Error");
+            return;
+        } 
+        permissionMap.getSource('ad-place').setData(geojson.data);
+    })
 }
 
 function getAdLocationData(event) {
