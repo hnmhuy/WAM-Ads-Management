@@ -58,7 +58,7 @@
       <!-- Table body -->
       <tbody>
         {{#each data}}
-        <tr class="tr_in_table_in_location">
+        <tr id="{{request_id}}" class="tr_in_table_in_location">
           <td>
             <p class="text-align-center table-cell-type">{{company_name}}</p>
           </td>
@@ -74,7 +74,7 @@
           <td>
             <div class="last-cell">
               <div>
-                <i role="button" onclick="showPopup_review(this)" class="bi bi-arrow-up-right-square" style="color: black" data-id ="{{id}}" data-company-name = "{{company_name}}" data-email = "{{id}}" data-height = "{{height}}" data-width="{{width}}" data-location = "{{id}}" data-start = "{{start}}" data-end="{{end}}" data-type="{{name}}" data-ad-place="{{address_formated}}" data-description = {{description}} data-img1="{{image1}}" data-img2="{{image2}}"></i>
+                <i role="button" onclick="showPopup_review(this)" class="bi bi-arrow-up-right-square" style="color: black" data-id ="{{id}}" data-company-name = "{{company_name}}" data-email = "{{company_email}}" data-height = "{{height}}" data-width="{{width}}" data-location = "{{company_address}}" data-start = "{{start}}" data-end="{{end}}" data-type="{{name}}" data-ad-place="{{address_formated}}" data-description = {{description}} data-img1="{{image1}}" data-img2="{{image2}}" data-request-id="{{request_id}}" ></i>
               </div>
             </div>
           </td>
@@ -86,15 +86,15 @@
 </div>
 
 <div id="popup-parent_">
-  <img id="form-img_" src="/public/images/form.png" alt="">
   <div class="popup_" id="location-popup_">
+  <img id="form-img_" src="/public/images/form.png" alt="">
     <h2 style="margin-top: 60px; ">Yêu cầu cấp phép</h2>
     <button style="position:fixed; right: 10px; top:10px;" type="button" class="btn-close" onclick="hidePopup_review()"
       id="close-edit-request_">
     </button>
 
     <hr>
-
+    <form id="delete-form" onsubmit="deleteForm(event)">
     <div class="row">
       <div class="col-6">
         <p style="text-align: left; font-weight: bold;margin-top:25px">Tên công ty</p>
@@ -128,6 +128,10 @@
         <input
           style="margin:0;width: 100%; border:0; border-box:none; padding: 10px; text-align: left; border-radius: 5px"
           disabled="disabled" placeholder="" id="review_end">
+          <input type="text" id="request-id" name="request-id" style="display: none">
+          <input type="text" id="ad-content" name="ad-content" style="display: none">
+          <input type="text" id="image1" name="image1" style="display: none">
+          <input type="text" id="image2" name="image2" style="display: none">
       </div>
     </div>
 
@@ -170,6 +174,10 @@
         </button>
       </div>
     </div>
+    <button type="submit"
+      style="width: 100%; outline: none; border:0; padding: 10px; border-radius: 5px; background-color: tomato; color: white; margin-top: 50px"
+      id="submit-request" onclick="submitForm(event)">Xoá yêu cầu</button>
+    </form>
   </div>
 </div>
 
@@ -229,29 +237,13 @@
         <div class="permission-dropdown-option">
         </div>
       </div>
-      <div style="text-align: left; margin: 10px 0px">
+      <div style="text-align: left; margin: 25px 0px">
           <label style="font-weight: bold;" for="ad-location" class="form-label">Địa chỉ điểm quảng cáo</label>
           <div class="map-container" style="width: 100%; height: 15rem;">
           <div class="map" id="permission-map">
             </div>
           </div>
-          <input tabindex="1" name="ad-location" type="text" class="form-control" id="ad-location" required placeholder="Công ty" disabled/>
-      </div>
-      <label style="font-weight: bold; width: 100%; text-align: left;margin-top:25px" for="addressOfAd">Vị trí điểm đặt
-        quảng cáo</label>
-      <div class="menu_div">
-        <div class="select-btn">
-          <input style="border: none; width: 200px" type="text" id="ad" name="ad" placeholder="Chọn điểm đặt quảng cáo">
-          <input type="text" id="idAddressOfAd" name="idAddressOfAd" style="display: none;">
-          <i class="uil uil-angle-down"></i>
-        </div>
-        <div class="menu-content">
-          <div class="search">
-            <i class="uil uil-search"></i>
-            <input id="addressOfAd" name="addressOfAd" spellcheck="false" type="text" placeholder="Tìm kiếm...">
-          </div>
-          <ul class="options"></ul>
-        </div>
+          <input style="margin-top: 10px;" name="ad-location" type="text" class="form-control" id="ad-location" required placeholder="Chọn ở bản đồ" readonly/>
       </div>
       
       <div style="text-align: left;">

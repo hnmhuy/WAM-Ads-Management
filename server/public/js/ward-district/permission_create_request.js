@@ -79,45 +79,45 @@ close_btn_.addEventListener('click', () => {
     });
 });
 
-let countries = [];
-const menu_div = document.querySelector(".menu_div"),
-    selectBtn = menu_div.querySelector(".select-btn"),
-    searchInp = menu_div.querySelector("input"),
-    options = menu_div.querySelector(".options");
+// let countries = [];
+// const menu_div = document.querySelector(".menu_div"),
+//     selectBtn = menu_div.querySelector(".select-btn"),
+//     searchInp = menu_div.querySelector("input"),
+//     options = menu_div.querySelector(".options");
 
-function addCountry(selectedCountry) {
-    options.innerHTML = "";
-    countries.forEach(country => {
-        let isSelected = country.name == selectedCountry ? "selected" : "";
-        let li = `<li class="selectedAddress" onclick="updateName(this)" class="${isSelected}">${country.name}
-        <input style="display: none" id="${country.id}" name="${countries.id}">
-      </li>`;
-        options.insertAdjacentHTML("beforeend", li);
-    });
-}
+// function addCountry(selectedCountry) {
+//     options.innerHTML = "";
+//     countries.forEach(country => {
+//         let isSelected = country.name == selectedCountry ? "selected" : "";
+//         let li = `<li class="selectedAddress" onclick="updateName(this)" class="${isSelected}">${country.name}
+//         <input style="display: none" id="${country.id}" name="${countries.id}">
+//       </li>`;
+//         options.insertAdjacentHTML("beforeend", li);
+//     });
+// }
 
-function updateName(selectedLi) {
-    searchInp.value = "";
-    addCountry(selectedLi.innerText);
-    menu_div.classList.remove("active");
-    selectBtn.firstElementChild.value = selectedLi.innerText;
-    const idSelected = selectBtn.querySelector("#idAddressOfAd");
-    console.log(selectedLi.firstElementChild);
-    idSelected.value = selectedLi.firstElementChild.id;
-    console.log(idSelected.value);
-}
-searchInp.addEventListener("keyup", () => {
-    let arr = [];
-    let searchWord = searchInp.value.toLowerCase();
-    arr = countries.filter(data => {
-        return data.toLowerCase().startsWith(searchWord);
-    }).map(data => {
-        let isSelected = data == selectBtn.firstElementChild.innerText ? "selected" : "";
-        return `<li class="selectedAddressOfAd" onclick="updateName(this)" class="${isSelected}">${data}</li>`;
-    }).join("");
-    options.innerHTML = arr ? arr : `<p style="margin-top: 10px;">Oops! Country not found</p>`;
-});
-selectBtn.addEventListener("click", () => menu_div.classList.toggle("active"));
+// function updateName(selectedLi) {
+//     searchInp.value = "";
+//     addCountry(selectedLi.innerText);
+//     menu_div.classList.remove("active");
+//     selectBtn.firstElementChild.value = selectedLi.innerText;
+//     const idSelected = selectBtn.querySelector("#idAddressOfAd");
+//     console.log(selectedLi.firstElementChild);
+//     idSelected.value = selectedLi.firstElementChild.id;
+//     console.log(idSelected.value);
+// }
+// searchInp.addEventListener("keyup", () => {
+//     let arr = [];
+//     let searchWord = searchInp.value.toLowerCase();
+//     arr = countries.filter(data => {
+//         return data.toLowerCase().startsWith(searchWord);
+//     }).map(data => {
+//         let isSelected = data == selectBtn.firstElementChild.innerText ? "selected" : "";
+//         return `<li class="selectedAddressOfAd" onclick="updateName(this)" class="${isSelected}">${data}</li>`;
+//     }).join("");
+//     options.innerHTML = arr ? arr : `<p style="margin-top: 10px;">Oops! Country not found</p>`;
+// });
+// selectBtn.addEventListener("click", () => menu_div.classList.toggle("active"));
 
 async function updateAdPlace(areaId) {
     await fetch(`/api/ad_place/getGeojson?areaId=${areaId}`).then(res => res.json()).then(geojson => {
@@ -146,14 +146,14 @@ function getAdLocationData(event) {
 }
 
 async function showPopup(delegation) {
-    await fetch(`api/ad_place/get?areaId=${delegation}`).then(res => res.json()).then(
-        data => data.data.rows.forEach((item) => {
-            countries.push({ name: item.place.address_formated, id: item.id });
-        })
-    )
-    addCountry();
+    // await fetch(`api/ad_place/get?areaId=${delegation}`).then(res => res.json()).then(
+    //     data => data.data.rows.forEach((item) => {
+    //         countries.push({ name: item.place.address_formated, id: item.id });
+    //     })
+    // )
+    // addCountry();
     await updateAdPlace(delegation);
-    console.log(countries)
+    // console.log(countries)
     fetch('api/category/getCategory?fieldId=T3').then(res => res.json()).then(
         data => data.data.forEach((item) => {
             const div = document.createElement("div");
@@ -166,7 +166,6 @@ async function showPopup(delegation) {
             document.querySelector(".permission-dropdown-option").appendChild(div);
         })
     )
-
 
     imgInputController("upload-img-request");
     document.querySelector('body').style.overflowY = 'hidden';
@@ -363,6 +362,8 @@ async function submitForm(event) {
     }
     const start = new Date(document.getElementById("startDate").value);
     const end = new Date(document.getElementById("endDate").value);
+    const ad_place = document.getElementById("ad-location").value;
+    const adType = document.getElementById("adType").value;
     if(start >= end){
         Toastify({
           text: "Ngày bắt đầu phải nhỏ hơn ngày kết thúc",
@@ -379,9 +380,40 @@ async function submitForm(event) {
         }).showToast();
         event.preventDefault();
 
+    } else if (!ad_place) {
+        Toastify({
+          text: "Hãy chọn vị trí điểm đặt quảng cáo",
+          duration: 3000,
+          close: false,
+          gravity: "bottom",
+          position: "right",
+          stopOnFocus: true,
+          style: {
+            background: "#FF6969",
+            color: "#000"
+          },
+          onClick: function(){} // Callback after click
+        }).showToast();
+        event.preventDefault();
+    } else if (!adType){
+        Toastify({
+          text: "Hãy chọn loại bảng quảng cáo",
+          duration: 3000,
+          close: false,
+          gravity: "bottom",
+          position: "right",
+          stopOnFocus: true,
+          style: {
+            background: "#FF6969",
+            color: "#000"
+          },
+          onClick: function(){} // Callback after click
+        }).showToast();
+        event.preventDefault();
     } else {
         event.preventDefault();
         const fd = new FormData(form);
+        fd.set("locationId", locationId);
         let res = await fetch('/permission', {
             method: "POST",
             body: fd
@@ -402,7 +434,6 @@ async function submitForm(event) {
                 request.status = "Đã từ chối"
             }
             tr.innerHTML = `
-            <tr class="tr_in_table_in_location">
             <td>
                 <p class="text-align-center table-cell-type">${ad_content.company_name}</p>
             </td>
@@ -417,16 +448,24 @@ async function submitForm(event) {
             </td>
             <td>
                 <div class="last-cell">
-                <div class="btn" onclick="showPopup_review()">
-                    <i class="bi bi-arrow-up-right-square" style="color: black"></i>
+                <div>
+                    <i role="button" onclick="showPopup_review(this)" class="bi bi-arrow-up-right-square" style="color: black" data-id ="${ad_content.id}" data-company-name = "${ad_content.company_name}" data-email = "${ad_content.company_email}" data-height = "${ad_content.height}" data-width="${ad_content.width}" data-location = "${ad_content.company_address}" data-start = "${ad_content.start}" data-end="${ad_content.end}" data-type="${type}" data-ad-place="${address}" data-description = ${ad_content.description} data-img1="${ad_content.image1}" data-img2="${ad_content.image2}" data-request-id="${request.id}"></i>
                 </div>
                 </div>
             </td>
-            </tr>
             `
+            
+            tr.id= request.id
+            tr.class="tr_in_table_in_location"
             let tbody = document.querySelector("tbody");
-            tbody.appendChild(tr);
-            console.log(tbody.firstElementChild);
+            tbody.insertBefore(tr, tbody.firstElementChild);
+            document
+                .querySelectorAll("tbody tr:not(.hide)")
+                .forEach((visible_row, i) => {
+                    console.log(i);
+                    visible_row.style.backgroundColor =
+                        i % 2 == 0 ? "transparent" : "rgba(79, 62, 215, 0.1)";
+                });
         }
         hidePopup();
     }
