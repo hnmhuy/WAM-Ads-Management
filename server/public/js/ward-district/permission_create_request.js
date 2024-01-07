@@ -43,78 +43,6 @@ function showType(e) {
     input_id.value = e.id;
 }
 
-
-// const form_upload = document.querySelector(".upload"),
-//     fileInput = document.querySelector(".file-input"),
-//     progressArea = document.querySelector(".progress-area"),
-//     uploadedArea = document.querySelector(".uploaded-area");
-
-// Keep track of the number of uploaded files
-// let uploadedFilesCount = 0;
-
-// form_upload.addEventListener("click", () => {
-//     fileInput.click();
-// });
-
-// fileInput.onchange = ({ target }) => {
-//     let file = target.files[0];
-//     if (file) {
-//         if (uploadedFilesCount < 2) {
-//             let fileName = file.name;
-//             if (fileName.length >= 12) {
-//                 let splitName = fileName.split('.');
-//                 fileName = splitName[0].substring(0, 13) + "... ." + splitName[1];
-//             }
-//             uploadFile(fileName);
-//             uploadedFilesCount++;
-//             if (uploadedFilesCount == 2) {
-//                 form.style.display = 'none'
-//             }
-//         }
-//     }
-// }
-
-// function uploadFile(name) {
-//     let xhr = new XMLHttpRequest();
-//     xhr.open("POST", "/upload");
-//     xhr.upload.addEventListener("progress", ({ loaded, total }) => {
-//         let fileLoaded = Math.floor((loaded / total) * 100);
-//         let fileTotal = Math.floor(total / 1000);
-//         let fileSize;
-//         (fileTotal < 1024) ? fileSize = fileTotal + " KB" : fileSize = (loaded / (1024 * 1024)).toFixed(2) + " MB";
-//         let progressHTML = `<li class="row">
-//                         <i class="bi bi-card-image"></i>
-//                         <div class="content">
-//                         <div class="details">
-//                             <span class="name">${name} • Uploading</span>
-//                             <span class="percent">${fileLoaded}%</span>
-//                         </div>
-//                         <div class="progress-bar">
-//                             <div class="progress" style="width: ${fileLoaded}%"></div>
-//                         </div>
-//                         </div>
-//                     </li>`;
-//         uploadedArea.classList.add("onprogress");
-//         progressArea.innerHTML = progressHTML;
-//         if (loaded == total) {
-//             progressArea.innerHTML = "";
-//             let uploadedHTML = `<li class="row">
-//                         <div class="content upload">
-//                         <i class="bi bi-card-image"></i>
-//                             <div class="details">
-//                             <span class="name">${name} • Uploaded</span>
-//                             <span class="size">${fileSize}</span>
-//                             </div>
-//                         </div>
-//                         </li>`;
-//             uploadedArea.classList.remove("onprogress");
-//             uploadedArea.insertAdjacentHTML("afterbegin", uploadedHTML);
-//         }
-//     });
-//     let data = new FormData(form);
-//     xhr.send(data);
-// }
-
 let popup_ = document.getElementById("location-popup")
 let img_ = document.getElementById("form-img")
 let submit_ = document.getElementById("submit-request")
@@ -125,23 +53,33 @@ let originalImg_ = {}
 
 popup_parent_.addEventListener('click', (event) => {
     if (event.target.id === 'popup-parent') {
-        if (confirm('Bạn muốn thoát khỏi biểu mẫu?'))
-            hidePopup();
+        Swal.fire({
+            title: "Bạn muốn thoát khỏi biểu mẫu?",
+            showCancelButton: true,
+            confirmButtonText: "Có",
+            denyButtonText: `Không`
+            }).then((result) => {
+            if (result.isConfirmed) {
+                hidePopup();
+            }
+        });
     }
 });
-// submit_.addEventListener('click', ()=>{
-//     hidePopup();
-// });  
-
-
 
 close_btn_.addEventListener('click', () => {
-    if (confirm('Bạn muốn thoát khỏi biểu mẫu?'))
-        hidePopup();
+    Swal.fire({
+        title: "Bạn muốn thoát khỏi biểu mẫu?",
+        showCancelButton: true,
+        confirmButtonText: "Có",
+        denyButtonText: `Không`
+        }).then((result) => {
+        if (result.isConfirmed) {
+            hidePopup();
+        }
+    });
 });
 
 let countries = [];
-
 const menu_div = document.querySelector(".menu_div"),
     selectBtn = menu_div.querySelector(".select-btn"),
     searchInp = menu_div.querySelector("input"),
@@ -249,7 +187,13 @@ async function showPopup(delegation) {
     popup_.style.left = '50%';
     popup_.style.transform = 'translate(-50%, -50%) scale(1)';
 }
-function hidePopup() {
+function hidePopup(){
+    let inputs = document.querySelectorAll("input");
+    inputs.forEach((input)=>{
+        input.value = "";
+    })
+    let textArea = document.querySelector("textarea");
+    textArea.value="";
     const div_list = document.querySelectorAll(".permission-dropdown-option-content");
     div_list.forEach((item) => {
         item.parentNode.removeChild(item);
@@ -417,58 +361,73 @@ async function submitForm(event) {
     if (!form.checkValidity()) {
         return;
     }
-    event.preventDefault();
-    if(!locationId) {
-        alert("Vui lòng chọn địa điểm quảng cáo");
-        return;
-    }
-    const fd = new FormData(form);
-    fd.set('idAddressOfAd', locationId);
-    let res = await fetch('/permission', {
-        method: "POST",
-        body: fd
-    })
-    res = await res.json();
-    console.log(res);
-    if (res.message == "Success") {
-        let request = res.request;
-        let ad_content = res.ad_content;
-        let address = res.address;
-        let type = res.type;
-        let tr = document.createElement("tr");
-        if (request.status === "sent") {
-            request.status = "Đã gửi"
-        } else if (request.status === "approved") {
-            request.status = "Đã cấp phép"
-        } else {
-            request.status = "Đã từ chối"
+    const start = document.getElementById("startDate");
+    const end = document.getElementById("endDate");
+    if(start >= end){
+        Toastify({
+          text: "Ngày bắt đầu phải nhỏ hơn ngày kết thúc",
+          duration: 3000,
+          close: false,
+          gravity: "bottom",
+          position: "right",
+          stopOnFocus: true,
+          style: {
+            background: "#FF6969",
+            color: "#000"
+          },
+          onClick: function(){} // Callback after click
+        }).showToast();
+        event.preventDefault();
+
+    } else {
+        event.preventDefault();
+        const fd = new FormData(form);
+        let res = await fetch('/permission', {
+            method: "POST",
+            body: fd
+        })
+        res = await res.json();
+        console.log(res);
+        if(res.message == "Success"){
+            let request = res.request;
+            let ad_content = res.ad_content;
+            let address = res.address;
+            let type = res.type;
+            let tr = document.createElement("tr");
+            if(request.status === "sent"){
+                request.status = "Đã gửi"
+            } else if (request.status === "approved"){
+                request.status = "Đã cấp phép"
+            } else {
+                request.status = "Đã từ chối"
+            }
+            tr.innerHTML = `
+            <tr class="tr_in_table_in_location">
+            <td>
+                <p class="text-align-center table-cell-type">${ad_content.company_name}</p>
+            </td>
+            <td>
+                <p class="table-cell-type">${address}</p>
+            </td>
+            <td>
+                <p class="table-cell-type">${type}</p>
+            </td>
+            <td class="d-flex justify-content-center align-items-center">
+                <p class="mx-0 status delivered">${request.status}</p>
+            </td>
+            <td>
+                <div class="last-cell">
+                <div class="btn" onclick="showPopup_review()">
+                    <i class="bi bi-arrow-up-right-square" style="color: black"></i>
+                </div>
+                </div>
+            </td>
+            </tr>
+            `
+            let tbody = document.querySelector("tbody");
+            tbody.appendChild(tr);
+            console.log(tbody.firstElementChild);
         }
-        tr.innerHTML = `
-        <tr class="tr_in_table_in_location">
-          <td>
-            <p class="text-align-center table-cell-type">${ad_content.company_name}</p>
-          </td>
-          <td>
-            <p class="table-cell-type">${address}</p>
-          </td>
-          <td>
-            <p class="table-cell-type">${type}</p>
-          </td>
-          <td class="d-flex justify-content-center align-items-center">
-            <p class="mx-0 status delivered">${request.status}</p>
-          </td>
-          <td>
-            <div class="last-cell">
-              <div class="btn" onclick="showPopup_review()">
-                <i class="bi bi-arrow-up-right-square" style="color: black"></i>
-              </div>
-            </div>
-          </td>
-        </tr>
-        `
-        let tbody = document.querySelector("tbody");
-        tbody.appendChild(tr);
-        console.log(tbody.firstElementChild);
+        hidePopup();
     }
-    hidePopup();
 }

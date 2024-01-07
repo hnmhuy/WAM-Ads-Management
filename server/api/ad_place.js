@@ -209,6 +209,10 @@ controller.getAdPlace = async (req, res) => {
 }
 
 controller.getOneAdPlace = async (req, res) => {
+    res.set({
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+    })
     let {id, includeAdContent} = req.query;
     console.log(id);
     let adPlaceRes = await getOneAdPlace(id, includeAdContent);
@@ -434,7 +438,7 @@ async function getAdContents(placeId)
     {
         const currentDate = new Date();
         let data = await models.ad_content.findAll({
-            attributes: ['width', 'height', 'start', 'end', 'status', 'image1', 'image2'],
+            attributes: ['id','company_name' , 'width', 'height', 'start', 'end', 'status', 'image1', 'image2'],
             where: {
                 ad_place_id: placeId,
                 status: true,
