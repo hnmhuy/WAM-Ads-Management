@@ -21,6 +21,7 @@ controller.showAds = (req, res) => {
             "/public/js/shared/handler_table_ui.js",
             "/public/js/maps/map.js",
             "/public/js/department/ad_place_ui_controller.js",
+            "/public/js/department/ad_content_ui_controller.js"
         ],
     };
     res.render("department/ads", {

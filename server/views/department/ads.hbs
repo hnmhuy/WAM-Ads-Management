@@ -176,8 +176,9 @@
             </div>
         </div>
         <div class="overlay collapse" id="detail-location-overlay"></div>
-        <div class="ad-detail-info-container">
+        <div class="ad-detail-info-container" id="ad-card-container">
             <div class="ad-detail-card">
+                <div class="ad-detail-card-title">Công ty TNHH ABC</div>
                 <div class="view">
                     <div id="ad-detail-card-imgs-c001" class="carousel slide view-imgs" data-bs-ride="carousel">
                         <div class="carousel-indicators">
@@ -263,8 +264,19 @@
                                 <input type="date" id="start-date-ad-content-id" placeholder="" required>
                             </div>
                             <div class="form-field">
-                                <label for="end-date-ad-content-id">Kết thúc</label>
-                                <input type="date" id="end-date-ad-content-id" placeholder="" required>
+                                <label for="start-date-ad-content-id">Kết thúc</label>
+                                <input type="date" id="start-date-ad-content-id" placeholder="" required>
+                            </div>
+                            <div class="form-field">
+                                <label for="end-date-ad-content-id">Công ty</label>
+                                <input type="text" id="end-date-ad-content-id" placeholder="" required>
+                            </div>
+                            <div class="form-field">
+                                <label for="location-status">Trạng thái</label>
+                                <select id="location-status" name="new-location-status" required>
+                                    <option value="true" selected>Đã quy hoạch</option>
+                                    <option value="false">Chưa quy hoạch</option>
+                                </select>
                             </div>
                             <div class="submit-btn">
                                 <button type="button" class="btn btn-secondary"

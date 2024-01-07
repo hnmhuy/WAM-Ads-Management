@@ -561,8 +561,11 @@ function clearImgInputField(fieldId) {
 // Detail location - edit ad button
 function editAd(e) {
     let adCard = e.parentNode.parentNode;
+    let company = adCard.querySelector(".ad-detail-card-title")
+    company.classList.add("collapse");
     let imgField = adCard.querySelector(".imgs-field .upload-field");
     let imgFieldId = imgField.id;
+
     imgInputController(imgFieldId);
     adCard.classList.add("ad-detail-card-editing");
     let overlay = document.querySelector("#detail-location-overlay");
@@ -571,6 +574,8 @@ function editAd(e) {
 
 function cancelAdEdit(e) {
     let adCard = e.parentNode.parentNode.parentNode.parentNode.parentNode;
+    let company = adCard.querySelector(".ad-detail-card-title")
+    company.classList.remove("collapse");
     console.log(adCard);
     let imgFieldId = adCard.querySelector(".imgs-field .upload-field").id;
     adCard.classList.remove("ad-detail-card-editing");

@@ -156,7 +156,7 @@ function showLoadingAdInfoCanvas() {
     });
 }
 
-function showLocationDetail(adPlaceId) {
+async function showLocationDetail(adPlaceId) {
     const editBtn = document.getElementById("edit-location-btn");
     editBtn.setAttribute("data-location-id", adPlaceId);
     editBtn.disabled = true;
@@ -174,6 +174,8 @@ function showLocationDetail(adPlaceId) {
             editBtn.disabled = false;
         })
         .catch((err) => console.log(err));
+
+    await fetchAndAddAdCard(adPlaceId);
 }
 
 async function fillEditAdPlaceForm(data, formElement) {
@@ -245,4 +247,145 @@ async function updateAdPlace(e) {
         spinner.classList.add("collapse");
         btn.disabled = false;
     })
+}
+
+function generateCarouselForAdCard(data) {
+    let carousel = document.createElement("div");
+    carousel.className = "carousel slide view-imgs";
+    carousel.setAttribute("data-bs-ride", "carousel");
+    carousel.id = `carousel-${data.id}`;
+    carousel.innerHTML = `
+    <div class="carousel-indicators">
+        <button data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide-to="0" class="active"
+            aria-current="true" aria-label="First slide"></button>
+        <button data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide-to="1"
+            aria-label="Second slide"></button>
+        <button data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide-to="2"
+            aria-label="Third slide"></button>
+    </div>
+    <div class="carousel-inner" role="listbox">
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#ad-detail-card-imgs-c001"
+        data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#ad-detail-card-imgs-c001"
+        data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+    `
+
+    if(data.image1){
+        carousel.querySelector(".carousel-inner").appendChild(generateCarouselItem(data.image1));
+    }
+    if(data.image2) {
+        carousel.querySelector(".carousel-inner").appendChild(generateCarouselItem(data.image2));
+    }
+
+    if(!data.image1 && !data.image2) {
+        carousel.querySelector(".carousel-inner").appendChild(generateCarouselItem("/public/images/No data-pana.svg"))
+    }
+
+    carousel.querySelector(".carousel-inner").firstElementChild.classList.add("active");
+    return carousel;
+}
+
+function generateAdCard(data) {
+    let card = document.createElement("div");
+    card.className = 'ad-detail-card';
+    card.innerHTML = `
+    <div class="ad-detail-card-title">${data.company_name}</div>
+    <div class="view">
+        <div class="view-info">
+            <div class="view-info-attribute">
+                <span>Kích thước</span> ${data.width}m x ${data.height}m
+            </div>
+            <div class="view-info-attribute">
+                <span>Bắt đầu</span> ${new Date(data.start).toLocaleDateString('vi-VN')}
+            </div>
+            <div class="view-info-attribute">
+                <span>Kết thúc</span> ${new Date(data.end).toLocaleDateString('vi-VN')}
+            </div>
+            <div class="view-info-status">
+                Đang quảng cáo
+            </div>
+        </div>
+        <button class="edit-ad-btn" id="" type="button" title="Chỉnh sửa" onclick="editAd(this)">
+            <i class="bi bi-pencil-fill"></i>
+        </button>
+    </div>
+    <div class="edit-ad-form">
+        <form action="" class="edit-ad-form">
+            <div class="imgs-field">
+                <div class="upload-field" id="ad-content-id">
+                    <label for="img-ad-content-id" class="drag-drop">
+                        <div class="holder">
+                            <i class="bi bi-cloud-arrow-up-fill"></i>
+                            <h4>Kéo và thả ảnh vào đây</h4> hoặc Click để duyệt file
+                        </div>
+                    </label>
+                    <input type="file" name="imgFile" id="img-ad-content-id" accept=".png, .jpeg, .gif"
+                        multiple hidden>
+                    <div class="preview" style="display: none;">
+                    </div>
+                </div>
+            </div>
+            <div class="info-field">
+                <div class="ads-amount">
+                    <label for="ad-w-ad-content-id">Chiều rộng</label>
+                    <input type="number" id="ad-w-ad-content-id" placeholder="0" required>
+                    <p>m</p>
+                </div>
+                <div class="ads-amount">
+                    <label for="ad-h-ad-content-id">Chiều dài</label>
+                    <input type="number" id="ad-h-ad-content-id" placeholder="0" required>
+                    <p>m</p>
+                </div>
+                <div class="form-field">
+                    <label for="start-date-ad-content-id">Bắt đầu</label>
+                    <input type="date" id="start-date-ad-content-id" placeholder="" required>
+                </div>
+                <div class="form-field">
+                    <label for="start-date-ad-content-id">Kết thúc</label>
+                    <input type="date" id="start-date-ad-content-id" placeholder="" required>
+                </div>
+                <div class="form-field">
+                    <label for="end-date-ad-content-id">Công ty</label>
+                    <input type="text" id="end-date-ad-content-id" placeholder="" required>
+                </div>
+                <div class="form-field">
+                    <label for="location-status">Trạng thái</label>
+                    <select id="location-status" name="new-location-status" required>
+                        <option value="true" selected>Đã quy hoạch</option>
+                        <option value="false">Chưa quy hoạch</option>
+                    </select>
+                </div>
+                <div class="submit-btn">
+                    <button type="button" class="btn btn-secondary"
+                        onclick="cancelAdEdit(this)">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Xác nhận</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    `;
+
+    let view = card.querySelector(".view");
+    view.insertBefore(generateCarouselForAdCard(data), view.firstElementChild);
+
+    return card;
+}
+
+async function fetchAndAddAdCard(adPlaceId) {
+    let data = await fetch(`/api/ad_content/get?adPlaceId=${adPlaceId}`);
+    data = await data.json();
+    if(data.success) {
+        let adCardContainer = document.getElementById("ad-card-container");
+        adCardContainer.innerHTML = "";
+        data.data.forEach(ad => {
+            adCardContainer.appendChild(generateAdCard(ad));
+        })
+    }
 }

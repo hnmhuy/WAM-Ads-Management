@@ -180,15 +180,11 @@
     <button style="position:fixed; right: 10px; top:10px;" type="button" class="btn-close" id="close-edit-request">
     </button>
     <hr>
-    <div class="map-container" style="width: 100%; height: 15rem;">
-      <div class="map" id="permission-map">
-      </div>
-    </div>
     <form id="create-request-form">
-      <div style="text-align: left; margin: 10px 0px">
+      {{!-- <div style="text-align: left; margin: 10px 0px">
           <label style="font-weight: bold;" for="ad-location" class="form-label">Địa chỉ điểm quảng cáo</label>
           <input tabindex="1" name="ad-location" type="text" class="form-control" id="ad-location" required placeholder="Công ty" disabled/>
-      </div>
+      </div> --}}
       <div class="row">
         <div class="col-6">
           <div style="text-align: left;">
@@ -232,6 +228,14 @@
         <input style="display: none;" type="text" class="form-control" name="adTypeId" id="adTypeId" class="textBox" readonly>
         <div class="permission-dropdown-option">
         </div>
+      </div>
+      <div style="text-align: left; margin: 10px 0px">
+          <label style="font-weight: bold;" for="ad-location" class="form-label">Địa chỉ điểm quảng cáo</label>
+          <div class="map-container" style="width: 100%; height: 15rem;">
+          <div class="map" id="permission-map">
+            </div>
+          </div>
+          <input tabindex="1" name="ad-location" type="text" class="form-control" id="ad-location" required placeholder="Công ty" disabled/>
       </div>
       <label style="font-weight: bold; width: 100%; text-align: left;margin-top:25px" for="addressOfAd">Vị trí điểm đặt
         quảng cáo</label>

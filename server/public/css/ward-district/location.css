@@ -350,6 +350,7 @@ tbody tr.hide td p {
   text-align: left;
 }
 .ads-amount {
+  font-size: 16px;
   width: 100%;
   display: flex;
   gap: 10px;
@@ -366,7 +367,7 @@ tbody tr.hide td p {
 }
 
 .ads-amount label {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 800;
 }
 

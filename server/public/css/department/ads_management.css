@@ -291,7 +291,7 @@
   font-size: 16px;
   font-weight: 600;
   padding: 0px 5px;
-  width: max-content;
+  width: auto;
 }
 
 .form-field input {
@@ -626,14 +626,20 @@
 
 .ad-detail-card {
   width: calc(50% - 5px);
-  height: auto;
   border-radius: 15px;
   padding: 0;
   overflow: hidden;
   border: 0.8px solid rgba(0, 0, 0, 0.3);
-  padding-right: 10px;
   position: relative;
   transition: all 0.3s ease-in-out;
+}
+
+.ad-detail-card-title {
+  width: 100%;
+  padding: 5px 10px;
+  font-weight: 800;
+  color: white;
+  background-color: #4f3ed7;
 }
 
 .view {
@@ -648,6 +654,7 @@
   padding: 0;
   overflow: hidden;
 }
+
 .view-info {
   width: 50%;
   height: 100%;
@@ -685,7 +692,7 @@
 
 .ad-detail-card-editing {
   width: 100% !important;
-  height: 260px !important;
+  height: auto !important;
   background-color: white !important;
   border: rgb(47, 29, 177) 1px solid !important;
   z-index: 2 !important;
