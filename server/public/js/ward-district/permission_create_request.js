@@ -361,8 +361,8 @@ async function submitForm(event) {
     if (!form.checkValidity()) {
         return;
     }
-    const start = document.getElementById("startDate");
-    const end = document.getElementById("endDate");
+    const start = new Date(document.getElementById("startDate").value);
+    const end = new Date(document.getElementById("endDate").value);
     if(start >= end){
         Toastify({
           text: "Ngày bắt đầu phải nhỏ hơn ngày kết thúc",

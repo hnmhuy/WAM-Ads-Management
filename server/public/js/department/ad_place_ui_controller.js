@@ -292,9 +292,25 @@ function generateCarouselForAdCard(data) {
     return carousel;
 }
 
+function formatDate(date) {
+    let year = date.getFullYear();   
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+    if(month < 10) {
+        month = `0${month}`;
+    }
+    if(day < 10) {
+        day = `0${day}`;
+    }
+
+    return `${year}-${month}-${day}`;
+}
+
 function generateAdCard(data) {
     let card = document.createElement("div");
     card.className = 'ad-detail-card';
+    let start = new Date(data.start);
+    let end = new Date(data.end);
     card.innerHTML = `
     <div class="ad-detail-card-title">${data.company_name}</div>
     <div class="view">
@@ -303,10 +319,10 @@ function generateAdCard(data) {
                 <span>Kích thước</span> ${data.width}m x ${data.height}m
             </div>
             <div class="view-info-attribute">
-                <span>Bắt đầu</span> ${new Date(data.start).toLocaleDateString('vi-VN')}
+                <span>Bắt đầu</span> ${start.toLocaleDateString('vi-VN')}
             </div>
             <div class="view-info-attribute">
-                <span>Kết thúc</span> ${new Date(data.end).toLocaleDateString('vi-VN')}
+                <span>Kết thúc</span> ${end.toLocaleDateString('vi-VN')}
             </div>
             <div class="view-info-status">
                 Đang quảng cáo
@@ -319,14 +335,14 @@ function generateAdCard(data) {
     <div class="edit-ad-form">
         <form action="" class="edit-ad-form">
             <div class="imgs-field">
-                <div class="upload-field" id="ad-content-id">
-                    <label for="img-ad-content-id" class="drag-drop">
+                <div class="upload-field" id="imgField-${data.id}">
+                    <label for="img-${data.id}" class="drag-drop">
                         <div class="holder">
                             <i class="bi bi-cloud-arrow-up-fill"></i>
                             <h4>Kéo và thả ảnh vào đây</h4> hoặc Click để duyệt file
                         </div>
                     </label>
-                    <input type="file" name="imgFile" id="img-ad-content-id" accept=".png, .jpeg, .gif"
+                    <input type="file" name="imgFile" id="img-${data.id}" accept=".png, .jpeg, .gif"
                         multiple hidden>
                     <div class="preview" style="display: none;">
                     </div>
@@ -334,32 +350,32 @@ function generateAdCard(data) {
             </div>
             <div class="info-field">
                 <div class="ads-amount">
-                    <label for="ad-w-ad-content-id">Chiều rộng</label>
-                    <input type="number" id="ad-w-ad-content-id" placeholder="0" required>
+                    <label for="w-${data.id}">Chiều rộng</label>
+                    <input type="number" id="w-${data.id}" placeholder="0" required value=${data.width}>
                     <p>m</p>
                 </div>
                 <div class="ads-amount">
-                    <label for="ad-h-ad-content-id">Chiều dài</label>
-                    <input type="number" id="ad-h-ad-content-id" placeholder="0" required>
+                    <label for="h-${data.id}">Chiều dài</label>
+                    <input type="number" id="h-${data.id}" placeholder="0" required value=${data.height}>
                     <p>m</p>
                 </div>
                 <div class="form-field">
-                    <label for="start-date-ad-content-id">Bắt đầu</label>
-                    <input type="date" id="start-date-ad-content-id" placeholder="" required>
+                    <label for="start-${data.id}">Bắt đầu</label>
+                    <input type="date" id="start-${data.id}" placeholder="" required value="${formatDate(start)}">
                 </div>
                 <div class="form-field">
-                    <label for="start-date-ad-content-id">Kết thúc</label>
-                    <input type="date" id="start-date-ad-content-id" placeholder="" required>
+                    <label for="end-${data.id}">Kết thúc</label>
+                    <input type="date" id="end-${data.id}" placeholder="" required value="${formatDate(end)}">
                 </div>
                 <div class="form-field">
-                    <label for="end-date-ad-content-id">Công ty</label>
-                    <input type="text" id="end-date-ad-content-id" placeholder="" required>
+                    <label for="company-${data.id}">Công ty</label>
+                    <input type="text" id="company-${data.id}" placeholder="" required value="${data.company_name}">
                 </div>
                 <div class="form-field">
-                    <label for="location-status">Trạng thái</label>
-                    <select id="location-status" name="new-location-status" required>
-                        <option value="true" selected>Đã quy hoạch</option>
-                        <option value="false">Chưa quy hoạch</option>
+                    <label for="res-${data.id}">Yêu cầu</label>
+                    <select id="res-${data.id}" name="res" required>
+                        <option value="true" selected>Phê duyệt</option>
+                        <option value="false">Từ chối</option>
                     </select>
                 </div>
                 <div class="submit-btn">

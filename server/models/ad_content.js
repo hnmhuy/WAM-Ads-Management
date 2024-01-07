@@ -25,6 +25,8 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true
     },
     company_name: DataTypes.STRING,
+    company_address: DataTypes.STRING,
+    company_email: DataTypes.STRING,
     width: DataTypes.DECIMAL,
     height: DataTypes.DECIMAL,
     description: DataTypes.TEXT,
