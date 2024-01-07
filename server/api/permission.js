@@ -23,7 +23,6 @@ controller.getRequest = async (req, res, next)=>{
 
 // controller.createAdContent = async (req, res) => {
 //     const data = {};
-    
 //     let placeRes = await controller.addPlace(data);
 //     if (placeRes) {
 //         res.json({

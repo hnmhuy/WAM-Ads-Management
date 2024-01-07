@@ -104,7 +104,7 @@ function generateCarouselItem(url) {
     const item = document.createElement("div");
     item.classList.add("carousel-item");
     item.innerHTML = `
-        <img src="${url}" class="d-block w-100" alt="...">
+        <img src="${url}" alt="...">
     `;
     return item;
 
@@ -119,6 +119,11 @@ function updateCarousel(data, element) {
     }
     if (data.image2) {
         carouselInner.appendChild(generateCarouselItem(data.image2));
+    }
+    if(data.image1 && data.image2) {
+        element.querySelector('carousel-indicators').classList.remove("collapse");
+        element.querySelector('carousel-control-prev').classList.remove("collapse");
+        element.querySelector('carousel-control-next').classList.remove("collapse");
     }
     element.querySelector("#img-holder-ad-detail").classList.add("collapse");
     if(!data.image1 && !data.image2) {
@@ -151,6 +156,9 @@ function showLoadingAdInfoCanvas() {
     imgDiv.querySelector("#img-holder-ad-detail").classList.remove("collapse");
     imgDiv.querySelector("#no-img-ad-detail").classList.add("collapse");
     imgDiv.querySelector("#ad-detail-img").classList.add("collapse");
+    imgDiv.querySelector(".carousel-indicators").classList.add("collapse");
+    imgDiv.querySelector(".carousel-control-prev").classList.add("collapse");
+    imgDiv.querySelector(".carousel-control-next").classList.add("collapse");
     tableInfo.querySelectorAll(".placeholder-glow").forEach((element) => {
         element.classList.remove("collapse");
     });
@@ -333,7 +341,7 @@ function generateAdCard(data) {
         </button>
     </div>
     <div class="edit-ad-form">
-        <form action="" class="edit-ad-form">
+        <form class="edit-ad-form" id="eform-${data.id}" enctype="multipart/form-data">
             <div class="imgs-field">
                 <div class="upload-field" id="imgField-${data.id}">
                     <label for="img-${data.id}" class="drag-drop">
@@ -351,25 +359,25 @@ function generateAdCard(data) {
             <div class="info-field">
                 <div class="ads-amount">
                     <label for="w-${data.id}">Chiều rộng</label>
-                    <input type="number" id="w-${data.id}" placeholder="0" required value=${data.width}>
+                    <input name="width" type="number" id="w-${data.id}" placeholder="0" required value=${data.width}>
                     <p>m</p>
                 </div>
                 <div class="ads-amount">
                     <label for="h-${data.id}">Chiều dài</label>
-                    <input type="number" id="h-${data.id}" placeholder="0" required value=${data.height}>
+                    <input name="height" type="number" id="h-${data.id}" placeholder="0" required value=${data.height}>
                     <p>m</p>
                 </div>
                 <div class="form-field">
                     <label for="start-${data.id}">Bắt đầu</label>
-                    <input type="date" id="start-${data.id}" placeholder="" required value="${formatDate(start)}">
+                    <input name="start" type="date" id="start-${data.id}" placeholder="" required value="${formatDate(start)}">
                 </div>
                 <div class="form-field">
                     <label for="end-${data.id}">Kết thúc</label>
-                    <input type="date" id="end-${data.id}" placeholder="" required value="${formatDate(end)}">
+                    <input name="end" type="date" id="end-${data.id}" placeholder="" required value="${formatDate(end)}">
                 </div>
                 <div class="form-field">
                     <label for="company-${data.id}">Công ty</label>
-                    <input type="text" id="company-${data.id}" placeholder="" required value="${data.company_name}">
+                    <input name="company_name" type="text" id="company-${data.id}" placeholder="" required value="${data.company_name}">
                 </div>
                 <div class="form-field">
                     <label for="res-${data.id}">Yêu cầu</label>
@@ -381,7 +389,7 @@ function generateAdCard(data) {
                 <div class="submit-btn">
                     <button type="button" class="btn btn-secondary"
                         onclick="cancelAdEdit(this)">Hủy</button>
-                    <button type="submit" class="btn btn-primary">Xác nhận</button>
+                    <button type="submit" class="btn btn-primary" data-adid="${data.id}" onclick="updateAd(event)">Xác nhận</button>
                 </div>
             </div>
         </form>
@@ -404,4 +412,29 @@ async function fetchAndAddAdCard(adPlaceId) {
             adCardContainer.appendChild(generateAdCard(ad));
         })
     }
+}
+
+async function updateAd(e) {
+    let adId = e.target.getAttribute("data-adid");
+    let closeBtn = e.target.parentNode.querySelector("button:first-child");
+    const form = document.getElementById(`eform-${adId}`);
+    if(!form.checkValidity()) {
+        return;
+    }
+    e.preventDefault();
+    const formData = new FormData(form);
+    formData.append("id", adId);
+    const url = "/api/ad_content/update";
+    fetch(url, {
+        method: "POST",
+        body: formData
+    }).then(res => res.json()).then(data => {
+        if(data.success) {
+            displayNotification("Cập nhật quảng cáo thành công", "success");
+        } else {
+            displayNotification("Cập nhật quảng cáo thất bại", "error");
+            console.error(data.message);
+        }
+        cancelAdEdit(closeBtn);
+    });
 }
