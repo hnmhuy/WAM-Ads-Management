@@ -171,6 +171,7 @@ controller.createResponse = (req, res) => {
 controller.updateFeedback = (req, res) => {
     const { fb_id, fbRes_id } = req.body;
     models.feedback.update({
+        status: "done",
         response_id: fbRes_id,
     }, {
         where: {

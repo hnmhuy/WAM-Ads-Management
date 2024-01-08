@@ -56,7 +56,7 @@ controller.login = async (req, res) => {
   if(user){
     const passwordMatch = await bcrypt.compare(password, user.password);
     if(passwordMatch){
-        if(user.status == "active"){
+      if(user.status === "active"){
         let reqUrl = "";
         if(user.areaLevel == 1 || user.areaLevel == 2){
           reqUrl = req.body.reqUrl ? req.body.reqUrl : "/home";
@@ -84,7 +84,7 @@ controller.login = async (req, res) => {
       else{
         return res.render("partials/login", {
           layout: "login_layout",
-          message: `<p style="color: red; font-weight: 600;">* Tài khoản không tồn tại.</p>`
+          message: `<p style="color: red; font-weight: 600;">* Tài khoản đã bị khoá.</p>`
         });
       }
     }

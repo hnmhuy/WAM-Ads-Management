@@ -3,10 +3,10 @@ const models = require('../../models');
 
 controller.show = async (req, res) => {
     req.session.prev_url = req.originalUrl;
-    res.locals.page_name = "Danh sách cấp phép";
+    res.locals.page_name = "Xử lý báo cáo";
     let delegation = req.session.user.delegation;
 
-    let data_rows = await models.feedback.findAll({
+    let option = {
         attributes: ['id', 'name', 'email', 'phone', 'status', 'content', 'image1', 'image2'],
         include: [
             {
@@ -17,17 +17,16 @@ controller.show = async (req, res) => {
                     {
                         model: models.area,
                         as: "area",
-                        attributes: ['formatedName']
+                        attributes: ['formatedName'],
+                        where: {}
                     },
                 ],
-                where: {
-                    area_id: delegation
-                }
+                where: {}
             },
             {
                 model: models.feedback_response,
                 as: "feedback_response",
-                attributes: ['content', 'updatedAt']
+                attributes: ['content', 'updatedAt'],
             },
             {
                 model: models.category,
@@ -35,7 +34,16 @@ controller.show = async (req, res) => {
                 attributes: ['name']
             }
         ]
-    }).then((data) => {
+    }
+
+    if (req.session.user.areaLevel == 1) {
+        option.include[0].include[0].where.parent_id = delegation
+    }
+    if (req.session.user.areaLevel == 2) {
+        option.include[0].where.area_id = delegation
+    }
+
+    let data_rows = await models.feedback.findAll(option).then((data) => {
         let data_row = []
         data.forEach((item) => {
             let tmp = {}
