@@ -41,7 +41,59 @@
 
 <div id="req-area">
     {{!Collapsible table for req create}}
-    {{>new_collapsible_row table_data=table1}}
+    {{!-- {{>new_collapsible_row table_data=table1}} --}}
+    <div class="table-container" id="req_create_table">
+        <div class="table-header">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col" style="width: 10%;">Quận</th>
+                        <th scope="col" style="width: 10%;">Phường</th>
+                        <th scope="col" style="width: 20%;">Địa chỉ</th>
+                        <th scope="col" style="width: 20%;">Loại ví trí</th>
+                        <th scope="col" style="width: 10%;">Số lượng</th>
+                        <th scope="col" style="width: 10%;">Hình thức</th>
+                        <th scope="col" style="width: 10%;">Trạng thái</th>
+                        <th scope="col" class="extend-btn" style="width: 10%;"></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        {{!-- <div class="table-row">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td scope="row" style="width: 10%;">Quận 1</td>
+                        <td scope="row" style="width: 10%;">Đa Kao</td>
+                        <td scope="row" style="width: 20%;">47 Đ. Điện Biên Phủ</td>
+                        <td scope="row" style="width: 20%;">Hành lang an toàn giao thông</td>
+                        <td scope="row" style="width: 10%;">3</td>
+                        <td scope="row" style="width: 10%;">Thương mại</td>
+                        <td style="width: 10%;">
+                            <div class="table-status
+                                    status-location-active">
+                                Chưa quy hoạch
+                            </div>
+                        </td>
+                    <td class="extend-btn" style="text-align: right; width: 10%;">
+                        <button id="collapse-btn" class="btn collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#r1" aria-expanded="false" aria-controls="r1" onclick="handleCopplaseContent(this)">
+                            <i class="bi bi-chevron-down"></i>
+                        </button>
+                    </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="collapse" id="r1" style="width: 100%;" showed="false">
+                <div class="collapsed-content loading">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div> --}}
+    </div>
+
+    
 
     {{! section for req update }}
     <div id="req_update" class="collapse">
@@ -379,6 +431,6 @@
 </div>
 <script src="/public/js/department/ads_ui_controller.js"></script>
 <script>
-    setColumnWidths("req_create_table", ["10%", "10%", "20%", "20%", "10%", "10%", "10%", "10%"]);
+    setColumnWidths("req_create_table", ["10%", "10%", "20%", "20%", "10%", "10%", "10%"]);
 
 </script>

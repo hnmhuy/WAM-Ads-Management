@@ -3,6 +3,7 @@ const controller = {};
 const navBarData = require("../../nav_link.json");
 
 controller.showAds = (req, res) => {
+    // req.session.prev_url = req.originalUrl;
     let locations = require("../../testing_vew_data/locations_data.json");
     
     navBarData.nav_link.forEach((link) => {
@@ -16,11 +17,16 @@ controller.showAds = (req, res) => {
         css: ["/public/css/department/ads_management.css"],
         swap: true,
         title: "QUẢN LÝ QUẢNG CÁO",
-        jsHeader: ["/public/js/shared/handler_table_ui.js"],
+        jsHeader: [
+            "/public/js/shared/handler_table_ui.js",
+            "/public/js/maps/map.js",
+            "/public/js/department/ad_place_ui_controller.js",
+            "/public/js/department/ad_content_ui_controller.js"
+        ],
     };
     res.render("department/ads", {
         layout: "department_layout",
-        jsHeader: componentDependcy.js,
+        jsHeader: componentDependcy.jsHeader,
         css: componentDependcy.css,
         swap: componentDependcy.swap,
         title: componentDependcy.title,
@@ -30,6 +36,7 @@ controller.showAds = (req, res) => {
 };
 
 controller.showRequest = (req, res) => {
+    req.session.prev_url = req.originalUrl;
     let locations_collapsible = require("../../testing_vew_data/locations_data_collapsible.json");
     let req_update = require("../../testing_vew_data/req_update.json");
     navBarData.nav_link.forEach((link) => {
@@ -43,7 +50,10 @@ controller.showRequest = (req, res) => {
         css: ["/public/css/department/ads_management.css"],
         swap: true,
         title: "QUẢN LÝ QUẢNG CÁO",
-        jsHeader: ["/public/js/shared/handler_table_ui.js"],
+        jsHeader: [
+            "/public/js/shared/handler_table_ui.js",
+            "/public/js/department/create_req_ui_controller.js"
+        ],
     };
     res.render("department/request", {
         layout: "department_layout",

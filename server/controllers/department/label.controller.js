@@ -1,6 +1,7 @@
 const controller = {};
 
 controller.show = (req, res) => {
+    // req.session.prev_url = req.originalUrl;
     let navBarData = require("../../nav_link.json");
     navBarData.nav_link.forEach((link) => {
         link.active = false;

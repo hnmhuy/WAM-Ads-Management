@@ -9,11 +9,48 @@ popup_parent.addEventListener('click', (event) => {
         hidePopup_review();
     }
 });
+
 close_btn.addEventListener('click', () => {
     hidePopup_review();
 });
 
-function showPopup_review() {
+function showPopup_review(btn) {
+    // document.querySelector('#id').value = btn.dataset.id;    document.querySelector('#id').value = btn.dataset.id;
+    console.log(btn.dataset)
+    document.getElementById("review_company_name").value = btn.dataset.companyName;
+    document.getElementById("review_height").value = btn.dataset.height;
+    document.getElementById("review_width").value = btn.dataset.width;
+    const inputStart = new Date(btn.dataset.start)
+    const formattedStart = inputStart.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' });
+    const inputEnd = new Date(btn.dataset.end)
+    const formattedEnd = inputEnd.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' });
+    document.getElementById("review_start").value = formattedStart;
+    document.getElementById("review_end").value = formattedEnd;
+    document.getElementById("review_type").value = btn.dataset.type;
+    document.getElementById("review_ad_place").value = btn.dataset.adPlace;
+    document.getElementById("review_description").value = btn.dataset.description;
+    document.getElementById("review_email").value = btn.dataset.email;
+    document.getElementById("review_location").value = btn.dataset.location;
+    document.getElementById("ad-content").value = btn.dataset.id;
+    document.getElementById("request-id").value = btn.dataset.requestId;
+    if(btn.dataset.status === "accept"){
+        document.getElementById("delete-request").style.display = "none";
+    }
+    if(btn.dataset.img1){
+        const originalString  = btn.dataset.img1;
+        const converted_string = originalString.replace(/\\/g, "/")
+        document.getElementById("image1").value = converted_string;
+        document.getElementById("review_img1").src = converted_string;
+    }
+    if(btn.dataset.img2){
+        const originalString  = btn.dataset.img2;
+        const converted_string = originalString.replace(/\\/g, "/")
+        document.getElementById("image2").value = converted_string;
+        document.getElementById("review_img2").src = converted_string;
+    }
+    // document.getElementById("review_image1").src = btn.dataset.image1 ? "public/";
+    // document.getElementById("review_image2").src = btn.dataset.image2;
+
     document.querySelector('body').style.overflowY = 'hidden';
     originalStyles.visibility = popup.style.visibility || '';
     originalStyles.top = popup.style.top || '';
@@ -50,12 +87,12 @@ document
         visible_row.style.backgroundColor =
             i % 2 == 0 ? "rgba(ff, ff, ff, 1)" : "rgba(79, 62, 215, 0.1)";
     });
-    table_rows = document.querySelectorAll("tbody .tr_in_table_in_location");
-    table_headings = document.querySelectorAll("thead th");
-    // search.addEventListener('input', searchTable);
-    document.querySelector("#search_functionality").onsubmit = searchTable;
+
+table_headings = document.querySelectorAll("thead th");
+document.querySelector("#search_functionality").onsubmit = searchTable;
 
 function searchTable(event) {
+    let table_rows = document.querySelectorAll("tbody .tr_in_table_in_location");
     const search = document.getElementById("input-search-hehe");
     event.preventDefault();
     table_rows.forEach((row, i) => {
@@ -70,4 +107,48 @@ function searchTable(event) {
             visible_row.style.backgroundColor =
                 i % 2 == 0 ? "transparent" : "rgba(79, 62, 215, 0.1)";
         });
+}
+
+async function deleteForm(e) {
+    e.preventDefault();
+    let form = document.getElementById("delete-form");
+    const fd = new FormData(form);
+    let res = await fetch('/permission', {
+        method: "delete",
+        body: fd
+    })
+    res = await res.json();
+    console.log(res);
+    if(res.success){
+        Toastify({
+            text: res.message,
+            duration: 3000,
+            close: false,
+            gravity: "bottom",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+                background: "#0dbc79",
+                color: "#000"
+            },
+            onClick: function(){} // Callback after click
+        }).showToast();
+        console.log(res.id);
+        document.getElementById(`${res.id}`).style.display = "none";
+        hidePopup_review();
+    } else {
+        Toastify({
+            text: res.message,
+            duration: 3000,
+            close: false,
+            gravity: "bottom",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+                background: "#FF6969",
+                color: "#000"
+            },
+            onClick: function(){} // Callback after click
+        }).showToast();
+    }
 }

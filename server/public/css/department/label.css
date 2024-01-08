@@ -63,10 +63,10 @@
   display: none !important; /* Hide scrollbar for Chrome, Safari, and Opera */
 }
 
-.labels {
-  scrollbar-width: thin; /* For Firefox */
-  -ms-overflow-style: none; /* For Internet Explorer and Edge */
-}
+/* .labels {
+  scrollbar-width: thin; 
+  -ms-overflow-style: none; 
+} */
 
 .label:hover {
   -webkit-box-shadow: -1px 1px 3px 6px rgba(79, 62, 215, 0.3);
@@ -368,4 +368,9 @@
   line-height: 25px;
   text-align: center;
   border-radius: 6px;
+}
+
+.no-data {
+  width: 100%;
+  text-align: center;
 }

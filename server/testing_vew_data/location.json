@@ -1,0 +1,24 @@
+{
+  "data_rows": [
+    {
+      "district": "Quận 1",
+      "ward": "Bến Nghé",
+      "address": "12 Đ Nguyễn Thị Minh Khai",
+      "type": "Hành lang an toàn giao thông",
+      "number": 2,
+      "purpose": "Quảng cáo thương mại",
+      "status": {
+        "status_id": "delivered",
+        "status_name": "Đã quy hoạch"
+      },
+      "ad_type": "Trụ panel",
+      "offcanvas": {
+        "image_path": [
+          "/public/images/location1.png",
+          "/public/images/location2.png",
+          "/public/images/location3.png"
+        ]
+      }
+    }
+  ]
+}

@@ -1,14 +1,14 @@
 <div class="label-container">
   <div class="labels">
-    <div class="label">
+    <div class="label" id="T1">
       <img src="/public/images/department_lable_location.svg" alt="Not found" />
       <h4>Vị trí</h4>
-      <p>Mô tả ngắng gọn vị trí đặt điểm quảng cáo</p>
+      <p>Mô tả ngắn gọn vị trí đặt điểm quảng cáo</p>
       <div class="label-icon">
         <i class="bi bi-arrow-right"></i>
       </div>
     </div>
-    <div class="label">
+    <div class="label" id="T2">
       <img src="/public/images/department_lable_purpose.svg" alt="Not found" />
       <h4>Mục đích</h4>
       <p>Chủ đề chung của các bảng quảng cáo</p>
@@ -16,7 +16,7 @@
         <i class="bi bi-arrow-right"></i>
       </div>
     </div>
-    <div class="label">
+    <div class="label" id="T3">
       <img src="/public/images/department_lable_adtype.svg" alt="Not found" />
       <h4>Loại QC</h4>
       <p>Loại bảng quảng cáo được lắp đặt</p>
@@ -24,7 +24,7 @@
         <i class="bi bi-arrow-right"></i>
       </div>
     </div>
-    <div class="label">
+    <div class="label" id="T4">
       <img src="/public/images/department_lable_feedback.svg" alt="Not found" />
       <h4>Phản ánh</h4>
       <p>Phân loại phản ánh từ người dân</p>
@@ -35,12 +35,12 @@
   </div>
 
   <div class="label-table">
-    <div class="notification collapse">
+    <div class="notification">
       <img src="/public/images/department_lable_nodata.svg" alt="Not found" />
       <h4>Chọn một danh mục để quản lý</h4>
     </div>
 
-    <div class="label-table-header">
+    <div class="label-table-header collapse">
       <div class="name-container">
         <p class="header-title" id="name-list-header">Tên danh mục</p>
       </div>
@@ -57,63 +57,29 @@
         </button>
       </div>
     </div>
-
-    <div class="label-table-row">
+    <div class="label-table-row collapse" id="row-holder">
       <div class="name-description">
         <div class="name-content">
-          <p>Đất công</p>
+          <p class="placeholder-glow">
+            <span class="placeholder col-12"></span>
+          </p>
         </div>
         <div class="description-content">
-          <p>Đất thuộc sở hữu của nhà nước</p>
+          <p class="placeholder-glow">
+            <span class="placeholder col-12"></span>
+          </p>
         </div>
-      </div>
-      <div class="edited-form collapse">
-        <form action="">
-          <div class="edited-field-container">
-            <label for="edited-name-list"></label>
-            <textarea class="edited-field name-field" type="text" id="edited-name-list" oninput="validateInput(this)" placeholder="Tên danh mục"></textarea>
-
-            {{!-- Hover a warning --}}
-            <div class="tooltip-noti collapse name-tooltip"><p>Vui lòng điền tên danh mục</p></div>
-            <i class="bi bi-exclamation-circle-fill name-icon collapse" onmouseover="onHoverWarning(this)" onmouseout="mouseOutWarning(this)"></i>
-
-          </div>
-          <div class="edited-field-container">
-
-            <label for="edited-description"></label>
-            <textarea class="edited-field des-field" type="text" id="edited-description" oninput="validateInput(this)" placeholder="Mô tả" ></textarea>
-            
-            {{!-- Hover a warning --}}
-            <div class="tooltip-noti collapse des-tooltip"><p>Vui lòng điền mô tả</p></div>
-            <i class="bi bi-exclamation-circle-fill des-icon collapse" onmouseover="onHoverWarning(this)" onmouseout="mouseOutWarning(this)"></i>
-          </div>
-        </form>
       </div>
       <div class="created-date-content">
-        <p class="created-date">29/10/2023</p>
+        <p class="created-date">
+          <p class="placeholder-glow">
+            <span class="placeholder col-12"></span>
+          </p>
+        </p>
       </div>
-      <div class="label-table-edit">
-        <button type="button" id="edit" onclick="editContent(this)">
-          <i class="bi bi-pencil-fill"></i>
-          <p>Chỉnh sửa<p>
-        </button>
-        <i class="bi bi-trash3" onclick="deleteRow(this)"></i>
-      </div>
-      <div class="save-cancel-button collapse">
-        <div class="save-button">
-          <button type="button" id="save" onclick="saveEdition(this)">
-            <i class="bi bi-check2-circle"></i>
-            <p>Lưu</p>
-          </button>
-        </div>
-        <div class="cancel-button">
-          <button type="button" id="cancel" onclick="cancelEdition(this)">
-            <i class="bi bi-ban"></i>
-            <p>Hủy</p>
-          </button>
-        </div>
-      </div>
+    </div>
+    <div class="label-table-row collapse" id="no-data">
+      <div class="no-data">Chưa có nhãn nào được tạo cho danh mục này</div>
     </div>
   </div>
 </div>
-

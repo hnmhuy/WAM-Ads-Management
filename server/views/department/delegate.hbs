@@ -1,0 +1,291 @@
+{{! Toolbar section }}
+<div class="toolbar">
+
+  <form
+    class="col-lg-4 mb-3 mb-lg-0 me-lg-3"
+    role="search"
+    onsubmit="(e)=>{e.preventDefault()}"
+  >
+    <input
+      type="search"
+      class="form-control"
+      placeholder="Search..."
+      id="keyword"
+      aria-label="Search"
+      oninput="search(this.value)"
+      required
+    />
+  </form>
+  <select
+    id="typeSelect"
+    class="form-select"
+    aria-label="Default select example"
+  >
+    <option selected>Loại Vị Trí</option>
+    <option value="1">Đất Công</option>
+    <option value="2">Hành Lang An Toàn Giao Thông</option>
+    <option value="3">Công Viên</option>
+    <option value="4">Nhà Riêng</option>
+  </select>
+  <select
+    id="methodSelect"
+    class="form-select"
+    aria-label="Default select example"
+    onchange="filterByMethod(this.value)"
+  >
+    <option selected>Hình Thức</option>
+    <option value="1">Cổ Động Chính Trị</option>
+    <option value="2">Quảng Cáo Thương Mại</option>
+    <option value="3">Xã Hội Hoá</option>
+  </select>
+  <select
+    id="statusSelect"
+    class="form-select"
+    aria-label="Default select example"
+    onchange="filterByStatus(this.value)"
+  >
+    <option selected>Trạng Thái</option>
+    <option value="1">Đã Quy Hoạch</option>
+    <option value="2">Chưa Quy Hoạch</option>
+  </select>
+
+  <button
+    class="primary-button"
+    id="new-account-btn"
+    type="button"
+    onclick="openAccountForm()"
+  >
+    <i class="bi bi-plus-circle"></i>
+    Tạo mới
+  </button>
+</div>
+
+<div class="popup-container collapse" id="create-account-form">
+  <form class="create-account-form" id="register-account" enctype="multipart/form-data">
+    <div class="form-popup">
+      <div class="form-header">
+        <h4>Tạo tài khoản mới</h4>
+        <i class="bi bi-x-lg" onclick="closeAccountForm()"></i>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label for="email">Email</label>
+        </div>
+        <input
+          type="email"
+          class="form-control input-field"
+          id="email-input"
+          name="email"
+          placeholder="name@example.com"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label for="name">Họ và tên</label>
+        </div>
+        <input
+          type="text"
+          class="form-control input-field"
+          id="name-input"
+          name="name"
+          placeholder="Họ và tên"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <div class="label">
+
+          <label for="phone">Số điện thoại</label>
+        </div>
+        <input
+          type="tel"
+          class="form-control input-field"
+          id="name-input"
+          name="phone"
+          placeholder="0123456789"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <div class="label">
+          <label for="dob">Ngày sinh</label>
+        </div>
+        <input
+          type="date"
+          class="form-control input-field"
+          id="date-input"
+          name="dob"
+          placeholder="01/01/2023"
+          required
+        />
+      </div>
+
+      <label for="areaLevel" required>Cấp quản lý</label>
+
+      <div class="choose-position">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="areaLevel"
+            id="district"
+            value="1"
+            onclick="onClickRadio(this)"
+          />
+          <label class="form-check-label" for="flexRadioDefault1">
+            Cấp quận
+          </label>
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="areaLevel"
+            id="ward"
+            value="2"
+            onclick="onClickRadio(this)"
+          />
+          <label class="form-check-label" for="flexRadioDefault2">
+            Cấp Phường
+          </label>
+        </div>
+      </div>
+      <div class="choose-area">
+        <div class="wrapper-dropdown disabled" id="district-dropdown" data-level="1">
+          <span class="selected-display" id="district-select" onclick="toggleDropdown(this)">Chọn Quận</span>
+          <i class="bi bi-chevron-down" onclick="toggleDropdown(this)"></i>
+          <ul class="dropdown">
+          </ul>
+        </div>
+
+        <div class="wrapper-dropdown disabled" id="ward-dropdown" data-level="2">
+          <span class="selected-display" id="ward-select" onclick="toggleDropdown(this)">Chọn Phường</span>
+          <i class="bi bi-chevron-down" onclick="toggleDropdown(this)"></i>
+          <ul class="dropdown">
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="confirm-container">
+      <p class="cancel" onclick="closeAccountForm()">Hủy</p>
+      <button class="button-confirm" onclick="addAccount(event)" type="submit">
+        <p>Xác nhận</p>
+        <div class="spinner-border text-secondary" role="status">
+          <span class="sr-only"></span>
+        </div>
+      </button>
+
+    </div>
+  </form>
+</div>
+<div class="overlay collapse"></div>
+
+<div class="deligate-table">
+  <table>
+    <tr>
+      <th>Họ và tên</th>
+      <th>Email</th>
+      <th>Số điện thoại</th>
+      <th>Khu vực quản lý</th>
+      <th>Trạng thái</th>
+      <th>Ngày cấp</th>
+    </tr>
+    <tbody>
+      <tr id="nodata" class="collapse">
+        <td colspan="6" style="text-align: center;"><strong>Không có tài khoản nào được tạo</strong></td>
+      </tr>
+      <tr id="loading-holder">
+        <td colspan="6">
+          <div style="display: flex; justify-content: center; width: 100%">
+            <div class="spinner-border" role="status">
+              <span class="sr-only"></span>
+            </div>
+          </div>
+        </td>
+      </tr>
+      {{!-- <tr onmouseover="hoverRow(this)" onmouseout="outRow(this)">
+        <td>
+          <div class="name">
+            <i class="bi bi-person-circle"></i>
+            <p>Huỳnh Nguyễn Minh Huy</p>
+          </div>
+        </td>
+        <td>example@gmail.com</td>
+        <td>0123456789</td>
+        <td>
+          <div class="dropdown-icon collapse">
+            <div
+              class="wrapper-dropdown area-wrapper-dropdown"
+              id="district-dropdown"
+            >
+              <span
+                class="area-selected-display"
+                id="district-selection"
+                data-value=""
+                onclick="toggleDropdown(this)"
+              >Chọn Quận</span>
+              <i class="bi bi-chevron-down"></i>
+              <ul class="area-dropdown dropdown-with-search">
+                <li class="area-dropdown-search"><input
+                    type="text"
+                    class=""
+                    placeholder="Tìm kiếm...."
+                    oninput="filterDropdown(this)"
+                  /></li>
+                <li class="item" data-value="Q2" onclick="optionClick(this)">Quận
+                  2</li>
+                <li class="item" data-value="Q3" onclick="optionClick(this)">Quận
+                  3</li>
+              </ul>
+            </div>
+            <div class="save-cancel-button">
+              <div class="save-button">
+                <button type="button" id="save" onclick="saveEdition(this)">
+                  <i class="bi bi-check2-circle"></i>
+                  <p>Lưu</p>
+                </button>
+              </div>
+              <div class="cancel-button">
+                <button type="button" id="cancel" onclick="cancelEdition(this)">
+                  <i class="bi bi-ban"></i>
+                  <p>Hủy</p>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="edit-location"><p class="area-content">Quận Bình Thạnh</p>
+            <i
+              class="bi bi-pencil-fill"
+              onclick="onClickPen(this)"
+            ></i></div></td>
+        <td><div
+            class="wrapper-dropdown status-wrapper-dropdown on"
+            onclick="onClickStatusDropdown(this)"
+          >
+            <span class="selected-display on" id="status" value="ON">Đang hoạt
+              động</span>
+            <i class="bi bi-chevron-down status-icon"></i>
+            <ul class="status-dropdown">
+              <li class="status-item" value="ON"><p class="on status">Đang hoạt
+                  động</p></li>
+              <li class="status-item" value="BLOCK"><p class="block status">Đã
+                  khóa</p></li>
+            </ul>
+
+          </div></td>
+        <td>29/10/2023</td>
+
+      </tr> --}}
+    </tbody>  
+
+  </table>
+
+  <div class="table-overlay collapse"></div>
+
+</div>
