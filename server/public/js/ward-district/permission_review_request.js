@@ -33,6 +33,9 @@ function showPopup_review(btn) {
     document.getElementById("review_location").value = btn.dataset.location;
     document.getElementById("ad-content").value = btn.dataset.id;
     document.getElementById("request-id").value = btn.dataset.requestId;
+    if(btn.dataset.status === "accept"){
+        document.getElementById("delete-request").style.display = "none";
+    }
     if(btn.dataset.img1){
         const originalString  = btn.dataset.img1;
         const converted_string = originalString.replace(/\\/g, "/")

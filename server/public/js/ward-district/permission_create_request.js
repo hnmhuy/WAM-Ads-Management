@@ -449,7 +449,7 @@ async function submitForm(event) {
             <td>
                 <div class="last-cell">
                 <div>
-                    <i role="button" onclick="showPopup_review(this)" class="bi bi-arrow-up-right-square" style="color: black" data-id ="${ad_content.id}" data-company-name = "${ad_content.company_name}" data-email = "${ad_content.company_email}" data-height = "${ad_content.height}" data-width="${ad_content.width}" data-location = "${ad_content.company_address}" data-start = "${ad_content.start}" data-end="${ad_content.end}" data-type="${type}" data-ad-place="${address}" data-description = ${ad_content.description} data-img1="${ad_content.image1}" data-img2="${ad_content.image2}" data-request-id="${request.id}"></i>
+                    <i role="button" onclick="showPopup_review(this)" class="bi bi-arrow-up-right-square" style="color: black" data-id ="${ad_content.id}" data-company-name = "${ad_content.company_name}" data-email = "${ad_content.company_email}" data-height = "${ad_content.height}" data-status="sent" data-width="${ad_content.width}" data-location = "${ad_content.company_address}" data-start = "${ad_content.start}" data-end="${ad_content.end}" data-type="${type}" data-ad-place="${address}" data-description = ${ad_content.description} data-img1="${ad_content.image1}" data-img2="${ad_content.image2}" data-request-id="${request.id}"></i>
                 </div>
                 </div>
             </td>
