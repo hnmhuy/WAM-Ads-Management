@@ -50,7 +50,10 @@ controller.showRequest = (req, res) => {
         css: ["/public/css/department/ads_management.css"],
         swap: true,
         title: "QUẢN LÝ QUẢNG CÁO",
-        jsHeader: ["/public/js/shared/handler_table_ui.js"],
+        jsHeader: [
+            "/public/js/shared/handler_table_ui.js",
+            "/public/js/department/create_req_ui_controller.js"
+        ],
     };
     res.render("department/request", {
         layout: "department_layout",

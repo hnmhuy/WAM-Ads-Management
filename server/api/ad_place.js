@@ -8,6 +8,7 @@ const countAdContent = Sequelize.literal('(SELECT COUNT(*) FROM ad_contents WHER
 const purposeQuery = Sequelize.literal('(SELECT name FROM categories WHERE categories.id = ad_place.purpose)');
 const locationTypeQuery = Sequelize.literal('(SELECT name FROM categories WHERE categories.id = ad_place.location_type)');
 
+
 async function createAdPlace(data) {
     try {
         let ad_place = await models.ad_place.create({
