@@ -309,8 +309,7 @@ function createAdViewInfo(adsList) {
   popup_parent_ads.forEach((item, index) => {
     item.addEventListener('click', (event) => {
       if (event.target.id === 'popup-parent-ads') {
-        if (confirm('Bạn muốn thoát khỏi biểu mẫu?'))
-          hidePopupAds(popup_ads[index], img_ads[index], popup_parent_ads[index]);
+        hidePopupAds(popup_ads[index], img_ads[index], popup_parent_ads[index]);
       }
     });
   })
@@ -322,8 +321,7 @@ function createAdViewInfo(adsList) {
 
   close_btn_ads.forEach((item, index) => {
     item.addEventListener('click', () => {
-      if (confirm('Bạn muốn thoát khỏi biểu mẫu?'))
-        hidePopupAds(popup_ads[index], img_ads[index], popup_parent_ads[index]);
+      hidePopupAds(popup_ads[index], img_ads[index], popup_parent_ads[index]);
     });
   })
 }
