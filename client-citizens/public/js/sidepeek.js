@@ -235,8 +235,40 @@ document.addEventListener("DOMContentLoaded", () => {
 // // Open feedback form handler
 
 function openFeedbackForm() {
+
   document.querySelector(".feedback-form").classList.remove("hidden");
   document.querySelector(".overlay").classList.remove("hidden");
+
+  const inputFields = document.querySelectorAll(".feedback-form input");
+  inputFields.forEach((input) => {
+    input.value = "";
+  });
+
+  // Clear the textarea
+  const textarea = document.querySelector(".feedback-form textarea");
+  textarea.value = "";
+
+  // Reset the dropdown menu
+  const dropdown = document.querySelector(".feedback-form .select-menu");
+  const selectText = dropdown.querySelector('.sBtn-text')
+  selectText.textContent = 'Hình thức báo cáo'; // Reset the displayed text
+  const selectBtn = dropdown.querySelector(".select-btn");
+  selectBtn.style.backgroundColor = '#fff';
+  selectBtn.style.boxShadow = '0 0 5px rgba(0, 0, 0, 0.1)' ;
+  
+  dropdown.querySelector('.options').classList.add('hidden'); // Hide the dropdown options (if needed)
+
+  // Reset the file input (if any files are selected)
+  const uploadField = document.querySelector(".upload-field")
+  const fileInput = uploadField.querySelector(".preview");
+  const holder = uploadField.querySelector(".holder");
+  holder.style.display = "block"
+  fileInput.innerHTML = "";
+  fileInput.style.display = 'none';
+
+  // Reset the captcha
+  grecaptcha.reset();
+
 }
 
 function closeFeedbackForm() {
@@ -250,7 +282,8 @@ function openFeedbackDetail() {
   feedbacDetail.classList.add("feedbackDetail-float");
 }
 
-function showAdDetail() {
+function showAdDetail(e) {
+  console.log("id: ", e.getAttribute("detail-id"));
   const adDetail = document.querySelector(".ad-detail");
   const overlay = document.querySelector(".overlay");
   adDetail.classList.remove("hidden");
