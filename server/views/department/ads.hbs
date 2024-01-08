@@ -364,14 +364,14 @@
                 </div>
                 <div style="width: 100%; height: 200px">
                     <div class="upload-field" id="create-location-form-upload-img">
-                        <label for="imgFile-for-create" class="drag-drop">
+                        <label for="imgFile-for-create" class="drag-drop" ondragover="dragoverHandler(event)" ondragleave="dragleaveHandler(event)" ondrop="dropHandler(event)">
                             <div class="holder">
                                 <i class="bi bi-cloud-arrow-up-fill"></i>
                                 <h4>Kéo và thả ảnh vào đây</h4> hoặc Click để duyệt file
                             </div>
                         </label>
                         <input type="file" name="imgFile" id="imgFile-for-create" accept=".png, .jpeg, .gif, .jpg"
-                            multiple hidden>
+                            multiple hidden onchange="inputChangeHandler(event)">
                         <div class="preview" style="display: none;">
                         </div>
                     </div>
@@ -463,15 +463,16 @@
                 </div>
                 <div style="width: 100%; height: 200px">
                     <div class="upload-field" id="edit-location-form-upload-img">
-                        <label for="imgFile-for-edit" class="drag-drop">
+                        <label for="imgFile-for-edit" class="drag-drop" ondragover="dragoverHandler(event)" ondragleave="dragleaveHandler(event)" ondrop="dropHandler(event)">
                             <div class="holder">
                                 <i class="bi bi-cloud-arrow-up-fill"></i>
                                 <h4>Kéo và thả ảnh vào đây</h4> hoặc Click để duyệt file
                             </div>
                         </label>
                         <input type="file" name="imgFile" id="imgFile-for-edit" accept=".png, .jpeg, .gif, .jpg"
-                            multiple hidden>
-                        <div class="preview" style="display: none;"></div>
+                            multiple hidden onchange="inputChangeHandler(event)">
+                        <div class="preview" style="display: none;">
+                        </div>
                     </div>
                 </div>
                 <div class="submit-btn">
