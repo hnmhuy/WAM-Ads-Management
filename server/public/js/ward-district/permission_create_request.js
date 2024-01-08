@@ -120,13 +120,15 @@ close_btn_.addEventListener('click', () => {
 // selectBtn.addEventListener("click", () => menu_div.classList.toggle("active"));
 
 async function updateAdPlace(areaId) {
-    await fetch(`/api/ad_place/getGeojson?areaId=${areaId}`).then(res => res.json()).then(geojson => {
-        if(!geojson.sucess) {
-            console.log("Error");
-            return;
-        } 
-        permissionMap.getSource('ad-place').setData(geojson.data);
-    })
+    let res = await fetch(`api/ad_place/getGeojson?areaId=${areaId}`);
+    let data = await res.json();
+    if(data.success) {
+        console.log(data.data); 
+        let geojson = data.data;
+        permissionMap.getSource('ad-place').setData(geojson);
+    } else {
+        console.log(data.message);
+    }
 }
 
 function getAdLocationData(event) {

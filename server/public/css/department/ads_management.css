@@ -624,6 +624,29 @@
 
 /*Detail info ads*/
 
+.place-info {
+  height: 32%;
+  overflow: hidden;
+}
+
+.place-info .row {
+  height: 100%;
+}
+
+.place-info .carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.place-info .carousel-inner {
+  height: 100%;
+}
+
+.place-info .carousel-item {
+  height: 100%;
+}
+
 .ad-detail-card {
   width: calc(50% - 5px);
   border-radius: 15px;

@@ -78,9 +78,9 @@
         </div>
     </div>
     <div class="offcanvas-body">
-        <div class="fluid-container mb-3">
+        <div class="fluid-container mb-3 place-info">
             <div class="row">
-                <div id="ad-place-img" style="width: 50%">
+                <div id="ad-place-img" style="width: 50%; height: 100%">
                     <div class="mb-6 placeholder-wave" id="img-holder-ad-detail" style="height: 100%;">
                         <span class="placeholder" style="height: 100%; width: 100%; display: block"></span>
                     </div>
@@ -91,7 +91,7 @@
                         </div>
                     </div>
                     <div id="ad-detail-img" class="carousel slide mb-6 collapse"
-                        style="border-radius: 10px; overflow: hidden; width: 100%" data-bs-ride="carousel">
+                        style="border-radius: 10px; overflow: hidden; width: 100%; height: 100%" data-bs-ride="carousel">
                         <div class="carousel-indicators">
                             <button type="button" data-bs-target="#ad-detail-img" data-bs-slide-to="0" class="active"
                                 aria-current="true" aria-label="Slide 1"></button>
@@ -177,7 +177,7 @@
         </div>
         <div class="overlay collapse" id="detail-location-overlay"></div>
         <div class="ad-detail-info-container" id="ad-card-container">
-            <div class="ad-detail-card">
+            {{!-- <div class="ad-detail-card">
                 <div class="ad-detail-card-title">Công ty TNHH ABC</div>
                 <div class="view">
                     <div id="ad-detail-card-imgs-c001" class="carousel slide view-imgs" data-bs-ride="carousel">
@@ -286,7 +286,7 @@
                         </div>
                     </form>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 </div>
@@ -364,14 +364,14 @@
                 </div>
                 <div style="width: 100%; height: 200px">
                     <div class="upload-field" id="create-location-form-upload-img">
-                        <label for="imgFile-for-create" class="drag-drop">
+                        <label for="imgFile-for-create" class="drag-drop" ondragover="dragoverHandler(event)" ondragleave="dragleaveHandler(event)" ondrop="dropHandler(event)">
                             <div class="holder">
                                 <i class="bi bi-cloud-arrow-up-fill"></i>
                                 <h4>Kéo và thả ảnh vào đây</h4> hoặc Click để duyệt file
                             </div>
                         </label>
                         <input type="file" name="imgFile" id="imgFile-for-create" accept=".png, .jpeg, .gif, .jpg"
-                            multiple hidden>
+                            multiple hidden onchange="inputChangeHandler(event)">
                         <div class="preview" style="display: none;">
                         </div>
                     </div>
@@ -463,15 +463,16 @@
                 </div>
                 <div style="width: 100%; height: 200px">
                     <div class="upload-field" id="edit-location-form-upload-img">
-                        <label for="imgFile-for-edit" class="drag-drop">
+                        <label for="imgFile-for-edit" class="drag-drop" ondragover="dragoverHandler(event)" ondragleave="dragleaveHandler(event)" ondrop="dropHandler(event)">
                             <div class="holder">
                                 <i class="bi bi-cloud-arrow-up-fill"></i>
                                 <h4>Kéo và thả ảnh vào đây</h4> hoặc Click để duyệt file
                             </div>
                         </label>
                         <input type="file" name="imgFile" id="imgFile-for-edit" accept=".png, .jpeg, .gif, .jpg"
-                            multiple hidden>
-                        <div class="preview" style="display: none;"></div>
+                            multiple hidden onchange="inputChangeHandler(event)">
+                        <div class="preview" style="display: none;">
+                        </div>
                     </div>
                 </div>
                 <div class="submit-btn">

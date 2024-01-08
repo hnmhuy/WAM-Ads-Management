@@ -104,13 +104,14 @@ function generateCarouselItem(url) {
     const item = document.createElement("div");
     item.classList.add("carousel-item");
     item.innerHTML = `
-        <img src="${url}" class="d-block w-100" alt="...">
+        <img src="${url}" alt="...">
     `;
     return item;
 
 }
 
 function updateCarousel(data, element) {
+    console.log(element)
     const carouselInner = element.querySelector(".carousel-inner");
     carouselInner.innerHTML = "";
     carouselInner.parentNode.classList.remove("collapse");
@@ -119,6 +120,11 @@ function updateCarousel(data, element) {
     }
     if (data.image2) {
         carouselInner.appendChild(generateCarouselItem(data.image2));
+    }
+    if(data.image1 && data.image2) {
+        element.querySelector('.carousel-indicators').classList.remove("collapse");
+        element.querySelector('.carousel-control-prev').classList.remove("collapse");
+        element.querySelector('.carousel-control-next').classList.remove("collapse");
     }
     element.querySelector("#img-holder-ad-detail").classList.add("collapse");
     if(!data.image1 && !data.image2) {
@@ -142,6 +148,7 @@ function updateAdInfoOffCanvas(data) {
     updateInfoRow(`${data.status ? "Đã quy hoạch" : "Chưa quy hoạch"}`, rows[3]);
     updateInfoRow(data.purpose, rows[4]);
     const img = document.querySelector('#ad-place-img');
+    console.log(img);
     updateCarousel(data, img);
 }
 
@@ -151,6 +158,9 @@ function showLoadingAdInfoCanvas() {
     imgDiv.querySelector("#img-holder-ad-detail").classList.remove("collapse");
     imgDiv.querySelector("#no-img-ad-detail").classList.add("collapse");
     imgDiv.querySelector("#ad-detail-img").classList.add("collapse");
+    imgDiv.querySelector(".carousel-indicators").classList.add("collapse");
+    imgDiv.querySelector(".carousel-control-prev").classList.add("collapse");
+    imgDiv.querySelector(".carousel-control-next").classList.add("collapse");
     tableInfo.querySelectorAll(".placeholder-glow").forEach((element) => {
         element.classList.remove("collapse");
     });
@@ -207,6 +217,7 @@ async function fillEditAdPlaceForm(data, formElement) {
 
 async function openEditForm() {
     let form = document.getElementById("edit-location-form");
+    //imgInputController('edit-location-form-upload-img');
     await fillEditAdPlaceForm(currAdPlaceData, form);
 }
 
@@ -249,6 +260,23 @@ async function updateAdPlace(e) {
     })
 }
 
+function updateCarouselInner(data, element) {
+    let carouselInner = element.querySelector(".carousel-inner");
+    carouselInner.innerHTML = "";
+    if(data.image1){
+        carouselInner.appendChild(generateCarouselItem(data.image1));
+    }
+    if(data.image2) {
+        carouselInner.appendChild(generateCarouselItem(data.image2));
+    }
+
+    if(!data.image1 && !data.image2) {
+        carouselInner.appendChild(generateCarouselItem("/public/images/No data-pana.svg"))
+    }
+
+    carouselInner.firstElementChild.classList.add("active");
+}
+
 function generateCarouselForAdCard(data) {
     let carousel = document.createElement("div");
     carousel.className = "carousel slide view-imgs";
@@ -276,19 +304,8 @@ function generateCarouselForAdCard(data) {
         <span class="visually-hidden">Next</span>
     </button>
     `
-
-    if(data.image1){
-        carousel.querySelector(".carousel-inner").appendChild(generateCarouselItem(data.image1));
-    }
-    if(data.image2) {
-        carousel.querySelector(".carousel-inner").appendChild(generateCarouselItem(data.image2));
-    }
-
-    if(!data.image1 && !data.image2) {
-        carousel.querySelector(".carousel-inner").appendChild(generateCarouselItem("/public/images/No data-pana.svg"))
-    }
-
-    carousel.querySelector(".carousel-inner").firstElementChild.classList.add("active");
+    updateCarouselInner(data, carousel);
+    
     return carousel;
 }
 
@@ -306,9 +323,37 @@ function formatDate(date) {
     return `${year}-${month}-${day}`;
 }
 
+function updateAdForm(data) {
+    let form = document.getElementById(`eform-${data.id}`);
+    let start = new Date(data.start);
+    let end = new Date(data.end);
+    form.querySelector("#w-" + data.id).value = data.width;
+    form.querySelector("#h-" + data.id).value = data.height;
+    form.querySelector("#start-" + data.id).value = formatDate(start);
+    form.querySelector("#end-" + data.id).value = formatDate(end);
+    form.querySelector("#company-" + data.id).value = data.company_name;
+    form.querySelector("#res-" + data.id).value = String(data.status);
+}
+
+function updateAdCard(data) {
+    let card = document.getElementById(`ad-${data.id}`);
+    let start = new Date(data.start);
+    let end = new Date(data.end);
+    card.querySelector(".ad-detail-card-title").textContent = data.company_name;
+    card.querySelector(".view-info-attribute:nth-child(1)").innerHTML = `<span>Kích thước</span> ${data.width}m x ${data.height}m`;
+    card.querySelector(".view-info-attribute:nth-child(2)").innerHTML = `<span>Bắt đầu</span> ${start.toLocaleDateString('vi-VN')}`;
+    card.querySelector(".view-info-attribute:nth-child(3)").innerHTML = `<span>Kết thúc</span> ${end.toLocaleDateString('vi-VN')}`;
+    card.querySelector(".view-info-status").textContent = "Đang quảng cáo";
+    card.querySelector(".edit-ad-form").classList.add("collapse");
+    card.querySelector(".view").classList.remove("collapse");
+    updateCarouselInner(data, card.querySelector(".view-imgs"));
+
+}
+
 function generateAdCard(data) {
     let card = document.createElement("div");
     card.className = 'ad-detail-card';
+    card.id = `ad-${data.id}`
     let start = new Date(data.start);
     let end = new Date(data.end);
     card.innerHTML = `
@@ -333,17 +378,17 @@ function generateAdCard(data) {
         </button>
     </div>
     <div class="edit-ad-form">
-        <form action="" class="edit-ad-form">
+        <form class="edit-ad-form" id="eform-${data.id}" enctype="multipart/form-data">
             <div class="imgs-field">
                 <div class="upload-field" id="imgField-${data.id}">
-                    <label for="img-${data.id}" class="drag-drop">
+                    <label for="iimg-${data.id}" class="drag-drop" ondragover="dragoverHandler(event)" ondragleave="dragleaveHandler(event)" ondrop="dropHandler(event)">
                         <div class="holder">
                             <i class="bi bi-cloud-arrow-up-fill"></i>
                             <h4>Kéo và thả ảnh vào đây</h4> hoặc Click để duyệt file
                         </div>
                     </label>
-                    <input type="file" name="imgFile" id="img-${data.id}" accept=".png, .jpeg, .gif"
-                        multiple hidden>
+                    <input type="file" name="imgFile" id="iimg-${data.id}" accept=".png, .jpeg, .gif, .jpg"
+                        multiple hidden onchange="inputChangeHandler(event)">
                     <div class="preview" style="display: none;">
                     </div>
                 </div>
@@ -351,25 +396,25 @@ function generateAdCard(data) {
             <div class="info-field">
                 <div class="ads-amount">
                     <label for="w-${data.id}">Chiều rộng</label>
-                    <input type="number" id="w-${data.id}" placeholder="0" required value=${data.width}>
+                    <input name="width" type="number" id="w-${data.id}" placeholder="0" required value=${data.width}>
                     <p>m</p>
                 </div>
                 <div class="ads-amount">
                     <label for="h-${data.id}">Chiều dài</label>
-                    <input type="number" id="h-${data.id}" placeholder="0" required value=${data.height}>
+                    <input name="height" type="number" id="h-${data.id}" placeholder="0" required value=${data.height}>
                     <p>m</p>
                 </div>
                 <div class="form-field">
                     <label for="start-${data.id}">Bắt đầu</label>
-                    <input type="date" id="start-${data.id}" placeholder="" required value="${formatDate(start)}">
+                    <input name="start" type="date" id="start-${data.id}" placeholder="" required value="${formatDate(start)}">
                 </div>
                 <div class="form-field">
                     <label for="end-${data.id}">Kết thúc</label>
-                    <input type="date" id="end-${data.id}" placeholder="" required value="${formatDate(end)}">
+                    <input name="end" type="date" id="end-${data.id}" placeholder="" required value="${formatDate(end)}">
                 </div>
                 <div class="form-field">
                     <label for="company-${data.id}">Công ty</label>
-                    <input type="text" id="company-${data.id}" placeholder="" required value="${data.company_name}">
+                    <input name="company_name" type="text" id="company-${data.id}" placeholder="" required value="${data.company_name}">
                 </div>
                 <div class="form-field">
                     <label for="res-${data.id}">Yêu cầu</label>
@@ -381,7 +426,7 @@ function generateAdCard(data) {
                 <div class="submit-btn">
                     <button type="button" class="btn btn-secondary"
                         onclick="cancelAdEdit(this)">Hủy</button>
-                    <button type="submit" class="btn btn-primary">Xác nhận</button>
+                    <button type="submit" class="btn btn-primary" data-adid="${data.id}" onclick="updateAd(event)">Xác nhận</button>
                 </div>
             </div>
         </form>
@@ -404,4 +449,29 @@ async function fetchAndAddAdCard(adPlaceId) {
             adCardContainer.appendChild(generateAdCard(ad));
         })
     }
+}
+
+async function updateAd(e) {
+    let adId = e.target.getAttribute("data-adid");
+    let closeBtn = e.target.parentNode.querySelector("button:first-child");
+    const form = document.getElementById(`eform-${adId}`);
+    if(!form.checkValidity()) {
+        return;
+    }
+    e.preventDefault();
+    const formData = new FormData(form);
+    formData.append("id", adId);
+    const url = "/api/ad_content/update";
+    fetch(url, {
+        method: "POST",
+        body: formData
+    }).then(res => res.json()).then(data => {
+        if(data.success) {
+            displayNotification("Cập nhật quảng cáo thành công", "success");
+        } else {
+            displayNotification("Cập nhật quảng cáo thất bại", "error");
+            console.error(data.message);
+        }
+        cancelAdEdit(closeBtn);
+    });
 }

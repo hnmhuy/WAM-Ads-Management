@@ -55,17 +55,17 @@ passport.use(new googleStrategy({
   passReqToCallback: true,
 }, async (req, accessToken, refreshToken, profile, done) => {
   req.bind_account = false;
-  if(req.session.bind){
-    let user_bind_account = await User.findOne({where: {bindAccount: profile.emails[0].value} });
-    if(user_bind_account){
+  if (req.session.bind) {
+    let user_bind_account = await User.findOne({ where: { bindAccount: profile.emails[0].value } });
+    if (user_bind_account) {
       req.isExisted = true;
     } else {
       await models.account.update(
-          {
-            bindAccount: profile.emails[0].value,
-          },
-          { where: {id: req.session.user.id}}
-        );
+        {
+          bindAccount: profile.emails[0].value,
+        },
+        { where: { id: req.session.user.id } }
+      );
       req.session.user.bindAccount = profile.emails[0].value;
     }
     req.bind_account = true;
@@ -179,84 +179,56 @@ app.get("/area", (req, res) => {
 app.use("/api", require("./routes/api/api.route"));
 
 app.use('/createTmp', (req, res) => {
-  models.ad_content.create({
-    company_name: "Công ty TNHH ABC",
-    width: 1,
-    height: 2,
-    description: "Công ty okela",
-    start: "2023-12-28 10:41:28.403 +0700",
-    end: "2024-1-28 10:41:28.403 +0700",
-    image1: "/public/images/location3.png",
-    image2: "/public/images/location3.png",
-    ad_place_id: "c2ead701-d057-438f-9bcd-6c32520cb860"
-  })
+  // models.ad_content.create({
+  //   company_name: "Công ty TNHH ABC",
+  //   width: 1,
+  //   height: 2,
+  //   description: "Công ty okela",
+  //   start: "2023-12-28 10:41:28.403 +0700",
+  //   end: "2024-1-28 10:41:28.403 +0700",
+  //   image1: "/public/images/location3.png",
+  //   image2: "/public/images/location3.png",
+  //   ad_place_id: "c2ead701-d057-438f-9bcd-6c32520cb860"
+  // })
 
-  models.ad_content.create({
-    company_name: "Công ty TNHH BCD",
-    width: 4,
-    height: 5,
-    description: "Công ty okela",
-    start: "2023-12-28 10:41:28.403 +0700",
-    end: "2024-1-28 10:41:28.403 +0700",
-    image1: "/public/images/location3.png",
-    image2: "/public/images/location3.png",
-    ad_place_id: "c2ead701-d057-438f-9bcd-6c32520cb860"
-  })
+  // models.ad_content.create({
+  //   company_name: "Công ty TNHH BCD",
+  //   width: 4,
+  //   height: 5,
+  //   description: "Công ty okela",
+  //   start: "2023-12-28 10:41:28.403 +0700",
+  //   end: "2024-1-28 10:41:28.403 +0700",
+  //   image1: "/public/images/location3.png",
+  //   image2: "/public/images/location3.png",
+  //   ad_place_id: "c2ead701-d057-438f-9bcd-6c32520cb860"
+  // })
 
-  models.ad_content.create({
-    company_name: "Công ty TNHH CDE",
-    width: 4,
-    height: 5,
-    description: "Công ty okela",
-    start: "2023-12-28 10:41:28.403 +0700",
-    end: "2024-1-28 10:41:28.403 +0700",
-    image1: "/public/images/location3.png",
-    image2: "/public/images/location3.png",
-    ad_place_id: "156e20c3-2688-4bb8-b1b8-612d3cc7a5bd"
-  })
+  // models.ad_content.create({
+  //   company_name: "Công ty TNHH CDE",
+  //   width: 4,
+  //   height: 5,
+  //   description: "Công ty okela",
+  //   start: "2023-12-28 10:41:28.403 +0700",
+  //   end: "2024-1-28 10:41:28.403 +0700",
+  //   image1: "/public/images/location3.png",
+  //   image2: "/public/images/location3.png",
+  //   ad_place_id: "156e20c3-2688-4bb8-b1b8-612d3cc7a5bd"
+  // })
 
-  models.ad_content.create({
-    company_name: "Công ty TNHH DEF",
-    width: 4,
-    height: 5,
-    description: "Công ty okela",
-    start: "2023-12-28 10:41:28.403 +0700",
-    end: "2024-1-28 10:41:28.403 +0700",
-    image1: "/public/images/location3.png",
-    image2: "/public/images/location3.png",
-    ad_place_id: "156e20c3-2688-4bb8-b1b8-612d3cc7a5bd"
-  })
-  res.send("Success")
+  // models.ad_content.create({
+  //   company_name: "Công ty TNHH DEF",
+  //   width: 4,
+  //   height: 5,
+  //   description: "Công ty okela",
+  //   start: "2023-12-28 10:41:28.403 +0700",
+  //   end: "2024-1-28 10:41:28.403 +0700",
+  //   image1: "/public/images/location3.png",
+  //   image2: "/public/images/location3.png",
+  //   ad_place_id: "156e20c3-2688-4bb8-b1b8-612d3cc7a5bd"
+  // })
+
 })
-// Tmp data for test
-// const models = require('./models');
-// app.use("/createTemp", (req, res) => {
-//   models.ad_place.create({
-//     capacity: 2,
-//     status: true,
-//     image1: "/public/images/location3.png",
-//     image2: "/public/images/location1.png",
-//     place_id: "d87e9fa2-1603-4529-a03f-b046f0f74ee1",
-//     type_ad_id: "15922ecb-3cea-4f9f-9e50-eebf679f8398",
-//     purpose_id: "b8e2dbbf-5f2c-4630-82c6-acaca365d033",
-//     ad_id: "99a9cff7-8822-4a19-9533-3c667662c3f8"
-//   });
 
-//   models.ad_place.create({
-//     capacity: 4,
-//     status: false,
-//     image1: "/public/images/location3.png",
-//     image2: "/public/images/location1.png",
-//     place_id: "cbac256c-10fb-492d-96fa-eecd564db081",
-//     type_ad_id: null,
-//     purpose_id: "d4b6b4a0-0e12-4fba-846e-d6ac0652d5a0",
-//     ad_id: "dd933a80-8c42-48d7-a20e-2289ab4ac153"
-//   });
-//   models.ad_place.create({
-
-//   });
-//   res.send("Success")
-// })
 app.listen(port, (req, res) => {
   console.log(`http://localhost:${port}`);
 });

@@ -213,7 +213,7 @@ function updateLngLatDisplay(mapId, lng, lat) {
 function preProcessGeoJson(geoJson) {
     const res = {};
     if(geoJson) {
-        res.type = geoJson.type;
+        res.type = geoJson.type ? geoJson.type : "Point";
         res.coordinates = geoJson.coordinates;
     }
     return res;

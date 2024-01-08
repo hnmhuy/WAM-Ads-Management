@@ -27,6 +27,7 @@ async function createAdPlace(data) {
 
 controller.createAdPlace = async (req, res) => {
     // Create a place
+    console.log(req.files);
     const placeData = {};
     placeData.geometry = req.body.geometry;
     placeData.address_formated = req.body.street;
@@ -319,13 +320,13 @@ async function getAdPlaceAsGeojson(areaId = undefined) {
             }
         })
         return {
-            sucess: true,
+            success: true,
             message: "Get ad place success",
             data: data
         }
     } catch (error) {
         return {
-            sucess: false,
+            success: false,
             message: "Get ad place fail",
             data: null,
             detail: error
@@ -357,7 +358,7 @@ function toGeojson(data) {
 controller.getAdPlaceGeojson = async (req, res) => {
     let {areaId} = req.query;
     let data = await getAdPlaceAsGeojson(areaId);
-    if(data.sucess) {
+    if(data.success) {
         // Json data values of the ad_place
         let jsonData = data.data.map(item => item.get({plain: true}));
         console.log(jsonData);
@@ -387,6 +388,8 @@ controller.updateAdPlace = async (req, res) => {
                 status: req.body['new-location-status'] === 'true' ? true : req.body['new-location-status'] === 'false' ? false : null,
                 place_id: req.body.place_id,    
             }
+
+
             let updateAdPlaceRes = await models.ad_place.update({
                 capacity: newAdPlaceData.capacity,
                 location_type: newAdPlaceData.location_type,

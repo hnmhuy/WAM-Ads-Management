@@ -6,21 +6,22 @@ controller.show = async (req, res) => {
     res.locals.page_name = "Danh sách điểm quảng cáo"
     let delegation = req.session.user.delegation
 
-    let data_row = await models.ad_place.findAll({
+    let option = {
         attributes: ['id', 'capacity', 'status', 'image1', 'image2'],
         include: [
             {
                 model: models.place,
                 as: "place",
                 attributes: ['address_formated'],
-                include: {
-                    model: models.area,
-                    as: 'area',
-                    attributes: ['formatedName']
-                },
-                where: {
-                    area_id: delegation
-                }
+                include: [
+                    {
+                        model: models.area,
+                        as: "area",
+                        attributes: ['formatedName'],
+                        where: {}
+                    },
+                ],
+                where: {}
             },
             {
                 model: models.category,
@@ -33,7 +34,16 @@ controller.show = async (req, res) => {
                 attributes: ['name'],
             }
         ]
-    }).then((data) => {
+    }
+
+    if (req.session.user.areaLevel == 1) {
+        option.include[0].include[0].where.parent_id = delegation
+    }
+    if (req.session.user.areaLevel == 2) {
+        option.include[0].where.area_id = delegation
+    }
+
+    let data_row = await models.ad_place.findAll(option).then((data) => {
         let data_row = []
         data.forEach((item) => {
             let tmp = {}
