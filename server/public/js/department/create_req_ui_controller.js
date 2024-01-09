@@ -40,7 +40,17 @@ function updateCarouselInner(data, element) {
 }
 // ------Controller for detial content of create request table ------
 
+function unselectAllRow(placeId) {
+    let table = document.querySelector(`#collapse-req-${placeId}`);
+    table.querySelectorAll("tr").forEach(item => {
+        item.classList.remove("selected-row");
+    })
+}
+
 async function selectACreateRequest(e) {
+    let placeId = e.getAttribute("data-place-id");
+    unselectAllRow(placeId);
+    e.parentNode.parentNode.classList.add("selected-row");
     let reqId = e.getAttribute("data-req-id");
     let url = `/api/create_request/getOneRequest?id=${reqId}`;
     let res = await fetch(url);
@@ -130,14 +140,30 @@ function createReqRow(data) {
     return row;
 }
 
-function generateCreateRequestRow(item) {
+function decreaseAmountOfReq(placeId) {
+    let row = document.querySelector(`#rcr-${placeId}`);
+    let amount  = row.querySelector("td:nth-child(5)");
+    let amountValue = parseInt(amount.innerHTML);
+    if(amountValue === 1) {
+        row.remove();
+    } else {
+        amount.innerHTML = amountValue - 1;
+    }
+}
+
+function showHolderReqDetail(placeId) {
+    document.querySelector(`#holder-req-${placeId}`).classList.remove("hide");
+    document.querySelector(`#detail-req-${placeId}`).classList.add("hide");
+}
+
+function generateCreateRequestRow(item, placeId) {
     let row = document.createElement("tr");
-    row.id = item.id;
+    row.id = `req-${item.id}`
     row.innerHTML = `
     <td>${new Date(item.createdAt).toLocaleString('vi-VN')}</td>
     <td>${item.account.last_name} ${item.account.first_name}</td>
     <td style="width: 50px">
-        <button data-req-id=${item.id} onclick="selectACreateRequest(this)">
+        <button data-req-id="${item.id}" data-place-id="${placeId}" onclick="selectACreateRequest(this)">
             <i class="bi bi-chevron-bar-right"></i>
         </button>
     </td>
@@ -154,7 +180,6 @@ async function fetchCreateRequest(placID) {
 }
 
 function adRowToReqList(data, placeId) {
-    console.log(`#collapse-req-${placeId} tbody`);
     let tbody = document.querySelector(`#collapse-req-${placeId} tbody`);
     tbody.innerHTML = "";
     if (data.length === 0) {
@@ -166,7 +191,7 @@ function adRowToReqList(data, placeId) {
         return;
     }
     data.forEach(item => {
-        tbody.appendChild(generateCreateRequestRow(item));
+        tbody.appendChild(generateCreateRequestRow(item, placeId));
     })
 }
 
@@ -187,7 +212,7 @@ function processAdStatus(data) {
             res.text = "Hết hạn";
         } else {
             res.class = 'status-ad-accepted';
-            res.text = "Đang hoạt động";
+            res.text = "Đang quảng cáo";
         }
 
     } else {
@@ -198,6 +223,7 @@ function processAdStatus(data) {
 }
 
 async function acceptRequest(e) {
+    let placeId = e.getAttribute("data-place-id");
     let reqId = e.getAttribute("data-req-id");
     let adId = e.getAttribute("data-ad-id");
     let fd = new FormData();
@@ -211,15 +237,18 @@ async function acceptRequest(e) {
     let data = await res.json();
     if(data.success) {
         // Remove the row from the table
-        let row = document.querySelector(`#${reqId}`);
+        displayNotification("Phê duyệt yêu cầu thành công", 'success');
+        let row = document.querySelector(`#req-${reqId}`);
         row.remove();
-        displayNotification(data.message, 'success');
+        decreaseAmountOfReq(placeId);
+        showHolderReqDetail(placeId);
     } else {
-        displayNotification(data.message, 'error');
+        displayNotification("Đã có lỗi xảy ra", 'error');
     }
 }
 
 async function rejectRequest(e) {
+    let placeId = e.getAttribute("data-place-id");
     let reqId = e.getAttribute("data-req-id");
     let adId = e.getAttribute("data-ad-id");
     let fd = new FormData();
@@ -228,14 +257,16 @@ async function rejectRequest(e) {
     fd.append('isApproved', false);
     let res = await fetch('/api/create_request/resolveRequest', {
         method: 'POST',
-
         body: fd
     });
     let data = await res.json();
     if(data.success) {
-        displayNotification(data.message, 'success');
+        displayNotification("Phê duyệt yêu cầu thành công", 'success');
+        document.querySelector(`#req-${reqId}`).remove();
+        decreaseAmountOfReq(placeId);
+        showHolderReqDetail(placeId);
     } else {
-        displayNotification(data.message, 'error');
+        displayNotification("Đã có lỗi xảy ra", 'error');
     }
 }
 
@@ -261,7 +292,6 @@ function updateCreateReqDetail(data) {
 
     let description = detail.querySelector(".content-detail-description div");
     description.innerHTML = data.ad_content.description;
-    console.log(data.ad_content)
     let acceptBtn = detail.querySelector("#accept-btn-"+data.ad_content.ad_place_id);
     let rejectBtn = detail.querySelector("#reject-btn-"+data.ad_content.ad_place_id);
     acceptBtn.setAttribute("data-req-id", data.id);
@@ -269,10 +299,9 @@ function updateCreateReqDetail(data) {
     rejectBtn.setAttribute("data-req-id", data.id);
     rejectBtn.setAttribute("data-ad-id", data.ad_id);
     let carousel = detail.querySelector(`#req_imgs-${data.ad_content.ad_place_id}`);
-    console.log(carousel);
     updateCarouselInner(data.ad_content, carousel);
-    carousel.classList.remove("collapse");
-    carousel.parentElement.querySelector(".placeholder-wave").classList.add("collapse");
+    carousel.classList.remove("hide");
+    carousel.parentElement.querySelector(".placeholder-wave").classList.add("hide");
 }
 
 function reqCreateContentGenerate(placeId) {
@@ -416,8 +445,8 @@ function reqCreateContentGenerate(placeId) {
             </div>
         </div>
         <div class="content-detail-btns">
-            <button type="button" id="accept-btn-${placeId}" onclick="acceptRequest(this)">Phê duyệt</button>
-            <button type="button" id="reject-btn-${placeId}" onclick="rejectRequest(this)">Từ chối</button>
+            <button type="button" id="accept-btn-${placeId}" data-place-id=${placeId} onclick="acceptRequest(this)">Phê duyệt</button>
+            <button type="button" id="reject-btn-${placeId}" data-place-id=${placeId} onclick="rejectRequest(this)">Từ chối</button>
         </div>
     </div>
             `;

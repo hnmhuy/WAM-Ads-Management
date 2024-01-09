@@ -8,6 +8,29 @@ const day = today.getDate().toString().padStart(2, '0');
 // Formatted date string
 const formattedToday = `${year}-${month}-${day}`
 
+
+// ------------------ FETCH DATA CALL BACK FOR FILTER ------------------
+const fetchDistictData = async () => {
+  console.log("FETCH DISTRICT DATA");
+  const districtData = await fetch("/api/area/getArea?opts=db&level=1").then(res => res.json());
+  let data = undefined;
+  if(districtData.status === 'success') {
+    data = [];
+    districtData.data.forEach(district => {
+      data.push({
+        id: district.id,
+        name: district.name,
+        checked: false
+      })
+    })
+  }
+  return data;
+}
+
+const selectDistrictHandler = (e) => {
+  console.log(e.target);
+}
+
 // --------------- SET DEFAULT VALUE FOR THE DATE --------
 const monthInput = document.getElementById('month');
 console.log(monthInput.value);
@@ -34,8 +57,6 @@ const adID = monthReportContainer.querySelector("#ad-tag");
 
 
 window.onload = fetchMonthReportData(feedbackID, requestID, adID, monthInput.value);
-
-
 
 
 
@@ -104,12 +125,12 @@ window.onload = fetchFeedbackFilterDate(formattedToday);
 // -------------- FILTER ------------------
 
 const filter = document.querySelector("#filter");
-filter.appendChild(createChoiceCheck("filterID", "Chọn Quận"));
+filter.appendChild(createChoiceCheck("filterID", "Chọn Quận", "fetchDistictData", "selectDistrictHandler"));
 
 const filterDate = document.querySelector("#filter-date-container");
 const dateChild = createFilterDate("filter-date", "Chọn ngày");
-dateFilterHandlers(dateChild, getFilterDate);
-
+let calendar = dateFilterHandlers(dateChild, getFilterDate);
+setDateForDateFilter(calendar, dateChild, today);
 filterDate.appendChild(dateChild);
 
 

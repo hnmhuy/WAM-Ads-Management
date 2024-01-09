@@ -80,6 +80,7 @@ controller.getByAdPlace = async (adId) => {
 controller.update = async (req, res) => {
     console.log(req.body);
     let {id, company_name, width, height, start, end} = req.body;
+    let resStatus = req.body.res;
     try { 
         let data = await models.ad_content.update({
             company_name: company_name,
@@ -93,6 +94,29 @@ controller.update = async (req, res) => {
             }
         })
         if (data) {
+            if(resStatus) {
+                resStatus = resStatus === 'true' ? true : resStatus === 'false' ? false : null;
+                // Find the create request
+                let createRequest = await models.create_request.findOne({
+                    where: {
+                        ad_id: id
+                    }
+                })
+                console.log(createRequest);
+                if(createRequest) {
+                    await models.create_request.update({
+                        status: resStatus ? 'accepted' : 'cancel'
+                    }, {
+                        where: { id : createRequest.id }
+                    })
+                    await models.ad_content.update({
+                        status: resStatus
+                    }, {
+                        where: { id : id }
+                    })
+                }
+            }
+
             let adContent = await controller.getOne(id);
             if(adContent.success) {
                 res.json({
