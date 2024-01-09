@@ -316,6 +316,11 @@ tbody tr:hover {
   width: 8rem;
 }
 
+.status.sent{
+    background-color: #e5e5e5;
+    color: #ababab;
+}
+
 .status.delivered {
   background-color: #86e49d;
   color: #006b21;

@@ -48,7 +48,6 @@ function eventListenerForDropdown()
 
 const form = document.querySelector("form");
 form.addEventListener("submit", async (e) => {
-  console.log("Đã gửi");
 
   e.preventDefault();
   const captchaResponse = grecaptcha.getResponse();

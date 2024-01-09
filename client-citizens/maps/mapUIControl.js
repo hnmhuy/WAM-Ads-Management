@@ -46,7 +46,7 @@ export async function openSidePeek(data) {
         let adContentContainer = sidepeek.querySelector(".ad-content");
         adContentContainer.innerHTML = "";
         // let data = await fetch(`http://localhost:4000/api/ad_place/getOne?id=${data.data.id}c&includeAdContent=true`).then(res => res.json());
-        let data = await fetch(`http://localhost:4000/api/ad_place/getOne?id=75eef4e6-e15b-490a-8a01-04a2b728393c&includeAdContent=true`).then(res => res.json());
+        let data = await fetch(`http://localhost:4000/api/ad_place/getOne?id=477eacff-79b1-4754-a0f9-b4232ccf77d6&includeAdContent=true`).then(res => res.json());
         generateSidepeekAd(sidepeek, data);
 
     } else if (category === 'fb') {
@@ -111,6 +111,8 @@ function generateSidepeekAd(sidepeek, data)
 function generateCarousel(data, image1, image2)
 {
     let imgArr = generateImg(image1, image2);
+    console.log("this is imgArr: ", imgArr);
+
     let carouselDiv = document.createElement("div");
     let indicator = document.createElement("div");
     let carouselInner = document.createElement("div");
@@ -158,7 +160,7 @@ function generateCarousel(data, image1, image2)
     {
         indicator.innerHTML = `
         <div
-        data-bs-target="#${data.data.dataid}"
+        data-bs-target="#${data.id}"
         data-bs-slide-to="0"
         class="active"
         aria-current="true"
@@ -167,7 +169,7 @@ function generateCarousel(data, image1, image2)
         carouselInner.innerHTML = `
         <div class="carousel-item active">
         <img
-        src="${imgArr[0]}"
+        src="http://localhost:4000/${imgArr[0]}"
         class="w-100 d-block"
         alt="First slide"
         />
@@ -179,14 +181,14 @@ function generateCarousel(data, image1, image2)
         indicator.innerHTML = 
         `
         <div
-        data-bs-target="#${data.data.dataid}"
+        data-bs-target="#${data.id}"
         data-bs-slide-to="0"
         class="active"
         aria-current="true"
         aria-label="First slide"
         ></div>
         <div
-        data-bs-target="#${data.data.dataid}"
+        data-bs-target="#${data.id}"
         data-bs-slide-to="1"
         aria-label="Second slide"
         ></div>
@@ -194,14 +196,14 @@ function generateCarousel(data, image1, image2)
         carouselInner.innerHTML = `
         <div class="carousel-item active">
         <img
-            src="${imgArr[0]}"
+            src="http://localhost:4000/${imgArr[0]}"
             class="w-100 d-block"
             alt="First slide"
         />
         </div>
         <div class="carousel-item">
         <img
-            src="${imgArr[1]}"
+            src="http://localhost:4000/${imgArr[1]}"
             class="w-100 d-block"
             alt="Second slide"
         />
@@ -251,7 +253,7 @@ function generateAdCard(sidepeek, data)
     let buttonDiv = document.createElement("div");
     buttonDiv.classList.add("button-container");
     buttonDiv.innerHTML = `
-    <button type="button" class="btn btn-primary detail-button" onclick="showAdDetail()">
+    <button type="button" class="btn btn-primary detail-button" detail-id="${data.id}" onclick="showAdDetail(this)">
         <i class="bi bi-info-circle"></i> Chi tiết
     </button>
     <button type="button" class="btn btn-primary feedback-button" onclick="openFeedbackForm()">

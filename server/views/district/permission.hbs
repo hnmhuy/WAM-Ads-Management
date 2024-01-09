@@ -20,7 +20,7 @@
           <th>Công Ty</th>
           <th>Địa Điểm</th>
           <th>
-            <div class="dropdown">
+            {{!-- <div class="dropdown">
               <a style="color: white !important" href="#"
                 class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
                 aria-expanded="false">Loại bảng quảng cáo</a>
@@ -33,10 +33,11 @@
                 <input type="checkbox" id="xa-hoi-hoa" name="xa-hoi-hoa" value="xa-hoi-hoa" />
                 <label for="xa-hoi-hoa">Xã hội hoá</label><br />
               </div>
-            </div>
+            </div> --}}
+            Loại bảng quảng cáo
           </th>
           <th>
-            <div class="dropdown">
+            {{!-- <div class="dropdown">
               <a style="color: white !important" href="#"
                 class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
                 aria-expanded="false">Trạng thái</a>
@@ -50,7 +51,8 @@
                 <input type="checkbox" id="dang-quang-cao" name="dang-quang-cao" value="dang-quang-cao" />
                 <label for="dang-quang-cao">Đang quảng cáo</label><br />
               </div>
-            </div>
+            </div> --}}
+            Trạng thái
           </th>
           <th></th>
         </tr>
@@ -69,12 +71,21 @@
             <p class="table-cell-type">{{name}}</p>
           </td>
           <td class="d-flex justify-content-center align-items-center">
-            <p class="mx-0 status delivered">{{#ifEquals status "sent"}}Đã gửi{{else}}{{#ifEquals status "accepted"}}Đã chấp thuận{{else}}Bị từ chối{{/ifEquals}}{{/ifEquals}}</p>
+            {{!-- <p class="mx-0 status sent">{{#ifEquals status "sent"}}Đã gửi{{else}}{{#ifEquals status "accepted"}}Đã chấp thuận{{else}}Bị từ chối{{/ifEquals}}{{/ifEquals}}</p> --}}
+            {{#ifEquals status "sent"}}
+              <p class="mx-0 status sent">Đã gửi</p>
+            {{else}}
+              {{#ifEquals status "accepted"}} 
+                <p class="mx-0 status delivered">Phê duyệt</p>
+              {{else}}
+                <p class="mx-0 status cancelled">Từ chối</p>
+              {{/ifEquals}}
+            {{/ifEquals}}
           </td>
           <td>
             <div class="last-cell">
               <div>
-                <i role="button" onclick="showPopup_review(this)" class="bi bi-arrow-up-right-square" style="color: black" data-id ="{{id}}" data-company-name = "{{company_name}}" data-email = "{{company_email}}" data-height = "{{height}}" data-status="{{status}}" data-width="{{width}}" data-location = "{{company_address}}" data-start = "{{start}}" data-end="{{end}}" data-type="{{name}}" data-ad-place="{{address_formated}}" data-description = {{description}} data-img1="{{image1}}" data-img2="{{image2}}" data-request-id="{{request_id}}" ></i>
+                <i role="button" onclick="showPopup_review(this)" class="bi bi-arrow-up-right-square" style="color: black" data-id ="{{id}}" data-company-name = "{{company_name}}" data-email = "{{company_email}}" data-height = "{{height}}" data-status="{{status}}" data-width="{{width}}" data-location = "{{company_address}}" data-start = "{{start}}" data-end="{{end}}" data-type="{{name}}" data-ad-place="{{address_formated}}" data-description = "{{description}}" data-img1="{{image1}}" data-img2="{{image2}}" data-request-id="{{request_id}}" ></i>
               </div>
             </div>
           </td>
@@ -86,8 +97,8 @@
 </div>
 
 <div id="popup-parent_">
-  <div class="popup_" id="location-popup_">
   <img id="form-img_" src="/public/images/form.png" alt="">
+  <div class="popup_" id="location-popup_">
     <h2 style="margin-top: 60px; ">Yêu cầu cấp phép</h2>
     <button style="position:fixed; right: 10px; top:10px;" type="button" class="btn-close" onclick="hidePopup_review()"
       id="close-edit-request_">

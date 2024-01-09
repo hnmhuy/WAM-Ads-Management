@@ -234,6 +234,16 @@ app.use('/createTmp', (req, res) => {
   //   ad_place_id: "156e20c3-2688-4bb8-b1b8-612d3cc7a5bd"
   // })
 
+  models.feedback.create({
+    name: "Fa Ngọc Uyển Nhi",
+    email: "fnunhi21@clc.fitus.edu.vn",
+    phone: "0123456789",
+    content: "Biển quảng cáo này không phù hợp ở đây!",
+    image1: "./uploads/ad_place/6aa227520e21d8e76c9d84460db3a3fe",
+    ad_id: "6c63b41d-5d31-46ae-b921-cf01ebf19ecd"
+  })
+
+  res.send("Success")
 })
 
 app.listen(port, (req, res) => {
