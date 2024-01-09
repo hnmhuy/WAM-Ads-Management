@@ -137,6 +137,7 @@
   height: -moz-fit-content;
   height: fit-content;
   padding-top: 10px;
+  margin-bottom: 5px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 
@@ -149,21 +150,22 @@
   min-height: 400px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: 20px 10px;
+  gap: 5px;
+  padding: 10px 5px;
+  margin: 5px 0px;
 }
 #req_create_table .content-detail-imgs {
   width: calc((100% - 20px) / 2);
   min-width: 400px;
+  height: 400px;
   display: flex;
   align-items: center;
 }
 
 #req_create_table .content-detail-description {
   width: 100%;
-  min-height: calc(100% - 70px - 400px - 40px);
-  max-height: calc(100% - 70px - 400px - 40px);
-  padding: 15px;
+  height: 200px;
+  padding: 5px;
   border-radius: 15px;
   border: 1px solid rgba(0, 0, 0, 0.3);
 }
@@ -226,13 +228,18 @@
 #req_create_table .content-detail-attribute {
   width: 100%;
   display: flex;
-  gap: 10px;
 }
+
+#req_create_table .content-detail-attribute p {
+  margin: 0;
+}
+
 #req_create_table .atribute-header {
   width: 150px;
   font-weight: 800;
 }
 #req_create_table .atribute-data {
+  width: calc(100% - 150px);
   padding: 5px;
 }
 
@@ -242,6 +249,11 @@
 
 #req_create_table {
   max-height: calc(100vh - 6rem - 25px - 110px);
+}
+
+#create-req-loading table {
+  vertical-align: middle;
+  text-align: center;
 }
 
 .table-header {
@@ -647,8 +659,23 @@
   height: 100%;
 }
 
+.ad-detail-card .carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.ad-detail-card .carousel-inner {
+  height: 100%;
+}
+
+.ad-detail-card .carousel-item {
+  height: 100%;
+}
+
 .ad-detail-card {
   width: calc(50% - 5px);
+  height: max-content;
   border-radius: 15px;
   padding: 0;
   overflow: hidden;
@@ -667,7 +694,7 @@
 
 .view {
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
   display: flex;
   gap: 10px;
 }

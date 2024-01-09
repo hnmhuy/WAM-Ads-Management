@@ -12,9 +12,9 @@ export const data = {
             },
             properties: {
                 isReported: false,
-                category: "ad",
+                category: "ad", // Có hai loại ad  và fb
                 placeid: "1",
-                icon: "ad",
+                icon: "ad", 
                 status: "active",
                 detail: {
                     dataid: "AD001",

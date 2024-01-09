@@ -17,6 +17,13 @@ const cors = require("cors"); //use for captcha
 const models = require('./models');
 const User = require("./models").account;
 
+app.use(cors({
+  origin: 'http://localhost:3000', // or an array of allowed origins
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,  // enable passing of cookies and other credentials
+  optionsSuccessStatus: 204,  // respond to preflight requests with 204 (No Content)
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // const initializePassport = require("./passportConfig");
