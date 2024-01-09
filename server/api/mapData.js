@@ -20,7 +20,7 @@ function toGeoJsonForAdPlace(data) {
                 purpose: data.purpose,
                 type_of_ad: data.type_of_ad,
                 number_feedback: data.number_of_feedback,
-                address: data.address   
+                address: data.address
             }
         }
     }
@@ -60,9 +60,9 @@ function toGeoJson(data) {
     }
 }
 
-async function getAdPlaceGeoJson() {
+async function getAdPlaceGeoJson(delegation = "", areaLevel = "") {
     try {
-        let data = await models.ad_place.findAll({
+        let option = {
             attributes: [
                 [Sequelize.literal('place.geometry'), 'geometry'],
                 [Sequelize.literal('place.id'), 'placeid'],
@@ -81,11 +81,29 @@ async function getAdPlaceGeoJson() {
                 {
                     model: models.place,
                     attributes: [],
-                    include: [{model: models.area, attributes: []}]
+                    include: [
+                        {
+                            model: models.area,
+                            attributes: [],
+                            where: {}
+                        }
+                    ],
+                    where: {}
                 }
-            ], 
+            ],
             raw: true
-        })
+        }
+
+        if (delegation !== "") {
+
+            if (areaLevel == 1) {
+                option.include[0].include[0].where.parent_id = delegation
+            }
+            if (areaLevel == 2) {
+                option.include[0].where.area_id = delegation
+            }
+        }
+        let data = await models.ad_place.findAll(option)
         return {
             success: true,
             data: data
@@ -99,9 +117,10 @@ async function getAdPlaceGeoJson() {
     }
 }
 
-async function getFeedbackGeoJson() {
+async function getFeedbackGeoJson(delegation = "", areaLevel = "") {
     try {
-        let data = await models.feedback.findAll({
+
+        let option = {
             attributes: [
                 [Sequelize.literal('place.geometry'), 'geometry'],
                 [Sequelize.literal('TRUE'), 'isReported'],
@@ -112,19 +131,40 @@ async function getFeedbackGeoJson() {
                 [Sequelize.literal("case when category.name = 'Đóng góp ý kiến' then 'feedback' when category.name = 'Tố giác sai phạm' then 'report' when category.name = 'Giải đáp thắc mắc' then 'question' when  category.name = 'Đăng ký nội dung' then 'registry' end"), 'feedback_type_EN'],
                 [Sequelize.literal('category.name'), 'feedback_type_VN'],
                 [Sequelize.literal('feedback.id'), 'dataid'],
-                [Sequelize.literal('place.geometry'), 'geometry'], 
+                [Sequelize.literal('place.geometry'), 'geometry'],
             ],
             include: [
-                {model: models.place, attributes: []},
-                {model: models.category, attributes: []},
-            ], 
+                {
+                    model: models.place,
+                    attributes: [],
+                    include: [
+                        {
+                            model: models.area,
+                            where: {}
+                        }
+                    ],
+                    where: {}
+                },
+                { model: models.category, attributes: [] },
+            ],
             where: {
                 place_id: {
                     [Op.ne]: null
                 }
             },
             raw: true
-        })
+        }
+
+        if (delegation !== "") {
+
+            if (areaLevel == 1) {
+                option.include[0].include[0].where.parent_id = delegation
+            }
+            if (areaLevel == 2) {
+                option.include[0].where.area_id = delegation
+            }
+        }
+        let data = await models.feedback.findAll(option)
         return {
             success: true,
             data: data
@@ -136,9 +176,11 @@ async function getFeedbackGeoJson() {
             message: error
         }
     }
-} 
+}
 
-controller.get  = async (req, res) => {
+
+
+controller.get = async (req, res) => {
     res.set({
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
@@ -146,7 +188,30 @@ controller.get  = async (req, res) => {
     let adData = await getAdPlaceGeoJson();
     let fbData = await getFeedbackGeoJson();
     let data = undefined;
-    if (adData.success ) {
+    if (adData.success) {
+        data = adData.data;
+    }
+    if (fbData.success) {
+        data = data.concat(fbData.data);
+    }
+    res.json({
+        success: true,
+        data: toGeoJson(data)
+    })
+}
+
+controller.getData = async (req, res) => {
+    res.set({
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+    })
+    let delegation = req.session.user.delegation;
+    let areaLevel = req.session.user.areaLevel;
+    console.log(delegation)
+    let adData = await getAdPlaceGeoJson(delegation, areaLevel);
+    let fbData = await getFeedbackGeoJson(delegation, areaLevel);
+    let data = undefined;
+    if (adData.success) {
         data = adData.data;
     }
     if (fbData.success) {

@@ -307,16 +307,6 @@ function addMarkers(data, iconName, map) {
             .addTo(map);
     });
 
-    map.on('click', 'unclustered-point', (e) => {
-        const coordinates = e.features[0].geometry.coordinates.slice();
-        const properties = e.features[0].properties;
-        map.flyTo({
-            center: coordinates,
-            zoom: 16.5,
-            speed: 1.2
-        })
-        openSidePeek(properties);
-    });
 
     map.on('mouseleave', 'unclustered-point', () => {
         map.getCanvas().style.cursor = '';
@@ -381,7 +371,7 @@ function updateMarkers(data, map) {
 mapboxgl.accessToken =
     "pk.eyJ1IjoiZGV2LWhubWh1eSIsImEiOiJjbHBwYXY3ZW8weTdvMnBxbm85cnV2ZTFvIn0.6e8fwVmpoLxVSkyBWksYBg";
 const map = new mapboxgl.Map({
-    container: "mapBox",
+    container: "map",
     style: "mapbox://styles/mapbox/standard",
     center: [106.660172, 10.762622],
     zoom: 10.4,
@@ -424,16 +414,6 @@ var geocoderContainer = document.querySelector(".mapboxgl-ctrl-geocoder");
 var headerCitizensDiv = document.querySelector(".search");
 headerCitizensDiv.appendChild(geocoderContainer);
 
-map.on("click", (e) => {
-    marker.remove();
-    closeAllSidePeek();
-    const features = map.queryRenderedFeatures(e.point);
-    if (features.length > 0) return;
-    randomContainer.classList.add("hidden");
-    const clickedLocation = e.lngLat;
-    reverseGeocode(clickedLocation, marker, randomContainer, map);
-
-});
 
 geocoder.on("result", (event) => {
     const coordinates = event.result.center;
@@ -469,3 +449,80 @@ function successCallback(position) {
 function errorCallback(error) {
     console.log(error);
 }
+const mapElement = document.querySelector(".map-container");
+
+function createFilterButton(id, title_content) {
+    const container = document.createElement("div");
+    container.className = "switchContainer";
+
+    const title = document.createElement("p");
+    title.textContent = title_content;
+
+    container.appendChild(title);
+
+    const input = document.createElement("input");
+    input.type = "checkbox";
+    input.id = id;
+
+    // Set the default value for checkbox (checked)
+    input.checked = true;
+
+    const label = document.createElement("label");
+    label.setAttribute("for", id);
+    label.className = "switch";
+
+    container.appendChild(input);
+    container.appendChild(label);
+    return container;
+}
+
+
+const feedback_filter = createFilterButton("fb-filter", "Báo cáo");
+const ad_filter = createFilterButton("ad-filter", "Bảng QC");
+
+const filter_box = document.createElement("div");
+filter_box.className = "filterContainer";
+filter_box.appendChild(feedback_filter);
+filter_box.appendChild(ad_filter);
+
+mapElement.appendChild(filter_box);
+
+mapElement.appendChild(filter_box);
+
+map.on('style.load', () => {
+    map.setConfigProperty('basemap', 'showTransitLabels', false);
+    map.setConfigProperty('basemap', 'showPointOfInterestLabels', false);
+})
+
+// Start process in the map.on('load') event
+const iconName = ['ad', 'ad-none', 'adReported-none', 'adReported', 'fb-feedback', 'fb-question', 'fb-registry', 'fb-report'];
+
+function filterContainerHandler(data, map) {
+    const adFilterBtn = document.querySelector('#ad-filter');
+    const fbFilterBtn = document.querySelector('#fb-filter');
+
+    function applyFilters() {
+        const showAd = adFilterBtn.checked;
+        const showFb = fbFilterBtn.checked;
+
+        let filteredData = filterDataSet(data, showAd, showFb);
+
+        updateMarkers(filteredData, map);
+    }
+
+    adFilterBtn.addEventListener('change', applyFilters);
+    fbFilterBtn.addEventListener('change', applyFilters);
+}
+map.on('load', async () => {
+    console.log("Loading data");
+    let response = await fetch("/api/mapData/getData");
+    response = await response.json();
+    if (response.success) {
+        console.log("Data loaded");
+        data = response.data;
+        console.log(data)
+        addMarkers(data, iconName, map);
+    }
+    //navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+    filterContainerHandler(data, map);
+})
