@@ -1,8 +1,8 @@
 import { filterDataSet, updateMarkers } from "./markers.js";
 
-// const adSidePeek = document.querySelector('#sidepeek-ad');
-// const noAdSidePeek = document.querySelector('#sidepeek-noAd');
-// const fbDetail = document.querySelector('#feedback-detail');
+const adSidePeek = document.querySelector('#sidepeek-ad');
+const noAdSidePeek = document.querySelector('#sidepeek-noAd');
+const fbDetail = document.querySelector('#feedback-detail');
 const randomSidePeek = document.querySelector('#random-sidepeek');
 
 const category = ["ad", "fb"];
