@@ -1,6 +1,33 @@
 let detailOffCanvas = undefined;
 let currAdPlaceData = undefined;
 
+let createLocationCanvas = undefined;
+let updateLocationCanvas = undefined;
+
+let mapForCreate = null;
+let mapForUpdate = null;
+
+document.addEventListener("DOMContentLoaded", () => {
+    mapForCreate = initMap("map-for-create");
+    mapForUpdate = initMap("map-for-update");
+
+    mapForCreate.on('move', () => {
+        let coordinate = mapForCreate.getCenter();
+        updateLngLatDisplay('map-for-create', coordinate.lng.toFixed(6), coordinate.lat.toFixed(6));
+    })
+
+    navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+    let createLocation = document.getElementById('location_create');
+    let updateLocation = document.getElementById('location_edit');
+    let detailLocation = document.getElementById('location_extend');
+    createLocationCanvas = new bootstrap.Offcanvas(createLocation);
+    updateLocationCanvas = new bootstrap.Offcanvas(updateLocation);
+    detailLocationCanvas = new bootstrap.Offcanvas(detailLocation);
+    formControl("create-location-form", mapForCreate);
+    formControl("edit-location-form", mapForUpdate);
+    
+});
+
 document.addEventListener("DOMContentLoaded", () => {
     let detailOffCanvasElement = document.getElementById("location_extend");
     detailOffCanvas = new bootstrap.Offcanvas(detailOffCanvasElement);

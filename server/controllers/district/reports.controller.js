@@ -7,7 +7,7 @@ controller.show = async (req, res) => {
     let delegation = req.session.user.delegation;
 
     let option = {
-        attributes: ['id', 'name', 'email', 'phone', 'status', 'content', 'image1', 'image2'],
+        attributes: ['id', 'name', 'email', 'phone', 'status', 'content', 'image1', 'image2', 'ad_id'],
         include: [
             {
                 model: models.place,
@@ -57,7 +57,11 @@ controller.show = async (req, res) => {
                     "status_id": "solved",
                     "status_name": "Đã giải quyết"
                 }
-                tmp.time = item.feedback_response.updatedAt;
+
+
+                let curTime = new Date(item.feedback_response.updatedAt);
+                let date = `${curTime.toLocaleTimeString('en-US', { hour12: true })} ${curTime.toLocaleDateString('en-GB')}`
+                tmp.time = date;
             }
             else {
                 tmp.solution = null;
@@ -72,15 +76,12 @@ controller.show = async (req, res) => {
             tmp.phone = item.phone;
             tmp.email = item.email;
 
-            tmp.category = "";
+            tmp.category = "is_random collapse";
 
             if (item.ad_id !== null) {
                 tmp.category = "is_not_random";
             }
 
-            if (item.place !== null) {
-                tmp.category = "is_random collapse";
-            }
 
             tmp.image_path = [];
 
@@ -102,7 +103,6 @@ controller.show = async (req, res) => {
             data_row.push(tmp)
 
         });
-        console.log(data_row)
         return data_row
 
     }).catch((err) => {

@@ -14,32 +14,21 @@ sidebar.addEventListener("mouseleave", () => {
   sidebar.classList.remove("open");
 });
 
-let popup = document.getElementById("location-popup")
-let img = document.getElementById("form-img")
-let submit = document.getElementById("submit-request")
-let popup_parent = document.getElementById("popup-parent")
-let close_btn = document.getElementById("close-edit-request")
 let originalStyles = {}
 let originalImg = {}
 let originalStyles_ads = {}
 let originalImg_ads = {}
 
 
-popup_parent.addEventListener('click', (event) => {
-  if (event.target.id === 'popup-parent') {
-    hidePopup();
-  }
-});
-
-submit.addEventListener('click', () => {
-  hidePopup();
-});
-close_btn.addEventListener('click', () => {
-  hidePopup();
-});
 
 
 function showPopup() {
+  let popup = document.getElementById("location-popup")
+  let img = document.getElementById("form-img")
+  let close_btn = document.getElementById("close-edit-request")
+  let popup_parent = document.getElementById("popup-parent")
+  let submit = document.getElementById("submit-request")
+
   originalStyles.visibility = popup.style.visibility || '';
   originalStyles.top = popup.style.top || '';
   originalStyles.left = popup.style.left || '';
@@ -58,7 +47,15 @@ function showPopup() {
   popup.style.transform = 'translate(-50%, -50%) scale(1)';
   originalStyles = {}
 }
-function hidePopup() {
+
+function hidePopup(resquest_data = "", buttonId = "") {
+
+  let popup = document.getElementById("location-popup")
+  let img = document.getElementById("form-img")
+  let close_btn = document.getElementById("close-edit-request")
+  let popup_parent = document.getElementById("popup-parent")
+  let submit = document.getElementById("submit-request")
+
   img.style.marginBottom = originalImg.marginBottom || '';
   img.style.visibility = originalImg.visibility || '';
   img.style.transform = originalImg.transform || '';
@@ -67,7 +64,11 @@ function hidePopup() {
   popup.style.top = originalStyles.top || '';
   popup.style.left = originalStyles.left || '';
   popup.style.transform = originalStyles.transform || '';
-
+  const show_popup = document.getElementById('showPopUp');
+  show_popup.removeEventListener('click', () => {
+    showPopup()
+    createUpdateLocation(resquest_data, buttonId)
+  })
 }
 
 
@@ -226,104 +227,126 @@ function createAdViewInfo(adsList) {
               <div class="btn btn-outline-secondary" id="update-ad">
                 <i class="bi bi-pencil-square"></i>
               </div>
-              <div id="popup-parent-ads">
-                <img id="form-img-ads" src="/public/images/form.png" alt="" />
-                <div class="popup-ads" id="location-popup-ads">
-                  <h2 style="margin-top: 60px">Yêu cầu chỉnh sửa</h2>
-                  <button style="position: fixed; right: 10px; top: 10px" type="button" class="btn-close"
-                   id="close-edit-request-ads"></button>
-                  <hr />
-
-                  <div class="edit-ad-form-officer">
-                    <form action="" class="edit-ad-form-officer">
-                      <div class="imgs-field">
-                      <div class="upload-field" id="upload-img-file-ad-${index}" onclick="imgInputController('upload-img-file-ad-${index}')">
-                      <label for="imgFile" class="drag-drop">
-                        <input type="file" name="imgFile" id="imgFile" accept=".png, .jpeg, .gif, .jpg" multiple hidden>
-                        <div class="holder">
-                          <i class="bi bi-cloud-arrow-up-fill"></i>
-                          <h4>Kéo và thả ảnh vào đây</h4> hoặc Click để duyệt file
-                        </div>
-                      </label>
-                      <div class="preview" style="display: none;">
-                      </div>
-                    </div>
-                      </div>
-                      <div class="info-field">
-                        <div class="ads-amount">
-                          <label for="ad-w">Chiều rộng</label>
-                          <input type="number" id="ad-w" placeholder="0" required value="${ad.width}">
-                          <p>m</p>
-                        </div>
-                        <div class="ads-amount">
-                          <label for="ads-h">Chiều dài</label>
-                          <input type="number" id="ads-h" placeholder="0" value="${ad.height}"required>
-                          <p>m</p>
-                        </div>
-                        <div class="form-field">
-                          <label for="start-date">Bắt đầu</label>
-                          <input type="date" id="start-date" placeholder="" value="${formatDate(ad.start)}" required>
-                        </div>
-                        <div class="form-field">
-                          <label for="end-date">Kết thúc</label>
-                          <input type="date" id="end-date" value="${formatDate(ad.end)}" placeholder="" required>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-
-                  <button id="submit-request-ads" style="
-                              width: 100%;
-                              outline: none;
-                              border: 0;
-                              padding: 10px;
-                              border-radius: 5px;
-                              background-color: #262058;
-                              color: white;
-                              margin-top: 50px;
-                            ">
-                    <h5 style="margin: 0">Gửi yêu cầu</h5>
-                  </button>
-                </div>
-              </div>
+              
             </div>
 
       `
     ad_card.innerHTML = html;
     ad_cards.appendChild(ad_card)
+    clearImgInputField('upload-img-file')
   })
 
 
-  let submit_ads = document.querySelectorAll("#submit-request-ads")
-  let popup_parent_ads = document.querySelectorAll("#popup-parent-ads")
-  let close_btn_ads = document.querySelectorAll("#close-edit-request-ads")
-  let popup_ads = document.querySelectorAll("#location-popup-ads")
-  let img_ads = document.querySelectorAll("#form-img-ads")
+
   let update_ad = document.querySelectorAll('#update-ad')
 
   update_ad.forEach((item, index) => {
     item.addEventListener('click', () => {
+      const form = `<div id="popup-parent-ads">
+      <img id="form-img-ads" src="/public/images/form.png" alt="" />
+      <div class="popup-ads" id="location-popup-ads">
+        <h2 style="margin-top: 60px">Yêu cầu chỉnh sửa</h2>
+        <button style="position: fixed; right: 10px; top: 10px" type="button" class="btn-close"
+         id="close-edit-request-ads"></button>
+        <hr />
+
+        <div class="edit-ad-form-officer">
+          <form action="" class="edit-ad-form-officer">
+          <div style="width: 100%; height: 200px">
+          <div class="upload-field" id="upload-img-file">
+            <label for="imgFile-for-create" class="drag-drop" ondragover="dragoverHandler(event)"
+              ondragleave="dragleaveHandler(event)" ondrop="dropHandler(event)">
+              <div class="holder">
+                <i class="bi bi-cloud-arrow-up-fill"></i>
+                <h4>Kéo và thả ảnh vào đây</h4> hoặc Click để duyệt file
+              </div>
+            </label>
+            <input type="file" name="imgFile" id="imgFile-for-create" accept=".png, .jpeg, .gif, .jpg"
+              multiple hidden onchange="inputChangeHandler(event)">
+            <div class="preview" style="display: none;">
+            </div>
+          </div>
+        </div>
+            <div class="info-field">
+              <div class="ads-amount">
+                <label for="ad-w">Chiều rộng</label>
+                <input type="number" id="ad-w" placeholder="0" required value="$ad.width">
+                <p>m</p>
+              </div>
+              <div class="ads-amount">
+                <label for="ads-h">Chiều dài</label>
+                <input type="number" id="ads-h" placeholder="0" value="$ad.height"required>
+                <p>m</p>
+              </div>
+              <div class="form-field">
+                <label for="start-date">Bắt đầu</label>
+                <input type="date" id="start-date" placeholder="" value="$formatDate(ad.start)" required>
+              </div>
+              <div class="form-field">
+                <label for="end-date">Kết thúc</label>
+                <input type="date" id="end-date" value="$formatDate(ad.end)" placeholder="" required>
+              </div>
+            </div>
+          </form>
+        </div>
+        
+        <p style="
+              text-align: left;
+              font-weight: bold;
+              margin-top: 25px;
+            ">
+          Lý do chỉnh sửa
+        </p>
+        <textarea style="width: 100%; padding: 12px; border-radius: 12px;" name="reasonUpdate" id="" cols="30"
+          rows="5"></textarea>
+        <button id="submit-request-ads" style="
+                    width: 100%;
+                    outline: none;
+                    border: 0;
+                    padding: 10px;
+                    border-radius: 5px;
+                    background-color: #262058;
+                    color: white;
+                    margin-top: 50px;
+                  ">
+          <h5 style="margin: 0">Gửi yêu cầu</h5>
+        </button>
+      </div>
+    </div>`
+      update_ad.parentNode.insertAdjacentHTML = form;
+      clearImgInputField('upload-img-file')
+      initTiny()
       showPopupAds(popup_ads[index], img_ads[index], popup_parent_ads[index]);
-    });
-  })
-  popup_parent_ads.forEach((item, index) => {
-    item.addEventListener('click', (event) => {
-      if (event.target.id === 'popup-parent-ads') {
-        hidePopupAds(popup_ads[index], img_ads[index], popup_parent_ads[index]);
-      }
-    });
-  })
-  submit_ads.forEach((item, index) => {
-    item.addEventListener('click', () => {
-      hidePopupAds(popup_ads[index], img_ads[index], popup_parent_ads[index]);
+
+
+
+      let submit_ads = document.querySelectorAll("#submit-request-ads")
+      let popup_parent_ads = document.querySelectorAll("#popup-parent-ads")
+      let close_btn_ads = document.querySelectorAll("#close-edit-request-ads")
+      let popup_ads = document.querySelectorAll("#location-popup-ads")
+      let img_ads = document.querySelectorAll("#form-img-ads")
+      popup_parent_ads.forEach((item, index) => {
+        item.addEventListener('click', (event) => {
+          if (event.target.id === 'popup-parent-ads') {
+            hidePopupAds(popup_ads[index], img_ads[index], popup_parent_ads[index]);
+          }
+        });
+      })
+      submit_ads.forEach((item, index) => {
+        item.addEventListener('click', () => {
+          hidePopupAds(popup_ads[index], img_ads[index], popup_parent_ads[index]);
+        });
+      })
+
+      close_btn_ads.forEach((item, index) => {
+        item.addEventListener('click', () => {
+          hidePopupAds(popup_ads[index], img_ads[index], popup_parent_ads[index]);
+        });
+      })
     });
   })
 
-  close_btn_ads.forEach((item, index) => {
-    item.addEventListener('click', () => {
-      hidePopupAds(popup_ads[index], img_ads[index], popup_parent_ads[index]);
-    });
-  })
+
 }
 
 function createUpdateRequest(data) {
@@ -342,9 +365,34 @@ function createUpdateRequest(data) {
     })
 }
 
+let popup = document.getElementById("location-popup")
+let img = document.getElementById("form-img")
+let close_btn = document.getElementById("close-edit-request")
+let popup_parent = document.getElementById("popup-parent")
+let submit = document.getElementById("submit-request")
 
 function createUpdateLocation(request_data, ad_place_id) {
 
+  let popup = document.getElementById("location-popup")
+  let img = document.getElementById("form-img")
+  let close_btn = document.getElementById("close-edit-request")
+  let popup_parent = document.getElementById("popup-parent")
+  let submit = document.getElementById("submit-request")
+  close_btn.addEventListener('click', () => {
+    hidePopup(request_data, ad_place_id)
+    clearImgInputField('upload-img-file')
+    if (popup_parent != undefined)
+      document.body.removeChild(popup_parent)
+    return
+  });
+
+  submit.addEventListener('click', () => {
+    hidePopup(request_data, ad_place_id)
+    clearImgInputField('upload-img-file')
+    if (popup_parent != undefined)
+      document.body.removeChild(popup_parent)
+    return
+  });
   console.log(request_data)
   const ads_amount = document.getElementById('ads-amount')
   ads_amount.placeholder = request_data.capacity
@@ -446,7 +494,7 @@ function createUpdateLocation(request_data, ad_place_id) {
           }).showToast();
           setTimeout(() => {
             console.log("Waiting...");
-          }, 1500);
+          }, 3000);
           location.reload();
         }
         else {
@@ -465,7 +513,7 @@ function createUpdateLocation(request_data, ad_place_id) {
           }).showToast();
           setTimeout(() => {
             console.log("Waiting...");
-          }, 1500);
+          }, 3000);
           location.reload();
         }
       })
@@ -486,12 +534,192 @@ function createUpdateLocation(request_data, ad_place_id) {
         }).showToast();
         setTimeout(() => {
           console.log("Waiting...");
-        }, 1500);
+        }, 3000);
         location.reload();
       });
-  }, { once: true })
+  },)
 }
-function getSpecificLocation(button) {
+function initTiny() {
+  tinymce.init({
+    selector: "textarea", // Replace all textarea elements with TinyMCE
+    height: 300, // Set the height of the editor
+    plugins:
+      "lists",
+    toolbar:
+      "undo redo | formatselect | " +
+      "bold italic backcolor | alignleft aligncenter " +
+      "alignright alignjustify | bullist numlist outdent indent | " +
+      "removeformat | help",
+  });
+}
+function closeOffcanvas() {
+  originalStyles = {}
+  originalImg = {}
+  originalStyles_ads = {}
+  originalImg_ads = {}
+  var offcanvas = document.getElementById('location_extend');
+  offcanvas.parentNode.removeChild(offcanvas);
+
+  const html = `  <div class="offcanvas offcanvas-end sidepeek-location" data-bs-scroll="true" tabindex="-1" id="location_extend"
+  aria-labelledby="Location extend information" width="50%">
+  <div class="offcanvas-header sidepeek-location-header">
+    <button type="button" class="btn-close" onclick="closeOffcanvas()" data-bs-dismiss="offcanvas"
+      aria-label="Close"></button>
+    <h5 class="offcanvas-title" id="location_extend_header">Thông tin chi tiết điểm đặt quảng cáo</h5>
+  </div>
+  <div class="offcanvas-body">
+    <div class="fluid-container mb-3">
+      <div class="row">
+        <div class="col-6">
+          <div id="ad-detail-img" class="carousel slide mb-6"
+            style="border-radius: 10px; overflow: hidden; width: 100%" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+              <button type="button" data-bs-target="#ad-detail-img" data-bs-slide-to="0" class="active"
+                aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" data-bs-target="#ad-detail-img" data-bs-slide-to="1"
+                aria-label="Slide 2"></button>
+            </div>
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="https://www.ecommerce-nation.com/wp-content/uploads/2018/10/404-error.jpg"
+                  class="h-100 w-100" alt="404 Not Found" id="image1">
+              </div>
+              <div class="carousel-item">
+                <img src="https://www.ecommerce-nation.com/wp-content/uploads/2018/10/404-error.jpg"
+                  class="h-100 w-100" alt="" id="image2">
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#ad-detail-img" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#ad-detail-img" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <table style="padding: 0;" id="info-ad-location" class="table" id="inf-table">
+            <tr>
+              <th><i class="bi bi-geo-alt"> Địa chỉ</i></th>
+              <td id="address_formated">47, Đ. Điện Biên Phủ, P. Đa Kao, Quận 1</td>
+            </tr>
+            <tr>
+              <th><i class="bi bi-hash"></i> Số lượng</th>
+              <td id="capacity">2 bảng/điểm</td>
+            </tr>
+            <tr>
+              <th><i class="bi bi-tag"></i> Loại vị trí</th>
+              <td id="type_id">Nhà riêng</td>
+            </tr>
+            <tr>
+              <th><i class="bi bi-activity"></i> Trạng thái</th>
+              <td id="status">Chưa quy hoạch</td>
+            </tr>
+            <tr>
+              <th><i class="bi bi-bullseye"></i> Mục đích</th>
+              <td id="purpose_id">Thương mại</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="d-flex justify-content-end w-100 align-item">
+          <div class="btn btn-outline-secondary" id="showPopUp">
+            <i class="bi bi-pencil-square"></i> Yêu cầu chỉnh sửa
+          </div>
+          <div id="popup-parent">
+            <img id="form-img" src="/public/images/form.png" alt="" />
+            <div class="popup" id="location-popup">
+              <h2 style="margin-top: 60px">Yêu cầu chỉnh sửa</h2>
+              <button style="position: fixed; right: 10px; top: 10px" type="button" class="btn-close"
+                id="close-edit-request"></button>
+              <hr />
+              <form action="#" method="post" id="updateAdPlaceForm">
+                <div class="ads-info">
+                  <div class="form-field-col" style="width: 100%">
+                    <label for="location-type-selection">Loại ví trị</label>
+                    <select name="locationType" id="location-type-selection" required>
+                    </select>
+                  </div>
+                  <div class="form-field-col">
+                    <label for="purpose-type-selection">Hình thức quảng cáo</label>
+                    <select name="purposeType" id="purpose-type-selection" required>
+                    </select>
+                  </div>
+                  <div class="form-field-col">
+                    <label for="status-selection">Trạng thái</label>
+                    <select name="status" id="status-selection" required>
+                      <option value="1">Đã quy hoạch</option>
+                      <option value="0">Chưa quy hoạch</option>
+                    </select>
+                  </div>
+                  <div class="ads-amount">
+                    <label for="ads-amount">Số lượng</label>
+                    <input type="number" name="capacity" id="ads-amount" min="1" max="10" placeholder="0" required>
+                    <p>bảng / địa điểm</p>
+                  </div>
+                  <div style="width: 100%; height: 200px">
+                    <div class="upload-field" id="upload-img-file">
+                      <label for="imgFile-for-create" class="drag-drop" ondragover="dragoverHandler(event)"
+                        ondragleave="dragleaveHandler(event)" ondrop="dropHandler(event)">
+                        <div class="holder">
+                          <i class="bi bi-cloud-arrow-up-fill"></i>
+                          <h4>Kéo và thả ảnh vào đây</h4> hoặc Click để duyệt file
+                        </div>
+                      </label>
+                      <input type="file" name="imgFile" id="imgFile-for-create" accept=".png, .jpeg, .gif, .jpg"
+                        multiple hidden onchange="inputChangeHandler(event)">
+                      <div class="preview" style="display: none;">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <p style="
+                      text-align: left;
+                      font-weight: bold;
+                      margin-top: 25px;
+                    ">
+                  Lý do chỉnh sửa
+                </p>
+                <textarea style="width: 100%; padding: 12px; border-radius: 12px;" name="reasonUpdate" id="" cols="30"
+                  rows="5"></textarea>
+                <button id="submit-request" style="
+                      width: 100%;
+                      outline: none;
+                      border-color;
+                      padding: 10px;
+                      border-radius: 12px;
+                      background-color: #262058;
+                      color: white;
+                      margin-top: 50px;
+                    ">
+                  <h5 style="margin: 0">Gửi yêu cầu</h5>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="overlay collapse" id="detail-location-overlay"></div>
+
+    <div class="ad-detail-info-container">
+
+    </div>
+  </div>
+</div>
+`
+
+  document.querySelector('.tmp-pop-up').innerHTML = html;
+
+  initTiny()
+}
+
+function handlePopUp(button) {
   let buttonId = button.id;
   fetch(`/api/location/getLocationById?ad_place_id=${buttonId}`)
     .then(res => res.json())
@@ -531,10 +759,87 @@ function getSpecificLocation(button) {
         type_ad_id: data.data[0].locationType.id,
         purpose_id: data.data[0].purposeType.id,
       }
+
+
       show_popup.addEventListener('click', () => {
+        const html = `<div id="popup-parent">
+        <img id="form-img" src="/public/images/form.png" alt="" />
+        <div class="popup" id="location-popup">
+          <h2 style="margin-top: 60px">Yêu cầu chỉnh sửa</h2>
+          <button style="position: fixed; right: 10px; top: 10px" type="button" class="btn-close"
+            id="close-edit-request"></button>
+          <hr />
+          <form action="#" method="post" id="updateAdPlaceForm">
+            <div class="ads-info">
+              <div class="form-field-col" style="width: 100%">
+                <label for="location-type-selection">Loại ví trị</label>
+                <select name="locationType" id="location-type-selection" required>
+                </select>
+              </div>
+              <div class="form-field-col">
+                <label for="purpose-type-selection">Hình thức quảng cáo</label>
+                <select name="purposeType" id="purpose-type-selection" required>
+                </select>
+              </div>
+              <div class="form-field-col">
+                <label for="status-selection">Trạng thái</label>
+                <select name="status" id="status-selection" required>
+                  <option value="1">Đã quy hoạch</option>
+                  <option value="0">Chưa quy hoạch</option>
+                </select>
+              </div>
+              <div class="ads-amount">
+                <label for="ads-amount">Số lượng</label>
+                <input type="number" name="capacity" id="ads-amount" min="1" max="10" placeholder="0" required>
+                <p>bảng / địa điểm</p>
+              </div>
+              <div style="width: 100%; height: 200px">
+                <div class="upload-field" id="upload-img-file">
+                  <label for="imgFile-for-create" class="drag-drop" ondragover="dragoverHandler(event)"
+                    ondragleave="dragleaveHandler(event)" ondrop="dropHandler(event)">
+                    <div class="holder">
+                      <i class="bi bi-cloud-arrow-up-fill"></i>
+                      <h4>Kéo và thả ảnh vào đây</h4> hoặc Click để duyệt file
+                    </div>
+                  </label>
+                  <input type="file" name="imgFile" id="imgFile-for-create" accept=".png, .jpeg, .gif, .jpg"
+                    multiple hidden onchange="inputChangeHandler(event)">
+                  <div class="preview" style="display: none;">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <p style="
+                  text-align: left;
+                  font-weight: bold;
+                  margin-top: 25px;
+                ">
+              Lý do chỉnh sửa
+            </p>
+            <textarea style="width: 100%; padding: 12px; border-radius: 12px;" name="reasonUpdate" id="" cols="30"
+              rows="5"></textarea>
+            <button id="submit-request" style="
+                  width: 100%;
+                  outline: none;
+                  border-color;
+                  padding: 10px;
+                  border-radius: 12px;
+                  background-color: #262058;
+                  color: white;
+                  margin-top: 50px;
+                ">
+              <h5 style="margin: 0">Gửi yêu cầu</h5>
+            </button>
+          </form>
+        </div>
+      </div>`
+        show_popup.parentNode.insertAdjacentHTML('beforeend', html);
+        clearImgInputField('upload-img-file')
+        initTiny()
         showPopup()
         createUpdateLocation(resquest_data, buttonId)
-      }, { once: true })
+      })
     })
 
   fetch(`/api/location/getAds?ad_place_id=${buttonId}`)
@@ -545,41 +850,70 @@ function getSpecificLocation(button) {
 }
 
 
+
+function getSpecificLocation(button) {
+  let divTag = document.getElementsByClassName('tmp-pop-up')
+
+  handlePopUp(button)
+
+}
 const maxAmountOfFiles = 2;
 window.inputFieldArray = [];
 window.uploadedFiles = [];
 
-function imgInputController(fieldId) {
-  window.inputFieldArray.push(fieldId);
-  window.uploadedFiles.push([]);
-  let imgInputField = document.querySelector(`#${fieldId} input[name="imgFile"]`);
-  let dragDropArea = document.querySelector(`#${fieldId} .drag-drop`);
-  let previewArea = document.querySelector(`#${fieldId} .preview`);
-
-  console.log(`${fieldId} controller is running`);
-  console.log(window.inputFieldArray);
-  console.log(window.uploadedFiles);
-  imgInputField.addEventListener("change", () => {
-    const files = imgInputField.files;
-    addImgs(files, previewArea, dragDropArea, fieldId);
-  });
-  dragDropArea.addEventListener("dragover", (e) => {
-    e.preventDefault();
-    dragDropArea.classList.add("drag-drop-dragging");
-  });
-
-  dragDropArea.addEventListener("dragleave", () => {
-    dragDropArea.classList.remove("drag-drop-dragging");
-  });
-
-  dragDropArea.addEventListener("drop", (e) => {
-    e.preventDefault();
-    dragDropArea.classList.remove("drag-drop-dragging");
-    const files = e.dataTransfer.files;
-    console.log(files);
-    addImgs(files, previewArea, dragDropArea, fieldId);
-  });
+function dragoverHandler(e) {
+  e.preventDefault();
+  e.target.classList.add("drag-drop-dragging");
 }
+
+function dragleaveHandler(e) {
+  e.target.classList.remove("drag-drop-dragging");
+}
+
+function dropHandler(e) {
+  e.preventDefault();
+  e.target.classList.remove("drag-drop-dragging");
+  let previewArea = e.target.parentNode.querySelector(".preview");
+  let fieldId = e.target.parentNode.id;
+  const files = e.dataTransfer.files;
+  addImgs(files, previewArea, e.target, fieldId);
+}
+
+function inputChangeHandler(e) {
+  let previewArea = e.target.parentNode.querySelector(".preview");
+  let fieldId = e.target.parentNode.id;
+  let dragDropArea = e.target.parentNode.querySelector(".drag-drop");
+  const files = e.target.files;
+  addImgs(files, previewArea, dragDropArea, fieldId);
+}
+
+// function imgInputController(fieldId) {
+//     window.inputFieldArray.push(fieldId);
+//     window.uploadedFiles.push([]);
+//     let imgInputField = document.querySelector(`#${fieldId} input[name="imgFile"]`);
+//     let dragDropArea = document.querySelector(`#${fieldId} .drag-drop`);
+//     let previewArea = document.querySelector(`#${fieldId} .preview`);
+//     imgInputField.addEventListener("change", () => {
+//         const files = imgInputField.files;
+
+//         addImgs(files, previewArea, dragDropArea, fieldId);
+//     });
+//     dragDropArea.addEventListener("dragover", (e) => {
+//         e.preventDefault();
+//         dragDropArea.classList.add("drag-drop-dragging");
+//     });
+
+//     dragDropArea.addEventListener("dragleave", () => {
+//         dragDropArea.classList.remove("drag-drop-dragging");
+//     });
+
+//     dragDropArea.addEventListener("drop", (e) => {
+//         e.preventDefault();
+//         dragDropArea.classList.remove("drag-drop-dragging");
+//         const files = e.dataTransfer.files;
+//         addImgs(files, previewArea, dragDropArea, fieldId);
+//     });
+// }
 
 function removeImg(index, fieldId) {
   let inputFieldIndex = window.inputFieldArray.indexOf(fieldId);
@@ -606,72 +940,124 @@ function removeImg(index, fieldId) {
   }
 }
 
-function addImgs(files, previewArea, dragDropArea, fieldId) {
-  let inputFieldIndex = window.inputFieldArray.indexOf(fieldId);
-  const fileCount = previewArea.querySelectorAll(".fileHolder").length;
-  // Check the file format and size
-  for (let i = 0; i < files.length; i++) {
-    let file = files[i];
-    let fileName = file.name;
-    let fileSize = file.size;
-    let fileExtension = fileName.split(".").pop();
-    let allowedExtensions = ["png", "jpeg", "jpg", "gif"];
-    let maxFileSize = 5 * 1024 * 1024; // 2MB
+function checkValidFile(file) {
+  let fileName = file.name;
+  let fileSize = file.size;
+  let fileExtension = fileName.split(".").pop();
+  let allowedExtensions = ["png", "jpeg", "jpg", "gif"];
+  let maxFileSize = 5 * 1024 * 1024; // 2MB
 
-    if (!allowedExtensions.includes(fileExtension)) {
-      alert("File format not supported");
-      return;
-    } else if (fileSize > maxFileSize) {
-      alert("File size is too large");
-      return;
-    }
+  if (!allowedExtensions.includes(fileExtension)) {
+    alert("File format not supported");
+    return false;
+  } else if (fileSize > maxFileSize) {
+    alert("File size is too large");
+    return false;
+  } else {
+    return true;
   }
+}
 
-  // Check if the preview is not display and hide the hodler
+function addImgIntoPreview(file, previewArea, dragDropArea, fieldId) {
   if (previewArea.style.display === "none") {
     previewArea.style.display = "flex";
     dragDropArea.querySelector(".holder").style.display = "none";
   }
-  let tempFileArray = window.uploadedFiles[inputFieldIndex];
-  // Check if the file is already in the window.uploadedFiles array
-  for (let i = 0; i < files.length; i++) {
-    if (tempFileArray.find((file) => file.name === files[i].name)) {
-      continue;
-    } else if (fileCount + tempFileArray.length > maxAmountOfFiles) {
-      alert(`You can only upload ${maxAmountOfFiles} files`);
-      return;
+  let fileReader = new FileReader();
+  fileReader.readAsDataURL(file);
+  fileReader.onload = () => {
+    let fileHolder = document.createElement("div");
+    fileHolder.classList.add("fileHolder");
+    fileHolder.setAttribute("data-target", file.name);
+    fileHolder.innerHTML = `
+            <img src="${fileReader.result}" alt="img">
+            <button type="button" onclick="removeImg('${file.name}', '${fieldId}')"><i class="bi bi-x"></i></button>
+        `;
+    previewArea.appendChild(fileHolder);
+  };
+}
+
+function checkCapacity(fieldId) {
+  let index = window.inputFieldArray.indexOf(fieldId);
+  let amount = window.uploadedFiles[index].length;
+  if (amount >= maxAmountOfFiles) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+function checkExist(file, fieldId) {
+  let index = window.inputFieldArray.indexOf(fieldId);
+  if (window.uploadedFiles[index].find((item) => item.name === file.name)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function addImg(file, previewArea, dragDropArea, fieldId) {
+  let index = window.inputFieldArray.indexOf(fieldId);
+  if (checkValidFile(file)) {
+    if (checkCapacity(fieldId)) {
+      if (!checkExist(file, fieldId)) {
+        window.uploadedFiles[index].push(file);
+        addImgIntoPreview(file, previewArea, dragDropArea, fieldId);
+      } else {
+        alert("File already exist");
+      }
     } else {
-      tempFileArray.push(files[i]);
+      alert(`You can only upload ${maxAmountOfFiles} files`);
     }
   }
+}
 
-  // Check if the amount of files is not more than the max amount of files
-  if (tempFileArray.length > maxAmountOfFiles) {
-    alert(`You can only upload ${maxAmountOfFiles} files`);
+function addImgs(files, previewArea, dragDropArea, fieldId) {
+  // Find the index of the input field in window.inputFieldArray
+  let inputFieldIndex = window.inputFieldArray.indexOf(fieldId);
+  if (inputFieldIndex === -1) {
+    window.inputFieldArray.push(fieldId);
+    window.uploadedFiles.push([]);
+  }
+  for (let i = 0; i < files.length; i++) {
+    addImg(files[i], previewArea, dragDropArea, fieldId);
+  }
+}
+
+function clearImgInputField(fieldId) {
+  let inputFieldIndex = window.inputFieldArray.indexOf(fieldId);
+  if (inputFieldIndex === -1) {
     return;
-  } else {
-    // store the file into window.uploadedFiles
-    window.uploadedFiles[inputFieldIndex] = tempFileArray;
-    // Remove all the files from the preview area
-    previewArea.querySelectorAll(".fileHolder").forEach((fileHolder) => {
-      fileHolder.remove();
-    });
-    // Loop through the files and display them
-    for (let i = 0; i < tempFileArray.length; i++) {
-      let file = tempFileArray[i];
-      let fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onload = () => {
-        let fileHolder = document.createElement("div");
-        fileHolder.classList.add("fileHolder");
-        fileHolder.setAttribute("data-target", file.name);
-        fileHolder.innerHTML = `
-                            <img src="${fileReader.result}" alt="img">
-                            <button type="button" onclick="removeImg('${file.name}', '${fieldId}')"><i class="bi bi-x"></i></button>
-                        `;
-        previewArea.appendChild(fileHolder);
-      };
-    };
+  }
+  //Remove all the files in the preview area
+  let previewArea = document.querySelector(`#${fieldId} .preview`);
+  previewArea.innerHTML = "";
+  previewArea.style.display = "none";
+  document.querySelector(`#${fieldId} .holder`).style.display = "block";
+  // Remove this in window.inputFieldArray
+  window.inputFieldArray.splice(inputFieldIndex, 1);
+  // Remove this in window.uploadedFiles
+  window.uploadedFiles.splice(inputFieldIndex, 1);
+  // Clear the input field
+  let imgInputField = document.querySelector(`#${fieldId} input[name="imgFile"]`);
+  imgInputField.files = null;
+}
+
+function setImgFileForField(formData, fieldId) {
+  let inputImgIndex = window.inputFieldArray.indexOf(fieldId);
+  if (inputImgIndex === -1) {
+    formData.append('newImgFile', null);
+    return;
+  }
+  let files = window.uploadedFiles[inputImgIndex];
+  // convert the files to filelist
+  let fileList = new DataTransfer();
+  for (let i = 0; i < files.length; i++) {
+    fileList.items.add(files[i]);
+  }
+  // Add the filelist to the form data
+  for (file of fileList.files) {
+    formData.append('newImgFile', file);
   }
 }
 

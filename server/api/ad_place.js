@@ -8,6 +8,7 @@ const countAdContent = Sequelize.literal('(SELECT COUNT(*) FROM ad_contents WHER
 const purposeQuery = Sequelize.literal('(SELECT name FROM categories WHERE categories.id = ad_place.purpose)');
 const locationTypeQuery = Sequelize.literal('(SELECT name FROM categories WHERE categories.id = ad_place.location_type)');
 
+
 async function createAdPlace(data) {
     try {
         let ad_place = await models.ad_place.create({
@@ -441,14 +442,13 @@ async function getAdContents(placeId)
     {
         const currentDate = new Date();
         let data = await models.ad_content.findAll({
-            attributes: ['id','company_name' , 'width', 'height', 'start', 'end', 'status', 'image1', 'image2'],
+            attributes: ['id','company_name' , 'start', 'end', 'image1', 'image2'],
             where: {
                 ad_place_id: placeId,
                 status: true,
                 start: {[Op.lte]: currentDate},
                 end: {[Op.gte]: currentDate},
             },
-            include: [{model: models.category, attributes:['name'], where: {field_id: 'T3'}}]
         });
         return data;
     }catch(err)

@@ -13,5 +13,6 @@ router.use('/ad_place', require('./ad_place.route'));
 router.use('/permission', require('./permission.route'));
 router.use('/update_request', require('./update_request.route'));
 router.use('/ad_content', require('./ad_content.route'));
+router.use('/create_request', require('./create_request.route'));
 
 module.exports = router;

@@ -138,6 +138,7 @@ function updateSolution(button) {
 
     const targetTextarea = Array.from(textareaElements).find(element => element.id === buttonId);
 
+
     // Handle UI
     const rows = document.querySelectorAll('tr');
     const curRow = Array.from(rows).filter(element => element.id === buttonId);
@@ -148,16 +149,15 @@ function updateSolution(button) {
     solved.innerHTML = "Đã giải quyết"
 
     curRow[1].style.display = 'none';
-
+    let content = tinymce.get(buttonId).getContent().trim()
     let data = {
-        content: targetTextarea.value,
+        content: content,
     }
-
     const feedback_content = document.createElement('div');
     feedback_content.classList.add('feedback-info')
 
 
-    if (targetTextarea.value != "") {
+    if (content != "") {
         fetch('/api/report/createResponse', {
             method: 'POST',
             headers: {
@@ -204,6 +204,11 @@ function updateSolution(button) {
                         onClick: function () { } // Callback after click
                     }).showToast();
                 }
+
+                let curTime = new Date(data.data.createdAt);
+                let date = `${curTime.toLocaleTimeString('en-US', { hour12: false })} ${curTime.toLocaleDateString('en-GB')}`
+
+
                 feedback_content.innerHTML = `
     <div class="label">
     <p>Thông tin phản hồi</p>
@@ -215,7 +220,7 @@ function updateSolution(button) {
       <i class="bi bi-clock"></i>
       <p class="tag">Thời gian xử lý</p>
     </div>
-    <p class="tag-content">${data.data.createdAt}</p>
+    <p class="tag-content">${date}</p>
   </div>
 
   <div class="info content_solution">
@@ -236,6 +241,7 @@ function updateSolution(button) {
 
                 const res_info = curRow[1].querySelector('.respond-info')
                 res_info.appendChild(feedback_content)
+                console.log(res_info.firstChild.nextSibling.remove())
             })
             .catch((err) => {
                 Toastify({

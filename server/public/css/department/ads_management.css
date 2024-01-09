@@ -161,8 +161,8 @@
 
 #req_create_table .content-detail-description {
   width: 100%;
-  min-height: calc(100% - 70px - 400px - 20px);
-  max-height: calc(100% - 70px - 400px - 20px);
+  min-height: calc(100% - 70px - 400px - 40px);
+  max-height: calc(100% - 70px - 400px - 40px);
   padding: 15px;
   border-radius: 15px;
   border: 1px solid rgba(0, 0, 0, 0.3);

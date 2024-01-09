@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -20,10 +21,27 @@
   <script src="https://api.mapbox.com/mapbox-gl-js/v3.0.0/mapbox-gl.js"></script>
   <link href="https://api.mapbox.com/mapbox-gl-js/v3.0.0/mapbox-gl.css" rel="stylesheet" />
   <script src="https://unpkg.com/supercluster"></script>
-  
-  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+
+  <script
+    src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
   <link rel="stylesheet"
-    href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css" />
+    href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css"
+    type="text/css" />
+  <script src="https://cdn.tiny.cloud/1/z15wuwmhtc8coizy33qx1oppjpdm36f6otli5z73q45d3ih2/tinymce/6/tinymce.min.js"
+    referrerpolicy="origin"></script>
+  <script>
+    tinymce.init({
+      selector: "textarea", // Replace all textarea elements with TinyMCE
+      height: 300, // Set the height of the editor
+      plugins:
+        "lists",
+      toolbar:
+        "undo redo | formatselect | " +
+        "bold italic backcolor | alignleft aligncenter " +
+        "alignright alignjustify | bullist numlist outdent indent | " +
+        "removeformat | help",
+    });
+  </script>
 </head>
 
 <body>
