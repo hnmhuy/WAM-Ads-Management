@@ -284,7 +284,7 @@ controller.getLocationById = (req, res) => {
 controller.getAds = (req, res) => {
     let ad_place_id = req.query.ad_place_id;
     models.ad_content.findAll({
-        attributes: ['id', 'company_name', 'width', 'height', 'start', 'end', 'image1', 'image2'],
+        attributes: ['id', 'company_name', 'width', 'status', 'height', 'start', 'end', 'image1', 'image2'],
         where: {
             ad_place_id: ad_place_id
         }

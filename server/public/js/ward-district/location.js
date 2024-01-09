@@ -21,7 +21,6 @@ let originalImg_ads = {}
 
 
 
-
 function showPopup() {
   let popup = document.getElementById("location-popup")
   let img = document.getElementById("form-img")
@@ -99,6 +98,12 @@ function hidePopupAds(popup_ads, img_ads, popup_parent_ads) {
   popup_ads.style.top = originalStyles_ads.top || '';
   popup_ads.style.left = originalStyles_ads.left || '';
   popup_ads.style.transform = originalStyles_ads.transform || '';
+
+  document.body.removeChild(popup_parent_ads)
+  originalStyles = {}
+  originalImg = {}
+  originalStyles_ads = {}
+  originalImg_ads = {}
 }
 document
   .querySelectorAll("tbody tr:not(.hide)")
@@ -163,12 +168,110 @@ function formatStandardDate(inputDate) {
   return `${day}/${month}/${year}`;
 }
 
+function updateAdReq(adItem) {
+  const height = document.getElementById('ads-h')
+  const width = document.getElementById('ad-w')
+  const start = document.getElementById('start-date')
+  const end = document.getElementById('end-date')
+  console.log(adItem)
+  height.value = adItem[0].height;
+  width.value = adItem[0].width;
+  start.value = formatDate(adItem[0].start);
+  end.value = formatDate(adItem[0].end);
+
+  let formData = document.querySelector('.edit-ad-form-officer')
+
+  console.log(formData.firstChild.nextSibling);
+
+  formData.addEventListener('submit', (event) => {
+    event.preventDefault()
+    const form = new FormData(formData.firstChild.nextSibling);
+    console.log(form)
+    fetch('/location/uploadUpdatePlace', {
+      method: 'POST',
+      body: form
+    })
+      .then(response => response.json())
+      .then(data => {
+        let request_data = {}
+        request_data.height = data.others.height;
+        request_data.width = data.others.width;
+        request_data.start = data.others.start;
+        request_data.end = data.others.end;
+        request_data.image = []
+        data.files.forEach(file => {
+          request_data.image.push(file.path)
+        })
+
+        request_data = JSON.stringify(request_data)
+        let status = false;
+
+        let dataCreate = {
+          request_data: request_data,
+          status: status,
+          ad_place_id: null,
+          ad_id: adItem[0].id
+        }
+
+        createUpdateRequest(dataCreate)
+        if (data.status === 500) {
+          Toastify({
+            text: "Cập nhật thất bại",
+            duration: 3000,
+            close: false,
+            gravity: "bottom",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+              background: "#FF6969",
+              color: "#000"
+            },
+            onClick: function () { } // Callback after click
+          }).showToast();
+        }
+        else {
+          Toastify({
+            text: "Cập nhập thành công",
+            duration: 3000,
+            close: false,
+            gravity: "bottom",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+              background: "#C1F2B0",
+              color: "#000"
+            },
+            onClick: function () { } // Callback after click
+          }).showToast();
+        }
+      })
+      .catch(error => {
+        console.log("Error: ", error)
+        Toastify({
+          text: "Có lỗi xảy ra",
+          duration: 3000,
+          close: false,
+          gravity: "bottom",
+          position: "right",
+          stopOnFocus: true,
+          style: {
+            background: "#FF6969",
+            color: "#000"
+          },
+          onClick: function () { } // Callback after click
+        }).showToast();
+      });
+  })
+}
+
+
 function createAdViewInfo(adsList) {
 
   const ad_cards = document.querySelector('.ad-detail-info-container')
   while (ad_cards.firstChild) {
     ad_cards.removeChild(ad_cards.firstChild);
   }
+
   adsList.forEach((ad, index) => {
     const ad_card = document.createElement('div')
     ad_card.classList.add('ad-detail-card')
@@ -204,7 +307,7 @@ function createAdViewInfo(adsList) {
         <span class="visually-hidden">Next</span>
       </button>
     </div>
-    <div class="view-info">
+    <div class="view-info" id="${ad.id}">
       <div class="view-info-attribute">
         <span>Công ty</span>
         ${ad.company_name}
@@ -237,11 +340,18 @@ function createAdViewInfo(adsList) {
   })
 
 
-
   let update_ad = document.querySelectorAll('#update-ad')
 
   update_ad.forEach((item, index) => {
+
     item.addEventListener('click', () => {
+
+      ad_id = item.parentNode.parentNode.id
+
+      let adItem = adsList.filter((ad) => {
+        return ad.id == ad_id
+      })
+
       const form = `<div id="popup-parent-ads">
       <img id="form-img-ads" src="/public/images/form.png" alt="" />
       <div class="popup-ads" id="location-popup-ads">
@@ -251,7 +361,7 @@ function createAdViewInfo(adsList) {
         <hr />
 
         <div class="edit-ad-form-officer">
-          <form action="" class="edit-ad-form-officer">
+          <form action="#" class="edit-ad-form-officer">
           <div style="width: 100%; height: 200px">
           <div class="upload-field" id="upload-img-file">
             <label for="imgFile-for-create" class="drag-drop" ondragover="dragoverHandler(event)"
@@ -270,79 +380,73 @@ function createAdViewInfo(adsList) {
             <div class="info-field">
               <div class="ads-amount">
                 <label for="ad-w">Chiều rộng</label>
-                <input type="number" id="ad-w" placeholder="0" required value="$ad.width">
+                <input type="number" id="ad-w" placeholder="0" name="width" required value="">
                 <p>m</p>
               </div>
               <div class="ads-amount">
                 <label for="ads-h">Chiều dài</label>
-                <input type="number" id="ads-h" placeholder="0" value="$ad.height"required>
+                <input type="number" name="height" id="ads-h" placeholder="0" value=""required>
                 <p>m</p>
               </div>
               <div class="form-field">
                 <label for="start-date">Bắt đầu</label>
-                <input type="date" id="start-date" placeholder="" value="$formatDate(ad.start)" required>
+                <input type="date" id="start-date" name ="start" placeholder="" value="" required>
               </div>
               <div class="form-field">
                 <label for="end-date">Kết thúc</label>
-                <input type="date" id="end-date" value="$formatDate(ad.end)" placeholder="" required>
+                <input type="date" id="end-date" value="" placeholder="" name="end" required>
               </div>
             </div>
+            <p style="
+                  text-align: left;
+                  font-weight: bold;
+                  margin-top: 25px;
+                ">
+              Lý do chỉnh sửa
+            </p>
+            <textarea style="width: 100%; padding: 12px; border-radius: 12px;" name="reasonUpdate" id="" cols="30"
+              rows="5"></textarea>
+            <button id="submit-request-ads" style="
+                        width: 100%;
+                        outline: none;
+                        border: 0;
+                        padding: 10px;
+                        border-radius: 5px;
+                        background-color: #262058;
+                        color: white;
+                        margin-top: 50px;
+                      ">
+              <h5 style="margin: 0">Gửi yêu cầu</h5>
+            </button>
           </form>
         </div>
         
-        <p style="
-              text-align: left;
-              font-weight: bold;
-              margin-top: 25px;
-            ">
-          Lý do chỉnh sửa
-        </p>
-        <textarea style="width: 100%; padding: 12px; border-radius: 12px;" name="reasonUpdate" id="" cols="30"
-          rows="5"></textarea>
-        <button id="submit-request-ads" style="
-                    width: 100%;
-                    outline: none;
-                    border: 0;
-                    padding: 10px;
-                    border-radius: 5px;
-                    background-color: #262058;
-                    color: white;
-                    margin-top: 50px;
-                  ">
-          <h5 style="margin: 0">Gửi yêu cầu</h5>
-        </button>
       </div>
     </div>`
-      update_ad.parentNode.insertAdjacentHTML = form;
+      item.parentNode.insertAdjacentHTML('beforeend', form);
       clearImgInputField('upload-img-file')
       initTiny()
-      showPopupAds(popup_ads[index], img_ads[index], popup_parent_ads[index]);
 
+      let submit_ads = document.querySelector("#submit-request-ads")
+      let popup_parent_ads = document.querySelector("#popup-parent-ads")
+      let close_btn_ads = document.querySelector("#close-edit-request-ads")
+      let popup_ads = document.querySelector("#location-popup-ads")
+      let img_ads = document.querySelector("#form-img-ads")
 
+      showPopupAds(popup_ads, img_ads, popup_parent_ads);
+      updateAdReq(adItem);
+      popup_parent_ads.addEventListener('click', (event) => {
+        if (event.target.id === 'popup-parent-ads') {
+          hidePopupAds(popup_ads, img_ads, popup_parent_ads);
+        }
+      });
+      submit_ads.addEventListener('click', () => {
+        hidePopupAds(popup_ads, img_ads, popup_parent_ads);
+      });
 
-      let submit_ads = document.querySelectorAll("#submit-request-ads")
-      let popup_parent_ads = document.querySelectorAll("#popup-parent-ads")
-      let close_btn_ads = document.querySelectorAll("#close-edit-request-ads")
-      let popup_ads = document.querySelectorAll("#location-popup-ads")
-      let img_ads = document.querySelectorAll("#form-img-ads")
-      popup_parent_ads.forEach((item, index) => {
-        item.addEventListener('click', (event) => {
-          if (event.target.id === 'popup-parent-ads') {
-            hidePopupAds(popup_ads[index], img_ads[index], popup_parent_ads[index]);
-          }
-        });
-      })
-      submit_ads.forEach((item, index) => {
-        item.addEventListener('click', () => {
-          hidePopupAds(popup_ads[index], img_ads[index], popup_parent_ads[index]);
-        });
-      })
-
-      close_btn_ads.forEach((item, index) => {
-        item.addEventListener('click', () => {
-          hidePopupAds(popup_ads[index], img_ads[index], popup_parent_ads[index]);
-        });
-      })
+      close_btn_ads.addEventListener('click', () => {
+        hidePopupAds(popup_ads, img_ads, popup_parent_ads);
+      });
     });
   })
 
@@ -373,8 +477,6 @@ let submit = document.getElementById("submit-request")
 
 function createUpdateLocation(request_data, ad_place_id) {
 
-  let popup = document.getElementById("location-popup")
-  let img = document.getElementById("form-img")
   let close_btn = document.getElementById("close-edit-request")
   let popup_parent = document.getElementById("popup-parent")
   let submit = document.getElementById("submit-request")
@@ -393,7 +495,6 @@ function createUpdateLocation(request_data, ad_place_id) {
       document.body.removeChild(popup_parent)
     return
   });
-  console.log(request_data)
   const ads_amount = document.getElementById('ads-amount')
   ads_amount.placeholder = request_data.capacity
   ads_amount.value = request_data.capacity
@@ -450,7 +551,7 @@ function createUpdateLocation(request_data, ad_place_id) {
   formData.addEventListener('submit', (event) => {
     event.preventDefault();
     const ad_place_form = new FormData(document.getElementById('updateAdPlaceForm'))
-
+    console.log(ad_place_form)
     fetch('/location/uploadUpdatePlace', {
       method: 'POST',
       body: ad_place_form
@@ -474,7 +575,8 @@ function createUpdateLocation(request_data, ad_place_id) {
         let dataCreate = {
           request_data: request_data,
           status: status,
-          ad_place_id: ad_place_id
+          ad_place_id: ad_place_id,
+          ad_id: null
         }
 
         createUpdateRequest(dataCreate)
@@ -492,10 +594,6 @@ function createUpdateLocation(request_data, ad_place_id) {
             },
             onClick: function () { } // Callback after click
           }).showToast();
-          setTimeout(() => {
-            console.log("Waiting...");
-          }, 3000);
-          location.reload();
         }
         else {
           Toastify({
@@ -511,10 +609,6 @@ function createUpdateLocation(request_data, ad_place_id) {
             },
             onClick: function () { } // Callback after click
           }).showToast();
-          setTimeout(() => {
-            console.log("Waiting...");
-          }, 3000);
-          location.reload();
         }
       })
       .catch(error => {
@@ -532,10 +626,6 @@ function createUpdateLocation(request_data, ad_place_id) {
           },
           onClick: function () { } // Callback after click
         }).showToast();
-        setTimeout(() => {
-          console.log("Waiting...");
-        }, 3000);
-        location.reload();
       });
   },)
 }
@@ -845,17 +935,17 @@ function handlePopUp(button) {
   fetch(`/api/location/getAds?ad_place_id=${buttonId}`)
     .then(ads => ads.json())
     .then(ads => {
-      createAdViewInfo(ads.data)
+      console.log(ads.data)
+      let adsList = ads.data.filter(item => {
+        return item.status == true
+      })
+      createAdViewInfo(adsList)
     })
 }
 
 
-
 function getSpecificLocation(button) {
-  let divTag = document.getElementsByClassName('tmp-pop-up')
-
   handlePopUp(button)
-
 }
 const maxAmountOfFiles = 2;
 window.inputFieldArray = [];
