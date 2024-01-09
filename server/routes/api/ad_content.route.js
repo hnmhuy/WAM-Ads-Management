@@ -6,6 +6,7 @@ const upload = multer({dest: 'uploads/'});
 
 router.get('/get', controller.get); 
 router.post('/update', upload.none(), controller.update);
+router.get('/getOne', controller.getOneAdContent);
 
 
 module.exports = router;

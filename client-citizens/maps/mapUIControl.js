@@ -46,7 +46,7 @@ export async function openSidePeek(data) {
         let adContentContainer = sidepeek.querySelector(".ad-content");
         adContentContainer.innerHTML = "";
         // let data = await fetch(`http://localhost:4000/api/ad_place/getOne?id=${data.data.id}c&includeAdContent=true`).then(res => res.json());
-        let data = await fetch(`http://localhost:4000/api/ad_place/getOne?id=477eacff-79b1-4754-a0f9-b4232ccf77d6&includeAdContent=true`).then(res => res.json());
+        let data = await fetch(`http://localhost:4000/api/ad_place/getOne?id=e295a4ee-5591-4270-9c7f-922b33fb7d72&includeAdContent=true`).then(res => res.json());
         generateSidepeekAd(sidepeek, data);
 
     } else if (category === 'fb') {
@@ -73,7 +73,7 @@ function generateSidepeekAd(sidepeek, data)
     {
         let locationImgDiv = sidepeek.querySelector(".location-img");
         locationImgDiv.innerHTML = "<p>Hình ảnh điểm đặt quảng cáo</p>";
-        locationImgDiv.appendChild(generateCarousel(data, data.image1, data.image2));
+        locationImgDiv.appendChild(generateCarousel(data.data, data.data.image1, data.data.image2));
         let adCard = data.data.adContents;
         if (adCard.length !== 0)
         {
@@ -108,10 +108,10 @@ function generateSidepeekAd(sidepeek, data)
     typeLocation.textContent = data.data.location_type;
 }
 
-function generateCarousel(data, image1, image2)
+export function generateCarousel(data, image1, image2)
 {
     let imgArr = generateImg(image1, image2);
-    console.log("this is imgArr: ", imgArr);
+    data.id = `_${data.id}`
 
     let carouselDiv = document.createElement("div");
     let indicator = document.createElement("div");
@@ -129,9 +129,9 @@ function generateCarousel(data, image1, image2)
 
     buttonPrev.classList.add("carousel-control-prev")
     buttonPrev.setAttribute("type", "button");
-    buttonPrev.setAttribute("data-bs-target", data.id);
+    buttonPrev.setAttribute("data-bs-target", `#${data.id}`);
     buttonPrev.setAttribute("data-bs-slide", "prev");
-    buttonNext.innerHTML = `
+    buttonPrev.innerHTML = `
         <span
         class="carousel-control-prev-icon"
         aria-hidden="true"
@@ -141,7 +141,7 @@ function generateCarousel(data, image1, image2)
 
     buttonNext.classList.add("carousel-control-next");
     buttonNext.setAttribute("type", "button");
-    buttonNext.setAttribute("data-bs-target", data.id);
+    buttonNext.setAttribute("data-bs-target", `#${data.id}`);
     buttonNext.setAttribute("data-bs-slide", "next");
     buttonNext.innerHTML = `
             <span
@@ -172,6 +172,7 @@ function generateCarousel(data, image1, image2)
         src="http://localhost:4000/${imgArr[0]}"
         class="w-100 d-block"
         alt="First slide"
+        style="width:371px; height:208px"
         />
     </div>
         `
@@ -199,6 +200,7 @@ function generateCarousel(data, image1, image2)
             src="http://localhost:4000/${imgArr[0]}"
             class="w-100 d-block"
             alt="First slide"
+            style="width:371px; height:208px"
         />
         </div>
         <div class="carousel-item">
@@ -206,6 +208,7 @@ function generateCarousel(data, image1, image2)
             src="http://localhost:4000/${imgArr[1]}"
             class="w-100 d-block"
             alt="Second slide"
+            style="width:371px; height:208px"
         />
         </div>
         `
@@ -218,6 +221,8 @@ function generateCarousel(data, image1, image2)
 
     imgArr = [];
 
+    console.log("carousel: ", carouselDiv);
+
     return carouselDiv;
 }
 
@@ -225,6 +230,8 @@ function generateAdCard(sidepeek, data)
 {
     let cardContainer = document.createElement("div");
     cardContainer.classList.add("adcard-container");
+    let formatDateEnd = formatDate(data.end);
+    let formatDateStart = formatDate(data.start);
 
     cardContainer.innerHTML = `
             <div class="header">
@@ -242,8 +249,8 @@ function generateAdCard(sidepeek, data)
             <div class="date-container">
             <img src="./public/images/Line 7.png" alt="Not found!" />
             <div class="date">
-                <p id="start">${data.start}/p>
-                <p id="end">${data.end}</p>
+                <p id="start">${formatDateStart}</p>
+                <p id="end" style="margin: 0">${formatDateEnd}</p>
             </div>
             </div>
         </div>
@@ -288,3 +295,19 @@ function generateImg(image1, image2)
 export function closeFeedbackDetail() {
     fbDetail.classList.add('hidden');
 }
+
+function formatDate(inputDate) {
+    const date = new Date(inputDate);
+    
+    // Check if the date is valid
+    if (isNaN(date.getTime())) {
+      return "Invalid date";
+    }
+    
+    const day = date.getDate();
+    const month = date.getMonth() + 1; // Months are zero-based
+    const year = date.getFullYear();
+    
+    const formattedDate = `Ngày ${day} tháng ${month} năm ${year}`;
+    return formattedDate;
+  }

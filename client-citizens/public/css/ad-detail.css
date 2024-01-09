@@ -81,6 +81,8 @@
   justify-content: flex-start;
   border-bottom: 1px solid rgba(0, 0, 0, 0.3);
   border-top: 1px solid rgba(0, 0, 0, 0.3);
+  flex-wrap: wrap;
+  gap: 50px
 }
 
 .info-col1,
@@ -90,12 +92,13 @@
   margin-bottom: 0.75rem;
 }
 
-.info-col2,
+/* .info-col2,
 .info-col3 {
   margin-left: 7rem;
-}
+} */
 
 .info1 {
+  width: auto;
   margin-bottom: 1.5rem;
 }
 
