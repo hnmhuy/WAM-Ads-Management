@@ -222,4 +222,4 @@ mso-hide:all;
     }
 }
 
-module.exports = {sendOTP};
+module.exports = {sendOTP, sendEmail};

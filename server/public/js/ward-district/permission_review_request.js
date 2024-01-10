@@ -152,3 +152,57 @@ async function deleteForm(e) {
         }).showToast();
     }
 }
+
+async function getPermission(btn){
+
+    console.log(btn.dataset)
+    let res = await fetch(`api/permission/get?id=${btn.dataset.id}&area=${btn.dataset.area}`);
+    let data = await res.json();
+    const tbody = document.querySelector("tbody")
+    if(data.success) {
+        data.data.forEach((item)=>{
+        let tr = document.createElement("tr");
+        tr.id = item.requestId;
+        tr.classList.add("tr_in_table_in_location");
+        let status;
+        if(item.status === "sent"){
+            status = `<p class="mx-0 status sent">Đã gửi</p>`
+        } else if (item.status === "accepted") {
+            status = `<p class="mx-0 status delivered">Phê duyệt</p>`
+        } else if ( item.status === "cancelled"){
+            status =`<p class="mx-0 status cancelled">Từ chối</p>`
+        }
+        tr.innerHTML = `
+          <td>${btn.dataset.name}</td>
+          <td>
+            <p class="text-align-center table-cell-type">${item.company_name}</p>
+          </td>
+          <td>
+            <p class="table-cell-type">${item.address_formated}</p>
+          </td>
+          <td>
+            <p class="table-cell-type">${item.name}</p>
+          </td>
+          <td class="d-flex justify-content-center align-items-center">` + status + `
+          </td>
+          <td>
+            <div class="last-cell">
+              <div>
+                <i role="button" onclick="showPopup_review(this)" class="bi bi-arrow-up-right-square" style="color: black" data-id ="${item.id}" data-company-name = "${item.company_name}" data-email = "${item.company_email}" data-height = "${item.height}" data-status="${item.status}" data-width="${item.width}" data-location = "${item.company_address}" data-start = "${item.start}" data-end="${item.end}" data-type="${item.name}" data-ad-place="${item.address_formated}" data-description = "${item.description}" data-img1="${item.image1}" data-img2="${item.image2}" data-request-id="${item.request_id}" ></i>
+              </div>
+            </div>
+          </td>`;
+        if(tbody.firstElementChild)
+            tbody.insertBefore(tr, tbody.firstElementChild);
+        else tbody.appendChild(tr);
+        document
+        .querySelectorAll("tbody tr:not(.hide)")
+        .forEach((visible_row, i) => {
+            visible_row.style.backgroundColor =
+                i % 2 == 0 ? "transparent" : "rgba(79, 62, 215, 0.1)";
+        });
+        })
+    } else {
+        console.log(data.message);
+    }
+}

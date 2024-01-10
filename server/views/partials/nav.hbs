@@ -47,7 +47,7 @@
           </button>
         </form>
         <div class="name_job">
-          <div class="name">{{user.last_name}} {{user.first_name}}</div>
+          <div id="user-name-nav" class="name">{{user.last_name}} {{user.first_name}}</div>
           <div class="job">Quản lý {{#ifEquals user.areaLevel 1}}Quận{{else}}{{#ifEquals user.areaLevel 2}}Phường{{else}}Sở{{/ifEquals}}{{/ifEquals}}</div>
         </div>
       </div>

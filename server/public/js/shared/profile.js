@@ -41,6 +41,7 @@ async function changeProfile(e) {
         })
         let responseData = await res.json();
         if (responseData.updateSuccess) {
+            document.getElementById("user-name-nav").textContent = responseData.lastName + " " + responseData.firstName;
             Toastify({
             text: responseData.message,
             duration: 3000,

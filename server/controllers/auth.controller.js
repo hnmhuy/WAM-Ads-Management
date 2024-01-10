@@ -225,6 +225,8 @@ controller.changeProfile = async(req, res) =>{
         message: "Cập nhật thành công",
         data: req.session.user,
         updateSuccess: true,
+        firstName: newFirstName,
+        lastName: newLastName,
       })
     } catch(error){
       res.json({

@@ -2,6 +2,7 @@
 
 const controller = {};
 const models = require('../models');
+const {sendEmail} = require('../controllers/otp.controller')
 
 
 controller.getReports = (req, res) => {
@@ -177,11 +178,39 @@ controller.updateFeedback = (req, res) => {
         where: {
             id: fb_id
         }
-    }).then((data) => {
-        res.json({
-            message: "Update successfully",
-            data: data
-        })
+    }).then( async (data) => {
+        try {
+            const feedback = await models.feedback.findByPk(fb_id);
+            const response = await models.feedback_response.findByPk(fbRes_id);
+            if(feedback && response){
+                const mailOptions = {
+                    from: "wam21KTPM@hotmail.com",
+                    to: feedback.email,
+                    subject: "[THÔNG BÁO] - HƯỚNG GIẢI QUYẾT BÁO CÁO",
+                    html: `
+                    Kính gửi ông/bà ${feedback.name},
+
+                    <p>Sau khi xem xét kĩ báo cáo của quý ông/bà gửi về, chúng tôi xin được phép tường trình với ông/bà về cách giải quyết như sau.</p>
+
+                    <p>${response.content}</p>
+
+                    <p>Xin cảm ơn ông/bà đã dành đóng góp cho trang thông tin của chúng tôi để trang ngày càng hoàn thiện hơn.</p>
+                    <p>Thân.</p>
+                    `
+                }
+                await sendEmail(mailOptions);
+                res.json({
+                    message: "Update successfully",
+                    data: data
+                })
+            }
+        } catch (error) {
+            res.status(500).json({
+                message: err.message,
+            });
+            console.log(err);
+        }
+        
     }).catch((err) => {
         res.status(500).json({
             message: err.message,
