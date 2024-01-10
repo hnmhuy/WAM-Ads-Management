@@ -235,18 +235,48 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // // Open feedback form handler
 
-function openFeedbackForm() {
+function openFeedbackForm(e) {
 
-  document.querySelector(".feedback-form").classList.remove("hidden");
-  document.querySelector(".overlay").classList.remove("hidden");  
+  closeFeedbackForm();
+
+  const fbForm = document.querySelector(".feedback-form")
+  fbForm.classList.remove("hidden");
+  document.querySelector(".overlay").classList.remove("hidden");
+
+  if(e.hasAttribute("ad-content-id"))
+  {
+    fbForm.setAttribute("ad-content-id", e.getAttribute("ad-content-id"));
+  }
+  else if (e.hasAttribute("ad-place-id"))
+  {
+    fbForm.setAttribute("ad-place-id", e.getAttribute("ad-place-id"));
+  }
+  else if (e.hasAttribute("ward-name"))
+  {
+    fbForm.setAttribute("ward-name", e.getAttribute("ward-name"));
+    fbForm.setAttribute("lat-lng", e.getAttribute("lat-lng"));
+    fbForm.setAttribute("address", e.getAttribute("address"))
+  }
+  
+
+}
+
+function closeFeedbackForm() {
+  const fbForm = document.querySelector(".feedback-form")
+  fbForm.removeAttribute("ad-content-id");
+  fbForm.removeAttribute("ad-place-id");
+  fbForm.removeAttribute("ward-name");
+  fbForm.removeAttribute("lat-lng");
+  fbForm.classList.add("hidden");
+  document.querySelector(".overlay").classList.add("hidden");
+
   const inputFields = document.querySelectorAll(".feedback-form input");
   inputFields.forEach((input) => {
     input.value = "";
   });
 
   // Clear the textarea
-  const textarea = document.querySelector(".feedback-form textarea");
-  textarea.value = "";
+  tinymce.get("mytextarea").setContent("");
 
   // Reset the dropdown menu
   const dropdown = document.querySelector(".feedback-form .select-menu");
@@ -268,12 +298,6 @@ function openFeedbackForm() {
 
   // Reset the captcha
   grecaptcha.reset();
-
-}
-
-function closeFeedbackForm() {
-  document.querySelector(".feedback-form").classList.add("hidden");
-  document.querySelector(".overlay").classList.add("hidden");
 }
 
 function openFeedbackDetail() {
@@ -321,7 +345,7 @@ function generateAdDetail(container, data, carousel)
   feedbackDiv.classList.add("info2");
   feedbackDiv.innerHTML = `
     <p class="title">Phản hồi thông tin</p>
-    <button type="button" class="btn btn-primary feedback-button" feedback-id="${data.id} onclick="openFeedbackForm()">
+    <button type="button" class="btn btn-primary feedback-button" ad-content-id="${data.id} onclick="openFeedbackForm(this)">
       <i class="bi bi-send-fill"></i> Phản hồi
     </button>
   `

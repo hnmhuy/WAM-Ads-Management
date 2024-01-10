@@ -30,6 +30,7 @@ controller.reCaptcha = (req, res) => {
 
 controller.sendFeedback = async (req, res) =>
 {
+    let data ;
     res.set({
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
@@ -51,25 +52,104 @@ controller.sendFeedback = async (req, res) =>
         img1 = img2 = null
     }
 
-    let {email, name, phone, mytextarea, type} = req.body;
-    let data = await models.feedback.create({
-        name: name,
-        email: email,
-        phone: phone,
-        content: mytextarea,
-        type: type,
-        image1: img1,
-        image2: img2
-    })
+    let {email, name, phone, mytextarea, type, ad_place, ad_content,ward, geometry, formatedAddress} = req.body;
+    if (!ad_place && !ward)
+    {
+        data = await models.feedback.create({
+            name: name,
+            email: email,
+            phone: phone,
+            content: mytextarea,
+            type: type,
+            image1: img1,
+            image2: img2,
+            ad_id: ad_content,
+        })
+    }
+    else if(ad_place && !ward)
+    {
+        const placeId = await isAdPlaceExist(ad_place);
+        console.log(placeId);
+        if (placeId)
+        {
+            data = await models.feedback.create({
+                name: name,
+                email: email,
+                phone: phone,
+                content: mytextarea,
+                type: type,
+                image1: img1,
+                image2: img2,
+                place_id: placeId.dataValues.place_id,
+            })
+            console.log("this is feedbackID: ", data);
+            
 
-    feedbackId = data.id;
+        }
+    }
+    else if(ward)
+    {
+        let placeId = await isWardExist(ward, geometry, formatedAddress);
+        if(placeId)
+        {
+            data = await models.feedback.create({
+                name: name,
+                email: email,
+                phone: phone,
+                content: mytextarea,
+                type: type,
+                image1: img1,
+                image2: img2,
+                place_id: placeId.id,
+            })
+        }
+    
+    }
+
+
+    // feedbackId = data.id;
 
     console.log("This is req", req.files);
-    console.log("this is feedbackID: ", data);
 
     
-    res.json({ message: 'Received feedback successfully!', data:data });
+    res.json({ message: 'Received feedback successfully!', data: data.dataValues});
     
+}
+
+async function isAdPlaceExist(placeId) {
+    try{
+        let place = await models.ad_place.findOne({
+            where: { id: placeId},
+            attributes: ['place_id']
+        });
+        return place;
+    }
+    catch(err)
+    {
+        console.log(err);
+        return null;
+    }
+    
+}
+
+async function isWardExist(ward, geometry, formatedAddress)
+{
+    let data = await models.area.findOne({
+        where: {name: ward},
+        attributes: ['id']
+    })
+    if (data)
+    {
+        
+        let createData = await models.place.create({
+            geometry: geometry,
+            area_id: data.dataValues.id,
+            address_formated: formatedAddress,
+        })
+        return {id: createData.dataValues.id};
+    }
+    else
+        return null;
 }
 
 
