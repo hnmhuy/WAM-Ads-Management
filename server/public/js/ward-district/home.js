@@ -521,7 +521,7 @@ const iconName = ['ad', 'ad-none', 'adReported-none', 'adReported', 'fb-feedback
 
 map.on('load', async () => {
     console.log("Loading data");
-    let response = await fetch("http://localhost:4000/api/mapData/getData");
+    let response = await fetch("/api/mapData/getData");
     response = await response.json();
     if (response.success) {
         console.log("Data loaded");
@@ -572,6 +572,7 @@ function closeAllSidePeek() {
 
 async function openSidePeek(data) {
     console.log("DTA: ", data);
+
     closeAllSidePeek();
     let category = data.category;
     let status = data.status;
@@ -584,9 +585,8 @@ async function openSidePeek(data) {
         sidepeek.classList.add(`${isReported ? 'sticky-left' : 'float'}`);
         let adContentContainer = sidepeek.querySelector(".ad-content");
         adContentContainer.innerHTML = "";
-        // let data = await fetch(`http://localhost:4000/api/ad_place/getOne?id=${data.data.id}c&includeAdContent=true`).then(res => res.json());
-        let data = await fetch(`http://localhost:4000/api/ad_place/getOne?id=e295a4ee-5591-4270-9c7f-922b33fb7d72&includeAdContent=true`).then(res => res.json());
-        generateSidepeekAd(sidepeek, data);
+        let dataAd = await fetch(`/api/ad_place/getOne?id=${JSON.parse(data.detail).dataid}&includeAdContent=true`).then(res => res.json());
+        generateSidepeekAd(sidepeek, dataAd);
 
     } else if (category === 'fb') {
         fbDetail.querySelector('.header .bi-chevron-double-left').onclick = closeFeedbackDetail
@@ -751,7 +751,6 @@ function generateCarousel(data, image1, image2) {
 
     imgArr = [];
 
-    console.log("carousel: ", carouselDiv);
 
     return carouselDiv;
 }

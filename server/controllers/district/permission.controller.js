@@ -10,11 +10,11 @@ controller.deleteRequest = async(req, res)=>{
     console.log(req.body);
     try {
         const ad_content = req.body['ad-content']
-        if(req.body['image1'] || req.body['image1'] != null){
+        if(req.body['image1']){
             const image1 = req.body['image1'];
             fs.unlinkSync( __dirname + '../../../'  + image1);
         }
-        if(req.body['image2'] || req.body['image2'] != null){
+        if(req.body['image2']){
             const image2 = req.body['image2'];
             fs.unlinkSync(  __dirname + '../../../' + image2);
         }
@@ -44,6 +44,7 @@ controller.deleteRequest = async(req, res)=>{
 controller.createRequest = async(req, res, next)=>{
     console.log(req.body);
     let img = req.files;
+    console.log(req.files);
     let {inputName, size, startDate, email, address, endDate, adType, adTypeId, content, locationId} = req.body;
     let adLocation = req.body['ad-location'];
     let height = size[0];

@@ -1,8 +1,8 @@
-const controller = {} 
-const models = require('../models');  
+const controller = {}
+const models = require('../models');
 const Op = require('../models').Sequelize.Op;
 const Sequelize = require('../models').Sequelize;
-const { addPlace, updatePlace } = require('./place');  
+const { addPlace, updatePlace } = require('./place');
 
 const countAdContent = Sequelize.literal('(SELECT COUNT(*) FROM ad_contents WHERE ad_contents.ad_place_id = ad_place.id)');
 const purposeQuery = Sequelize.literal('(SELECT name FROM categories WHERE categories.id = ad_place.purpose)');
@@ -34,7 +34,7 @@ controller.createAdPlace = async (req, res) => {
     placeData.address_formated = req.body.street;
     placeData.area_id = req.body['ward'];
     let placeRes = await addPlace(placeData);
-    if(placeRes) {
+    if (placeRes) {
         const data = {};
         data.capacity = req.body['ads-amount'];
         data.image1 = req.files[0] ? req.files[0].path : null;
@@ -75,11 +75,11 @@ async function getAdPlace(limit = 10, page = 0, status = undefined, areaId = und
     let level = 0;
 
     let attributes = ['id', 'address_formated'];
-    if(includeGeometry) {
+    if (includeGeometry) {
         attributes.push('geometry');
     }
-    
-    if (areaId) { 
+
+    if (areaId) {
         let area = await models.area.findOne({
             where: {
                 id: `${areaId}`
@@ -110,9 +110,9 @@ async function getAdPlace(limit = 10, page = 0, status = undefined, areaId = und
             include: [
                 {
                     model: models.place,
-                    attributes:attributes,
+                    attributes: attributes,
                     include: [
-                        {model: models.area, attributes: ['id', 'name', 'formatedName', 'parent_id']}
+                        { model: models.area, attributes: ['id', 'name', 'formatedName', 'parent_id'] }
                     ]
                 }
             ],
@@ -121,10 +121,10 @@ async function getAdPlace(limit = 10, page = 0, status = undefined, areaId = und
             order: [['createdAt', 'DESC']],
             where: {
                 [Op.and]: [
-                    status ? {status: status} : null,
+                    status ? { status: status } : null,
                     areaId ? level === 1 ? { '$place.area.parent_id$': `${areaId}` } : { '$place.area.id$': `${areaId}` } : null,
-                    purpose ? {purpose: purpose} : null,
-                    locationType ? {location_type: locationType} : null,
+                    purpose ? { purpose: purpose } : null,
+                    locationType ? { location_type: locationType } : null,
                 ]
             }
         })
@@ -143,7 +143,7 @@ async function getAdPlace(limit = 10, page = 0, status = undefined, areaId = und
     }
 }
 
-async function getOneAdPlace(id, includeAdContent=false) {
+async function getOneAdPlace(id, includeAdContent = false) {
     try {
         let data = await models.ad_place.findOne({
             attributes: [
@@ -166,7 +166,7 @@ async function getOneAdPlace(id, includeAdContent=false) {
                         'geometry',
                     ],
                     include: [
-                        {model: models.area, attributes: ['id', 'name', 'formatedName', 'parent_id']}
+                        { model: models.area, attributes: ['id', 'name', 'formatedName', 'parent_id'] }
                     ]
                 }
             ],
@@ -175,10 +175,8 @@ async function getOneAdPlace(id, includeAdContent=false) {
             },
         });
         data.dataValues.place.geometry = JSON.parse(data.dataValues.place.geometry);
-        if (includeAdContent)
-        {
-            try
-            {
+        if (includeAdContent) {
+            try {
                 let adContents = await getAdContents(id)
                 data.dataValues.adContents = adContents;
                 data.dataValues.adContentCapacity = adContents.length
@@ -195,7 +193,7 @@ async function getOneAdPlace(id, includeAdContent=false) {
 }
 
 controller.getAdPlace = async (req, res) => {
-    let {limit, page, status, areaId, purpose, locationType, includeGeometry} = req.query;
+    let { limit, page, status, areaId, purpose, locationType, includeGeometry } = req.query;
     limit = limit ? parseInt(limit) : 10;
     page = page ? parseInt(page) : 1;
     status = status ? status : undefined;
@@ -215,7 +213,7 @@ controller.getOneAdPlace = async (req, res) => {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
     })
-    let {id, includeAdContent} = req.query;
+    let { id, includeAdContent } = req.query;
     console.log(id);
     let adPlaceRes = await getOneAdPlace(id, includeAdContent);
     if (adPlaceRes) {
@@ -234,8 +232,8 @@ controller.getOneAdPlace = async (req, res) => {
 }
 
 controller.deleteAdPlace = async (req, res) => {
-    let id =  req.query.id;
-    if(id === undefined) {
+    let id = req.query.id;
+    if (id === undefined) {
         res.json({
             success: false,
             message: "Please provide id",
@@ -249,7 +247,7 @@ controller.deleteAdPlace = async (req, res) => {
                 }
             });
 
-            if(ad_place) {
+            if (ad_place) {
                 // Destroy the place first then destroy the ad_place
                 let place = await models.place.destroy({
                     where: {
@@ -262,7 +260,7 @@ controller.deleteAdPlace = async (req, res) => {
                         id: id
                     }
                 })
-                if(result) {
+                if (result) {
                     res.json({
                         success: true,
                         message: "Delete ad place success",
@@ -277,7 +275,7 @@ controller.deleteAdPlace = async (req, res) => {
                 }
             }
         } catch (error) {
-            
+
         }
     }
 }
@@ -286,7 +284,7 @@ async function getAdPlaceAsGeojson(areaId = undefined) {
     try {
 
         let level = 0;
-        if (areaId) { 
+        if (areaId) {
             let area = await models.area.findOne({
                 where: {
                     id: `${areaId}`
@@ -309,7 +307,7 @@ async function getAdPlaceAsGeojson(areaId = undefined) {
                     model: models.place,
                     attributes: ['id', 'address_formated', 'geometry'],
                     include: [
-                        {model: models.area, attributes: ['id', 'name', 'formatedName', 'parent_id']}
+                        { model: models.area, attributes: ['id', 'name', 'formatedName', 'parent_id'] }
                     ]
                 }
             ],
@@ -357,11 +355,11 @@ function toGeojson(data) {
 }
 
 controller.getAdPlaceGeojson = async (req, res) => {
-    let {areaId} = req.query;
+    let { areaId } = req.query;
     let data = await getAdPlaceAsGeojson(areaId);
-    if(data.success) {
+    if (data.success) {
         // Json data values of the ad_place
-        let jsonData = data.data.map(item => item.get({plain: true}));
+        let jsonData = data.data.map(item => item.get({ plain: true }));
         console.log(jsonData);
         // Convert json data to geojson
         let geojson = toGeojson(jsonData);
@@ -381,13 +379,13 @@ controller.updateAdPlace = async (req, res) => {
     }
     try {
         let updatePlaceRes = await updatePlace(newPlaceData);
-        if(updatePlaceRes[0]) {
+        if (updatePlaceRes[0]) {
             const newAdPlaceData = {
                 capacity: req.body['new-amount'],
                 location_type: req.body['location-type'],
                 purpose: req.body['purpose-type'],
                 status: req.body['new-location-status'] === 'true' ? true : req.body['new-location-status'] === 'false' ? false : null,
-                place_id: req.body.place_id,    
+                place_id: req.body.place_id,
             }
 
 
@@ -402,7 +400,7 @@ controller.updateAdPlace = async (req, res) => {
                 }
             })
 
-            if(updateAdPlaceRes[0]) {
+            if (updateAdPlaceRes[0]) {
                 let data = await getOneAdPlace(req.body.id);
                 res.json({
                     success: true,
@@ -436,23 +434,20 @@ controller.updateAdPlace = async (req, res) => {
 
 
 
-async function getAdContents(placeId)
-{
-    try
-    {
+async function getAdContents(placeId) {
+    try {
         const currentDate = new Date();
         let data = await models.ad_content.findAll({
-            attributes: ['id','company_name' ,'width','height', 'start', 'end', 'image1', 'image2'],
+            attributes: ['id', 'company_name', 'width', 'height', 'start', 'end', 'image1', 'image2'],
             where: {
                 ad_place_id: placeId,
                 status: true,
-                start: {[Op.lte]: currentDate},
-                end: {[Op.gte]: currentDate},
+                start: { [Op.lte]: currentDate },
+                end: { [Op.gte]: currentDate },
             },
         });
         return data;
-    }catch(err)
-    {
+    } catch (err) {
         console.log(err);
         return null;
     }

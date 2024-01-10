@@ -52,6 +52,59 @@ async function getPermission(id, area){
     }
 }
 
+controller.createRequest = async(req, res)=>{
+    console.log("Reaches here");
+    console.log(req.body);
+    let {adLocation, adType, adTypeId, address, content, email, endDate, startDate, height, width, inputName, locationId, image} = req.body;
+    let ad_content;
+    let request;
+    try {
+        ad_content = await models.ad_content.create({
+            company_name: inputName,
+            company_email: email,
+            company_address: address,
+            description: content,
+            height,
+            width,
+            start: startDate,
+            end: endDate,
+            image1: image[0] ? image[0] : null,
+            image2: image[1] ? image[0] : null,
+            ad_place_id: locationId,
+            ad_type: adTypeId,
+        });
+
+        try{
+            request = await models.create_request.create({
+                officer: req.session.user.id,
+                ad_id: ad_content.id,
+                status: "sent",
+            })
+        } catch (error) {
+            console.log(error);
+            res.json({
+                success: false,
+                message: error,
+            })
+        }
+        res.json({
+            success: true,
+            message: "Tạo yêu cầu cấp phép thành công",
+            request: request,
+            ad_content: ad_content,
+            address: adLocation,
+            type: adType,
+        })
+    } catch (error) {
+        console.log(error);
+        res.json({
+            success: false,
+            message: error,
+        })
+    }
+}
+
+
 // controller.add = async (data) => {
 //     try {
 //         let place = await models.place.create({
