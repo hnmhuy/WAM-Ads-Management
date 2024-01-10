@@ -151,7 +151,7 @@
 
 #req_create_table .content-detail-info {
   width: calc((100% - 20px) / 2);
-  min-height: 400px;
+  min-height: 350px;
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -161,7 +161,7 @@
 #req_create_table .content-detail-imgs {
   width: calc((100% - 20px) / 2);
   min-width: 400px;
-  height: 400px;
+  height: 350px;
   display: flex;
   align-items: center;
 }
