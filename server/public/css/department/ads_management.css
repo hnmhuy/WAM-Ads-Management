@@ -160,10 +160,10 @@
 }
 #req_create_table .content-detail-imgs {
   width: calc((100% - 20px) / 2);
-  min-width: 400px;
   height: 350px;
   display: flex;
   align-items: center;
+  overflow: hidden;
 }
 
 #req_create_table .content-detail-description {
@@ -675,11 +675,11 @@
 }
 
 .content-detail-imgs .carousel-inner {
-  height: 100%;
+  width: 100%;
 }
 
 .content-detail-imgs .carousel-item {
-  height: 100%;
+  width: 100%;
 }
 
 .ad-detail-card .carousel-item img {
@@ -982,3 +982,27 @@
 .new-row td {
   background-color: rgba(123, 109, 231, 0.3);
 }
+
+#update_detail .offcanvas-body{
+  position: relative;
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.loading-overlay span {
+  font-size: 25px;
+  font-weight: 800;
+  color: white;
+}
+

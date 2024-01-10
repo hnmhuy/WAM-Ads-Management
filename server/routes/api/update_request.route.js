@@ -8,4 +8,6 @@ router.post('/createUpdateRequestAdPlace', controller.createUpdateRequestAdPlace
 router.get('/getUpdateAmount', controller.getUpdateAmount);
 router.get('/getUpdateReqList', controller.getUpdateReqList);
 router.get('/getUpdateRequest', controller.getUpdateRequest)
+router.post('/rejectUpdateRequest', controller.rejectUpdate);
+router.post('/acceptUpdateRequest', controller.acceptUpdate);
 module.exports = router;

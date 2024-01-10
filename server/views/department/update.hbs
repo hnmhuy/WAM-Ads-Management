@@ -131,16 +131,18 @@
         <h5 class="offcanvas-title" id="location_create_header">Chi tiết yêu cầu cập nhật</h5>
     </div>
     <div class="offcanvas-body">
+        <div class="loading-overlay">
+            <div class="spinner-border text-light" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <span>Đang tải...</span>
+        </div>
         <div class="req-update-common-info">
             <h4>Thông tin chung</h4>
             <table class="table">
                 <tr>
                     <th>Địa chỉ</th>
                     <td>47 Đ. Điện Biên Phủ, phường 2, quận 2</td>
-                </tr>
-                <tr>
-                    <th>Mã yêu cầu</th>
-                    <td>RU011111</td>
                 </tr>
                 <tr>
                     <th>Người gửi</th>
@@ -155,8 +157,8 @@
                     <td>Địa điểm</td>
                 </tr>
             </table>
-            <button type="button" data-bs-toggle="collapse" data-bs-target="#req-update-location-info"
-                aria-expanded="false" aria-controls="req-update-location-info">
+            <button id="more-location-info" type="button" data-bs-toggle="collapse" data-bs-target="#req-update-location-info"
+                aria-expanded="false" aria-controls="req-update-location-info" class="collapse">
                 Xem thông tin địa điểm
             </button>
         </div>
@@ -251,95 +253,105 @@
             <h6>Thông tin cập nhật</h6>
             <div class="table-container">
                 <table class="table">
-                    <tr>
-                        <th>Công ty</th>
-                        <td>
-                            <div class="ru-table-cell ru-table-cell-changing">
-                                <div title="Thông tin hiện tại">
-                                    <span class="badge text-bg-primary">Hiện tại</span> <span>Công ty THNN ABC</span>
+                    <tbody>
+                        <tr>
+                            <th>Công ty</th>
+                            <td>
+                                <div class="ru-table-cell ru-table-cell-changing">
+                                    <div title="Thông tin hiện tại">
+                                        <span class="badge text-bg-primary">Hiện tại</span> <span>Công ty THNN ABC</span>
+                                    </div>
+                                    <div title="Thông tin mới">
+                                        <span class="badge text-bg-success">Sẽ cập nhật</span> <span>Công ty TNHH DCE</span>
+                                    </div>
                                 </div>
-                                <div title="Thông tin mới">
-                                    <span class="badge text-bg-success">Sẽ cập nhật</span> <span>Công ty TNHH DCE</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Kích thước</th>
+                            <td>
+                                <div class="ru-table-cell">
+                                    <div title="Thông tin hiện tại">
+                                        <span>2.5m x 4m</span>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Kích thước</th>
-                        <td>
-                            <div class="ru-table-cell">
-                                <div title="Thông tin hiện tại">
-                                    <span>2.5m x 4m</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Ngày bắt đầu</th>
+                            <td>
+                                <div class="ru-table-cell ru-table-cell-changing">
+                                    <div title="Thông tin hiện tại">
+                                        <span class="badge text-bg-primary">Hiện tại</span> <span>11/12/2023</span>
+                                    </div>
+                                    <div title="Thông tin mới">
+                                        <span class="badge text-bg-success">Sẽ cập nhật</span> <span>20/12/2023</span>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Ngày bắt đầu</th>
-                        <td>
-                            <div class="ru-table-cell ru-table-cell-changing">
-                                <div title="Thông tin hiện tại">
-                                    <span class="badge text-bg-primary">Hiện tại</span> <span>11/12/2023</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Ngày kết thúc</th>
+                            <td>
+                                <div class="ru-table-cell ru-table-cell-changing">
+                                    <div title="Thông tin hiện tại">
+                                        <span class="badge text-bg-primary">Hiện tại</span> <span>11/12/2023</span>
+                                    </div>
+                                    <div title="Thông tin mới">
+                                        <span class="badge text-bg-success">Sẽ cập nhật</span> <span>20/12/2023</span>
+                                    </div>
                                 </div>
-                                <div title="Thông tin mới">
-                                    <span class="badge text-bg-success">Sẽ cập nhật</span> <span>20/12/2023</span>
+                            </td>
+                        </tr>
+                        <tr class="collapse">
+                            <th>Mô tả</th>
+                            <td>
+                                <div class="ru-table-cell ru-table-cell-changing">
+                                    <div title="Thông tin hiện tại">
+                                        <span class="badge text-bg-primary">Hiện tại</span>
+                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum
+                                            voluptates
+                                            quia
+                                            quibusdam, quos, quod voluptate quas quae voluptatibus doloribus quidem
+                                            voluptatem
+                                            accusamus
+                                            doloremque. Quisquam, voluptatum voluptates quia quibusdam, quos, quod voluptate
+                                            quas
+                                            quae
+                                            voluptatibus doloribus quidem voluptatem accusamus doloremque.</p>
+                                    </div>
+                                    <div title="Thông tin mới">
+                                        <span class="badge text-bg-success">Sẽ cập nhật</span>
+                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum
+                                            voluptates
+                                            quia
+                                            quibusdam, quos, quod voluptate quas quae voluptatibus doloribus quidem
+                                            voluptatem
+                                            accusamus
+                                            doloremque. Quisquam, voluptatum voluptates quia quibusdam, quos, quod voluptate
+                                            quas
+                                            quae
+                                            voluptatibus doloribus quidem voluptatem accusamus doloremque.</p>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Ngày kết thúc</th>
-                        <td>
-                            <div class="ru-table-cell ru-table-cell-changing">
-                                <div title="Thông tin hiện tại">
-                                    <span class="badge text-bg-primary">Hiện tại</span> <span>11/12/2023</span>
-                                </div>
-                                <div title="Thông tin mới">
-                                    <span class="badge text-bg-success">Sẽ cập nhật</span> <span>20/12/2023</span>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Mô tả</th>
-                        <td>
-                            <div class="ru-table-cell ru-table-cell-changing">
-                                <div title="Thông tin hiện tại">
-                                    <span class="badge text-bg-primary">Hiện tại</span>
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum
-                                        voluptates
-                                        quia
-                                        quibusdam, quos, quod voluptate quas quae voluptatibus doloribus quidem
-                                        voluptatem
-                                        accusamus
-                                        doloremque. Quisquam, voluptatum voluptates quia quibusdam, quos, quod voluptate
-                                        quas
-                                        quae
-                                        voluptatibus doloribus quidem voluptatem accusamus doloremque.</p>
-                                </div>
-                                <div title="Thông tin mới">
-                                    <span class="badge text-bg-success">Sẽ cập nhật</span>
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum
-                                        voluptates
-                                        quia
-                                        quibusdam, quos, quod voluptate quas quae voluptatibus doloribus quidem
-                                        voluptatem
-                                        accusamus
-                                        doloremque. Quisquam, voluptatum voluptates quia quibusdam, quos, quod voluptate
-                                        quas
-                                        quae
-                                        voluptatibus doloribus quidem voluptatem accusamus doloremque.</p>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
         </div>
         <div class="req-update-btns">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="offcanvas">Hủy</button>
-            <button type="button" class="btn btn-primary">
+            <button type="button" class="btn btn-secondary" onclick="rejectUpdate(this)">
+                Từ chối
+                <div class="spinner-border spinner-border-sm text-light collapse" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </button>
+            <button type="button" class="btn btn-primary" onclick="acceptUpdate(this)">
                 Xác nhận
+                <div class="spinner-border spinner-border-sm text-light collapse" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
             </button>
         </div>
     </div>

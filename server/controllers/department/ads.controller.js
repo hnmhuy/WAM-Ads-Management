@@ -79,7 +79,7 @@ function toTableDataRow(data) {
             data.address_formated,
             new Date(data.createdAt).toLocaleString('vi-VN'),
             data.last_name + " " + data.first_name,
-            data.type === "ad_place" ? "Điểm đặt" : data.type === "ad_content" ? "Nội dung" : "Không xác định",
+            data.type === "ad_place" ? "Điểm đặt" : data.type === "ad_content" ? "Bảng quảng cáo" : "Không xác định",
         ],
         status_data: {
             status_text: data.status === 'sent' ? "Chưa xử lý" : data.status === 'cancel' ? "Đã từ chối" : data.status === 'accepted' ? "Đã xử lý" : "Không xác định",
@@ -89,9 +89,9 @@ function toTableDataRow(data) {
     }
 }
 
-function toTableData(tableHeading, data, areaId) {
+function toTableData(prefixId, tableHeading, data, areaId) {
     let res = {
-        "table_id": `req_update_${areaId}`,
+        "table_id": `${prefixId}-${areaId}`,
         "heading": tableHeading,
         "data_row": []
     }   
@@ -101,7 +101,7 @@ function toTableData(tableHeading, data, areaId) {
     return res;
 }
 
-async function getUpdateReqData (isResolved = false) {
+async function getUpdateReqData (prefixId, isResolved = false) {
     const tableHeading = [
         "Phường",
         "Địa chỉ chi tiết",
@@ -123,7 +123,7 @@ async function getUpdateReqData (isResolved = false) {
             let reqList = await dataController.getUpdateReqListByArea(d.areaId, isResolved);
             item.data = {};
             if (reqList.success) {
-                item.data = toTableData(tableHeading, reqList.data, d.areaId);
+                item.data = toTableData(prefixId, tableHeading, reqList.data, d.areaId);
             }
             res.push(item);
         }
@@ -137,8 +137,8 @@ controller.getTableData = async (req, res) => {
 }
 
 controller.showUpdate = async (req, res) => {
-    let data_inprocess = await getUpdateReqData();
-    let date_processed = await getUpdateReqData(true);
+    let data_inprocess = await getUpdateReqData('inprocess-table');
+    let date_processed = await getUpdateReqData('processed-table',true);
     req.session.prev_url = req.originalUrl;
     let locations_collapsible = require("../../testing_vew_data/locations_data_collapsible.json");
     let req_update = require("../../testing_vew_data/req_update.json");

@@ -261,8 +261,8 @@ controller.getUpdateRequest = async (req, res) => {
         data.before = {
             height: adContent.height,
             width: adContent.width,
-            start: adContent.start,
-            end: adContent.end,
+            start: new Date(adContent.start).toLocaleDateString('vi-VN'),
+            end: new Date(adContent.end).toLocaleDateString('vi-VN'),
             image: img
         }
 
@@ -277,6 +277,7 @@ controller.getUpdateRequest = async (req, res) => {
         data.purpose = adContent.purpose;
         data.location = adContent.location;
         data.address = adContent.ad_place.place.address_formated + ', ' + adContent.ad_place.place.area.formatedName;
+        data.instanceId = request.ad_id;
 
     } else {
         console.log("Ad place")
@@ -306,16 +307,17 @@ controller.getUpdateRequest = async (req, res) => {
             capacity: parseInt(request.resquest_data.capacity),
             locationType: request.resquest_data.locationType,
             purposeType: request.resquest_data.purposeType,
-            status: request.resquest_data.status,
+            status: request.resquest_data.status === '1' ? true : false,
             image: request.resquest_data.image
         }
 
         data.address = adPlace.place.address_formated + ', ' + adPlace.place.area.formatedName;
         data.purpose = adPlace.purpose;
         data.location = adPlace.location;
-
+        data.instanceId = request.ad_place_id;
     }
     data.id = request.id
+    data.status = request.status;
     data.createdAt = request.createdAt;
     data.officer = await models.account.findOne({
         attributes: ['first_name', 'last_name'],
@@ -329,6 +331,90 @@ controller.getUpdateRequest = async (req, res) => {
     res.json({
         request: data
     })
+}
+
+controller.rejectUpdate = async (req, res) =>  {
+    try {
+        let response = await models.update_request.update({
+            status: 'cancel'
+        }, {
+            where: {
+                id: req.body.id
+            }
+        })
+        res.json({
+            success: true
+        })
+    } catch (error) {
+        res.json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+controller.acceptUpdate = async (req, res) => {
+    console.log(req.body);
+    let data = req.body;
+    try {
+        await models.update_request.update({
+            status: 'accepted'
+        }, {
+            where: {
+                id: data.id
+            }
+        })
+        if (data.type === 'ad_place') {
+
+            // search purposeId and locationTypeId 
+            let newPurposeId = await models.category.findOne({
+                attributes: ['id'],
+                where: {
+                    name: data.after.purposeType
+                }
+            })
+
+            let newLocationTypeId = await models.category.findOne({
+                attributes: ['id'],
+                where: {
+                    name: data.after.locationType
+                }
+            })
+
+            let response = await models.ad_place.update({
+                capacity: data.after.capacity,
+                location_type: newLocationTypeId.dataValues.id,
+                purpose: newPurposeId.dataValues.id,
+                status: data.after.status
+            }, {
+                where: {
+                    id: data.instanceId
+                }
+            })
+            res.json({
+                success: true
+            })
+        } else if (data.type === 'ad_content') {
+            let response = await models.ad_content.update({
+                height: data.after.height,
+                width: data.after.width,
+                start: data.after.start,
+                end: data.after.end
+            }, {
+                where: {
+                    id: data.instanceId
+                }
+            })
+            res.json({
+                success: true
+            })
+        }
+    } catch (error) {
+        res.json({
+            success: false,
+            message: error.message
+        })
+    }
 }
 
 module.exports = controller;
