@@ -10,11 +10,11 @@ controller.deleteRequest = async(req, res)=>{
     console.log(req.body);
     try {
         const ad_content = req.body['ad-content']
-        if(req.body['image1']){
+        if(req.body['image1'] || req.body['image1'] != null){
             const image1 = req.body['image1'];
             fs.unlinkSync( __dirname + '../../../'  + image1);
         }
-        if(req.body['image2']){
+        if(req.body['image2'] || req.body['image2'] != null){
             const image2 = req.body['image2'];
             fs.unlinkSync(  __dirname + '../../../' + image2);
         }
@@ -28,10 +28,16 @@ controller.deleteRequest = async(req, res)=>{
                 id: request_id
             })
         } catch (error) {
-            
+            res.json({
+                success: false,
+                message: error,
+            })
         }
     } catch (error) {
-        throw error;
+        res.json({
+            success: false,
+            message: error,
+        })
     }
 }
 
@@ -40,9 +46,6 @@ controller.createRequest = async(req, res, next)=>{
     let img = req.files;
     let {inputName, size, startDate, email, address, endDate, adType, adTypeId, content, locationId} = req.body;
     let adLocation = req.body['ad-location'];
-    // let {ad, size, adTypeId, adType, address, addressOfAd, contact, content, email, endDate, idAddressOfAd, inputName, startDate} = req.body;
-    // let adLocation = req.body['ad-location'];
-    //create ad_content
     let height = size[0];
     let width = size[1];
     let ad_content;
@@ -70,18 +73,25 @@ controller.createRequest = async(req, res, next)=>{
                 status: "sent",
             })
         } catch (error) {
-            throw error;
+            res.json({
+                success: false,
+                message: error,
+            })
         }
 
         res.json({
-            message: "Success",
+            success: true,
+            message: "Tạo yêu cầu cấp phép thành công",
             request: request,
             ad_content: ad_content,
             address: adLocation,
             type: adType,
         })
     } catch (error) {
-        throw error;
+        res.json({
+            success: false,
+            message: error,
+        })
     }
 }
 
@@ -90,16 +100,27 @@ controller.show = async (req, res) => {
     res.locals.page_name = "Danh sách cấp phép"
 
     let data = await models.sequelize.query(
-        'SELECT create_requests.id as request_id, create_requests.officer, create_requests.status, ad_contents.*, places.address_formated, categories.name, categories.field_id FROM create_requests JOIN ad_contents ON ad_contents.id = create_requests.ad_id JOIN ad_places ON ad_places.id = ad_contents.ad_place_id JOIN places ON places.id = ad_places.place_id JOIN categories ON ad_contents.ad_type = categories.id WHERE create_requests.officer = $1',
+        'SELECT create_requests.id as request_id, create_requests.officer, create_requests.status, ad_contents.*, places.address_formated, categories.name, categories.field_id, areas.name as ward FROM create_requests JOIN ad_contents ON ad_contents.id = create_requests.ad_id JOIN ad_places ON ad_places.id = ad_contents.ad_place_id JOIN places ON places.id = ad_places.place_id JOIN categories ON ad_contents.ad_type = categories.id JOIN areas ON areas.id = places.area_id WHERE create_requests.officer = $1',
         { 
             bind: [req.session.user.id], 
             type: models.Sequelize.QueryTypes.SELECT 
         }
     );
-    
-
-    console.log(data);
-    res.render('district/permission', { layout: 'district_layout', data: data});
+    if(req.session.user.areaLevel == 1){
+        let wards = await models.sequelize.query(
+            'SELECT areas.name, areas.id as area_id, accounts.id as id FROM areas JOIN accounts ON accounts.id = $2 WHERE areas.parent_id = $1',
+            { 
+                bind: [req.session.user.delegation, req.session.user.id], 
+                type: models.Sequelize.QueryTypes.SELECT 
+            }
+         );
+         console.log(wards);
+         res.render('district/permission', { layout: 'district_layout', data: data, wards: wards});
+        //  res.render('district/permission', { layout: 'district_layout', wards: wards});
+    } else {
+        console.log(data);
+        res.render('district/permission', { layout: 'district_layout', data: data});
+    }
 }
 
 module.exports = controller; 

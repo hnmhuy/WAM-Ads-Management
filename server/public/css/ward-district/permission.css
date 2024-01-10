@@ -575,8 +575,8 @@ li.selected {
 .creation_btn {
   margin-left: 40px;
   background-color: #4f3ed7;
-  height: 50%;
-  width: 3%;
+  height: 90%;
+  width: 13%;
   color: white;
   padding: 8px;
   border: 0;
@@ -783,4 +783,35 @@ li.selected {
   position: relative;
   padding:0;
   margin:0;
+}
+
+.tab-bar {
+  display: flex;
+  gap: 10px;
+  padding: 0 !important;
+  justify-content: flex-start;
+  align-items: last baseline;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  transition: all 0.3s ease-in-out;
+}
+
+.tab-bar button {
+  background-color: transparent;
+  color: black;
+  padding: 8px;
+  border-radius: 10px 10px 0px 0px;
+  box-shadow: 0px 0px 50px 3px rgba(1, 1, 1, 0.1);
+  border: none;
+  width: 15%;
+  font-size: 80%;
+  font-family: "Quicksand", sans-serif;
+}
+
+.tab-btn-active {
+  color: white !important;
+  background-color: #262058 !important;
+  transition: all 0.2s ease-in allow-discrete;
+  font-weight: bold;
+  font-size: 100%;
 }
