@@ -238,8 +238,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function openFeedbackForm() {
 
   document.querySelector(".feedback-form").classList.remove("hidden");
-  document.querySelector(".overlay").classList.remove("hidden");
-
+  document.querySelector(".overlay").classList.remove("hidden");  
   const inputFields = document.querySelectorAll(".feedback-form input");
   inputFields.forEach((input) => {
     input.value = "";

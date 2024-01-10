@@ -45,14 +45,30 @@ export async function openSidePeek(data) {
         sidepeek.classList.add(`${isReported ? 'sticky-left' : 'float'}`);
         let adContentContainer = sidepeek.querySelector(".ad-content");
         adContentContainer.innerHTML = "";
-        // let data = await fetch(`http://localhost:4000/api/ad_place/getOne?id=${data.data.id}c&includeAdContent=true`).then(res => res.json());
-        let data = await fetch(`http://localhost:4000/api/ad_place/getOne?id=e295a4ee-5591-4270-9c7f-922b33fb7d72&includeAdContent=true`).then(res => res.json());
-        generateSidepeekAd(sidepeek, data);
+        let adId = JSON.parse(data.detail).dataid;
+        // console.log("THIS IS DTAA DETAIL:", JSON.parse(data.detail));
+        // console.log("THIS IS ID:", adId);
+        let dataAdPlace = await fetch(`http://localhost:4000/api/ad_place/getOne?id=${adId}&includeAdContent=true`).then(res => res.json());
+        // console.log("THISS IS DATA PLACE: ", dataAdPlace );
+        // let dataAdPlace = await fetch(`http://localhost:4000/api/ad_place/getOne?id=e295a4ee-5591-4270-9c7f-922b33fb7d72&includeAdContent=true`).then(res => res.json());
+        generateSidepeekAd(sidepeek, dataAdPlace);
 
     } else if (category === 'fb') {
         fbDetail.querySelector('.header .bi-chevron-double-left').onclick = closeFeedbackDetail
         fbDetail.className = 'feedbackDetail-container';
         fbDetail.classList.add('float');
+        let content = fbDetail.querySelector("#feedback-content");
+        let locationImgDiv = fbDetail.querySelector(".location-img");
+        locationImgDiv.innerHTML = `<p>Hình ảnh đính kèm</p>`
+
+        // let status = fbDetail.querySelector("#status");
+        content.innerHTML = "";
+        // status.innerHTML = `<p class="title">Trạng thái phản hồi</p>`
+        let fbId = JSON.parse(data.detail).dataid;
+        let sampleData = JSON.parse(data.detail)
+        let fbData = await fetch(`http://localhost:4000/api/feedback/getFeedback?id=${fbId}`).then(res => res.json());
+        generateFeedbackSidepeek(fbDetail, fbData, sampleData)
+
     }
 
     
@@ -296,18 +312,67 @@ export function closeFeedbackDetail() {
     fbDetail.classList.add('hidden');
 }
 
-function formatDate(inputDate) {
+function formatDate(inputDate, getTime=false) {
     const date = new Date(inputDate);
     
     // Check if the date is valid
     if (isNaN(date.getTime())) {
-      return "Invalid date";
+        return "Invalid date";
     }
-    
+
+    let formattedDate = '';
     const day = date.getDate();
     const month = date.getMonth() + 1; // Months are zero-based
     const year = date.getFullYear();
+    if(!getTime)
+    {
+        formattedDate = `Ngày ${day} tháng ${month} năm ${year}`;
+        return formattedDate;
+    }
+    else
+    {
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        const seconds = date.getSeconds().toString().padStart(2, '0');
+        formattedDate = `${day}/${month}/${year} - ${hours}:${minutes}:${seconds}`;
+        return formattedDate;
+        
+    }
+
+}
+
+function generateFeedbackSidepeek(fbDetail,data, sampleData)
+{
+    let locationImgDiv = fbDetail.querySelector(".location-img");
+    let formatAddress = fbDetail.querySelector("#format-address");
+    let fbType = fbDetail.querySelector("#feedback-type");
+    let time = fbDetail.querySelector("#feedback-time");
+    let name = fbDetail.querySelector("#name");
+    let email = fbDetail.querySelector("#email");
+    let phoneNumber = fbDetail.querySelector("#phone-number");
+    let content = fbDetail.querySelector("#feedback-content");
+    let status = fbDetail.querySelector(".detail-feedback-status");
+    let statusIcon = status.querySelector(".status-icon-shadow");
+    let statusIconPoint = status.querySelector(".satus-icon-point");
+    let statusText = status.querySelector(".detail-feedback-status-text");
+
+    status.className = `detail-feedback-status ${sampleData.status}-shadow`
+    statusIcon.className = `status-icon-shadow animate-flicker ${sampleData.status}-shadow`
+    statusIconPoint.className = `satus-icon-point ${sampleData.status}`
+    statusText.textContent = sampleData.status_VN;
+
+    locationImgDiv.appendChild(generateCarousel(data, data.image1, data.image2));
+    formatAddress.textContent = `${data.place.address_formated}, ${data.place.area.formatedName}`;
+    fbType.textContent = sampleData.feedback_type_VN;
+    time.textContent = formatDate(data.createdAt, true);
+    name.textContent = data.name;
+    email.textContent = data.email;
+    phoneNumber.textContent = data.phone;
+    content.innerHTML = 
+    `
+        ${data.content}
+    `
+
     
-    const formattedDate = `Ngày ${day} tháng ${month} năm ${year}`;
-    return formattedDate;
-  }
+}
+
