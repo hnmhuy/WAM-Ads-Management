@@ -5,6 +5,7 @@ let adPlaceData = {
 }
 let pin = undefined;
 let locationId = undefined;
+let ward = undefined;
 
 document.addEventListener("DOMContentLoaded", () => {
     permissionMap = initMap('permission-map', false);
@@ -79,51 +80,10 @@ close_btn_.addEventListener('click', () => {
     });
 });
 
-// let countries = [];
-// const menu_div = document.querySelector(".menu_div"),
-//     selectBtn = menu_div.querySelector(".select-btn"),
-//     searchInp = menu_div.querySelector("input"),
-//     options = menu_div.querySelector(".options");
-
-// function addCountry(selectedCountry) {
-//     options.innerHTML = "";
-//     countries.forEach(country => {
-//         let isSelected = country.name == selectedCountry ? "selected" : "";
-//         let li = `<li class="selectedAddress" onclick="updateName(this)" class="${isSelected}">${country.name}
-//         <input style="display: none" id="${country.id}" name="${countries.id}">
-//       </li>`;
-//         options.insertAdjacentHTML("beforeend", li);
-//     });
-// }
-
-// function updateName(selectedLi) {
-//     searchInp.value = "";
-//     addCountry(selectedLi.innerText);
-//     menu_div.classList.remove("active");
-//     selectBtn.firstElementChild.value = selectedLi.innerText;
-//     const idSelected = selectBtn.querySelector("#idAddressOfAd");
-//     console.log(selectedLi.firstElementChild);
-//     idSelected.value = selectedLi.firstElementChild.id;
-//     console.log(idSelected.value);
-// }
-// searchInp.addEventListener("keyup", () => {
-//     let arr = [];
-//     let searchWord = searchInp.value.toLowerCase();
-//     arr = countries.filter(data => {
-//         return data.toLowerCase().startsWith(searchWord);
-//     }).map(data => {
-//         let isSelected = data == selectBtn.firstElementChild.innerText ? "selected" : "";
-//         return `<li class="selectedAddressOfAd" onclick="updateName(this)" class="${isSelected}">${data}</li>`;
-//     }).join("");
-//     options.innerHTML = arr ? arr : `<p style="margin-top: 10px;">Oops! Country not found</p>`;
-// });
-// selectBtn.addEventListener("click", () => menu_div.classList.toggle("active"));
-
 async function updateAdPlace(areaId) {
     let res = await fetch(`api/ad_place/getGeojson?areaId=${areaId}`);
     let data = await res.json();
     if(data.success) {
-        console.log(data.data); 
         let geojson = data.data;
         permissionMap.getSource('ad-place').setData(geojson);
     } else {
@@ -142,9 +102,10 @@ function getAdLocationData(event) {
     pin.setLngLat(coordinate).addTo(permissionMap);
     updateLngLatDisplay('permission-map', coordinate[0].toFixed(6), coordinate[1].toFixed(6));
     properties.area = JSON.parse(properties.area);
-    let address = properties.address_formated + ", " + properties.area.formatedName;
+    let address = properties.address_formated;
     document.getElementById("ad-location").value = address;
     locationId = properties.id;
+    ward = properties.area.name;
 }
 
 async function showPopup(delegation) {
@@ -155,44 +116,52 @@ async function showPopup(delegation) {
     // )
     // addCountry();
     await updateAdPlace(delegation);
-    // console.log(countries)
-    fetch('api/category/getCategory?fieldId=T3').then(res => res.json()).then(
-        data => data.data.forEach((item) => {
-            const div = document.createElement("div");
-            div.classList.add("permission-dropdown-option-content");
-            div.textContent = item.name;
-            div.id = item.id;
-            div.onclick = function () {
-                showType(this);
-            };
-            document.querySelector(".permission-dropdown-option").appendChild(div);
-        })
-    )
-
-    imgInputController("upload-img-request");
+    // imgInputController("upload-img-request");
     document.querySelector('body').style.overflowY = 'hidden';
     originalStyles_.visibility = popup_.style.visibility || '';
     originalStyles_.top = popup_.style.top || '';
     originalStyles_.left = popup_.style.left || '';
     originalStyles_.transform = popup_.style.transform || '';
-
     originalImg_.marginBottom = img_.style.marginBottom || '';
     originalImg_.transform = img_.style.transform || '';
     img_.style.marginBottom = '45%';
     img_.style.transform = 'translate(-50%, -50%) scale(1)';
     img_.style.visibility = 'visible';
-
     popup_parent_.style.visibility = 'visible';
     popup_.style.visibility = 'visible';
     popup_.style.top = '50%';
     popup_.style.left = '50%';
     popup_.style.transform = 'translate(-50%, -50%) scale(1)';
+    fetch('api/category/getCategory?fieldId=T3').then(res => res.json()).then(
+        (data) =>{
+            if(data.data.length == 0){
+                const div = document.createElement("div");
+                div.classList.add("permission-dropdown-option-content");
+                div.textContent = "Không có dữ liệu";
+                document.querySelector(".permission-dropdown-option").appendChild(div);
+            } else {
+                data.data.forEach((item) => {
+                const div = document.createElement("div");
+                div.classList.add("permission-dropdown-option-content");
+                div.textContent = item.name;
+                div.id = item.id;
+                div.onclick = function () {
+                    showType(this);
+                };
+                document.querySelector(".permission-dropdown-option").appendChild(div);
+                })
+            }
+        }
+    ).then(()=>{
+        document.getElementById("request-spinner").classList.toggle("d-none");
+    });
 }
 function hidePopup(){
     let inputs = document.querySelectorAll("input");
     inputs.forEach((input)=>{
         input.value = "";
     })
+    document.getElementById("request-spinner").classList.toggle("d-none");
     let textArea = document.querySelector("textarea");
     textArea.value="";
     const div_list = document.querySelectorAll(".permission-dropdown-option-content");
@@ -209,59 +178,38 @@ function hidePopup(){
     popup_.style.top = originalStyles_.top || '';
     popup_.style.left = originalStyles_.left || '';
     popup_.style.transform = originalStyles_.transform || '';
-    // const up = document.querySelector('.uploaded-area');
-    // up.remove();
-    // const form_to_display = document.querySelector(".upload");
     clearImgInputField("upload-img-request");
-    form_to_display.style.display = 'flex';
 }
 
 const maxAmountOfFiles = 2;
 window.inputFieldArray = [];
 window.uploadedFiles = [];
 
-function clearImgInputField(fieldId) {
-    let inputFieldIndex = window.inputFieldArray.indexOf(fieldId);
-    if (inputFieldIndex === -1) {
-        return;
-    }
-    //Remove all the files in the preview area
-    let previewArea = document.querySelector(`#${fieldId} .preview`);
-    previewArea.innerHTML = "";
-    previewArea.style.display = "none";
-    document.querySelector(`#${fieldId} .holder`).style.display = "block";
-    // Remove this in window.inputFieldArray
-    window.inputFieldArray.splice(inputFieldIndex, 1);
-    // Remove this in window.uploadedFiles
-    window.uploadedFiles.splice(inputFieldIndex, 1);
+function dragoverHandler(e) {
+    e.preventDefault();
+    e.target.classList.add("drag-drop-dragging");
 }
 
-function imgInputController(fieldId) {
-    window.inputFieldArray.push(fieldId);
-    window.uploadedFiles.push([]);
-    let imgInputField = document.querySelector(`#${fieldId} input[name="imgFile"]`);
-    let dragDropArea = document.querySelector(`#${fieldId} .drag-drop`);
-    let previewArea = document.querySelector(`#${fieldId} .preview`);
-    imgInputField.addEventListener("change", () => {
-        const files = imgInputField.files;
-        addImgs(files, previewArea, dragDropArea, fieldId);
-    });
-    dragDropArea.addEventListener("dragover", (e) => {
-        e.preventDefault();
-        dragDropArea.classList.add("drag-drop-dragging");
-    });
-
-    dragDropArea.addEventListener("dragleave", () => {
-        dragDropArea.classList.remove("drag-drop-dragging");
-    });
-
-    dragDropArea.addEventListener("drop", (e) => {
-        e.preventDefault();
-        dragDropArea.classList.remove("drag-drop-dragging");
-        const files = e.dataTransfer.files;
-        addImgs(files, previewArea, dragDropArea, fieldId);
-    });
+function dragleaveHandler(e) {
+    e.target.classList.remove("drag-drop-dragging");
 }
+
+function dropHandler(e) {
+    e.preventDefault();
+    e.target.classList.remove("drag-drop-dragging");
+    let previewArea = e.target.parentNode.querySelector(".preview");
+    let fieldId = e.target.parentNode.id;
+    const files = e.dataTransfer.files;
+    addImgs(files, previewArea, e.target, fieldId);
+}
+
+function inputChangeHandler(e) {   
+    let previewArea = e.target.parentNode.querySelector(".preview");
+    let fieldId = e.target.parentNode.id;
+    let dragDropArea = e.target.parentNode.querySelector(".drag-drop");
+    const files = e.target.files;
+    addImgs(files, previewArea, dragDropArea, fieldId);
+ }
 
 function removeImg(index, fieldId) {
     let inputFieldIndex = window.inputFieldArray.indexOf(fieldId);
@@ -288,72 +236,124 @@ function removeImg(index, fieldId) {
     }
 }
 
-function addImgs(files, previewArea, dragDropArea, fieldId) {
-    let inputFieldIndex = window.inputFieldArray.indexOf(fieldId);
-    const fileCount = previewArea.querySelectorAll(".fileHolder").length;
-    // Check the file format and size
-    for (let i = 0; i < files.length; i++) {
-        let file = files[i];
-        let fileName = file.name;
-        let fileSize = file.size;
-        let fileExtension = fileName.split(".").pop();
-        let allowedExtensions = ["png", "jpeg", "jpg", "gif"];
-        let maxFileSize = 5 * 1024 * 1024; // 2MB
+function checkValidFile(file) {
+    let fileName = file.name;
+    let fileSize = file.size;
+    let fileExtension = fileName.split(".").pop();
+    let allowedExtensions = ["png", "jpeg", "jpg", "gif"];
+    let maxFileSize = 5 * 1024 * 1024; // 2MB
 
-        if (!allowedExtensions.includes(fileExtension)) {
-            alert("File format not supported");
-            return;
-        } else if (fileSize > maxFileSize) {
-            alert("File size is too large");
-            return;
-        }
+    if (!allowedExtensions.includes(fileExtension)) {
+        alert("File format not supported");
+        return false;
+    } else if (fileSize > maxFileSize) {
+        alert("File size is too large");
+        return false;
+    } else {
+        return true;
     }
+}
 
-    // Check if the preview is not display and hide the hodler
+function addImgIntoPreview(file, previewArea, dragDropArea, fieldId) {
     if (previewArea.style.display === "none") {
         previewArea.style.display = "flex";
         dragDropArea.querySelector(".holder").style.display = "none";
     }
-    let tempFileArray = window.uploadedFiles[inputFieldIndex];
-    // Check if the file is already in the window.uploadedFiles array
-    for (let i = 0; i < files.length; i++) {
-        if (tempFileArray.find((file) => file.name === files[i].name)) {
-            continue;
-        } else if (fileCount + tempFileArray.length > maxAmountOfFiles) {
-            alert(`You can only upload ${maxAmountOfFiles} files`);
-            return;
+    let fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.onload = () => {
+        let fileHolder = document.createElement("div");
+        fileHolder.classList.add("fileHolder");
+        fileHolder.setAttribute("data-target", file.name);
+        fileHolder.innerHTML = `
+            <img src="${fileReader.result}" alt="img">
+            <button type="button" onclick="removeImg('${file.name}', '${fieldId}')"><i class="bi bi-x"></i></button>
+        `;
+        previewArea.appendChild(fileHolder);
+    };
+}
+
+function checkCapacity(fieldId) {
+    let index = window.inputFieldArray.indexOf(fieldId);
+    let amount = window.uploadedFiles[index].length;
+    if (amount >= maxAmountOfFiles) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function checkExist(file, fieldId) {
+    let index = window.inputFieldArray.indexOf(fieldId);
+    if (window.uploadedFiles[index].find((item) => item.name === file.name)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function addImg(file, previewArea, dragDropArea, fieldId) {
+    let index = window.inputFieldArray.indexOf(fieldId);
+    if (checkValidFile(file)) {
+        if (checkCapacity(fieldId)) {
+            if (!checkExist(file, fieldId)) {
+                window.uploadedFiles[index].push(file);
+                addImgIntoPreview(file, previewArea, dragDropArea, fieldId);
+            } else {
+                alert("File already exist");
+            }
         } else {
-            tempFileArray.push(files[i]);
+            alert(`You can only upload ${maxAmountOfFiles} files`);
         }
     }
+}
 
-    // Check if the amount of files is not more than the max amount of files
-    if (tempFileArray.length > maxAmountOfFiles) {
-        alert(`You can only upload ${maxAmountOfFiles} files`);
+function addImgs(files, previewArea, dragDropArea, fieldId) {
+    // Find the index of the input field in window.inputFieldArray
+    let inputFieldIndex = window.inputFieldArray.indexOf(fieldId);
+    if(inputFieldIndex === -1) {
+        window.inputFieldArray.push(fieldId);
+        window.uploadedFiles.push([]);
+    }
+    for (let i = 0; i < files.length; i++) {
+        addImg(files[i], previewArea, dragDropArea, fieldId);
+    }
+}
+
+function clearImgInputField(fieldId) {
+    let inputFieldIndex = window.inputFieldArray.indexOf(fieldId);
+    if (inputFieldIndex === -1) {
         return;
-    } else {
-        // store the file into window.uploadedFiles
-        window.uploadedFiles[inputFieldIndex] = tempFileArray;
-        // Remove all the files from the preview area
-        previewArea.querySelectorAll(".fileHolder").forEach((fileHolder) => {
-            fileHolder.remove();
-        });
-        // Loop through the files and display them
-        for (let i = 0; i < tempFileArray.length; i++) {
-            let file = tempFileArray[i];
-            let fileReader = new FileReader();
-            fileReader.readAsDataURL(file);
-            fileReader.onload = () => {
-                let fileHolder = document.createElement("div");
-                fileHolder.classList.add("fileHolder");
-                fileHolder.setAttribute("data-target", file.name);
-                fileHolder.innerHTML = `
-                            <img src="${fileReader.result}" alt="img">
-                            <button type="button" onclick="removeImg('${file.name}', '${fieldId}')"><i class="bi bi-x"></i></button>
-                        `;
-                previewArea.appendChild(fileHolder);
-            };
-        };
+    }
+    //Remove all the files in the preview area
+    let previewArea = document.querySelector(`#${fieldId} .preview`);
+    previewArea.innerHTML = "";
+    previewArea.style.display = "none";
+    document.querySelector(`#${fieldId} .holder`).style.display = "block";
+    // Remove this in window.inputFieldArray
+    window.inputFieldArray.splice(inputFieldIndex, 1);
+    // Remove this in window.uploadedFiles
+    window.uploadedFiles.splice(inputFieldIndex, 1);   
+    // Clear the input field
+    let imgInputField = document.querySelector(`#${fieldId} input[name="imgFile"]`);
+    imgInputField.files = null;
+}
+
+function setImgFileForField(formData, fieldId) {
+    let inputImgIndex = window.inputFieldArray.indexOf(fieldId);
+    if (inputImgIndex === -1) {
+        formData.append('newImgFile', null);
+        return;
+    }
+    let files = window.uploadedFiles[inputImgIndex];
+    // convert the files to filelist
+    let fileList = new DataTransfer();
+    for (let i = 0; i < files.length; i++) {
+        fileList.items.add(files[i]);
+    }
+    // Add the filelist to the form data
+    for(file of fileList.files) {
+        formData.append('newImgFile', file);
     }
 }
 
@@ -421,33 +421,34 @@ async function submitForm(event) {
             body: fd
         })
         res = await res.json();
-        console.log(res);
-        if(res.message == "Success"){
+        if(res.success){
             let request = res.request;
             let ad_content = res.ad_content;
             let address = res.address;
             let type = res.type;
-            console.log(ad_content.description);
             let tr = document.createElement("tr");
             if(request.status === "sent"){
                 request.status = "Đã gửi"
-            } else if (request.status === "approved"){
+            } else if (request.status === "accepted"){
                 request.status = "Đã cấp phép"
             } else {
                 request.status = "Đã từ chối"
             }
             tr.innerHTML = `
             <td>
-                <p class="text-align-center table-cell-type">${ad_content.company_name}</p>
-            </td>
+                <p class="table-cell-type">${ward}</p>
+            </td>            
             <td>
                 <p class="table-cell-type">${address}</p>
+            </td>            
+            <td>
+                <p class= text-align-center table-cell-type">${ad_content.company_name}</p>
             </td>
             <td>
                 <p class="table-cell-type">${type}</p>
             </td>
             <td class="d-flex justify-content-center align-items-center">
-                <p class="mx-0 status delivered">${request.status}</p>
+                <p  style="font-weight: 900;" class="font-weight-bold mx-0 status sent">${request.status}</p>
             </td>
             <td>
                 <div class="last-cell">
@@ -465,11 +466,37 @@ async function submitForm(event) {
             document
                 .querySelectorAll("tbody tr:not(.hide)")
                 .forEach((visible_row, i) => {
-                    console.log(i);
                     visible_row.style.backgroundColor =
                         i % 2 == 0 ? "transparent" : "rgba(79, 62, 215, 0.1)";
                 });
+            Toastify({
+                text: res.message,
+                duration: 3000,
+                close: false,
+                gravity: "bottom",
+                position: "right",
+                stopOnFocus: true,
+                style: {
+                    background: "#0dbc79",
+                    color: "#000"
+                },
+                onClick: function(){} // Callback after click
+            }).showToast();
+            hidePopup();
+        } else {
+            Toastify({
+                text: res.message,
+                duration: 3000,
+                close: false,
+                gravity: "bottom",
+                position: "right",
+                stopOnFocus: true,
+                style: {
+                    background: "#FF6969",
+                    color: "#000"
+                },
+                onClick: function(){} // Callback after click
+            }).showToast();
         }
-        hidePopup();
     }
 }

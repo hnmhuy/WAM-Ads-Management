@@ -6,6 +6,12 @@
 <link rel="stylesheet" href="/public/css/ward-district/home.css">
 <link rel="stylesheet" href="/public/css/ward-district/maps.css" />
 <link rel="stylesheet" href="/public/css/ward-district/ad-card.css" />
+<link rel="stylesheet" href="/public/css/ward-district/random-location.css" />
+<link rel="stylesheet" href="/public/css/ward-district/sidepeek-ad.css" />
+<link rel="stylesheet" href="/public/css/ward-district/sidepeek-noAd.css" />
+<link rel="stylesheet" href="/public/css/ward-district/ad-detail.css" />
+<link rel="stylesheet" href="/public/css/ward-district/carousel-swipe.css" />
+<link rel="stylesheet" href="/public/css/ward-district/feedback-detail.css" />
 
 <script type="module" src="/public/js/ward-district/home.js"></script>
 
@@ -17,51 +23,271 @@
   <div id="map" style="width: 95vw; height: 100vh;"></div>
 </div>
 
+<div class="sidepeek-container hidden" id="sidepeek-ad">
+  <div class="area-icon shadow-sm">
+    <i class="bi bi-pin-map"></i>
+    <h3 id="area">Phường 4, Quận 5</h3>
+    <i class="bi bi-x-circle"></i>
+  </div>
+  <div class="sidepeek-container-data">
+    <div class="location-img">
+    </div>
+
+    <div class="address">
+      <i class="bi bi-geo-alt-fill"></i>
+      <p id="format-address">
+        Đồng Khởi - Nguyễn Du (Sở Văn hóa và Thể thao), Phường Bến Nghé,
+        Quận 1
+      </p>
+    </div>
+    <div class="location-content">
+      <!-- <h4 id="type-ad">trụ/cụm pano</h4> -->
+      <div>
+        <p class="title">Số lượng bảng (bảng/vị trí)</p>
+        <p class="content-field" id="capacity">2 bảng</p>
+      </div>
+      <div>
+        <p class="title">Hình thức quảng cáo</p>
+        <p class="content-field" id="purpose">Cổ động chính trị</p>
+      </div>
+      <div>
+        <p class="title">Loại vị trí</p>
+        <p class="content-field" id="type-location">
+          Hành lang an toàn giao thông
+        </p>
+      </div>
+    </div>
+
+    <div class="ad-content">
+      <h5 id="num-ad">Thông tin bảng quảng cáo (4)</h5>
+    </div>
+  </div>
+</div>
+
+<div class="sidepeek-container hidden" id="sidepeek-noAd">
+  <div class="area-icon shadow-sm">
+    <i class="bi bi-pin-map"></i>
+    <h3 id="area">Phường , Quận 5</h3>
+    <i class="bi bi-x-circle"></i>
+  </div>
+  <div class="sidepeek-container-data">
+    <div class="location-img">
+      <p>Hình ảnh điểm đặt quảng cáo</p>
+      <img src="./public/images/no-ad.png" alt="not found" />
+    </div>
+    <div class="address">
+      <i class="bi bi-geo-alt-fill"></i>
+      <p id="format-address">
+        Đồng Khởi - Nguyễn Du (Sở Văn hóa và Thể thao), Phường Bến Nghé,
+        Quận 1
+      </p>
+    </div>
+    <div class="location-content">
+      <h4 id="type-ad">trụ/cụm pano</h4>
+      <div>
+        <p class="title">Số lượng bảng (bảng/vị trí)</p>
+        <p class="content-field" id="capacity">2 bảng</p>
+      </div>
+      <div>
+        <p class="title">Hình thức quảng cáo</p>
+        <p class="content-field" id="purpose">Cổ động chính trị</p>
+      </div>
+      <div>
+        <p class="title">Loại vị trí</p>
+        <p class="content-field" id="type-location">
+          Hành lang an toàn giao thông
+        </p>
+      </div>
+    </div>
+    <div class="ad-content">
+      <h5 id="num-ad">Thông tin bảng quảng cáo (0)</h5>
+      <img src="./public/images/no-data.png" alt="not found" />
+      <p class="notification">Chưa có dữ liệu!</p>
+      <p class="notification">Vui lòng chọn điểm trên bản đồ để xem</p>
+    </div>
+  </div>
+</div>
+
+<div class="feedbackDetail-container hidden" id="feedback-detail">
+  <div class="header shadow-sm">
+    <img src="./public/images/detail-icon.svg" alt="not found!" />
+    <h3 id="header-title">Chi tiết phản hồi</h3>
+    <i class="bi bi-chevron-double-left"></i>
+  </div>
+  <div class="feedbackDetail-container-data">
+    <div class="location-img">
+      <p>Hình ảnh đính kèm</p>
+      <div id="carouselId6" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          <div data-bs-target="#carouselId6" data-bs-slide-to="0" class="active" aria-current="true"
+            aria-label="First slide"></div>
+          <div data-bs-target="#carouselId6" data-bs-slide-to="1" aria-label="Second slide"></div>
+          <div data-bs-target="#carouselId6" data-bs-slide-to="2" aria-label="Third slide"></div>
+        </div>
+        <div class="carousel-inner" id="imageList" role="listbox">
+          <div class="carousel-item active">
+            <img
+              src="https://thedrum-media.imgix.net/thedrum-prod/s3/news/tmp/349138/uk_0.jpg?w=1280&ar=default&fit=crop&crop=faces,edges&auto=format"
+              class="w-100 d-block" alt="First slide" />
+          </div>
+          <div class="carousel-item">
+            <img
+              src="https://thedrum-media.imgix.net/thedrum-prod/s3/news/tmp/349138/uk_0.jpg?w=1280&ar=default&fit=crop&crop=faces,edges&auto=format"
+              class="w-100 d-block" alt="Second slide" />
+          </div>
+          <div class="carousel-item">
+            <img
+              src="https://thedrum-media.imgix.net/thedrum-prod/s3/news/tmp/349138/uk_0.jpg?w=1280&ar=default&fit=crop&crop=faces,edges&auto=format"
+              class="w-100 d-block" alt="Third slide" />
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselId6" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselId6" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+    <div class="address">
+      <i class="bi bi-geo-alt-fill"></i>
+      <p id="format-address">
+        Đồng Khởi - Nguyễn Du (Sở Văn hóa và Thể thao), Phường Bến Nghé,
+        Quận 1
+      </p>
+    </div>
+    <div class="feedbackDetail-content">
+      <div id="status">
+        <p class="title">Trạng thái phản hồi</p>
+        <div class="detail-feedback-status inprocess-shadow">
+          <div class="detail-feedback-status-icon">
+            <div class="status-icon-shadow animate-flicker inprocess-shadow"></div>
+            <div class="satus-icon-point inprocess"></div>
+          </div>
+          <div class="detail-feedback-status-text">Đang xử lý</div>
+        </div>
+      </div>
+      <div>
+        <p class="title">Hình thức quảng cáo</p>
+        <p class="content-field" id="&#39;purpose">Cổ động chính trị</p>
+      </div>
+      <div>
+        <p class="title">Thời gian</p>
+        <p class="content-field" id="feedback-time">26/10/2023 - 12:23:20</p>
+      </div>
+      <div>
+        <p class="title">Họ và tên</p>
+        <p class="content-field" id="name">Fa Ngọc Uyển Nhi</p>
+      </div>
+      <div>
+        <p class="title">Email</p>
+        <p class="content-field" id="email">fanhi11211@gmail.com</p>
+      </div>
+      <div>
+        <p class="title">Số điện thoại</p>
+        <p class="content-field" id="phone-number">0123456789</p>
+      </div>
+      <div>
+        <p class="title">Nội dung phản hồi</p>
+        <p class="content-field" id="feedback-content">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum
+          harum minima quod exercitationem fuga similique fugit
+          reprehenderit eaque at. Earum laborum perferendis facere alias
+          molestias minus officia mollitia?
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="random-container shadow-sm hidden" id="random-sidepeek">
+  <img src="./public/images/random-location.svg" alt="not found" />
+  <div class="content-field">
+    <div class="address-container">
+      <p class="detail-address">227, Nguyễn Văn Cừ</p>
+      <p class="area">Phường 4, Quận 5, Thành Phố Hồ Chí Minh</p>
+    </div>
+    <div class="coorordinate">
+      <p class="lat-long">10.750839 - 106.674025</p>
+    </div>
+  </div>
+  <i class="bi bi-x delete-random"></i>
+</div>
 
 
+<div class="ad-detail hidden">
+  <div class="header-container">
+    <h3 id="ad-name"></h3>
+    <i class="bi bi-x-circle" onclick="closeAdDetail()"></i>
+  </div>
+  <div class="adetail-address">
+    <i class="bi bi-geo"></i>
+    <p id="detail-format-address">
+    </p>
+  </div>
+  <div class="carousel-swipe">
+    <p class="title">Hình ảnh quảng cáo</p>
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <img src="https://d1jie5o4kjowzg.cloudfront.net/deli-headline-banner-images/pepsi-3d-billboard.jpg"
+            alt="pic" />
+        </div>
+        <div class="swiper-slide">
+          <img
+            src="https://thedrum-media.imgix.net/thedrum-prod/s3/news/tmp/349138/uk_0.jpg?w=1280&ar=default&fit=crop&crop=faces,edges&auto=format"
+            alt="pic" />
+        </div>
+        <div class="swiper-slide">
+          <img
+            src="https://thedrum-media.imgix.net/thedrum-prod/s3/news/tmp/349138/uk_0.jpg?w=1280&ar=default&fit=crop&crop=faces,edges&auto=format"
+            alt="pic" />
+        </div>
+        <div class="swiper-slide">
+          <img
+            src="https://thedrum-media.imgix.net/thedrum-prod/s3/news/tmp/349138/uk_0.jpg?w=1280&ar=default&fit=crop&crop=faces,edges&auto=format"
+            alt="pic" />
+        </div>
+      </div>
+      <div class="swiper-pagination"></div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+    </div>
+  </div>
+  <div class="detail-info-container">
+    <p>Thông tin chi tiết</p>
+    <div class="detail-info-content">
+      <div class="info-col1">
+        <div class="info1">
+          <p class="title">Hình thức quảng cáo</p>
+          <p class="content-field" id="purpose">Cổ động chính trị</p>
+        </div>
+        <div class="info2">
+          <p class="title">Thời hạn hợp đồng</p>
+          <div class="date-container">
+            <img src="./public/images/Line 7.png" alt="Not found!" />
+            <div class="date">
+              <p class="content-field" id="start">Ngày 15 tháng 10 năm 2023</p>
+              <p class="content-field" id="end">Ngày 16 tháng 10 năm 2023</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="info-col2">
+        <div class="info1">
+          <p class="title">Loại bảng quảng cáo</p>
+          <p class="content-field" id="type-ad">Trụ/Cụm pano</p>
+        </div>
 
-
-{{!--
-
-<script>
-  (g => {
-    var h,
-      a,
-      k,
-      p = 'The Google Maps JavaScript API',
-      c = 'google',
-      l = 'importLibrary',
-      q = '__ib__',
-      m = document,
-      b = window;
-    b = b[c] || (b[c] = {});
-    var d = b.maps || (b.maps = {}),
-      r = new Set(),
-      e = new URLSearchParams(),
-      u = () =>
-        h ||
-        (h = new Promise(async (f, n) => {
-          await (a = m.createElement('script'));
-          e.set('libraries', [...r] + '');
-          for (k in g)
-            e.set(
-              k.replace(/[A-Z]/g, t => '_' + t[0].toLowerCase()),
-              g[k]
-            );
-          e.set('callback', c + '.maps.' + q);
-          a.src = `https://maps.${c}apis.com/maps/api/js?` + e;
-          d[q] = f;
-          a.onerror = () => (h = n(Error(p + ' could not load.')));
-          a.nonce = m.querySelector('script[nonce]')?.nonce || '';
-          m.head.append(a);
-        }));
-    d[l]
-      ? console.warn(p + ' only loads once. Ignoring:', g)
-      : (d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)));
-  })({ key: 'AIzaSyAyotXhcbT5Snxmn6dSGNxX5QH_hGvKnCk', v: 'beta' });
-</script>
-<script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
-
-<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-<script type="module" defer src="/public/js/maps.js"></script>
---}}
+      </div>
+      <div class="info-col3">
+        <div class="info1">
+          <p class="title">Loại vị trí</p>
+          <p class="content-field" id="type-location">Đất công</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

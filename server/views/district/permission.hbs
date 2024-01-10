@@ -7,51 +7,32 @@
     </form>
     <button class="creation_btn" style="" onclick="showPopup({{user.delegation}})">
       <div>
-        <i class="bi bi-patch-plus"></i>
+        <i class="bi bi-patch-plus"></i><p style="margin: 0 0 0 10px;">Cấp phép</p>
       </div>
     </button>
 
   </section>
+  {{!-- <section class="tab">
+    <div class="tab-bar">
+      {{#each wards}}
+        <button class="tab-btn" data-id="{{id}}" data-area="{{area_id}}" data-name="{{name}}" onclick="getPermission(this)">
+          {{name}}
+        </button>
+      {{/each}}
+    </div>
+  </section> --}}
   <!-- Table head -->
   <section class="table__body">
     <table class="table_in_location">
       <thead class="table_head_in_location">
         <tr class="tr_in_table_in_location">
-          <th>Công Ty</th>
+          <th>Phường</th>
           <th>Địa Điểm</th>
+          <th>Công Ty</th>
           <th>
-            {{!-- <div class="dropdown">
-              <a style="color: white !important" href="#"
-                class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
-                aria-expanded="false">Loại bảng quảng cáo</a>
-              <div style="padding: 10px" class="dropdown-menu">
-                <input type="checkbox" id="co-dong-chinh-tri" name="co-dong-chinh-tri" value="co-dong-chinh-tri" />
-                <label for="co-dong-chinh-tri">Cổ động chính trị</label><br />
-                <input type="checkbox" id="quang-cao-thuong-mai" name="quang-cao-thuong-mai"
-                  value="quang-cao-thuong-mai" />
-                <label for="quang-cao-thuong-mai">Quảng cáo thương mại</label><br />
-                <input type="checkbox" id="xa-hoi-hoa" name="xa-hoi-hoa" value="xa-hoi-hoa" />
-                <label for="xa-hoi-hoa">Xã hội hoá</label><br />
-              </div>
-            </div> --}}
             Loại bảng quảng cáo
           </th>
           <th>
-            {{!-- <div class="dropdown">
-              <a style="color: white !important" href="#"
-                class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
-                aria-expanded="false">Trạng thái</a>
-              <div style="padding: 10px" class="dropdown-menu">
-                <input type="checkbox" id="dang-cho-duyet" name="dang-cho-duyet" value="dang-cho-duyet" />
-                <label for="dang-cho-duyet">Đang chờ duyệt</label><br />
-                <input type="checkbox" id="da-cap-phep" name="da-cap-phep" value="da-cap-phep" />
-                <label for="chua-quy-hoach">Đã cấp phép</label><br />
-                <input type="checkbox" id="da-huy" name="da-huy" value="da-huy" />
-                <label for="chua-quy-hoach">Đã huỷ</label><br />
-                <input type="checkbox" id="dang-quang-cao" name="dang-quang-cao" value="dang-quang-cao" />
-                <label for="dang-quang-cao">Đang quảng cáo</label><br />
-              </div>
-            </div> --}}
             Trạng thái
           </th>
           <th></th>
@@ -61,24 +42,25 @@
       <tbody>
         {{#each data}}
         <tr id="{{request_id}}" class="tr_in_table_in_location">
-          <td>
-            <p class="text-align-center table-cell-type">{{company_name}}</p>
-          </td>
+          <td>{{ward}}</td>          
           <td>
             <p class="table-cell-type">{{address_formated}}</p>
           </td>
           <td>
+            <p class="text-align-center table-cell-type">{{company_name}}</p>
+          </td>
+
+          <td>
             <p class="table-cell-type">{{name}}</p>
           </td>
           <td class="d-flex justify-content-center align-items-center">
-            {{!-- <p class="mx-0 status sent">{{#ifEquals status "sent"}}Đã gửi{{else}}{{#ifEquals status "accepted"}}Đã chấp thuận{{else}}Bị từ chối{{/ifEquals}}{{/ifEquals}}</p> --}}
             {{#ifEquals status "sent"}}
-              <p class="mx-0 status sent">Đã gửi</p>
+              <p style="font-weight: 900;" class="mx-0 status sent">Đã gửi</p>
             {{else}}
               {{#ifEquals status "accepted"}} 
-                <p class="mx-0 status delivered">Phê duyệt</p>
+                <p style="font-weight: 900;" class="mx-0 status delivered">Phê duyệt</p>
               {{else}}
-                <p class="mx-0 status cancelled">Từ chối</p>
+                <p style="font-weight: 900;"  class="mx-0 status cancelled">Từ chối</p>
               {{/ifEquals}}
             {{/ifEquals}}
           </td>
@@ -199,6 +181,7 @@
     <button style="position:fixed; right: 10px; top:10px;" type="button" class="btn-close" id="close-edit-request">
     </button>
     <hr>
+    
     <form id="create-request-form">
       {{!-- <div style="text-align: left; margin: 10px 0px">
           <label style="font-weight: bold;" for="ad-location" class="form-label">Địa chỉ điểm quảng cáo</label>
@@ -209,7 +192,6 @@
           <div style="text-align: left;">
             <label style="font-weight: bold;" for="inputName" class="form-label">Tên công ty</label>
             <input tabindex="1" name="inputName" type="text" class="form-control" id="inputName" name="inputName" required placeholder="Công ty"/>
-      
           </div>
       
           <div style="text-align: left;margin-top:30px">
@@ -246,6 +228,11 @@
         <input type="text" class="form-control" name="adType" id="adType" class="textBox" placeholder="Loại bảng" readonly>
         <input style="display: none;" type="text" class="form-control" name="adTypeId" id="adTypeId" class="textBox" readonly>
         <div class="permission-dropdown-option">
+          <div id="request-spinner" class="d-flex justify-content-center align-items-center h-100 w-100">
+            <div style="height: 50px; width:50px" class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
         </div>
       </div>
       <div style="text-align: left; margin: 25px 0px">
@@ -262,15 +249,17 @@
         <textarea class="form-control" name="content" id="content" rows="4"></textarea>
       </div>
       <p style="text-align: left; font-weight: bold;margin-top:25px">Hình ảnh mô tả</p>
-      <div class="imgs-field">
-        <div class="upload-field" id="upload-img-request" style="padding: 0px;height: 45%; width: 100%">
-          <label for="img-illustration" class="drag-drop" style="width: 100%">
+      <div style="width: 100%; height: 200px">
+        <div class="upload-field" id="create-location-form-upload-img">
+          <label for="imgFile-for-create" class="drag-drop" ondragover="dragoverHandler(event)"
+            ondragleave="dragleaveHandler(event)" ondrop="dropHandler(event)">
             <div class="holder">
               <i class="bi bi-cloud-arrow-up-fill"></i>
               <h4>Kéo và thả ảnh vào đây</h4> hoặc Click để duyệt file
             </div>
           </label>
-          <input type="file" name="imgFile" id="img-illustration" accept=".png, .jpeg, .gif" multiple hidden>
+          <input type="file" name="imgFile" id="imgFile-for-create" accept=".png, .jpeg, .gif, .jpg" multiple hidden
+            onchange="inputChangeHandler(event)">
           <div class="preview" style="display: none;">
           </div>
         </div>

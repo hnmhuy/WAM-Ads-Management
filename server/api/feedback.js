@@ -110,6 +110,10 @@ async function getResponse(response_id) {
 
 
 controller.getFeedback = async (req, res) => {
+    res.set({
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+    })
     let {opts, areaId, id, includeResponse} = req.query;
     if (opts === "list")
     {
@@ -120,10 +124,12 @@ controller.getFeedback = async (req, res) => {
     else
     {
         await models.feedback.findOne({
-            attributes:['name', 'email', 'phone','content', 'type', 'image1', 'image2', 'response_id'],
+            attributes:['id','name', 'email', 'phone', 'content', 'image1', 'image2', 'createdAt'],
             where: {id: id},
             include: [
-                {model: models.category, attributes: ['name']},
+                {model: models.place, attributes: ['address_formated'], as:'place', include: [{
+                    model: models.area, attributes: ['formatedName']
+                }]}
             ]
         }).then(async (data) => {
             if(includeResponse) {
