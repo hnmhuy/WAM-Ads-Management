@@ -50,26 +50,7 @@ tab_btn[1].addEventListener("click", () => {
 });
 
 
-// Filter phường
-function handleDropdownItem(event) {
-    const selected = event.target.id;
-    tab_btn.forEach((tab, index) => {
-        if (tab.classList.contains('tab-btn-active')) {
-            let tmp = index === 0 ? available_location : random_location;
-            tmp.forEach((row) => {
-                if (!row.classList.contains(selected)) {
-                    row.classList.add('collapse');
-                }
-                else {
-                    row.classList.remove('collapse');
-                }
-            });
-        }
-    });
-    extra.forEach((ex) => {
-        ex.style.display = "none"
-    })
-}
+
 
 // Toggle sibling
 function toggleSibling(sibling) {

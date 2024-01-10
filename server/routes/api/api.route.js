@@ -14,5 +14,6 @@ router.use('/permission', require('./permission.route'));
 router.use('/update_request', require('./update_request.route'));
 router.use('/ad_content', require('./ad_content.route'));
 router.use('/create_request', require('./create_request.route'));
+router.use('/mapData', require('./mapData.route'));
 
 module.exports = router;

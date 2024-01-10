@@ -1,8 +1,8 @@
-let detailOffCanvas = undefined;
 let currAdPlaceData = undefined;
 
 let createLocationCanvas = undefined;
 let updateLocationCanvas = undefined;
+let detailLocationCanvas = undefined;
 
 let mapForCreate = null;
 let mapForUpdate = null;
@@ -25,14 +25,14 @@ document.addEventListener("DOMContentLoaded", () => {
     detailLocationCanvas = new bootstrap.Offcanvas(detailLocation);
     formControl("create-location-form", mapForCreate);
     formControl("edit-location-form", mapForUpdate);
+    fetchAndAddRowAdPlace();
     
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-    let detailOffCanvasElement = document.getElementById("location_extend");
-    detailOffCanvas = new bootstrap.Offcanvas(detailOffCanvasElement);
-    fetchAndAddRowAdPlace();
-});
+// Detial location canvas controller
+function closeDetailLocationCanvas() {
+    detailLocationCanvas.hide();   
+}
 
 function updateAdPlaceRow(data) {
     const row = document.getElementById(data.id);
@@ -199,6 +199,12 @@ async function showLocationDetail(adPlaceId) {
     editBtn.disabled = true;
     const url = `/api/ad_place/getOne?id=${adPlaceId}`;
     showLoadingAdInfoCanvas();
+    let adCardContainer = document.getElementById("ad-card-container");
+    let holder = document.getElementById("ad-card-container-holder");
+    adCardContainer.classList.add("collapse");
+    holder.classList.remove("collapse");
+    holder.children[0].classList.remove("collapse");
+    holder.children[1].classList.add("collapse");
     fetch(url)
         .then((res) => res.json())
         .then((data) => {
@@ -377,12 +383,40 @@ function updateAdCard(data) {
 
 }
 
+function processAdStatus(data) {
+    let res = {}
+    if (data.status === null) {
+        res.class = 'status-location-pending';
+        res.text = "Chờ xác nhận";
+    } else if (data.status ===  true) {
+        let today = new Date();
+        let startDate = new Date(data.start);
+        let endDate = new Date(data.end);
+        if (today < startDate) {
+            res.class = 'status-ad-accepted';
+            res.text = "Chờ quảng cáo";
+        } else if (today > endDate) {
+            res.class = 'status-ad-expired';
+            res.text = "Hết hạn";
+        } else {
+            res.class = 'status-ad-accepted';
+            res.text = "Đang quảng cáo";
+        }
+
+    } else {
+        res.class = 'status-ad-rejected'
+        res.text = "Từ chối";
+    }
+    return res
+}
+
 function generateAdCard(data) {
     let card = document.createElement("div");
     card.className = 'ad-detail-card';
     card.id = `ad-${data.id}`
     let start = new Date(data.start);
     let end = new Date(data.end);
+    let status = processAdStatus(data);
     card.innerHTML = `
     <div class="ad-detail-card-title">${data.company_name}</div>
     <div class="view">
@@ -397,7 +431,7 @@ function generateAdCard(data) {
                 <span>Kết thúc</span> ${end.toLocaleDateString('vi-VN')}
             </div>
             <div class="view-info-status">
-                Đang quảng cáo
+                ${status.text}
             </div>
         </div>
         <button class="edit-ad-btn" id="" type="button" title="Chỉnh sửa" onclick="editAd(this)">
@@ -443,6 +477,7 @@ function generateAdCard(data) {
                     <label for="company-${data.id}">Công ty</label>
                     <input name="company_name" type="text" id="company-${data.id}" placeholder="" required value="${data.company_name}">
                 </div>
+                ${data.status === null ? `
                 <div class="form-field">
                     <label for="res-${data.id}">Yêu cầu</label>
                     <select id="res-${data.id}" name="res" required>
@@ -450,6 +485,7 @@ function generateAdCard(data) {
                         <option value="false">Từ chối</option>
                     </select>
                 </div>
+                ` : ""}
                 <div class="submit-btn">
                     <button type="button" class="btn btn-secondary"
                         onclick="cancelAdEdit(this)">Hủy</button>
@@ -468,14 +504,53 @@ function generateAdCard(data) {
 
 async function fetchAndAddAdCard(adPlaceId) {
     let data = await fetch(`/api/ad_content/get?adPlaceId=${adPlaceId}`);
+    let adCardContainer = document.getElementById("ad-card-container");
+    let holder = document.getElementById("ad-card-container-holder");
     data = await data.json();
     if(data.success) {
-        let adCardContainer = document.getElementById("ad-card-container");
+        holder.children[0].classList.add("collapse");
         adCardContainer.innerHTML = "";
+        if(data.data.length === 0) {
+            holder.children[1].classList.remove("collapse");
+            return;
+        }
         data.data.forEach(ad => {
             adCardContainer.appendChild(generateAdCard(ad));
         })
+        holder.classList.add("collapse");
+        adCardContainer.classList.remove("collapse");
     }
+}
+
+function updateAdCard(data) {
+    let card = document.getElementById(`ad-${data.id}`);
+    let start = new Date(data.start);
+    let end = new Date(data.end);
+    let status = processAdStatus(data);
+    card.querySelector(".ad-detail-card-title").textContent = data.company_name;
+    card.querySelector(".view-info-attribute:nth-child(1)").innerHTML = `<span>Kích thước</span> ${data.width}m x ${data.height}m`;
+    card.querySelector(".view-info-attribute:nth-child(2)").innerHTML = `<span>Bắt đầu</span> ${start.toLocaleDateString('vi-VN')}`;
+    card.querySelector(".view-info-attribute:nth-child(3)").innerHTML = `<span>Kết thúc</span> ${end.toLocaleDateString('vi-VN')}`;
+    card.querySelector(".view-info-status").textContent = status.text;
+    card.querySelector(".edit-ad-form").classList.add("collapse");
+    card.querySelector(".view").classList.remove("collapse");
+    updateCarouselInner(data, card.querySelector(".view-imgs"));
+}
+
+function updateEditAdForm(data) {
+    let form = document.getElementById(`eform-${data.id}`);
+    let start = new Date(data.start);
+    let end = new Date(data.end);
+    form.querySelector("#w-" + data.id).value = data.width;
+    form.querySelector("#h-" + data.id).value = data.height;
+    form.querySelector("#start-" + data.id).value = formatDate(start);
+    form.querySelector("#end-" + data.id).value = formatDate(end);
+    form.querySelector("#company-" + data.id).value = data.company_name;
+    let res = form.querySelector("#res-" + data.id);
+    if (data.status !== null && res) { 
+        res.parentNode.remove();
+    }
+
 }
 
 async function updateAd(e) {
@@ -495,6 +570,8 @@ async function updateAd(e) {
     }).then(res => res.json()).then(data => {
         if(data.success) {
             displayNotification("Cập nhật quảng cáo thành công", "success");
+            updateAdCard(data.data);
+            updateEditAdForm(data.data);
         } else {
             displayNotification("Cập nhật quảng cáo thất bại", "error");
             console.error(data.message);

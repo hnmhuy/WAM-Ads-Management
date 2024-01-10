@@ -121,13 +121,13 @@ function addNewFilter(event) {
     }
 }
 
-function createChoiceCheck(filterId, filterName) {
+function createChoiceCheck(filterId, filterName, fetchDataCallBack = undefined, eventCallBack = undefined) {
     let filterItem = document.createElement("div");
     filterItem.id = `${filterId}`;
     filterItem.classList.add("filter-item");
     filterItem.setAttribute("data-filter-type", "choice-check");
     filterItem.innerHTML = `
-                <div class="filter-btn" onclick="openFilterFunction(this)">
+                <div class="filter-btn" onclick="openFilterFunction(this${fetchDataCallBack ? ','+fetchDataCallBack : ''}${eventCallBack ? ','+eventCallBack : ""})">
                     <i class="bi bi-check2-circle"></i>
                     <span>${filterName}</span>
                     <span><span>
@@ -227,7 +227,7 @@ function createFilterDate(filterId, filterName) {
     return filterItem;
 }
 
-function openFilterFunction(event) {
+async function openFilterFunction(event, fetchCallBack = undefined, evenCallBack = undefined) {
     let filtersContainer = event.parentNode.parentNode;
     let filterItems = filtersContainer.querySelectorAll(".filter-item");
     // Colse all opening filter function in the filters container
@@ -237,22 +237,32 @@ function openFilterFunction(event) {
         }
     })
 
-    addOptions(event.parentNode, event.parentNode.getAttribute("data-filter-type"));
+    if(event.parentNode.classList.contains("filter-item-selected")) {
+        event.parentNode.classList.remove("filter-item-selected");
+        return;
+    } 
+    event.parentNode.classList.add("filter-item-selected");
+    let data = undefined
+    if (fetchCallBack) {
+       data = await fetchCallBack();
+    }
 
-    event.parentNode.classList.toggle("filter-item-selected");
+    addOptions(event.parentNode, event.parentNode.getAttribute("data-filter-type"), data, evenCallBack);
+
 }
 
-function addOptions(element, filterType) {
+function addOptions(element, filterType, data = undefined, callback = undefined) {
+    let optionsData = data ? data : sampledata;
     if (filterType === "choice-check") {
-        addChoiceCheckOption(element, checkOptions);
+        addChoiceCheckOption(element, optionsData, callback);
     } else if (filterType === "choice-search") {
-        addChoiceSearchOption(element, checkOptions);
+        addChoiceSearchOption(element, optionsData);
     }
 }
 
 // Filter handler functions
 
-const checkOptions = [
+const sampledata = [
     {
         id: "filter-option-1",
         name: "Lựa chọn 1",
@@ -275,7 +285,7 @@ const checkOptions = [
     }
 ]
 
-function addChoiceCheckOption(filterElement, data) {
+function addChoiceCheckOption(filterElement, data, callback = undefined) {
     let filterContent = filterElement.querySelector(".filter-function-content");
     let currFilterOptions = filterContent.querySelectorAll(".filter-option");
     data.forEach(option => {
@@ -298,6 +308,9 @@ function addChoiceCheckOption(filterElement, data) {
 
             divOption.querySelector("input").addEventListener("change", (e) => {
                 let filterBtn = filterElement.querySelector(".filter-btn span:nth-child(2)");
+                if (callback) {
+                    callback(e);
+                }
                 let filterBtnText = filterBtn.innerHTML;
                 let selectedOptionsAmount = filterElement.querySelectorAll(".filter-option input:checked").length;
                 if (e.target.checked) {
@@ -524,4 +537,26 @@ function dateFilterHandlers(element, callback) {
         }
     })
 
+    return calendar;
+
+}
+
+function setDateForDateFilter(calendar, element, datevalue) {
+    calendar.setDate(datevalue);
+    element.classList.add("applied-filter");
+    element.classList.remove("filter-item-selected")
+    let dateStr = calendar.selectedDates[0].toLocaleDateString();
+    let filterBtnText = element.querySelector(".filter-btn span");
+    filterBtnText.innerHTML = `${filterBtnText.innerHTML} <span>| ${dateStr}</span>`;
+    let year = datevalue.getFullYear(); 
+    let month = datevalue.getMonth() + 1;
+    let day = datevalue.getDate();
+    if (month < 10) {
+        month = `0${month}`;
+    }
+    if (day < 10) {
+        day = `0${day}`
+    }
+    let date = `${day}/${month}/${year}`;
+    element.querySelector(".filter-one-date input").value = date;
 }

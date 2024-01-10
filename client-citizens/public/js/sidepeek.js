@@ -1,3 +1,4 @@
+
 // // SHOW ALL SIDEPEEK
 // // document.addEventListener("DOMContentLoaded", () => {
 // //   // Your code here
@@ -282,9 +283,14 @@ function openFeedbackDetail() {
   feedbacDetail.classList.add("feedbackDetail-float");
 }
 
-function showAdDetail(e) {
-  console.log("id: ", e.getAttribute("detail-id"));
+async function showAdDetail(e) {
+  let id =  e.getAttribute("detail-id").split("_")[1];
+
   const adDetail = document.querySelector(".ad-detail");
+  const carousel = adDetail.querySelector(".carousel-swipe")
+  carousel.innerHTML = `<p class="title">Hình ảnh quảng cáo</p>`
+  let data = await fetch(`http://localhost:4000/api/ad_content/getOne?id=${id}`).then(res => res.json());
+  generateAdDetail(adDetail, data.data, carousel)
   const overlay = document.querySelector(".overlay");
   adDetail.classList.remove("hidden");
   adDetail.classList.add("ad-detail-float");
@@ -296,4 +302,117 @@ function closeAdDetail() {
   const overlay = document.querySelector(".overlay");
   adDetail.classList.add("hidden");
   overlay.classList.add("hidden");
+}
+
+
+function generateAdDetail(container, data, carousel)
+{
+  let companyName = container.querySelector("#ad-name");
+  let formatAddress = container.querySelector("#detail-format-address");
+  let purpose = container.querySelector("#purpose");
+  let typeAd = container.querySelector("#type-ad");
+  let start = container.querySelector("#start");
+  let end = container.querySelector("#end");
+  let infoCol2 = container.querySelector(".info-col2")
+  let startDate = formatDate(data.start);
+  let endDate = formatDate(data.end);
+  let locationType = container.querySelector("#type-location");
+
+  let feedbackDiv = document.createElement("div");
+  feedbackDiv.classList.add("info2");
+  feedbackDiv.innerHTML = `
+    <p class="title">Phản hồi thông tin</p>
+    <button type="button" class="btn btn-primary feedback-button" feedback-id="${data.id} onclick="openFeedbackForm()">
+      <i class="bi bi-send-fill"></i> Phản hồi
+    </button>
+  `
+  infoCol2.appendChild(feedbackDiv);
+
+  let imgArr = generateImg(data.image1, data.image2);
+
+  //generate swiper container
+  let carouselDiv = document.createElement("div");
+  carouselDiv.classList.add("swiper-container")
+
+  if(imgArr.length === 0)
+  {
+    carouselDiv.innerHTML = 'Chưa có hình ảnh cho bảng quảng cáo này.'
+  }
+  else if (imgArr.length === 1)
+  {
+    carouselDiv.innerHTML = `
+      
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <img
+          src="http://localhost:4000/${imgArr[0]}"
+          alt="pic"
+        />
+      </div>
+    </div>
+    <div class="swiper-pagination"></div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+    `
+  }
+  else if (imgArr.length === 2)
+  {
+    carouselDiv.innerHTML = `
+      
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <img
+          src="http://localhost:4000/${imgArr[0]}"
+          alt="pic"
+        />
+      </div>
+      <div class="swiper-slide">
+        <img
+          src="http://localhost:4000/${imgArr[1]}"
+          alt="pic"
+        />
+      </div>
+    </div>
+    <div class="swiper-pagination"></div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+    `
+  }
+
+  carousel.appendChild(carouselDiv);
+  companyName.textContent = data.company_name;
+  formatAddress.textContent = `${data.ad_place.place.address_formated}, ${data.ad_place.place.area.formatedName}`
+  purpose.textContent = data.purpose;
+  typeAd.textContent = data.category.name;
+  start.textContent = startDate;
+  end.textContent = endDate;
+  locationType.textContent = data.location;
+
+}
+
+function generateImg(image1, image2)
+{
+    let imgArr = [];
+    if (image1)
+        imgArr.push(image1);
+    if (image2)
+        imgArr.push(image2);
+    return imgArr;
+}
+
+
+function formatDate(inputDate) {
+  const date = new Date(inputDate);
+  
+  // Check if the date is valid
+  if (isNaN(date.getTime())) {
+    return "Invalid date";
+  }
+  
+  const day = date.getDate();
+  const month = date.getMonth() + 1; // Months are zero-based
+  const year = date.getFullYear();
+  
+  const formattedDate = `Ngày ${day} tháng ${month} năm ${year}`;
+  return formattedDate;
 }

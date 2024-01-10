@@ -1,0 +1,60 @@
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
+
+* {
+  font-family: "Quicksand", sans-serif;
+  padding: 0;
+  margin: 0;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px #f1f1f1;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgba(24, 16, 92, 0.6);
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(24, 16, 92, 1);
+}
+
+.search {
+  width: 100%;
+  max-width: 80%;
+  margin: 0 auto;
+  max-height: 70%;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.search input {
+  display: block;
+  border-radius: 12px;
+  border: none;
+}
+.search input:focus {
+  border: none;
+}
+
+.mapboxgl-ctrl {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  border-radius: 12px;
+  border: none;
+  margin: 12px;
+  height: fit-content;
+}

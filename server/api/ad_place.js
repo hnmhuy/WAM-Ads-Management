@@ -442,7 +442,7 @@ async function getAdContents(placeId)
     {
         const currentDate = new Date();
         let data = await models.ad_content.findAll({
-            attributes: ['id','company_name' , 'start', 'end', 'image1', 'image2'],
+            attributes: ['id','company_name' ,'width','height', 'start', 'end', 'image1', 'image2'],
             where: {
                 ad_place_id: placeId,
                 status: true,

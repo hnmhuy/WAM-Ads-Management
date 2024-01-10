@@ -16,8 +16,11 @@ controller.getAmountByAdPlace = async (req, res) => {
                 {
                     model: models.ad_content,
                     as: 'ad_contents',
-                    attributes: []
-                }
+                    attributes: [],
+                    where: {
+                        status: {[Op.is]: null}
+                    },
+                },
             ],
             group: ['ad_place.id'],
             having: Sequelize.literal('COUNT(ad_contents.id) > 0')

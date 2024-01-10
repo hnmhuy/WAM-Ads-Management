@@ -6,6 +6,10 @@ body {
     padding: 0;
 }
 
+.hide {
+    display: none !important;
+}
+
 .toolbar {
     display: flex;
     padding-bottom: 10px;

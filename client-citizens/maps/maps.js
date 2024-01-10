@@ -3,7 +3,9 @@ import { filterContainerHandler, closeAllSidePeek } from "./mapUIControl.js";
 import { addMarkers } from "./markers.js";
 
 //Sample data
-import { data } from "./sampleData.js";
+//import { data } from "./sampleData.js";
+
+let data = undefined;
 
 // Init maps box and filter box
 mapboxgl.accessToken =
@@ -145,9 +147,16 @@ map.on('style.load', () => {
 // Start process in the map.on('load') event
 const iconName = ['ad', 'ad-none', 'adReported-none', 'adReported', 'fb-feedback', 'fb-question', 'fb-registry', 'fb-report'];
 
-map.on('load', () => {
+map.on('load', async () => {
+    console.log("Loading data");
+    let response = await fetch("http://localhost:4000/api/mapData/get");
+    response = await response.json();
+    if(response.success) {
+        console.log("Data loaded");
+        data = response.data;
+        addMarkers(data, iconName, map);
+    }
     //navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
-    addMarkers(data, iconName, map);
     filterContainerHandler(data, map);
 })
 
