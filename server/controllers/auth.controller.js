@@ -17,6 +17,7 @@ controller.showIndex = (req, res) => {
 
 controller.showLogin = async (req, res) => {
   let reqUrl = req.query.reqUrl ? req.query.reqUrl : "/";
+  console.log(reqUrl);
   if(req.session.user){
     return res.redirect(reqUrl);
   }
@@ -58,6 +59,7 @@ controller.login = async (req, res) => {
     if(passwordMatch){
       if(user.status === "active"){
         let reqUrl = "";
+        console.log(req.body);
         if(user.areaLevel == 1 || user.areaLevel == 2){
           reqUrl = req.body.reqUrl ? req.body.reqUrl : "/home";
         }
@@ -179,7 +181,7 @@ controller.isLoggedIn = async (req, res, next) => {
 }
 
 controller.isOfficer = async(req, res, next)=>{
-  console.log(req.session.prev_url);
+  
   if(req.session.user.areaLevel == 2 || req.session.user.areaLevel == 1)
     return next();
   res.redirect(req.session.prev_url);
@@ -241,7 +243,6 @@ controller.changeProfile = async(req, res) =>{
 controller.changePassword = async(req, res, next) =>{
   const user = req.session.user;
   let {currentPassword, newPassword, confirmPassword} = req.body;
-  console.log(req.body);
   
   const isMatch = await bcrypt.compare(currentPassword, user.password)
   if(isMatch){
@@ -261,7 +262,11 @@ controller.changePassword = async(req, res, next) =>{
             data: null
         })
         } catch(error){
-          console.log(error);
+            res.json({
+                success: false,
+                message: error,
+                data: null
+            })
         }
       }
       else{
@@ -405,7 +410,11 @@ controller.resetPassword = async (req, res)=>{
         res.redirect("/login")
       } catch(error){
         res.send("Can not update user!");
-        console.log(error);
+        res.render("partials/resetPassword", {
+        layout: "login_layout",
+        email: email,
+        message: `<p style="color: red; font-weight: 600;">* ${error}</p>`
+      });
       }
     } else {
       res.render("partials/resetPassword", {

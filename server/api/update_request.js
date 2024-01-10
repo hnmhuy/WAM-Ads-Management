@@ -12,7 +12,7 @@ controller.createUpdateRequestAdPlace = (req, res) => {
     let { request_data, status, ad_place_id, ad_id } = req.body;
     models.update_request.create({
         resquest_data: request_data,
-        status: status,
+        status: "sent",
         officer: officer,
         ad_place_id: ad_place_id,
         ad_id: ad_id

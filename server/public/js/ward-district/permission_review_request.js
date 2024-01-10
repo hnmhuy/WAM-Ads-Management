@@ -40,13 +40,21 @@ function showPopup_review(btn) {
         const originalString  = btn.dataset.img1;
         const converted_string = originalString.replace(/\\/g, "/")
         document.getElementById("image1").value = converted_string;
-        document.getElementById("review_img1").src = converted_string;
+        const img1Div = document.createElement("div");
+        img1Div.classList.add("carousel-item");
+        img1Div.classList.add("active");
+        img1Div.innerHTML = `<img id="review_img1" src="${converted_string}" class="h-100 w-100" alt="">`
+        document.querySelector(".carousel-inner").appendChild(img1Div);
     }
     if(btn.dataset.img2){
+        console.log(btn.dataset.img2);
         const originalString  = btn.dataset.img2;
         const converted_string = originalString.replace(/\\/g, "/")
         document.getElementById("image2").value = converted_string;
-        document.getElementById("review_img2").src = converted_string;
+        const img2Div = document.createElement("div");
+        img2Div.classList.add("carousel-item");
+        img2Div.innerHTML = `<img id="review_img1" src="${converted_string}" class="h-100 w-100" alt="">`
+        document.querySelector(".carousel-inner").appendChild(img2Div);
     }
     // document.getElementById("review_image1").src = btn.dataset.image1 ? "public/";
     // document.getElementById("review_image2").src = btn.dataset.image2;
