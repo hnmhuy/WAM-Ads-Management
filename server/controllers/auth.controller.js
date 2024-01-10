@@ -16,9 +16,15 @@ controller.showIndex = (req, res) => {
 };
 
 controller.showLogin = async (req, res) => {
-  let reqUrl = req.query.reqUrl ? req.query.reqUrl : "/";
-  console.log(reqUrl);
+  // let reqUrl = req.query.reqUrl ? req.query.reqUrl : "/";
+  let reqUrl;
   if(req.session.user){
+    if(req.session.user.areaLevel == 1 || req.session.user.areaLevel == 2){
+      reqUrl = req.body.reqUrl ? req.body.reqUrl : "/home";
+    }
+    else if(req.session.user.areaLevel == 0){
+      reqUrl = req.body.reqUrl ? req.body.reqUrl : "/dashboard";
+    }
     return res.redirect(reqUrl);
   }
   res.render("partials/login", { 
@@ -59,7 +65,6 @@ controller.login = async (req, res) => {
     if(passwordMatch){
       if(user.status === "active"){
         let reqUrl = "";
-        console.log(req.body);
         if(user.areaLevel == 1 || user.areaLevel == 2){
           reqUrl = req.body.reqUrl ? req.body.reqUrl : "/home";
         }
@@ -68,6 +73,7 @@ controller.login = async (req, res) => {
         }
 
         req.session.user = user;
+        console.log(req.session.user);
         if(rememberMe){
           res.cookie("email", email, {
             maxAge: 60 * 60 * 1000,
@@ -80,7 +86,7 @@ controller.login = async (req, res) => {
             signed: true,
           });
         }
-
+        console.log(reqUrl);
         return res.redirect(reqUrl);
       }
       else{
@@ -111,9 +117,7 @@ controller.logout = (req, res, next) => {
       if(error) return next(error);
       res.redirect("/login");
     });
-
   });
-  
 }
 
 controller.showHome = async (req, res) => {
@@ -471,7 +475,7 @@ controller.googleCallback = async (req, res, next) => {
         req.session.bind_message = `<p id="bindMessage" style="color: green; font-weight: 800; display: none"></p>`
         res.redirect("/profile");
       } else {
-        res.redirect("/home");
+        res.redirect("/");
       }
       
     } else {
