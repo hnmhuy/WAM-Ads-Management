@@ -59,9 +59,10 @@
   text-align: center;
   transition: all 0.2s ease;
   border-radius: 8px;
-  position: absolute;
+  margin-left: 5px;
+  /* position: absolute;
   top: 5px;
-  right: 5px;
+  right: 5px; */
 }
 .random-container .delete-random:hover {
   background-color: red;

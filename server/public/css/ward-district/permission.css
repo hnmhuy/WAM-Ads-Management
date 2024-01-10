@@ -815,3 +815,17 @@ li.selected {
   font-weight: bold;
   font-size: 100%;
 }
+
+#myCarousel .carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+#myCarousel .carousel-inner {
+  height: 100%;
+}
+
+#myCarousel .carousel-item {
+  height: 100%;
+}

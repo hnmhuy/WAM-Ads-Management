@@ -37,6 +37,8 @@ export async function openSidePeek(data) {
     let category = data.category;
     let status = data.status;
     let isReported = data.isReported;
+    let sampleData = JSON.parse(data.detail);
+
 
     if (category === 'ad') {
         let sidepeek = status === 'active' ? adSidePeek : noAdSidePeek;
@@ -44,6 +46,23 @@ export async function openSidePeek(data) {
         sidepeek.className = 'sidepeek-container';
         sidepeek.classList.add(`${isReported ? 'sticky-left' : 'float'}`);
         let adContentContainer = sidepeek.querySelector(".ad-content");
+        let locationContent = sidepeek.querySelector(".location-content");
+        locationContent.innerHTML = 
+        `
+        <div>
+        <p class="title">Số lượng bảng (bảng/vị trí)</p>
+        <p class="content" id="capacity"></p>
+      </div>
+      <div>
+        <p class="title">Hình thức quảng cáo</p>
+        <p class="content" id="purpose"></p>
+      </div>
+      <div>
+        <p class="title">Loại vị trí</p>
+        <p class="content" id="type-location">
+        </p>
+      </div>
+        `
         adContentContainer.innerHTML = "";
         let adId = JSON.parse(data.detail).dataid;
         // console.log("THIS IS DTAA DETAIL:", JSON.parse(data.detail));
@@ -51,7 +70,7 @@ export async function openSidePeek(data) {
         let dataAdPlace = await fetch(`http://localhost:4000/api/ad_place/getOne?id=${adId}&includeAdContent=true`).then(res => res.json());
         // console.log("THISS IS DATA PLACE: ", dataAdPlace );
         // let dataAdPlace = await fetch(`http://localhost:4000/api/ad_place/getOne?id=e295a4ee-5591-4270-9c7f-922b33fb7d72&includeAdContent=true`).then(res => res.json());
-        generateSidepeekAd(sidepeek, dataAdPlace);
+        generateSidepeekAd(sidepeek, dataAdPlace, sampleData);
 
     } else if (category === 'fb') {
         fbDetail.querySelector('.header .bi-chevron-double-left').onclick = closeFeedbackDetail
@@ -65,7 +84,6 @@ export async function openSidePeek(data) {
         content.innerHTML = "";
         // status.innerHTML = `<p class="title">Trạng thái phản hồi</p>`
         let fbId = JSON.parse(data.detail).dataid;
-        let sampleData = JSON.parse(data.detail)
         let fbData = await fetch(`http://localhost:4000/api/feedback/getFeedback?id=${fbId}`).then(res => res.json());
         generateFeedbackSidepeek(fbDetail, fbData, sampleData)
 
@@ -74,7 +92,7 @@ export async function openSidePeek(data) {
     
 }
 
-function generateSidepeekAd(sidepeek, data)
+function generateSidepeekAd(sidepeek, data, sampleData)
 {
     let areaAddress = sidepeek.querySelector("#area");
     let formatAddress = sidepeek.querySelector("#format-address");
@@ -82,6 +100,29 @@ function generateSidepeekAd(sidepeek, data)
     let purpose = sidepeek.querySelector("#purpose");
     let typeLocation = sidepeek.querySelector("#type-location");
     let adContentContainer = sidepeek.querySelector(".ad-content");
+    let locationContent = sidepeek.querySelector(".location-content");
+    
+    let feedbackBtn = document.createElement("button");
+    feedbackBtn.setAttribute("type","button");
+    feedbackBtn.className = `btn btn-primary feedback-button`;
+    feedbackBtn.setAttribute("onclick", "openFeedbackForm(this)");
+    feedbackBtn.setAttribute("ad-place-id", `${sampleData.dataid}`);
+    feedbackBtn.innerHTML = `
+        <i class="bi bi-send-fill"></i>
+        Gửi phản hồi điểm đặt quảng cáo`
+
+    let showFeedbackBtn = document.createElement("button");
+    showFeedbackBtn.setAttribute("type","button");
+    showFeedbackBtn.className = `btn btn-primary show-feedback-button hidden`;
+    showFeedbackBtn.setAttribute("onclick", "openFeedbackDetail()");
+    showFeedbackBtn.setAttribute("id", "show-location-feedback");
+    showFeedbackBtn.setAttribute("ad-place-id", `${sampleData.dataid}`);
+    showFeedbackBtn.innerHTML = `
+        <i class="bi bi-send-fill"></i>
+        Gửi phản hồi điểm đặt quảng cáo`
+
+    locationContent.appendChild(feedbackBtn);
+    locationContent.appendChild(showFeedbackBtn);
 
 
     areaAddress.textContent = data.data.place.area.formatedName;
@@ -279,7 +320,7 @@ function generateAdCard(sidepeek, data)
     <button type="button" class="btn btn-primary detail-button" detail-id="${data.id}" onclick="showAdDetail(this)">
         <i class="bi bi-info-circle"></i> Chi tiết
     </button>
-    <button type="button" class="btn btn-primary feedback-button" onclick="openFeedbackForm()">
+    <button type="button" class="btn btn-primary feedback-button" ad-content-id="${data.id}" onclick="openFeedbackForm(this)">
         <i class="bi bi-send-fill"></i> Phản hồi
     </button>
 
@@ -288,6 +329,7 @@ function generateAdCard(sidepeek, data)
         class="btn btn-primary hidden"
         id="show-feedback-button"
         onclick="openFeedbackDetail()"
+        ad-content-id="${data.id}"
     >
         <i class="bi bi-file-text-fill"></i> Xem phản hồi
     </button>
@@ -345,7 +387,7 @@ function generateFeedbackSidepeek(fbDetail,data, sampleData)
 {
     let locationImgDiv = fbDetail.querySelector(".location-img");
     let formatAddress = fbDetail.querySelector("#format-address");
-    let fbType = fbDetail.querySelector("#feedback-type");
+    let fbType = fbDetail.querySelector("#feedbackType");
     let time = fbDetail.querySelector("#feedback-time");
     let name = fbDetail.querySelector("#name");
     let email = fbDetail.querySelector("#email");

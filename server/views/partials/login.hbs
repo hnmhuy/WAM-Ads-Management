@@ -1,5 +1,4 @@
 <div class="login-content">
-    
     <div style="{{#if forgot_message}}display: none;{{/if}}" class="login-div-content active-div">
         <h1 class="login-title">Xin chào,</h1>
         <p class="login-para {{#if message}}alert-danger danger{{/if}}"> {{#if message}}{{{message}}}{{else}}Nhập vào thông tin đăng nhập bạn nhé 🚀{{/if}}</p>
@@ -8,7 +7,7 @@
                 <label class="form-label login-label" for="email">Email</label>
                 <input type="email" id="email" name="email" class="form-control form-control-lg" value="{{email}}" />
             </div>
-        
+            <input type="hidden" name="reqUrl" value="{{reqUrl}}">
             <div class="form-outline mb-4">
                 <label class="form-label login-label" for="password">Mật khẩu</label>
                 <input type="password" id="password" name="password" class="form-control form-control-lg"
@@ -28,7 +27,7 @@
         
             <div class="login-submit">
                 <button class="btn login-submit login-button" type="submit" tabindex="4">
-                    Sign in
+                    Đăng nhập
                     <i class="bi bi-chevron-right"></i>
                 </button>
                 <a href="#" class="login-label forgot-password fs-16">Quên mật khẩu?</a>

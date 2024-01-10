@@ -48,6 +48,11 @@ function eventListenerForDropdown()
 
 const form = document.querySelector("form");
 form.addEventListener("submit", async (e) => {
+  
+  let keyArr = [];
+  let fbAttribute = getFormAttribute(form);
+  let locationType = fbAttribute.type;
+
 
   e.preventDefault();
   const captchaResponse = grecaptcha.getResponse();
@@ -61,6 +66,23 @@ form.addEventListener("submit", async (e) => {
   const content = tinymce.get("mytextarea").getContent().trim();
   const type = form.querySelector(".sBtn-text").getAttribute("data-id");
   const fd = new FormData(form);
+
+  if(locationType === "place")
+  {
+    fd.append("ad_place", fbAttribute.id);
+  }
+  else if(locationType === "content")
+  {
+    fd.append("ad_content", fbAttribute.id);
+  }
+  else if(locationType === "random")
+  {
+    console.log("fb: ", fbAttribute.address);
+    fd.append("ward", fbAttribute.wardName);
+    fd.append("geometry", JSON.stringify(fbAttribute.geometry));
+    fd.append("formatedAddress",fbAttribute.address);
+  }
+  
   
   fd.append("type", type);
   fd.set("mytextarea", content);
@@ -84,6 +106,7 @@ form.addEventListener("submit", async (e) => {
         body: fd, // Convert the object to a JSON string
       });
       const data2 = await res1.json();
+      console.log(data2);
       alert("Đã gửi phản hồi thành công");
       document.querySelector("form").classList.add("hidden");
       document.querySelector(".overlay").classList.add("hidden");
@@ -112,3 +135,29 @@ function generateOptions(data)
 }
 
 
+function getFormAttribute(form)
+{
+  if(form.hasAttribute("ad-content-id"))
+  {
+    return {type: "content", id: form.getAttribute("ad-content-id")};
+  }
+  else if (form.hasAttribute("ad-place-id"))
+  {
+    return {type: "place", id: form.getAttribute("ad-place-id")};
+
+  }
+  else if (form.hasAttribute("ward-name"))
+  {
+    let latLng = form.getAttribute("lat-lng").split(" - ");
+    let address = form.getAttribute("address");
+    return {
+      type:"random",
+      wardName : form.getAttribute("ward-name"),
+      geometry: {
+        type: "Point",
+        coordinates: [latLng[1], latLng[0]],
+      },
+      address: address,
+    }
+  }
+}
