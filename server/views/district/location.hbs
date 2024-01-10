@@ -1,3 +1,16 @@
+<script>
+  tinymce.init({
+    selector: "textarea", // Replace all textarea elements with TinyMCE
+    height: 300, // Set the height of the editor
+    plugins:
+      "lists",
+    toolbar:
+      "undo redo | formatselect | " +
+      "bold italic backcolor | alignleft aligncenter " +
+      "alignright alignjustify | bullist numlist outdent indent | " +
+      "removeformat | help",
+  });
+</script>
 <div class="location_table">
   <section class="table__header">
     <h2 class="table_heading">Quản lý điểm đặt</h2>

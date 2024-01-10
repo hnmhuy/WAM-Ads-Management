@@ -45,9 +45,10 @@ export async function openSidePeek(data) {
         sidepeek.classList.add(`${isReported ? 'sticky-left' : 'float'}`);
         let adContentContainer = sidepeek.querySelector(".ad-content");
         adContentContainer.innerHTML = "";
-        // let data = await fetch(`http://localhost:4000/api/ad_place/getOne?id=${data.data.id}c&includeAdContent=true`).then(res => res.json());
-        let data = await fetch(`http://localhost:4000/api/ad_place/getOne?id=e295a4ee-5591-4270-9c7f-922b33fb7d72&includeAdContent=true`).then(res => res.json());
-        generateSidepeekAd(sidepeek, data);
+        console.log((data.detail).json())
+        let dataId = await fetch(`http://localhost:4000/api/ad_place/getOne?id=${(data.detail).json().dataid}c&includeAdContent=true`).then(res => res.json());
+        // let data = await fetch(`http://localhost:4000/api/ad_place/getOne?id=e295a4ee-5591-4270-9c7f-922b33fb7d72&includeAdContent=true`).then(res => res.json());
+        generateSidepeekAd(sidepeek, dataId);
 
     } else if (category === 'fb') {
         fbDetail.querySelector('.header .bi-chevron-double-left').onclick = closeFeedbackDetail
