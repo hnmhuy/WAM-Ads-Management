@@ -1,5 +1,6 @@
 const controller = {}
 const models = require('../models');
+const sequelize = require('sequelize')
 
 controller.addPlace = async (data) => {
     try {
@@ -53,6 +54,28 @@ controller.updatePlace = async (data) => {
         return null;
     }
 } 
+
+controller.getFeedback = async(req, res)=>{
+    let {place_id} = req.query;
+    let feedback = await models.sequelize.query('SELECT * FROM feedbacks WHERE feedbacks.place_id = $1',
+        { 
+            bind: [place_id], 
+            type: models.Sequelize.QueryTypes.SELECT 
+        }
+    );
+    res.json(feedback);
+}
+
+controller.getAdContent = async(req, res)=>{
+    let {place_id} = req.query;
+    let ad_content = await models.sequelize.query('SELECT * FROM ad_contents WHERE ad_contents.place_id = $1',
+        { 
+            bind: [place_id], 
+            type: models.Sequelize.QueryTypes.SELECT 
+        }
+    );
+    res.json(ad_content);
+}
 
 // export the createPlace function
 module.exports = controller;
