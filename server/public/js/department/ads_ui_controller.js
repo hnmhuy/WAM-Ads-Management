@@ -41,15 +41,17 @@ const tab_btn = document.querySelectorAll(".tab-btn");
 tab_btn[0].addEventListener("click", () => {
     tab_btn[0].classList.add("tab-btn-active");
     tab_btn[1].classList.remove("tab-btn-active");
-    req_update.classList.add("collapse");
-    req_create_table.classList.remove("collapse");
+    // req_update.classList.add("collapse");
+    // req_create_table.classList.remove("collapse");
+    window.location.href = "/ads/request"
 });
 
 tab_btn[1].addEventListener("click", () => {
     tab_btn[1].classList.add("tab-btn-active");
     tab_btn[0].classList.remove("tab-btn-active");
-    req_create_table.classList.add("collapse");
-    req_update.classList.remove("collapse");
+    // req_create_table.classList.add("collapse");
+    // req_update.classList.remove("collapse");
+    window.location.href = "/ads/update"
 });
 
 

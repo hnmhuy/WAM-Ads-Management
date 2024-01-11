@@ -245,7 +245,7 @@ function openFeedbackForm(e) {
 
   if(e.hasAttribute("ad-content-id"))
   {
-    fbForm.setAttribute("ad-content-id", e.getAttribute("ad-content-id"));
+    fbForm.setAttribute("ad-content-id", e.getAttribute("ad-content-id").split("_")[1]);
   }
   else if (e.hasAttribute("ad-place-id"))
   {

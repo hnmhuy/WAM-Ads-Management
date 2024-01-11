@@ -1,6 +1,6 @@
 import { reverseGeocode } from "./geocode.js";
 import { filterContainerHandler, closeAllSidePeek } from "./mapUIControl.js";
-import { addMarkers } from "./markers.js";
+import { addMarkers, updateMarkers } from "./markers.js";
 
 //Sample data
 //import { data } from "./sampleData.js";
@@ -86,7 +86,7 @@ geocoder.on("result", (event) => {
 });
 
 // Get user location
-navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+// navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
 
 function successCallback(position) {
     console.log(position.coords.longitude, position.coords.latitude)
@@ -149,7 +149,7 @@ const iconName = ['ad', 'ad-none', 'adReported-none', 'adReported', 'fb-feedback
 
 map.on('load', async () => {
     console.log("Loading data");
-    let response = await fetch("http://localhost:4000/api/mapData/get");
+    let response = await fetch("http://localhost:4000/api/mapData/getOnlyAd");
     response = await response.json();
     if(response.success) {
         console.log("Data loaded");
@@ -158,6 +158,9 @@ map.on('load', async () => {
     }
     //navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
     filterContainerHandler(data, map);
+
+    console.log("Restore feedback");
+    restoreFeedback();
 })
 
 document
@@ -166,3 +169,19 @@ document
         marker.remove();
         randomContainer.classList.add("hidden");
     });
+
+async function restoreFeedback() {
+    let feedbackList = JSON.parse(localStorage.getItem("feedbackData"));
+    if(feedbackList) {
+        let fd = new FormData();
+        fd.append("feedbackList", JSON.stringify(feedbackList));
+        let response = await fetch("http://localhost:4000/api/mapData/restoreUserFeedback", {
+            method: "POST",
+            body: fd
+        });
+        let fbData = await response.json();
+        // Push new point to data
+        data.features.push(...fbData.data.features);
+        updateMarkers(data, map);
+    }
+}

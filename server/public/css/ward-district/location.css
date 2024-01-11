@@ -222,7 +222,8 @@ tbody td.active {
 }
 
 #popup-parent,
-#popup-parent-ads {
+#popup-parent-ads,
+#popup-parent-create {
   position: fixed;
   top: 0;
   left: 0;
@@ -237,7 +238,8 @@ tbody td.active {
 }
 
 #form-img,
-#form-img-ads {
+#form-img-ads,
+#form-img-create {
   position: fixed;
   width: 100px;
   top: 10%;
@@ -251,7 +253,8 @@ tbody td.active {
 }
 
 .popup,
-.popup-ads {
+.popup-ads,
+.popup-create {
   width: 40%;
   height: 80%;
   position: absolute;

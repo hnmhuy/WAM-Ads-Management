@@ -28,7 +28,11 @@ const fetchDistictData = async () => {
 }
 
 const selectDistrictHandler = (e) => {
-  console.log(e.target);
+  if(e.target.checked) {
+    console.log("SELECTED: ", e.target);
+    console.log("SELECTED: ", e.target.value);
+    onClickAddRequestDataset(e.target.value);
+  }
 }
 
 // --------------- SET DEFAULT VALUE FOR THE DATE --------
@@ -257,10 +261,6 @@ function addData()
   }
 
 }
-
-
-onClickAddRequestDataset("774");
-onClickAddRequestDataset("772");
 
 const onClickRemoveRequestData = function (areaName)
 {

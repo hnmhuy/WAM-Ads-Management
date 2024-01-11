@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () =>{
       const selectedText = option.querySelector(".option-text").textContent;
       type = selectedText;
       // Log the selected value
-      console.log("Selected value:", selectedText);
+     // console.log("Selected value:", selectedText);
     });
   });
 })
@@ -77,7 +77,7 @@ form.addEventListener("submit", async (e) => {
   }
   else if(locationType === "random")
   {
-    console.log("fb: ", fbAttribute.address);
+    // console.log("fb: ", fbAttribute.address);
     fd.append("ward", fbAttribute.wardName);
     fd.append("geometry", JSON.stringify(fbAttribute.geometry));
     fd.append("formatedAddress",fbAttribute.address);
@@ -99,17 +99,23 @@ form.addEventListener("submit", async (e) => {
 
     if (data.captchaSuccess && content) {
       console.log("Validation Successful!");
-
-
-      const res1 = await fetch("http://localhost:4000/api/feedback/sendFeedback", {
-        method: 'POST',
-        body: fd, // Convert the object to a JSON string
-      });
-      const data2 = await res1.json();
-      console.log(data2);
-      alert("Đã gửi phản hồi thành công");
-      document.querySelector("form").classList.add("hidden");
-      document.querySelector(".overlay").classList.add("hidden");
+      try {
+        const res1 = await fetch("http://localhost:4000/api/feedback/sendFeedback", {
+          method: 'POST',
+          body: fd, // Convert the object to a JSON string
+        });
+        const feedbackData = await res1.json();
+        if(feedbackData.success) {
+          storeFeedbackData(feedbackData.data);
+          alert("Đã gửi phản hồi thành công");
+        } else {
+          alert("Đã có lỗi xảy ra, vui lòng thử lại sau");
+        }
+        document.querySelector("form").classList.add("hidden");
+        document.querySelector(".overlay").classList.add("hidden");
+      } catch (error) {
+        console.log(error);
+      }
     } else {
       console.error("Validation Error!");
     }
@@ -159,5 +165,18 @@ function getFormAttribute(form)
       },
       address: address,
     }
+  }
+}
+
+function storeFeedbackData(data) {
+  let feedbackData = JSON.parse(localStorage.getItem("feedbackData"));
+  if(feedbackData)
+  {
+    feedbackData.push(data);
+    localStorage.setItem("feedbackData", JSON.stringify(feedbackData));
+  }
+  else
+  {
+    localStorage.setItem("feedbackData", JSON.stringify([data]));
   }
 }

@@ -301,7 +301,7 @@ function addChoiceCheckOption(filterElement, data, callback = undefined) {
             divOption.classList.add("filter-option");
             divOption.id = option.id;
             divOption.innerHTML = `
-                        <input type="checkbox" name="filter-option" id="${option.id}">
+                        <input type="checkbox" name="filter-option" id="${option.id}" value="${option.id}">
                         <label for="${option.id}">${option.name}</label>
                     `;
             filterContent.appendChild(divOption);

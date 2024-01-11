@@ -1,6 +1,8 @@
 'use strict'
 
 const models = require('../models');
+const sequelize = require('sequelize');
+const Op = sequelize.Op;
 const Sequelize = require('../models').Sequelize;
 const controller = {}
 const purposeQuery = Sequelize.literal('(SELECT name FROM categories WHERE categories.id = ad_place.purpose)');
@@ -12,7 +14,7 @@ controller.createUpdateRequestAdPlace = (req, res) => {
     let { request_data, status, ad_place_id, ad_id } = req.body;
     models.update_request.create({
         resquest_data: request_data,
-        status: "sent",
+        status: 'sent',
         officer: officer,
         ad_place_id: ad_place_id,
         ad_id: ad_id
@@ -27,6 +29,115 @@ controller.createUpdateRequestAdPlace = (req, res) => {
         });
         console.log(err);
     })
+}
+
+controller.getAmountOfDistrictByStatus = async (isResolved = false) => {
+    try {
+        let selectQuery = `
+        SELECT total."name", total."areaId", COUNT(*) AS "amount"
+        FROM (
+            SELECT ur.id, a.parent_id as "areaId", a2.name, ur.status
+            FROM update_requests ur
+            JOIN ad_places ap ON ap.id = ur.ad_place_id
+            JOIN places p ON ap.place_id = p.id
+            JOIN areas a ON a.id = p.area_id 
+            JOIN areas a2 ON a2.id = a.parent_id
+            UNION
+            SELECT ur.id, a.parent_id as "areaId", a2.name, ur.status
+            FROM update_requests ur
+            JOIN ad_contents ac ON ac.id = ur.ad_id
+            JOIN ad_places ap ON ap.id = ac.ad_place_id
+            JOIN places p ON ap.place_id = p.id
+            JOIN areas a ON a.id = p.area_id
+            JOIN areas a2 ON a2.id = a.parent_id
+        ) AS "total"
+        `;
+    
+        if (isResolved) {
+            selectQuery = selectQuery + `WHERE total.status <> 'sent'`;
+        } else {
+            selectQuery = selectQuery + `WHERE total.status = 'sent'`;
+        }
+
+        // Add the group clause
+        selectQuery = selectQuery + ` GROUP BY total."areaId", total."name" ORDER BY "total"."areaId" DESC;`;
+    
+        let data = await models.sequelize.query(selectQuery);
+    
+        return {
+            success: true,
+            data: data[0]
+        };
+    } catch (error) {
+        console.log(error);
+        return {
+            success: false,
+            message: error.message
+        };
+    }
+}
+
+controller.getUpdateAmount = async (req, res) => {
+    let isResolved = req.query.isResolved;
+    if (isResolved === undefined) { isResolved = false}
+    let data = await controller.getAmountOfDistrictByStatus(isResolved);
+    res.json(data);
+}
+
+controller.getUpdateReqListByArea = async (areaId, isResolved = false) => {
+    try {
+        let query = `
+        select *
+        from (
+        select ur.id, ur."createdAt", acc.first_name, acc.last_name, p.area_id, a.parent_id, a."name", ur.status, p.address_formated, 'ad_place' as "type"
+        from update_requests ur 
+            join ad_places ap on ur.ad_place_id = ap.id 
+            join places p on p.id = ap.place_id 
+            join areas a on a.id = p.area_id 
+            join accounts acc on acc.id = ur.officer 
+        union 
+        select ur.id, ur."createdAt", acc.first_name, acc.last_name, p.area_id, a.parent_id, a."name", ur.status, p.address_formated, 'ad_content' as "type"
+        from update_requests ur 
+            join ad_contents ac on ac.id = ur.ad_id 
+            join ad_places ap on ac.ad_place_id = ap.id 
+            join places p on p.id = ap.place_id 
+            join areas a on a.id = p.area_id 
+            join accounts acc on acc.id = ur.officer 
+        ) as "reqList"
+        where "reqList"."parent_id" = $areaId
+        `
+        if (isResolved) {
+            query = query + `and "reqList".status <> 'sent'`
+        } else {
+            query = query + `and "reqList".status = 'sent'`
+        }
+
+        query = query + `order by "reqList"."parent_id" desc;`
+
+        let data = await models.sequelize.query(query, { bind: { areaId: areaId }, type: models.sequelize.QueryTypes.SELECT });
+        return {
+            success: true,
+            data: data
+        }
+    } catch (error) {
+        return {
+            success: false,
+            message: error
+        }
+    }
+}
+
+controller.getUpdateReqList = async (req, res) => {
+    let {areaId, isResolved} = req.query;
+    if (!areaId) {
+        res.json({
+            success: false,
+            message: "Missing areaId"
+        })
+    }
+    if (!isResolved) {isResolved = false};
+    let data = await controller.getUpdateReqListByArea(areaId, isResolved);
+    res.json(data);
 }
 
 async function getOneAdPlace(id, includeAdContent = false) {
@@ -150,8 +261,8 @@ controller.getUpdateRequest = async (req, res) => {
         data.before = {
             height: adContent.height,
             width: adContent.width,
-            start: adContent.start,
-            end: adContent.end,
+            start: new Date(adContent.start).toLocaleDateString('vi-VN'),
+            end: new Date(adContent.end).toLocaleDateString('vi-VN'),
             image: img
         }
 
@@ -166,6 +277,7 @@ controller.getUpdateRequest = async (req, res) => {
         data.purpose = adContent.purpose;
         data.location = adContent.location;
         data.address = adContent.ad_place.place.address_formated + ', ' + adContent.ad_place.place.area.formatedName;
+        data.instanceId = request.ad_id;
 
     } else {
         console.log("Ad place")
@@ -195,16 +307,17 @@ controller.getUpdateRequest = async (req, res) => {
             capacity: parseInt(request.resquest_data.capacity),
             locationType: request.resquest_data.locationType,
             purposeType: request.resquest_data.purposeType,
-            status: request.resquest_data.status,
+            status: request.resquest_data.status === '1' ? true : false,
             image: request.resquest_data.image
         }
 
         data.address = adPlace.place.address_formated + ', ' + adPlace.place.area.formatedName;
         data.purpose = adPlace.purpose;
         data.location = adPlace.location;
-
+        data.instanceId = request.ad_place_id;
     }
     data.id = request.id
+    data.status = request.status;
     data.createdAt = request.createdAt;
     data.officer = await models.account.findOne({
         attributes: ['first_name', 'last_name'],
@@ -218,6 +331,90 @@ controller.getUpdateRequest = async (req, res) => {
     res.json({
         request: data
     })
+}
+
+controller.rejectUpdate = async (req, res) =>  {
+    try {
+        let response = await models.update_request.update({
+            status: 'cancel'
+        }, {
+            where: {
+                id: req.body.id
+            }
+        })
+        res.json({
+            success: true
+        })
+    } catch (error) {
+        res.json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+controller.acceptUpdate = async (req, res) => {
+    console.log(req.body);
+    let data = req.body;
+    try {
+        await models.update_request.update({
+            status: 'accepted'
+        }, {
+            where: {
+                id: data.id
+            }
+        })
+        if (data.type === 'ad_place') {
+
+            // search purposeId and locationTypeId 
+            let newPurposeId = await models.category.findOne({
+                attributes: ['id'],
+                where: {
+                    name: data.after.purposeType
+                }
+            })
+
+            let newLocationTypeId = await models.category.findOne({
+                attributes: ['id'],
+                where: {
+                    name: data.after.locationType
+                }
+            })
+
+            let response = await models.ad_place.update({
+                capacity: data.after.capacity,
+                location_type: newLocationTypeId.dataValues.id,
+                purpose: newPurposeId.dataValues.id,
+                status: data.after.status
+            }, {
+                where: {
+                    id: data.instanceId
+                }
+            })
+            res.json({
+                success: true
+            })
+        } else if (data.type === 'ad_content') {
+            let response = await models.ad_content.update({
+                height: data.after.height,
+                width: data.after.width,
+                start: data.after.start,
+                end: data.after.end
+            }, {
+                where: {
+                    id: data.instanceId
+                }
+            })
+            res.json({
+                success: true
+            })
+        }
+    } catch (error) {
+        res.json({
+            success: false,
+            message: error.message
+        })
+    }
 }
 
 module.exports = controller;
