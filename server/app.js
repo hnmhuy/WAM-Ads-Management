@@ -123,7 +123,6 @@ app.use("/home", require("./routes/district/home.route"));
 app.use("/location", require("./routes/district/location.route"));
 app.use("/reports", require("./routes/district/reports.route"));
 app.use("/permission", require("./routes/district/permission.route"));
-app.use("/review", require("./routes/district/review_edit_request.route"))
 
 // Use routes of department
 app.use("/dashboard", require("./routes/department/dashboard.route"));

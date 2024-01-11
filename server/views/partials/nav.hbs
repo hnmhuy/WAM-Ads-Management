@@ -32,13 +32,7 @@
       </a>
       <span class="tooltip">Cấp phép</span>
     </li>
-    <li>
-      <a href="/review">
-        <i class='bx bx-list-check'></i>
-        <span class="links_name">Yêu cầu chỉnh sửa</span>
-      </a>
-      <span class="tooltip">Yêu cầu chỉnh sửa</span>
-    </li>
+
     <li class="profile">
       <div class="profile-details">
         <form action="/profile">
@@ -48,7 +42,8 @@
         </form>
         <div class="name_job">
           <div id="user-name-nav" class="name">{{user.last_name}} {{user.first_name}}</div>
-          <div class="job">Quản lý {{#ifEquals user.areaLevel 1}}Quận{{else}}{{#ifEquals user.areaLevel 2}}Phường{{else}}Sở{{/ifEquals}}{{/ifEquals}}</div>
+          <div class="job">Quản lý {{#ifEquals user.areaLevel 1}}Quận{{else}}{{#ifEquals user.areaLevel
+            2}}Phường{{else}}Sở{{/ifEquals}}{{/ifEquals}}</div>
         </div>
       </div>
       <i class="bx bx-log-out pointer" id="log_out"></i>
