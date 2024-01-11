@@ -58,7 +58,7 @@ app.use(passport.session());
 passport.use(new googleStrategy({
   clientID: '900777213307-q8qc0tphopvtmke922drco89a94pk6ph.apps.googleusercontent.com',
   clientSecret: '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',
-  callbackURL: 'http://localhost:4000/auth/google/callback',
+  callbackURL: 'https://wam-ssqw.onrender.com/auth/google/callback',
   passReqToCallback: true,
 }, async (req, accessToken, refreshToken, profile, done) => {
   req.bind_account = false;
