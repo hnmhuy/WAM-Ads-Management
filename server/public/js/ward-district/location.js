@@ -18,7 +18,8 @@ let originalStyles = {}
 let originalImg = {}
 let originalStyles_ads = {}
 let originalImg_ads = {}
-
+let originalStyles_create = {}
+let originalImg_create = {}
 
 
 function showPopup() {
@@ -66,7 +67,58 @@ function hidePopup(resquest_data = "", buttonId = "") {
   const show_popup = document.getElementById('showPopUp');
   show_popup.removeEventListener('click', () => {
     showPopup()
+    clearImgInputField('upload-img-file')
     createUpdateLocation(resquest_data, buttonId)
+  })
+}
+
+function showPopupCreate() {
+  let popup_create = document.getElementById("location-popup-create")
+  let img_create = document.getElementById("form-img-create")
+  let close_btn_create = document.getElementById("close-edit-request-create")
+  let popup_parent_create = document.getElementById("popup-parent-create")
+  let submit_create = document.getElementById("submit-request-create")
+
+  originalStyles_create.visibility = popup_create.style.visibility || '';
+  originalStyles_create.top = popup_create.style.top || '';
+  originalStyles_create.left = popup_create.style.left || '';
+  originalStyles_create.transform = popup_create.style.transform || '';
+
+  originalImg_create.marginBottom = img_create.style.marginBottom || '';
+  originalImg_create.transform = img_create.style.transform || '';
+  img_create.style.marginBottom = '45%';
+  img_create.style.transform = 'translate(-50%, -50%) scale(1)';
+  img_create.style.visibility = 'visible';
+
+  popup_parent_create.style.visibility = 'visible';
+  popup_create.style.visibility = 'visible';
+  popup_create.style.top = '50%';
+  popup_create.style.left = '50%';
+  popup_create.style.transform = 'translate(-50%, -50%) scale(1)';
+  originalStyles_create = {}
+}
+
+function hidePopupCreate(resquest_data = "", buttonId = "") {
+
+  let popup_create = document.getElementById("location-popup-create")
+  let img_create = document.getElementById("form-img-create")
+  let close_btn_create = document.getElementById("close-edit-request-create")
+  let popup_parent_create = document.getElementById("popup-parent-create")
+  let submit_create = document.getElementById("submit-request-create")
+
+  img_create.style.marginBottom = originalImg_create.marginBottom || '';
+  img_create.style.visibility = originalImg_create.visibility || '';
+  img_create.style.transform = originalImg_create.transform || '';
+  popup_parent_create.style.visibility = 'hidden';
+  popup_create.style.visibility = originalStyles_create.visibility || '';
+  popup_create.style.top = originalStyles_create.top || '';
+  popup_create.style.left = originalStyles_create.left || '';
+  popup_create.style.transform = originalStyles_create.transform || '';
+  const show_popup = document.getElementById('showPopUpCreate');
+  show_popup.removeEventListener('click', () => {
+    showPopupCreate()
+    clearImgInputField('upload-img-file')
+    createAdReq()
   })
 }
 
@@ -104,6 +156,7 @@ function hidePopupAds(popup_ads, img_ads, popup_parent_ads) {
   originalImg = {}
   originalStyles_ads = {}
   originalImg_ads = {}
+  clearImgInputField('upload-img-file')
 }
 document
   .querySelectorAll("tbody tr:not(.hide)")
@@ -425,7 +478,6 @@ function createAdViewInfo(adsList) {
     </div>`
       item.parentNode.insertAdjacentHTML('beforeend', form);
       clearImgInputField('upload-img-file')
-      initTiny()
 
       let submit_ads = document.querySelector("#submit-request-ads")
       let popup_parent_ads = document.querySelector("#popup-parent-ads")
@@ -438,14 +490,17 @@ function createAdViewInfo(adsList) {
       popup_parent_ads.addEventListener('click', (event) => {
         if (event.target.id === 'popup-parent-ads') {
           hidePopupAds(popup_ads, img_ads, popup_parent_ads);
+          clearImgInputField('upload-img-file')
         }
       });
       submit_ads.addEventListener('click', () => {
         hidePopupAds(popup_ads, img_ads, popup_parent_ads);
+        clearImgInputField('upload-img-file')
       });
 
       close_btn_ads.addEventListener('click', () => {
         hidePopupAds(popup_ads, img_ads, popup_parent_ads);
+        clearImgInputField('upload-img-file')
       });
     });
   })
@@ -579,6 +634,9 @@ function createUpdateLocation(request_data, ad_place_id) {
           ad_id: null
         }
 
+
+        setImgFileForField(formData, 'upload-img-file');
+        formData.delete('imgFile');
         createUpdateRequest(dataCreate)
         if (data.status === 500) {
           Toastify({
@@ -629,17 +687,26 @@ function createUpdateLocation(request_data, ad_place_id) {
       });
   },)
 }
-function initTiny() {
-  tinymce.init({
-    selector: "textarea", // Replace all textarea elements with TinyMCE
-    height: 300, // Set the height of the editor
-    plugins:
-      "lists",
-    toolbar:
-      "undo redo | formatselect | " +
-      "bold italic backcolor | alignleft aligncenter " +
-      "alignright alignjustify | bullist numlist outdent indent | " +
-      "removeformat | help",
+
+function createAdReq() {
+  let popup = document.getElementById("location-popup-create")
+  let img = document.getElementById("form-img-create")
+  let close_btn = document.getElementById("close-edit-request-create")
+  let popup_parent = document.getElementById("popup-parent-create")
+  let submit = document.getElementById("submit-request-create")
+
+  close_btn.addEventListener('click', () => {
+    hidePopupCreate()
+    clearImgInputField('upload-img-file')
+    if (popup_parent != undefined)
+      document.body.removeChild(popup_parent)
+    return
+  });
+
+  submit.addEventListener('click', () => {
+    hidePopupCreate()
+    clearImgInputField('upload-img-file')
+    return
   });
 }
 function closeOffcanvas() {
@@ -714,6 +781,203 @@ function closeOffcanvas() {
             </tr>
           </table>
         </div>
+
+        <div class="d-flex justify-content-end w-100 align-item">
+  <div class="btn btn-outline-secondary" id="showPopUpCreate">
+    <i class="bi bi-pencil-square"></i> Yêu cầu cấp phép
+  </div>
+  <div id="popup-parent-create">
+  <img id="form-img-create" src="/public/images/form.png" alt="" />
+  <div class="popup-create" id="location-popup-create">
+    <h2 style="margin-top: 60px">Yêu cầu cấp phép</h2>
+    <button
+      style="position: fixed; right: 10px; top: 10px"
+      type="button"
+      class="btn-close"
+      id="close-edit-request-create"
+    ></button>
+    <hr />
+    <form action="#" method="post" id="createForm">
+
+    <div style="text-align: left;">
+  <label for="content" style="text-align: left; font-weight: bold;margin:15px 0px">Địa điểm</label>
+  <input class="form-control" name="ad_place" id="content" ></input>
+</div>
+      <div class="row">
+        <div class="col-6">
+          <div style="text-align: left">
+            <label style="font-weight: bold" for="inputName" class="form-label"
+              >Tên công ty</label
+            >
+            <input
+              tabindex="1"
+              name="inputName"
+              type="text"
+              class="form-control"
+              id="inputName"
+              name="inputName"
+              required
+              placeholder="Công ty"
+            />
+          </div>
+
+          <div style="text-align: left; margin-top: 30px">
+            <label style="font-weight: bold" for="size" class="form-label"
+              >Kích thước</label
+            >
+            <div class="d-flex justify-content-center align-items-center">
+              <input
+                style="margin-right: 10px"
+                type="number"
+                class="form-control"
+                tabindex="3"
+                id="height"
+                name="size"
+                required
+                placeholder="Cao"
+              />
+              x
+              <input
+                style="margin-left: 10px"
+                type="number"
+                class="form-control"
+                tabindex="4"
+                id="width"
+                name="size"
+                required
+                placeholder="Rộng"
+              />
+            </div>
+          </div>
+          <div style="text-align: left; margin-top: 30px">
+            <label style="font-weight: bold" for="startDate" class="form-label"
+              >Ngày bắt đầu</label
+            >
+            <input
+              type="date"
+              class="form-control"
+              tabindex="6"
+              id="startDate"
+              name="startDate"
+              required
+            />
+          </div>
+        </div>
+        <div class="col-6">
+          <div style="text-align: left">
+            <label style="font-weight: bold" for="email" class="form-label"
+              >Email</label
+            >
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              name="email"
+              tabindex="2"
+              required
+              placeholder="Email"
+            />
+          </div>
+
+          <div style="text-align: left; margin-top: 30px">
+            <label style="font-weight: bold" for="address" class="form-label"
+              >Địa chỉ công ty</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              tabindex="5"
+              id="address"
+              name="address"
+              required
+              placeholder="Địa chỉ"
+            />
+          </div>
+          <div style="text-align: left; margin-top: 30px">
+            <label style="font-weight: bold" for="endDate" class="form-label"
+              >Ngày kết thúc</label
+            >
+            <input
+              type="date"
+              class="form-control"
+              tabindex="7"
+              id="endDate"
+              name="endDate"
+              required
+            />
+          </div>
+        </div>
+      </div>
+      <div class="form-field-col" style="width: 100%">
+        <label for="location-type-selection">Loại ví trị</label>
+        <select
+          name="locationType"
+          id="location-type-selection"
+          required
+        ></select>
+      </div>
+
+      <div style="text-align: left">
+        <label
+          for="content"
+          style="text-align: left; font-weight: bold; margin: 15px 0px"
+          >Mô tả bảng quảng cáo</label
+        >
+        <textarea
+          class="form-control"
+          name="content"
+          id="content"
+          rows="4"
+        ></textarea>
+      </div>
+
+      <div style="width: 100%; height: 200px">
+        <div class="upload-field" id="upload-img-file">
+          <label
+            for="imgFile-for-create"
+            class="drag-drop"
+            ondragover="dragoverHandler(event)"
+            ondragleave="dragleaveHandler(event)"
+            ondrop="dropHandler(event)"
+          >
+            <div class="holder">
+              <i class="bi bi-cloud-arrow-up-fill"></i>
+              <h4>Kéo và thả ảnh vào đây</h4>
+              hoặc Click để duyệt file
+            </div>
+          </label>
+          <input
+            type="file"
+            name="imgFile"
+            id="imgFile-for-create"
+            accept=".png, .jpeg, .gif, .jpg"
+            multiple
+            hidden
+            onchange="inputChangeHandler(event)"
+          />
+          <div class="preview" style="display: none"></div>
+        </div>
+      </div>
+
+      <button
+        id="submit-request-create"
+        style="
+          width: 100%;
+          outline: none;
+          padding: 10px;
+          border-radius: 12px;
+          background-color: #262058;
+          color: white;
+          margin-top: 50px;
+        "
+      >
+        <h5 style="margin: 0">Gửi yêu cầu</h5>
+      </button>
+    </form>
+  </div>
+</div>
+</div>
+
 
         <div class="d-flex justify-content-end w-100 align-item">
           <div class="btn btn-outline-secondary" id="showPopUp">
@@ -805,8 +1069,6 @@ function closeOffcanvas() {
 `
 
   document.querySelector('.tmp-pop-up').innerHTML = html;
-
-  initTiny()
 }
 
 function handlePopUp(button) {
@@ -842,6 +1104,7 @@ function handlePopUp(button) {
 
 
       const show_popup = document.getElementById('showPopUp');
+      const show_popup_create = document.getElementById('showPopUpCreate');
 
       let resquest_data = {
         capacity: data.data[0].capacity,
@@ -926,9 +1189,207 @@ function handlePopUp(button) {
       </div>`
         show_popup.parentNode.insertAdjacentHTML('beforeend', html);
         clearImgInputField('upload-img-file')
-        initTiny()
         showPopup()
         createUpdateLocation(resquest_data, buttonId)
+      })
+
+
+
+      show_popup_create.addEventListener('click', () => {
+        const html = `<div id="popup-parent-create">
+        <img id="form-img-create" src="/public/images/form.png" alt="" />
+        <div class="popup-create" id="location-popup-create">
+          <h2 style="margin-top: 60px">Yêu cầu cấp phép</h2>
+          <button
+            style="position: fixed; right: 10px; top: 10px"
+            type="button"
+            class="btn-close"
+            id="close-edit-request-create"
+          ></button>
+          <hr />
+          <form action="#" method="post" id="createForm">
+      
+          <div style="text-align: left;">
+        <label for="content" style="text-align: left; font-weight: bold;margin:15px 0px">Địa điểm</label>
+        <input class="form-control" name="ad_place" id="content" ></input>
+      </div>
+            <div class="row">
+              <div class="col-6">
+                <div style="text-align: left">
+                  <label style="font-weight: bold" for="inputName" class="form-label"
+                    >Tên công ty</label
+                  >
+                  <input
+                    tabindex="1"
+                    name="inputName"
+                    type="text"
+                    class="form-control"
+                    id="inputName"
+                    name="inputName"
+                    required
+                    placeholder="Công ty"
+                  />
+                </div>
+      
+                <div style="text-align: left; margin-top: 30px">
+                  <label style="font-weight: bold" for="size" class="form-label"
+                    >Kích thước</label
+                  >
+                  <div class="d-flex justify-content-center align-items-center">
+                    <input
+                      style="margin-right: 10px"
+                      type="number"
+                      class="form-control"
+                      tabindex="3"
+                      id="height"
+                      name="size"
+                      required
+                      placeholder="Cao"
+                    />
+                    x
+                    <input
+                      style="margin-left: 10px"
+                      type="number"
+                      class="form-control"
+                      tabindex="4"
+                      id="width"
+                      name="size"
+                      required
+                      placeholder="Rộng"
+                    />
+                  </div>
+                </div>
+                <div style="text-align: left; margin-top: 30px">
+                  <label style="font-weight: bold" for="startDate" class="form-label"
+                    >Ngày bắt đầu</label
+                  >
+                  <input
+                    type="date"
+                    class="form-control"
+                    tabindex="6"
+                    id="startDate"
+                    name="startDate"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-6">
+                <div style="text-align: left">
+                  <label style="font-weight: bold" for="email" class="form-label"
+                    >Email</label
+                  >
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    name="email"
+                    tabindex="2"
+                    required
+                    placeholder="Email"
+                  />
+                </div>
+      
+                <div style="text-align: left; margin-top: 30px">
+                  <label style="font-weight: bold" for="address" class="form-label"
+                    >Địa chỉ công ty</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    tabindex="5"
+                    id="address"
+                    name="address"
+                    required
+                    placeholder="Địa chỉ"
+                  />
+                </div>
+                <div style="text-align: left; margin-top: 30px">
+                  <label style="font-weight: bold" for="endDate" class="form-label"
+                    >Ngày kết thúc</label
+                  >
+                  <input
+                    type="date"
+                    class="form-control"
+                    tabindex="7"
+                    id="endDate"
+                    name="endDate"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="form-field-col" style="width: 100%">
+              <label for="location-type-selection">Loại ví trị</label>
+              <select
+                name="locationType"
+                id="location-type-selection"
+                required
+              ></select>
+            </div>
+      
+            <div style="text-align: left">
+              <label
+                for="content"
+                style="text-align: left; font-weight: bold; margin: 15px 0px"
+                >Mô tả bảng quảng cáo</label
+              >
+              <textarea
+                class="form-control"
+                name="content"
+                id="content"
+                rows="4"
+              ></textarea>
+            </div>
+      
+            <div style="width: 100%; height: 200px">
+              <div class="upload-field" id="upload-img-file">
+                <label
+                  for="imgFile-for-create"
+                  class="drag-drop"
+                  ondragover="dragoverHandler(event)"
+                  ondragleave="dragleaveHandler(event)"
+                  ondrop="dropHandler(event)"
+                >
+                  <div class="holder">
+                    <i class="bi bi-cloud-arrow-up-fill"></i>
+                    <h4>Kéo và thả ảnh vào đây</h4>
+                    hoặc Click để duyệt file
+                  </div>
+                </label>
+                <input
+                  type="file"
+                  name="imgFile"
+                  id="imgFile-for-create"
+                  accept=".png, .jpeg, .gif, .jpg"
+                  multiple
+                  hidden
+                  onchange="inputChangeHandler(event)"
+                />
+                <div class="preview" style="display: none"></div>
+              </div>
+            </div>
+      
+            <button
+              id="submit-request-create"
+              style="
+                width: 100%;
+                outline: none;
+                padding: 10px;
+                border-radius: 12px;
+                background-color: #262058;
+                color: white;
+                margin-top: 50px;
+              "
+            >
+              <h5 style="margin: 0">Gửi yêu cầu</h5>
+            </button>
+          </form>
+        </div>
+      </div>`
+        show_popup_create.parentNode.insertAdjacentHTML('beforeend', html);
+        clearImgInputField('upload-img-file')
+        showPopupCreate()
+        createAdReq()
       })
     })
 
