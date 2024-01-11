@@ -36,6 +36,8 @@ controller.sendFeedback = async (req, res) =>
         "Access-Control-Allow-Origin": "*",
     })
     let fileList = req.files;
+    let typeFeedback = undefined;
+    let geojsonId = undefined;
     let img1, img2;
     if (fileList.length === 2)
     {
@@ -53,25 +55,10 @@ controller.sendFeedback = async (req, res) =>
     }
 
     let {email, name, phone, mytextarea, type, ad_place, ad_content,ward, geometry, formatedAddress} = req.body;
-    if (!ad_place && !ward)
-    {
-        data = await models.feedback.create({
-            name: name,
-            email: email,
-            phone: phone,
-            content: mytextarea,
-            type: type,
-            image1: img1,
-            image2: img2,
-            ad_id: ad_content,
-        })
-    }
-    else if(ad_place && !ward)
-    {
-        const placeId = await isAdPlaceExist(ad_place);
-        console.log(placeId);
-        if (placeId)
+    try {
+        if (!ad_place && !ward)
         {
+            feedbackType = 'ad_content'
             data = await models.feedback.create({
                 name: name,
                 email: email,
@@ -80,39 +67,81 @@ controller.sendFeedback = async (req, res) =>
                 type: type,
                 image1: img1,
                 image2: img2,
-                place_id: placeId.dataValues.place_id,
+                ad_id: ad_content,
             })
-            console.log("this is feedbackID: ", data);
-            
+
+            let temp = await models.ad_content.findOne({
+                include: [
+                    {model: models.ad_place, attributes: ['place_id']}
+                ],
+                where: {
+                    id: ad_content
+                },
+                attributes: ['id']
+            })
+            console.log(temp);
+            geojsonId = temp.dataValues.ad_place.place_id;
 
         }
-    }
-    else if(ward)
-    {
-        let placeId = await isWardExist(ward, geometry, formatedAddress);
-        if(placeId)
+        else if(ad_place && !ward)
         {
-            data = await models.feedback.create({
-                name: name,
-                email: email,
-                phone: phone,
-                content: mytextarea,
-                type: type,
-                image1: img1,
-                image2: img2,
-                place_id: placeId.id,
-            })
+            feedbackType = 'ad_place'
+            const placeId = await isAdPlaceExist(ad_place);
+            if (placeId)
+            {
+                geojsonId = placeId.place_id
+                data = await models.feedback.create({
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    content: mytextarea,
+                    type: type,
+                    image1: img1,
+                    image2: img2,
+                    place_id: placeId.dataValues.place_id,
+                })
+            // console.log("this is feedbackID: ", data);
+            }
         }
-    
+        else if(ward)
+        {
+            feedbackType = 'random'
+            let placeId = await isWardExist(ward, geometry, formatedAddress);
+            if(placeId)
+            {
+                geojsonId = placeId.id
+                data = await models.feedback.create({
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    content: mytextarea,
+                    type: type,
+                    image1: img1,
+                    image2: img2,
+                    place_id: placeId.id,
+                })
+            }
+        
+        }
+
+
+        // feedbackId = data.id;
+
+        // console.log("This is req", req.files);
+
+        let responseData = {
+            feedback_id: data.id,
+            ad_id: data.ad_id,
+            place_id: data.place_id,
+            type: feedbackType,
+            geojsonId: geojsonId
+        }
+        
+        res.json({success: true, message: 'Received feedback successfully!', data: responseData});
+    } catch (error) {
+        console.log(error);
+        res.json({success: false, message: error});
     }
-
-
-    // feedbackId = data.id;
-
-    console.log("This is req", req.files);
-
-    
-    res.json({ message: 'Received feedback successfully!', data: data.dataValues});
     
 }
 
