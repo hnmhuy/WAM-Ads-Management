@@ -185,6 +185,24 @@ async function isWardExist(ward, geometry, formatedAddress)
         return null;
 }
 
+controller.verifyPlace = async (req, res) => {
+    res.set({
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+    })
+    let ward = req.query.ward;
+    let data = await models.area.findOne({
+        where: {name: ward},
+        attributes: ['id']
+    })
+
+    if(data) {
+        res.json({success: true, message: "Ward is valid"});
+    } else {
+        res.json({success: false, message: "Ward is invalid"})
+    }
+}
+
 
 async function getFeedbackByArea(areaId)
 {

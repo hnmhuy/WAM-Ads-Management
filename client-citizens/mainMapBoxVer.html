@@ -40,6 +40,11 @@
     <link rel="stylesheet" href="./public/css/feedback-form.css" />
     <link rel="stylesheet" href="./public/css/upload-file.css" />
 
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/public/images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/public/images/favicon/favicon-16x16.png">
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <!-- Map Box library -->
     <script src="https://api.mapbox.com/mapbox-gl-js/v3.0.0/mapbox-gl.js"></script>
     <link
@@ -566,6 +571,9 @@
             <button type="button" class="btn btn-primary feedback-button" onclick="openFeedbackForm(this)">
               <i class="bi bi-send-fill"></i>
               Phản hồi
+              <div class="spinner-border spinner-border-sm hidden" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
             </button>
           </div>
         </div>
@@ -673,6 +681,9 @@
           ></div>
           <button type="submit" class="btn btn-primary" id="confirm-button">
             <i class="bi bi-send-fill"></i> Xác nhận
+            <div class="spinner-border spinner-border-sm hidden" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
           </button>
         </div>
       </form>

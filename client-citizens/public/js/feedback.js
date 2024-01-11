@@ -53,16 +53,21 @@ form.addEventListener("submit", async (e) => {
   let keyArr = [];
   let fbAttribute = getFormAttribute(form);
   let locationType = fbAttribute.type;
-
+  let submitBtn = form.querySelector("button[type='submit']");
 
   e.preventDefault();
   const captchaResponse = grecaptcha.getResponse();
   if (!captchaResponse.length > 0) {
+    swal("Thông báo", "Vui lòng xác nhận CAPTCHA", "error");
     throw new Error("Captcha not complete");
   }
 
   // const captcha = new FormData();
   // captcha.append("g-recaptcha-response", captchaResponse)
+
+  let spinner = submitBtn.querySelector(".spinner-border");
+  spinner.classList.remove("hidden");
+  submitBtn.disabled = true;
   
   const content = tinymce.get("mytextarea").getContent().trim();
   const type = form.querySelector(".sBtn-text").getAttribute("data-id");
@@ -83,13 +88,18 @@ form.addEventListener("submit", async (e) => {
     fd.append("geometry", JSON.stringify(fbAttribute.geometry));
     fd.append("formatedAddress",fbAttribute.address);
   }
-  
-  
+
   fd.append("type", type);
   fd.set("mytextarea", content);
+
+  if (!type) {
+    swal("Thông báo", "Vui lòng chọn loại phản hồi", "error");
+    spinner.classList.add("hidden");
+    submitBtn.disabled = false;
+    return;
+  }
   
   const params = new URLSearchParams(fd);
-
 
   const res = await fetch("http://localhost:4000/api/feedback/reCaptcha", {
     method: "POST",
@@ -97,34 +107,35 @@ form.addEventListener("submit", async (e) => {
   })
   const data = await res.json();
 
-
-    if (data.captchaSuccess && content) {
-      console.log("Validation Successful!");
-      try {
-        const res1 = await fetch("http://localhost:4000/api/feedback/sendFeedback", {
-          method: 'POST',
-          body: fd, // Convert the object to a JSON string
-        });
-        const feedbackData = await res1.json();
-        if(feedbackData.success) {
-          storeFeedbackData(feedbackData.data);
-          let req = [feedbackData.data];
-          await getFeedbackGeoJson(req);
-          processStorageData();
-          alert("Đã gửi phản hồi thành công");
-        } else {
-          alert("Đã có lỗi xảy ra, vui lòng thử lại sau");
-        }
-        document.querySelector("form").classList.add("hidden");
-        document.querySelector(".overlay").classList.add("hidden");
-      } catch (error) {
-        console.log(error);
+  if (data.captchaSuccess && content) {
+    try {
+      const res1 = await fetch("http://localhost:4000/api/feedback/sendFeedback", {
+        method: 'POST',
+        body: fd, // Convert the object to a JSON string
+      });
+      const feedbackData = await res1.json();
+      if(feedbackData.success) {
+        storeFeedbackData(feedbackData.data);
+        let req = [feedbackData.data];
+        await getFeedbackGeoJson(req);
+        processStorageData();
+        swal("Thông báo", "Đã gửi phản hồi thành công", "success");
+      } else {
+        swal("Thông báo", "Đã có lỗi xảy ra, vui lòng thử lại sau", "error");
       }
-      clearImgInputField("feedback-upload-img");
-    } else {
-      console.error("Validation Error!");
+      document.querySelector("form").classList.add("hidden");
+      document.querySelector(".overlay").classList.add("hidden");
+    } catch (error) {
+      swal("Thông báo", "Đã có lỗi xảy ra, vui lòng thử lại sau", "error");
+      console.log(error);
     }
+    clearImgInputField("feedback-upload-img");
+  } else {
+    swal("Thông báo", "CAPTCHA không hợp lệ!", "error")
+  }
 
+  spinner.classList.add("hidden");
+  submitBtn.disabled = false;
 });
 
 

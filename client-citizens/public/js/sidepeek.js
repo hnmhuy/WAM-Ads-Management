@@ -235,29 +235,48 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // // Open feedback form handler
 
-function openFeedbackForm(e) {
+async function openFeedbackForm(e) {
 
   closeFeedbackForm();
 
-  const fbForm = document.querySelector(".feedback-form")
-  fbForm.classList.remove("hidden");
-  document.querySelector(".overlay").classList.remove("hidden");
+  let spinner = document.querySelector(".spinner-border");
+  if (spinner) {
+    spinner.classList.remove("hidden");
+  }
+  e.disabled = true;
+  let flag = true;
+  if(e.hasAttribute("ward-name")) {
+    let wardName = e.getAttribute("ward-name");
+    let response = await fetch(`http://localhost:4000/api/feedback/verifyPlace?ward=${wardName}`)
+    response = await response.json();
+    flag = response.success;
+  }
+  if(flag) {
+    const fbForm = document.querySelector(".feedback-form")
+    fbForm.classList.remove("hidden");
+    document.querySelector(".overlay").classList.remove("hidden");
 
-  if(e.hasAttribute("ad-content-id"))
-  {
-    fbForm.setAttribute("ad-content-id", e.getAttribute("ad-content-id").split("_")[1]);
+    if(e.hasAttribute("ad-content-id"))
+    {
+      fbForm.setAttribute("ad-content-id", e.getAttribute("ad-content-id").split("_")[1]);
+    }
+    else if (e.hasAttribute("ad-place-id"))
+    {
+      fbForm.setAttribute("ad-place-id", e.getAttribute("ad-place-id"));
+    }
+    else if (e.hasAttribute("ward-name"))
+    {
+      fbForm.setAttribute("ward-name", e.getAttribute("ward-name"));
+      fbForm.setAttribute("lat-lng", e.getAttribute("lat-lng"));
+      fbForm.setAttribute("address", e.getAttribute("address"))
+    }
+  } else {
+    swal("Thông báo", "Khu vực này chưa được quản lý. Vui lòng chọn khu vực khác", "warning")
   }
-  else if (e.hasAttribute("ad-place-id"))
-  {
-    fbForm.setAttribute("ad-place-id", e.getAttribute("ad-place-id"));
+  e.disabled = false;
+  if (spinner) {
+    spinner.classList.add("hidden");
   }
-  else if (e.hasAttribute("ward-name"))
-  {
-    fbForm.setAttribute("ward-name", e.getAttribute("ward-name"));
-    fbForm.setAttribute("lat-lng", e.getAttribute("lat-lng"));
-    fbForm.setAttribute("address", e.getAttribute("address"))
-  }
-  
 
 }
 

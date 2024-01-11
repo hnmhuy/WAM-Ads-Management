@@ -86,7 +86,7 @@ geocoder.on("result", (event) => {
 });
 
 // Get user location
-// navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
 
 function successCallback(position) {
     console.log(position.coords.longitude, position.coords.latitude)
