@@ -312,6 +312,13 @@ async function showAdDetail(e) {
   const adDetail = document.querySelector(".ad-detail");
   const carousel = adDetail.querySelector(".carousel-swipe")
   carousel.innerHTML = `<p class="title">Hình ảnh quảng cáo</p>`
+  let infoCol2 = adDetail.querySelector(".info-col2");
+  infoCol2.innerHTML = `
+  <div class="info1">
+  <p class="title">Loại bảng quảng cáo</p>
+  <p class="content" id="type-ad"></p>
+</div>
+  `
   let data = await fetch(`http://localhost:4000/api/ad_content/getOne?id=${id}`).then(res => res.json());
   generateAdDetail(adDetail, data.data, carousel)
   const overlay = document.querySelector(".overlay");
