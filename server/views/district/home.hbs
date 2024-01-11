@@ -1,55 +1,374 @@
-<div class="map-container" style="width: 100%; height: 100%; padding-left: 78px">
-  <div id="map"></div>
-</div>
-<script>
-  (g => {
-    var h,
-      a,
-      k,
-      p = 'The Google Maps JavaScript API',
-      c = 'google',
-      l = 'importLibrary',
-      q = '__ib__',
-      m = document,
-      b = window;
-    b = b[c] || (b[c] = {});
-    var d = b.maps || (b.maps = {}),
-      r = new Set(),
-      e = new URLSearchParams(),
-      u = () =>
-        h ||
-        (h = new Promise(async (f, n) => {
-          await (a = m.createElement('script'));
-          e.set('libraries', [...r] + '');
-          for (k in g)
-            e.set(
-              k.replace(/[A-Z]/g, t => '_' + t[0].toLowerCase()),
-              g[k]
-            );
-          e.set('callback', c + '.maps.' + q);
-          a.src = `https://maps.${c}apis.com/maps/api/js?` + e;
-          d[q] = f;
-          a.onerror = () => (h = n(Error(p + ' could not load.')));
-          a.nonce = m.querySelector('script[nonce]')?.nonce || '';
-          m.head.append(a);
-        }));
-    d[l]
-      ? console.warn(p + ' only loads once. Ignoring:', g)
-      : (d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)));
-  })({ key: 'AIzaSyAyotXhcbT5Snxmn6dSGNxX5QH_hGvKnCk', v: 'beta' });
-</script>
-<script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
-
-<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-<script type="module" defer src="/public/js/maps.js"></script>
-<script src="/public/js/ward-district/home.js"></script>
-<style>
-  body {
-    height: 100vh;
-    width: 100vw;
-    padding: 0;
-    margin: 0;
-  }
-</style>
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.0.0/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.0.0/mapbox-gl.css" rel="stylesheet" />
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+<link rel="stylesheet"
+  href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css" />
+<link rel="stylesheet" href="/public/css/ward-district/home.css">
 <link rel="stylesheet" href="/public/css/ward-district/maps.css" />
-<script type="module" defer src="/public/js/maps.js"></script>
+<link rel="stylesheet" href="/public/css/ward-district/ad-card.css" />
+<link rel="stylesheet" href="/public/css/ward-district/random-location.css" />
+<link rel="stylesheet" href="/public/css/ward-district/sidepeek-ad.css" />
+<link rel="stylesheet" href="/public/css/ward-district/sidepeek-noAd.css" />
+<link rel="stylesheet" href="/public/css/ward-district/ad-detail.css" />
+<link rel="stylesheet" href="/public/css/ward-district/carousel-swipe.css" />
+<link rel="stylesheet" href="/public/css/ward-district/feedback-detail.css" />
+
+<script type="module" src="/public/js/ward-district/home.js"></script>
+
+
+<div class="search"></div>
+
+<div class="map-container" style="width: 98vw; height: 100vh; padding-left: 78px">
+  <div id="map" style="width: 96vw; height: 100vh;"></div>
+</div>
+
+<div class="sidepeek-container hidden" id="sidepeek-ad">
+  <div class="area-icon shadow-sm">
+    <i class="bi bi-pin-map"></i>
+    <h3 id="area"></h3>
+    <i class="bi bi-x-circle"></i>
+  </div>
+  <div class="sidepeek-container-data">
+    <div class="location-img">
+    </div>
+
+    <div class="address">
+      <i class="bi bi-geo-alt-fill"></i>
+      <p id="format-address">
+
+      </p>
+    </div>
+    <div class="location-content">
+      <!-- <h4 id="type-ad">trụ/cụm pano</h4> -->
+      <div>
+        <p class="title">Số lượng bảng (bảng/vị trí)</p>
+        <p class="content-field" id="capacity"></p>
+      </div>
+      <div>
+        <p class="title">Hình thức quảng cáo</p>
+        <p class="content-field" id="purpose"></p>
+      </div>
+      <div>
+        <p class="title">Loại vị trí</p>
+        <p class="content-field" id="type-location">
+
+        </p>
+      </div>
+    </div>
+
+    <div class="ad-content">
+      <h5 id="num-ad">Thông tin bảng quảng cáo (4)</h5>
+    </div>
+  </div>
+</div>
+
+<div class="sidepeek-container hidden" id="sidepeek-noAd">
+  <div class="area-icon shadow-sm">
+    <i class="bi bi-pin-map"></i>
+    <h3 id="area"></h3>
+    <i class="bi bi-x-circle"></i>
+  </div>
+  <div class="sidepeek-container-data">
+    <div class="location-img">
+      <p>Hình ảnh điểm đặt quảng cáo</p>
+      <img src="./public/images/no-ad.png" alt="not found" />
+    </div>
+    <div class="address">
+      <i class="bi bi-geo-alt-fill"></i>
+      <p id="format-address">
+
+      </p>
+    </div>
+    <div class="location-content">
+      <h4 id="type-ad">trụ/cụm pano</h4>
+      <div>
+        <p class="title">Số lượng bảng (bảng/vị trí)</p>
+        <p class="content-field" id="capacity"></p>
+      </div>
+      <div>
+        <p class="title">Hình thức quảng cáo</p>
+        <p class="content-field" id="purpose"></p>
+      </div>
+      <div>
+        <p class="title">Loại vị trí</p>
+        <p class="content-field" id="type-location">
+
+        </p>
+      </div>
+    </div>
+    <div class="ad-content">
+      <h5 id="num-ad">Thông tin bảng quảng cáo (0)</h5>
+      <img src="./public/images/no-data.png" alt="not found" />
+      <p class="notification">Chưa có dữ liệu!</p>
+      <p class="notification">Vui lòng chọn điểm trên bản đồ để xem</p>
+    </div>
+  </div>
+</div>
+
+<div class="feedbackDetail-container hidden" id="feedback-detail">
+  <div class="header shadow-sm">
+    <img src="./public/images/detail-icon.svg" alt="not found!" />
+    <h3 id="header-title">Chi tiết phản hồi</h3>
+    <i class="bi bi-chevron-double-left"></i>
+  </div>
+  <div class="feedbackDetail-container-data">
+    <div class="location-img">
+      <p>Hình ảnh đính kèm</p>
+    </div>
+    <div class="address">
+      <i class="bi bi-geo-alt-fill"></i>
+      <p id="format-address">
+
+      </p>
+    </div>
+    <div class="feedbackDetail-content">
+      <div id="status">
+        <p class="title">Trạng thái phản hồi</p>
+        <div class="detail-feedback-status done-shadow">
+          <div class="detail-feedback-status-icon">
+            <div class="status-icon-shadow animate-flicker done-shadow"></div>
+            <div class="satus-icon-point done"></div>
+          </div>
+          <div class="detail-feedback-status-text"></div>
+        </div>
+      </div>
+      <div>
+        <p class="title">Hình thức báo cáo</p>
+        <p class="content-field" id="feedbackType"></p>
+      </div>
+      <div>
+        <p class="title">Thời gian</p>
+        <p class="content-field" id="feedback-time"></p>
+      </div>
+      <div>
+        <p class="title">Họ và tên</p>
+        <p class="content-field" id="name"></p>
+      </div>
+      <div>
+        <p class="title">Email</p>
+        <p class="content-field" id="email"></p>
+      </div>
+      <div>
+        <p class="title">Số điện thoại</p>
+        <p class="content-field" id="phone-number"></p>
+      </div>
+      <div>
+        <p class="title">Nội dung phản hồi</p>
+        <div class="content-field" id="feedback-content">
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="random-container shadow-sm hidden" id="random-sidepeek">
+  <img src="./public/images/random-location.svg" alt="not found" />
+  <div class="content-field">
+    <div class="address-container">
+      <p class="detail-address">227, Nguyễn Văn Cừ</p>
+      <p class="area">Phường 4, Quận 5, Thành Phố Hồ Chí Minh</p>
+    </div>
+    <div class="coorordinate">
+      <p class="lat-long">10.750839 - 106.674025</p>
+    </div>
+  </div>
+  <i class="bi bi-x delete-random"></i>
+</div>
+
+
+<div class="ad-detail hidden" style="z-index: 10">
+  <div class="header-container">
+    <h3 id="ad-name"></h3>
+    <i class="bi bi-x-circle" onclick="closeAdDetail()"></i>
+  </div>
+  <div class="adetail-address">
+    <i class="bi bi-geo"></i>
+    <p id="detail-format-address">
+    </p>
+  </div>
+  <div class="carousel-swipe">
+    <p class="title">Hình ảnh quảng cáo</p>
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <img src="https://d1jie5o4kjowzg.cloudfront.net/deli-headline-banner-images/pepsi-3d-billboard.jpg"
+            alt="pic" />
+        </div>
+        <div class="swiper-slide">
+          <img
+            src="https://thedrum-media.imgix.net/thedrum-prod/s3/news/tmp/349138/uk_0.jpg?w=1280&ar=default&fit=crop&crop=faces,edges&auto=format"
+            alt="pic" />
+        </div>
+        <div class="swiper-slide">
+          <img
+            src="https://thedrum-media.imgix.net/thedrum-prod/s3/news/tmp/349138/uk_0.jpg?w=1280&ar=default&fit=crop&crop=faces,edges&auto=format"
+            alt="pic" />
+        </div>
+        <div class="swiper-slide">
+          <img
+            src="https://thedrum-media.imgix.net/thedrum-prod/s3/news/tmp/349138/uk_0.jpg?w=1280&ar=default&fit=crop&crop=faces,edges&auto=format"
+            alt="pic" />
+        </div>
+      </div>
+      <div class="swiper-pagination"></div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+    </div>
+  </div>
+  <div class="detail-info-container">
+    <p>Thông tin chi tiết</p>
+    <div class="detail-info-content">
+      <div class="info-col1">
+        <div class="info1">
+          <p class="title">Hình thức quảng cáo</p>
+          <p class="content-field" id="purpose">Cổ động chính trị</p>
+        </div>
+        <div class="info2">
+          <p class="title">Thời hạn hợp đồng</p>
+          <div class="date-container">
+            <img src="./public/images/Line 7.png" alt="Not found!" />
+            <div class="date">
+              <p class="content-field" id="start">Ngày 15 tháng 10 năm 2023</p>
+              <p class="content-field" id="end">Ngày 16 tháng 10 năm 2023</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="info-col2">
+        <div class="info1">
+          <p class="title">Loại bảng quảng cáo</p>
+          <p class="content-field" id="type-ad">Trụ/Cụm pano</p>
+        </div>
+
+      </div>
+      <div class="info-col3">
+        <div class="info1">
+          <p class="title">Loại vị trí</p>
+          <p class="content-field" id="type-location">Đất công</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="overlay hidden" style="z-index: 9;"></div>
+<script>
+  async function showAdDetail(e) {
+    console.log("bug")
+    let id = e.getAttribute("detail-id").split("_")[1];
+
+    const adDetail = document.querySelector(".ad-detail");
+    const carousel = adDetail.querySelector(".carousel-swipe")
+    carousel.innerHTML = `<p class="title">Hình ảnh quảng cáo</p>`
+    let data = await fetch(`/api/ad_content/getOne?id=${id}`).then(res => res.json());
+    generateAdDetail(adDetail, data.data, carousel)
+    const overlay = document.querySelector(".overlay");
+    adDetail.classList.remove("hidden");
+    adDetail.classList.add("ad-detail-float");
+    overlay.classList.remove("hidden");
+  }
+
+  function closeAdDetail() {
+    const adDetail = document.querySelector(".ad-detail");
+    const overlay = document.querySelector(".overlay");
+    adDetail.classList.add("hidden");
+    overlay.classList.add("hidden");
+  }
+
+  function generateAdDetail(container, data, carousel) {
+    let companyName = container.querySelector("#ad-name");
+    let formatAddress = container.querySelector("#detail-format-address");
+    let purpose = container.querySelector("#purpose");
+    let typeAd = container.querySelector("#type-ad");
+    let start = container.querySelector("#start");
+    let end = container.querySelector("#end");
+    let infoCol2 = container.querySelector(".info-col2")
+    let startDate = formatDate(data.start);
+    let endDate = formatDate(data.end);
+    let locationType = container.querySelector("#type-location");
+
+
+    let imgArr = generateImg(data.image1, data.image2);
+
+    //generate swiper container
+    let carouselDiv = document.createElement("div");
+    carouselDiv.classList.add("swiper-container")
+
+    if (imgArr.length === 0) {
+      carouselDiv.innerHTML = 'Chưa có hình ảnh cho bảng quảng cáo này.'
+    }
+    else if (imgArr.length === 1) {
+      carouselDiv.innerHTML = `
+      
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <img
+          src="http://localhost:4000/${imgArr[0]}"
+          alt="pic"
+        />
+      </div>
+    </div>
+    <div class="swiper-pagination"></div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+    `
+    }
+    else if (imgArr.length === 2) {
+      carouselDiv.innerHTML = `
+      
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <img
+          src="http://localhost:4000/${imgArr[0]}"
+          alt="pic"
+        />
+      </div>
+      <div class="swiper-slide">
+        <img
+          src="http://localhost:4000/${imgArr[1]}"
+          alt="pic"
+        />
+      </div>
+    </div>
+    <div class="swiper-pagination"></div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+    `
+    }
+
+    carousel.appendChild(carouselDiv);
+    companyName.textContent = data.company_name;
+    formatAddress.textContent = `${data.ad_place.place.address_formated}, ${data.ad_place.place.area.formatedName}`
+    purpose.textContent = data.purpose;
+    typeAd.textContent = data.category.name;
+    start.textContent = startDate;
+    end.textContent = endDate;
+    locationType.textContent = data.location;
+
+  }
+
+  function formatDate(inputDate) {
+    const date = new Date(inputDate);
+
+    // Check if the date is valid
+    if (isNaN(date.getTime())) {
+      return "Invalid date";
+    }
+
+    const day = date.getDate();
+    const month = date.getMonth() + 1; // Months are zero-based
+    const year = date.getFullYear();
+
+    const formattedDate = `Ngày ${day} tháng ${month} năm ${year}`;
+    return formattedDate;
+  }
+
+  function generateImg(image1, image2) {
+    let imgArr = [];
+    if (image1)
+      imgArr.push(image1);
+    if (image2)
+      imgArr.push(image2);
+    return imgArr;
+  }
+</script>

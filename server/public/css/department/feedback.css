@@ -82,7 +82,8 @@
   border-radius: 10px;
   z-index: 99;
   border: 1px solid rgba(0, 0, 0, 0.2);
-
+  max-height: 218px;
+  overflow-y: auto;
   opacity: 0;
   visibility: hidden;
 }
@@ -98,6 +99,11 @@
 
 .dropdown {
   padding: 0.5rem !important;
+}
+
+.wrapper-dropdown span
+{
+  width: 100%;
 }
 
 .wrapper-dropdown .dropdown li:hover {
@@ -367,3 +373,13 @@
 }
 
 /* ----------------- RESPOND-INFO ----------------- */
+
+
+/* LOADING SPINNER */
+
+.loading td > div, .feedback-loading
+{
+  display: flex;
+  justify-content: center; 
+  width: 100%
+}

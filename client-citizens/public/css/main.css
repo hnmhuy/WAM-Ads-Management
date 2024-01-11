@@ -2,5 +2,28 @@
 
 * {
     font-family: 'Quicksand', sans-serif;
+    padding: 0;
+    margin: 0;
 }
 
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px #f1f1f1; 
+    border-radius: 10px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: rgba(24, 16, 92, 0.6);
+    border-radius: 10px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+     background: rgba(24, 16, 92, 1);
+  }

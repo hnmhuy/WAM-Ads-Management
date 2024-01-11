@@ -217,6 +217,7 @@
 /* Area table */
 #area-table tr td:first-child {
     font-weight: 600;
+    width: 35%;
 }
 
 .officer-group {
@@ -278,4 +279,16 @@
 }
 .extend-btn-rotate {
     transform: rotate(180deg)
+}
+
+.extend-row td{
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.new-row {
+    border: 2px solid rgba(255, 0, 0, 0.2);
+}
+
+.holder-row td p {
+    margin: 0;
 }

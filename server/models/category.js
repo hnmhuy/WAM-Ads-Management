@@ -11,14 +11,20 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      category.belongsTo(models.field);
-      category.hasMany(models.ad_place)
+      category.belongsTo(models.field, { foreignKey: 'field_id' })
+      category.hasMany(models.ad_place, { foreignKey: 'location_type'});
+      category.hasMany(models.ad_place, { foreignKey: 'purpose'});
+      category.hasMany(models.feedback, { foreignKey: 'type' })
+      category.hasOne(models.ad_content, { foreignKey: 'ad_type' })
     }
   }
   category.init({
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true
+    },
     name: DataTypes.STRING,
-    color: DataTypes.CHAR,
-    icon: DataTypes.STRING,
     description: DataTypes.TEXT
   }, {
     sequelize,

@@ -316,6 +316,11 @@ tbody tr:hover {
   width: 8rem;
 }
 
+.status.sent{
+    background-color: #e5e5e5;
+    color: #ababab;
+}
+
 .status.delivered {
   background-color: #86e49d;
   color: #006b21;
@@ -483,7 +488,7 @@ tbody td.active {
   transform: rotate(-180deg);
 }
 
-.content {
+.menu-content {
   display: none;
   padding: 20px;
   margin-top: 15px;
@@ -492,11 +497,11 @@ tbody td.active {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
-.menu_div.active .content {
+.menu_div.active .menu-content {
   display: block;
 }
 
-.content .search {
+.menu-content .search {
   position: relative;
 }
 
@@ -527,7 +532,7 @@ tbody td.active {
   color: #bfbfbf;
 }
 
-.content .options {
+.menu-content .options {
   margin-top: 10px;
   max-height: 250px;
   overflow-y: auto;
@@ -570,8 +575,8 @@ li.selected {
 .creation_btn {
   margin-left: 40px;
   background-color: #4f3ed7;
-  height: 50%;
-  width: 3%;
+  height: 90%;
+  width: 13%;
   color: white;
   padding: 8px;
   border: 0;
@@ -583,4 +588,244 @@ li.selected {
   justify-content: center;
   align-items: center;
   align-self: flex-end;
+}
+
+/* Upload File */
+
+.upload-field {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  position: relative;
+}
+
+.drag-drop {
+  width: 90%;
+  height: 90%;
+  padding: 20px;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.holder {
+  text-align: center;
+}
+
+.holder i {
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+  color: #ccc;
+}
+
+.holder h4 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px !important;
+}
+
+.holder p {
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 10px !important;
+}
+
+.holder p:last-child {
+  margin-top: 10px;
+}
+
+.preview {
+  max-width: 80% !important;
+  height: 80% !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  overflow: auto;
+  gap: 20px;
+  position: relative;
+  z-index: 2;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  padding: 0 10px;
+  transform: translate(-50%, -50%);
+}
+
+.fileHolder {
+  width: auto;
+  height: 80%;
+  border-radius: 4px;
+  position: relative;
+}
+
+.fileHolder img {
+  width: auto;
+  max-width: 90%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.fileHolder button {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+  width: 22px;
+  height: 22px;
+  top: 0;
+  right: 0;
+  padding: 0px;
+  border-radius: 50%;
+}
+
+.fileHolder i::before {
+  color: #fff;
+}
+
+.drag-drop-dragging {
+  border: 2px dashed #4f3ed7;
+  width: 95%;
+  height: 95%;
+}
+
+.fileHolder button:hover {
+  background-color: rgba(255, 0, 0, 0.5);
+}
+
+.preview>span {
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 10px;
+  display: block;
+  position: absolute;
+  bottom: 5px;
+  right: 50%;
+  transform: translateX(50%);
+}
+
+.permission-dropdown{
+  position: relative;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.permission-dropdown::before{
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border: 2px solid #333;
+  right: 20px;
+  top: 43px;
+  border-top: 2px solid #fff;
+  border-right: 2px solid #fff;
+  transform: rotate(-45deg);
+  transition: 0.5s;
+  pointer-events: none;
+}
+
+.permission-dropdown.active::before {
+  transform: rotate(-225deg);
+  top: 48px;
+}
+
+.permission-dropdown.active .permission-dropdown-option{
+  display: block;
+}
+
+.permission-dropdown .permission-dropdown-option{
+  position: absolute;
+  top: 80px;
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 0 30px 30px rgba(0,0,0,0.05);
+  border-radius: 10px;
+  overflow: hidden;
+  display: none;
+  z-index: 1000;
+}
+
+.permission-dropdown .permission-dropdown-option div{
+  padding: 12px 20px;
+  cursor: pointer;
+
+}
+
+.permission-dropdown .permission-dropdown-option div:hover {
+  padding: 12px 20px;
+  color: #fff;
+  background-color: #6fcaea;
+  cursor: pointer;
+}
+
+.map{
+  width: 100%;
+  height: 100%;
+}
+
+.map-container{
+  position: relative;
+  padding:0;
+  margin:0;
+}
+
+.tab-bar {
+  display: flex;
+  gap: 10px;
+  padding: 0 !important;
+  justify-content: flex-start;
+  align-items: last baseline;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  transition: all 0.3s ease-in-out;
+}
+
+.tab-bar button {
+  background-color: transparent;
+  color: black;
+  padding: 8px;
+  border-radius: 10px 10px 0px 0px;
+  box-shadow: 0px 0px 50px 3px rgba(1, 1, 1, 0.1);
+  border: none;
+  width: 15%;
+  font-size: 80%;
+  font-family: "Quicksand", sans-serif;
+}
+
+.tab-btn-active {
+  color: white !important;
+  background-color: #262058 !important;
+  transition: all 0.2s ease-in allow-discrete;
+  font-weight: bold;
+  font-size: 100%;
+}
+
+#myCarousel .carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+#myCarousel .carousel-inner {
+  height: 100%;
+}
+
+#myCarousel .carousel-item {
+  height: 100%;
 }

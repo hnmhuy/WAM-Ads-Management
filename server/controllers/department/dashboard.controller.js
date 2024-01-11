@@ -3,6 +3,7 @@ const controller = {};
 const navBarData = require("../../nav_link.json");
 
 controller.show = (req, res) => {
+    // req.session.prev_url = req.originalUrl;
     navBarData.nav_link.forEach((link) => {
         link.active = false;
     });
@@ -19,6 +20,7 @@ controller.show = (req, res) => {
     };
     res.render("department/dashboard", {
         layout: "department_layout",
+        tabTitle: "THỐNG KÊ",
         css: componentDependcy.css,
         swap: componentDependcy.swap,
         title: componentDependcy.title,

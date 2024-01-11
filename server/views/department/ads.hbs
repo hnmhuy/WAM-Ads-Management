@@ -7,79 +7,101 @@
 {{! Toolbar section }}
 <div class="toolbar">
 
-    <form class="col-lg-4 mb-3 mb-lg-0 me-lg-3" role="search" onsubmit="(e)=>{e.preventDefault()}">
-        <input type="search" class="form-control" placeholder="Search..." id="keyword" aria-label="Search"
-            oninput="search(this.value)" required />
-    </form>
-    <select id="typeSelect" class="form-select" aria-label="Default select example">
-        <option selected>Loại Vị Trí</option>
-        <option value="1">Đất Công</option>
-        <option value="2">Hành Lang An Toàn Giao Thông</option>
-        <option value="3">Công Viên</option>
-        <option value="4">Nhà Riêng</option>
-    </select>
-    <select id="methodSelect" class="form-select" aria-label="Default select example"
-        onchange="filterByMethod(this.value)">
-        <option selected>Hình Thức</option>
-        <option value="1">Cổ Động Chính Trị</option>
-        <option value="2">Quảng Cáo Thương Mại</option>
-        <option value="3">Xã Hội Hoá</option>
-    </select>
-    <select id="statusSelect" class="form-select" aria-label="Default select example"
-        onchange="filterByStatus(this.value)">
-        <option selected>Trạng Thái</option>
-        <option value="1">Đã Quy Hoạch</option>
-        <option value="2">Chưa Quy Hoạch</option>
-    </select>
+    <div class="filter-component" id="filter-sample">
+        <button class="add-filter">
+            <i class="bi bi-funnel" title="New filter"></i>
+            Thêm bộ lọc
+        </button>
+        <div class="filter-list collapse">
+            <label for="filter-component-search"></label>
+            <input type="text" class="filter-search" id="filter-component-search" placeholder="Lọc theo..."
+                oninput="searchOnFilterList(this)">
+        </div>
+        <div class="filters-container">
+            <div class="filter-none">Chưa có bộ lọc nào</div>
+        </div>
+    </div>
 
-    <button class="" id="new_location_btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#location_create"
-        aria-controls="location_create">
+    <button class="primary-button" id="new_location_btn" type="button" data-bs-toggle="offcanvas"
+        data-bs-target="#location_create" aria-controls="location_create" onclick="openForm('create-location-form')">
         <i class="bi bi-plus-circle"></i>
         Tạo mới
     </button>
 </div>
 
 <div id="location-area">
-    {{>new_table table_data=table1}}
+    <div class="table-container" id="ad-location-table">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Quận</th>
+                    <th scope="col">Phường</th>
+                    <th scope="col">Loại ví trí</th>
+                    <th scope="col">Hình thức</th>
+                    <th scope="col">Số lượng</th>
+                    <th scope="col">Trạng thái</th>
+                    <th scope="col extend-btn"></th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <tr class="nodata collapse">
+                    <td colspan="7" style="text-align: center;">Không có dữ liệu</td>
+                </tr>
+                <tr class="loading">
+                    <td colspan="7" style="text-align: center;">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div class="spinner-border text-secondary spinner-border" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 {{! Location-detail }}
 <div class="offcanvas offcanvas-end sidepeek-location" data-bs-scroll="true" tabindex="-1" id="location_extend"
-    aria-labelledby="Location extend information">
+    aria-labelledby="Location extend information" data-bs-backdrop="static">
     <div class="offcanvas-header sidepeek-location-header">
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         <h5 class="offcanvas-title" id="location_extend_header">Thông tin chi tiết điểm đặt quảng cáo</h5>
+        <div class="edit-location-btn">
+            <button class="" id="edit-location-btn" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#location_edit" aria-controls="location_edit"
+                onclick="openEditForm('edit-location-form')"    
+            >
+                <i class="bi bi-pencil-fill"></i>
+                Chỉnh sửa
+            </button>
+        </div>
     </div>
     <div class="offcanvas-body">
-        <div class="fluid-container mb-3">
+        <div class="fluid-container mb-3 place-info">
             <div class="row">
-                <div class="col-6">
-                    <div id="ad-detail-img" class="carousel slide mb-6"
-                        style="border-radius: 10px; overflow: hidden; width: 100%" data-bs-ride="carousel">
+                <div id="ad-place-img" style="width: 50%; height: 100%">
+                    <div class="mb-6 placeholder-wave" id="img-holder-ad-detail" style="height: 100%;">
+                        <span class="placeholder" style="height: 100%; width: 100%; display: block"></span>
+                    </div>
+                    <div class="mb-6 collapse" style="position: relative;" id="no-img-ad-detail">
+                        <img src="/public/images/No data-pana.svg" style="height: 70%; width: auto" alt="No data">
+                        <div style="font-weight: 800; width: 100%; text-align: center; position: absolute; bottom: 0;">
+                            Không có hình ảnh quảng cáo
+                        </div>
+                    </div>
+                    <div id="ad-detail-img" class="carousel slide mb-6 collapse"
+                        style="border-radius: 10px; overflow: hidden; width: 100%; height: 100%" data-bs-ride="carousel">
                         <div class="carousel-indicators">
                             <button type="button" data-bs-target="#ad-detail-img" data-bs-slide-to="0" class="active"
                                 aria-current="true" aria-label="Slide 1"></button>
                             <button type="button" data-bs-target="#ad-detail-img" data-bs-slide-to="1"
                                 aria-label="Slide 2"></button>
-                            <button type="button" data-bs-target="#ad-detail-img" data-bs-slide-to="2"
-                                aria-label="Slide 3"></button>
                         </div>
                         <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img src="https://images.unsplash.com/photo-1541535650810-10d26f5c2ab3?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                    class="h-100 w-100" alt="">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="https://images.unsplash.com/photo-1541535650810-10d26f5c2ab3?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                    class="h-100 w-100" alt="">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="https://images.unsplash.com/photo-1541535650810-10d26f5c2ab3?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                    class="h-100 w-100" alt="">
-                            </div>
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#ad-detail-img"
-                            data-bs-slide="prev">
+                            data-bs-slide="prev">``
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>
                         </button>
@@ -95,138 +117,81 @@
                     <table style="padding: 0;" id="info-ad-location" class="table" id="inf-table">
                         <tr>
                             <th><i class="bi bi-geo-alt"> Địa chỉ</i></th>
-                            <td>47, Đ. Điện Biên Phủ, P. Đa Kao, Quận 1</td>
+                            <td>
+                                <p class="placeholder-glow" style="width: 100%">
+                                    <span class="placeholder col-12"></span>
+                                </p>
+                                <span></span>
+                            </td>
                         </tr>
                         <tr>
                             <th><i class="bi bi-hash"></i> Số lượng</th>
-                            <td>2 bảng/điểm</td>
+                            <td>
+                                <p class="placeholder-glow" style="width: 100%">
+                                    <span class="placeholder col-12"></span>
+                                </p>
+                                <span></span>
+                            </td>
                         </tr>
                         <tr>
                             <th><i class="bi bi-tag"></i> Loại vị trí</th>
-                            <td>Nhà riêng</td>
+                            <td>
+                                <p class="placeholder-glow" style="width: 100%">
+                                    <span class="placeholder col-12"></span>
+                                </p>
+                                <span></span>
+                            </td>
                         </tr>
                         <tr>
                             <th><i class="bi bi-activity"></i> Trạng thái</th>
-                            <td>Chưa quy hoạch</td>
+                            <td>
+                                <p class="placeholder-glow" style="width: 100%">
+                                    <span class="placeholder col-12"></span>
+                                </p>
+                                <span></span>
+                            </td>
                         </tr>
                         <tr>
                             <th><i class="bi bi-bullseye"></i> Mục đích</th>
-                            <td>Thương mại</td>
+                            <td>
+                                <p class="placeholder-glow" style="width: 100%">
+                                    <span class="placeholder col-12"></span>
+                                </p>
+                                <span></span>
+                            </td>
                         </tr>
-                        <tr>
+                        {{!-- <tr>
                             <th><i class="bi bi-boxes"></i> Loại bảng</th>
                             <td>2 bảng/điểm</td>
-                        </tr>
+                        </tr> --}}
                     </table>
-                    <div class="edit-location-btn">
-                        <button class="" id="edit-location-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#location_edit"
-                            aria-controls="location_edit">
+                    {{!-- <div class="edit-location-btn">
+                        <button class="" id="edit-location-btn" type="button" data-bs-toggle="offcanvas"
+                            data-bs-target="#location_edit" aria-controls="location_edit">
                             <i class="bi bi-pencil-fill"></i>
                             Chỉnh sửa
                         </button>
-                    </div>
+                    </div> --}}
                 </div>
-                </div>
+            </div>
         </div>
         <div class="overlay collapse" id="detail-location-overlay"></div>
-        <div class="ad-detail-info-container">
-            <div class="ad-detail-card">
-                <div class="view">
-                    <div id="ad-detail-card-imgs-c001" class="carousel slide view-imgs" data-bs-ride="carousel">
-                        <div class="carousel-indicators">
-                            <button data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide-to="0" class="active"
-                                aria-current="true" aria-label="First slide"></button>
-                            <button data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide-to="1"
-                                aria-label="Second slide"></button>
-                            <button data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide-to="2"
-                                aria-label="Third slide"></button>
-                        </div>
-                        <div class="carousel-inner" role="listbox">
-                            <div class="carousel-item active">
-                                <img src="https://images.unsplash.com/photo-1700451761286-67c601f012d8?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                    class="w-100 d-block" alt="First slide">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="https://images.unsplash.com/photo-1700451761286-67c601f012d8?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                    class="w-100 d-block" alt="Second slide">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="https://images.unsplash.com/photo-1700451761286-67c601f012d8?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                    class="w-100 d-block" alt="Third slide">
-                            </div>
-                        </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#ad-detail-card-imgs-c001" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
-                    </div>
-                    <div class="view-info">
-                        <div class="view-info-attribute">
-                            <span>Kích thước</span> 2m x 3m
-                        </div>
-                        <div class="view-info-attribute">
-                            <span>Bắt đầu</span> 11/11/2023
-                        </div>
-                        <div class="view-info-attribute">
-                            <span>Kết thúc</span> 11/12/2023
-                        </div>
-                        <div class="view-info-status">
-                            Đang quảng cáo
-                        </div>
-                    </div>
-                    <button class="edit-ad-btn" id="" type="button" title="Chỉnh sửa" onclick="editAd(this)">
-                        <i class="bi bi-pencil-fill"></i>
-                    </button>
-                    </div>
-                <div class="edit-ad-form">
-                    <form action="" class="edit-ad-form">
-                        <div class="imgs-field">
-                            <div class="upload-field" id="edit-ad-form-img-c001">
-                                <label for="imgFile" class="drag-drop">
-                                    <input type="file" name="imgFile" id="imgFile" accept=".png, .jpeg, .gif" multiple hidden>
-                                    <div class="holder">
-                                        <i class="bi bi-cloud-arrow-up-fill"></i>
-                                        <h4>Kéo và thả ảnh vào đây</h4> hoặc Click để duyệt file
-                                    </div>
-                                    </label>
-                                    <div class="preview" style="display: none;">
-                                    </div>
-                                    </div>
-                                    </div>
-                                    <div class="info-field">
-                                        <div class="ads-amount">
-                                            <label for="ad-w">Chiều rộng</label>
-                                            <input type="number" id="ad-w" placeholder="0" required>
-                                            <p>m</p>
-                                        </div>
-                                        <div class="ads-amount">
-                                            <label for="ad-h">Chiều dài</label>
-                                            <input type="number" id="ads-h" placeholder="0" required>
-                                            <p>m</p>
-                                        </div>
-                                        <div class="form-field">
-                                            <label for="start-date">Bắt đầu</label>
-                                            <input type="date" id="start-date" placeholder="" required>
-                                        </div>
-                                        <div class="form-field">
-                                            <label for="end-date">Kết thúc</label>
-                                            <input type="date" id="end-date" placeholder="" required>
-                                        </div>
-                                        <div class="submit-btn">
-                                <button type="button" class="btn btn-secondary" onclick="cancelAdEdit(this)">Hủy</button>
-                                <button type="submit" class="btn btn-primary">Xác nhận</button>
-                                </div>
-                                </div>
-                                </form>
-                                </div>
-                                </div>
+        <div class="ad-detail-info-container collapse" id="ad-card-container">
         </div>
+        <div class="ad-detail-info-container" id="ad-card-container-holder">
+            <div class="ad-detail-container-loading">
+                <div class="spinner-border text-secondary spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+            <div class="ad-detail-container-nodata collapse">
+                <div>
+                    Không có dữ liệu
+                </div>
+            </div>
         </div>
-        </div>
+    </div>
+</div>
 </div>
 
 {{! Location create }}
@@ -239,86 +204,89 @@
     </div>
     <div class="offcanvas-body">
         <div class="map-container" style="width: 100%; height: 15rem;">
-            <div id="map">
-                Waiting for map ...
+            <div class="map" id="map-for-create">
             </div>
         </div>
-        <form action="#" class="create-form" id="create-location-form">
+        {{!-- <div>
+            <p id="lng">Long: </p>
+            <p id="lat">Lat: </p>
+            <p id="address">Address: </p>
+        </div> --}}
+        <form class="create-form" id="create-location-form" enctype="multipart/form-data">
             <div class="area-selection">
                 <div class="form-field">
-                    <label for="distict-selection">Quận</label>
-                    <select id="district-selection" required>
+                    <label for="district-for-create">Quận</label>
+                    <select name="district" id="district-for-create" title="Chọn quận" required disabled>
                         <option selected value="">Chọn quận</option>
-                        <option value="1">Quận 5</option>
-                        <option value="2">Quận 8</option>
                     </select>
                 </div>
                 <div class="form-field">
-                    <label for="ward-selection">Phường</label>
-                    <select id="ward-selection" required disabled>
+                    <label for="ward-for-create">Phường</label>
+                    <select name="ward" id="ward-for-create" title="Chọn phường" required disabled>
                         <option selected value="">Chọn phường</option>
-                        <option value="1">Phường 1</option>
-                        <option value="2">Phường 2</option>
-                        <option value="3">Phường 3</option>
-                        <option value="4">Phường 4</option>
-                        <option value="5">Phường 5</option>
-                        <option value="6">Phường 6</option>
-                        <option value="7">Phường 7</option>
                     </select>
                 </div>
                 <div class="form-field">
-                    <label for="street">Đường</label>
-                    <input type="text" id="street" placeholder="Nhập số và tên đường" required disabled>
+                    <label for="street-for-create">Đường</label>
+                    <input type="text" name="street" id="street-for-create" placeholder="Nhập số và tên đường"
+                        title="Tên đường" required disabled>
+                    <div class="inside-btns">
+                        <button type="button" title="Tìm địa chỉ" disabled>
+                            <i class="bi bi-geo"></i>
+                            <div class="spinner-grow text-secondary spinner-grow-sm collapse" role="status">
+                                <span class="sr-only"></span>
+                            </div>
+                        </button>
+                        <button type="button" title="Xóa" disabled><i class="bi bi-x"></i></button>
+                    </div>
                 </div>
             </div>
             <div class="ads-info">
                 <div class="form-field-col">
-                    <label for="location-type-selection">Loại ví trị</label>
-                    <select id="location-type-selection" required>
+                    <label for="location-type-for-create">Loại ví trị</label>
+                    <select name="location-type" id="location-type-for-create" title="Chọn loại vị trí" required>
                         <option selected value="">Chọn loại vị trí</option>
                         <option value="1">Nhà riêng</option>
                         <option value="2">Đất công</option>
                     </select>
                 </div>
                 <div class="form-field-col">
-                    <label for="purpose-type-selection">Hình thức quảng cáo</label>
-                    <select id="purpose-type-selection" required>
+                    <label for="purpose-for-create">Hình thức quảng cáo</label>
+                    <select name="purpose-type" id="purpose-for-create" title="Chọn hình thức quảng cáo" required>
                         <option selected value="">Chọn hình thức quảng cáo</option>
                         <option value="1">Thương mại</option>
                         <option value="2">Cổ động chính trị</option>
                     </select>
                 </div>
                 <div class="ads-amount">
-                    <label for="ads-amount">Số lượng</label>
-                    <input type="number" id="ads-amount" min="1" max="10" placeholder="0" required>
+                    <label for="ads-amount-for-create">Số lượng</label>
+                    <input type="number" id="ads-amount-for-create" name="ads-amount" min="1" max="10" placeholder="0"
+                        title="Số lượng" required>
                     <p>bảng / địa điểm</p>
-                </div>
-                <div class="ads-type">
-                    <label for="ads-type">Loại bảng quảng cáo</label>
-                    <select id="ads-type" required>
-                        <option selected value="">Chọn loại bảng quảng cáo</option>
-                        <option value="1">Trụ/cụm pano</option>
-                        <option value="2">Băng rôn</option>
-                        <option value="3">Màn hình led</option>
-                    </select>
                 </div>
                 <div style="width: 100%; height: 200px">
                     <div class="upload-field" id="create-location-form-upload-img">
-                        <label for="imgFile" class="drag-drop">
-                            <input type="file" name="imgFile" id="imgFile" accept=".png, .jpeg, .gif" multiple hidden>
+                        <label for="imgFile-for-create" class="drag-drop" ondragover="dragoverHandler(event)" ondragleave="dragleaveHandler(event)" ondrop="dropHandler(event)">
                             <div class="holder">
                                 <i class="bi bi-cloud-arrow-up-fill"></i>
                                 <h4>Kéo và thả ảnh vào đây</h4> hoặc Click để duyệt file
                             </div>
-                            </label>
-                            <div class="preview" style="display: none;">
+                        </label>
+                        <input type="file" name="imgFile" id="imgFile-for-create" accept=".png, .jpeg, .gif, .jpg"
+                            multiple hidden onchange="inputChangeHandler(event)">
+                        <div class="preview" style="display: none;">
                         </div>
                     </div>
                 </div>
             </div>
             <div class="submit-btn">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="offcanvas" onclick="clearForm()">Hủy</button>
-                <button type="submit" class="btn btn-primary">Tạo mới</button>
+                <button type="button" class="btn btn-secondary" onclick="clearForm('create-location-form')">Hủy</button>
+                <button type="submit" class="btn btn-primary" onclick="createLocation(event)">
+                    Tạo mới
+                    <div class="spinner-border text-secondary spinner-border-sm collapse" role="status">
+                        <span class="sr-only"></span>
+                    </div>
+                </button>
             </div>
         </form>
     </div>
@@ -328,92 +296,95 @@
 <div class="offcanvas offcanvas-end sidepeek-location" data-bs-scroll="true" tabindex="-1" id="location_edit"
     aria-labelledby="Location extend information">
     <div class="offcanvas-header sidepeek-location-header">
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" onclick="closeDetailLocationCanvas()"></button>
         <h5 class="offcanvas-title" id="location_create_header">Chỉnh sửa bảng quảng cáo</h5>
     </div>
     <div class="offcanvas-body">
         <div class="map-container" style="width: 100%; height: 15rem;">
-            <div id="map">
-                Waiting for map ...
+            <div class="map" id="map-for-update">
             </div>
         </div>
-        <form action="#" class="create-form" id="edit-location-form">
+        <form class="create-form" id="edit-location-form" enctype="multipart/form-data">
             <div class="area-selection">
                 <div class="form-field">
-                    <label for="distict-selection">Quận</label>
-                    <select id="district-selection" required>
-                        <option value="">Chọn quận</option>
-                        <option value="1">Quận 5</option>
-                        <option selected value="2">Quận 8</option>
+                    <label for="district-for-edit">Quận</label>
+                    <select name="district" id="district-for-edit" title="Chọn quận" required disabled>
+                        <option selected value="">Chọn quận</option>
                     </select>
                 </div>
                 <div class="form-field">
-                    <label for="ward-selection">Phường</label>
-                    <select id="ward-selection" required>
-                        <option value="">Chọn phường</option>
-                        <option value="1">Phường 1</option>
-                        <option selected value="2">Phường 2</option>
-                        <option value="3">Phường 3</option>
-                        <option value="4">Phường 4</option>
-                        <option value="5">Phường 5</option>
-                        <option value="6">Phường 6</option>
-                        <option value="7">Phường 7</option>
+                    <label for="ward-for-edit">Phường</label>
+                    <select name="ward" id="ward-for-edit" title="Chọn phường" required disabled>
+                        <option selected value="">Chọn phường</option>
                     </select>
                 </div>
                 <div class="form-field">
-                    <label for="street">Đường</label>
-                    <input type="text" id="street" placeholder="Nhập số và tên đường" required
-                        value="181/37 Âu Dương Lân">
+                    <label for="street-for-edit">Đường</label>
+                    <input type="text" name="street" id="street-for-edit" placeholder="Nhập số và tên đường"
+                        title="Tên đường" required disabled>
+                    <div class="inside-btns">
+                        <button type="button" title="Tìm địa chỉ" disabled>
+                            <i class="bi bi-geo"></i>
+                            <div class="spinner-grow text-secondary spinner-grow-sm collapse" role="status">
+                                <span class="sr-only"></span>
+                            </div>
+                        </button>
+                        <button type="button" title="Xóa" disabled><i class="bi bi-x"></i></button>
+                    </div>
                 </div>
             </div>
             <div class="ads-info">
                 <div class="form-field-col">
-                    <label for="location-type-selection">Loại ví trị</label>
-                    <select id="location-type-selection" required>
+                    <label for="location-type-for-edit">Loại ví trị</label>
+                    <select id="location-type-for-edit" name="location-type" required>
                         <option value="">Chọn loại vị trí</option>
                         <option selected value="1">Nhà riêng</option>
                         <option value="2">Đất công</option>
                     </select>
                 </div>
                 <div class="form-field-col">
-                    <label for="purpose-type-selection">Hình thức quảng cáo</label>
-                    <select id="purpose-type-selection" required>
+                    <label for="purpose-for-edit">Hình thức quảng cáo</label>
+                    <select id="purpose-for-edit" name="purpose-type" required>
                         <option value="">Chọn hình thức quảng cáo</option>
                         <option selected value="1">Thương mại</option>
                         <option value="2">Cổ động chính trị</option>
                     </select>
                 </div>
                 <div class="ads-amount">
-                    <label for="ads-amount">Số lượng</label>
-                    <input type="number" id="ads-amount" min="1" max="10" placeholder="0" required value="2">
+                    <label for="ads-amount-for-edit">Số lượng</label>
+                    <input name="new-amount" type="number" id="ads-amount-for-edit" min="1" max="10" placeholder="0"
+                        required value="2">
                     <p>bảng / địa điểm</p>
                 </div>
                 <div class="ads-type">
-                    <label for="ads-type">Loại bảng quảng cáo</label>
-                    <select id="ads-type" required>
-                        <option value="">Chọn loại bảng quảng cáo</option>
-                        <option selected value="1">Trụ/cụm pano</option>
-                        <option value="2">Băng rôn</option>
-                        <option value="3">Màn hình led</option>
+                    <label for="location-status">Trạng thái quy hoạch</label>
+                    <select id="location-status" name="new-location-status" required>
+                        <option value="true" selected>Đã quy hoạch</option>
+                        <option value="false">Chưa quy hoạch</option>
                     </select>
                 </div>
                 <div style="width: 100%; height: 200px">
                     <div class="upload-field" id="edit-location-form-upload-img">
-                        <label for="imgFile" class="drag-drop">
-                            <input type="file" name="imgFile" id="imgFile" accept=".png, .jpeg, .gif" multiple hidden>
+                        <label for="imgFile-for-edit" class="drag-drop" ondragover="dragoverHandler(event)" ondragleave="dragleaveHandler(event)" ondrop="dropHandler(event)">
                             <div class="holder">
                                 <i class="bi bi-cloud-arrow-up-fill"></i>
                                 <h4>Kéo và thả ảnh vào đây</h4> hoặc Click để duyệt file
                             </div>
                         </label>
-                        <div class="preview" style="display: none;"></div>
+                        <input type="file" name="imgFile" id="imgFile-for-edit" accept=".png, .jpeg, .gif, .jpg"
+                            multiple hidden onchange="inputChangeHandler(event)">
+                        <div class="preview" style="display: none;">
+                        </div>
                     </div>
                 </div>
                 <div class="submit-btn">
-                    <button type="button" class="btn btn-secondary" data-bs-toggle="offcanvas"
-                        data-bs-target="#location_extend" aria-controls="location_extend"
-                        onclick="clearForm()">Hủy</button>
-                    <button type="submit" class="btn btn-primary">Tạo mới</button>
+                    <button type="button" class="btn btn-secondary" onclick="clearForm('edit-location-form')">Hủy</button>
+                    <button type="submit" class="btn btn-primary" onclick="updateAdPlace(event)">
+                        Cập nhật
+                        <div class="spinner-border text-secondary spinner-border-sm collapse" role="status">
+                            <span class="sr-only"></span>
+                        </div>
+                    </button>
                 </div>
             </div>
         </form>
@@ -423,10 +394,28 @@
 {{!Script section }}
 <script src="/public/js/department/ads_ui_controller.js"></script>
 <script>
+    const filterConfig = {
+        filters: [
+            {
+                filterId: "filter-1",
+                filterName: "Lựa chọn (check)",
+                filterType: "choice-check",
+            },
+            {
+                filterId: "filter-2",
+                filterName: "Lựa chọn (search)",
+                filterType: "choice-search",
+            },
+            {
+                filterId: "filter-3",
+                filterName: "Ngày / Khoảng ngày",
+                filterType: "date",
+            },
+        ]
+    }
 
-    imgInputController("create-location-form-upload-img");
-    imgInputController("edit-location-form-upload-img");
-    formControl("create-location-form");
-    formControl("edit-location-form");
+    filterComponent("#filter-sample", filterConfig);
+
+
 
 </script>

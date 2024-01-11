@@ -11,23 +11,42 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      ad_content.belongsTo(models.ad_place)
-      ad_content.hasMany(models.feedback)
-      ad_content.hasMany(models.update_request)
-      ad_content.hasMany(models.create_request)
+      ad_content.belongsTo(models.ad_place, { foreignKey: 'ad_place_id' })
+      ad_content.hasMany(models.feedback, { foreignKey: 'ad_id' })
+      ad_content.hasMany(models.create_request, { foreignKey: 'ad_id' })
+      ad_content.hasMany(models.update_request, { foreignKey: 'ad_id' })
+      ad_content.belongsTo(models.category, {foreignKey: "ad_type"})
     }
   }
   ad_content.init({
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true
+    },
     company_name: DataTypes.STRING,
-    width: DataTypes.FLOAT,
-    height: DataTypes.FLOAT,
+    company_address: DataTypes.STRING,
+    company_email: DataTypes.STRING,
+    width: DataTypes.DECIMAL,
+    height: DataTypes.DECIMAL,
     description: DataTypes.TEXT,
     start: DataTypes.DATE,
     end: DataTypes.DATE,
-    status: DataTypes.STRING
+    status: DataTypes.BOOLEAN,
+    image1: DataTypes.STRING,
+    image2: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'ad_content',
   });
+
+  // ad_content.beforeCreate((instance, options) => { // Tạo ra ID có format
+  //   // Get the current maximum number in the database
+  //   return ad_content.max('id', { raw: true })
+  //     .then((maxNumber) => {
+  //       const newNumber = maxNumber ? parseInt(maxNumber.substring(1)) + 1 : 1;
+  //       instance.id = `A${newNumber}`;
+  //     });
+  // });
   return ad_content;
 };

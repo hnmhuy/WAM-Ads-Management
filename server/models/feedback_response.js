@@ -11,12 +11,17 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      feedback_response.belongsTo(models.account)
-      feedback_response.belongsTo(models.feedback)
+      feedback_response.hasOne(models.feedback, { foreignKey: 'response_id' })
+      feedback_response.belongsTo(models.account, { foreignKey: 'officer' })
     }
   }
   feedback_response.init({
-    content: DataTypes.STRING
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true
+    },
+    content: DataTypes.TEXT
   }, {
     sequelize,
     modelName: 'feedback_response',

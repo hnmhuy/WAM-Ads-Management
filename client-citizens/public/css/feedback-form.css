@@ -1,5 +1,5 @@
 * {
-  font-family: 'Quicksand', sans-serif !important;
+  font-family: "Quicksand", sans-serif !important;
   padding: 0;
   margin: 0;
 }
@@ -8,7 +8,8 @@
   background-color: #fff;
   border-radius: 12px;
   width: 58rem;
-  height: 49.5rem;
+  height: -moz-max-content;
+  height: max-content;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -120,6 +121,7 @@ form label {
   form {
     width: 100% !important;
     height: 100% !important;
+    overflow: scroll;
   }
 
   .type-email,

@@ -11,22 +11,41 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      feedback.belongsTo(models.place);
-      feedback.belongsTo(models.ad_content);
-      feedback.hasOne(models.feedback_response)
+      feedback.belongsTo(models.place, { foreignKey: 'place_id' })
+      feedback.belongsTo(models.ad_content, { foreignKey: 'ad_id' })
+      feedback.belongsTo(models.feedback_response, { foreignKey: 'response_id' })
+      feedback.belongsTo(models.category, { foreignKey: 'type'})
     }
   }
   feedback.init({
-    type: DataTypes.TEXT,
-    is_ad_feedback: DataTypes.BOOLEAN,
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true
+    },
     name: DataTypes.STRING,
     email: DataTypes.STRING,
     phone: DataTypes.STRING,
-    status: DataTypes.STRING,
-    record_time: DataTypes.DATE
+    status: {
+      type: DataTypes.STRING,
+      defaultValue: "sent"
+    },
+    content: DataTypes.TEXT,
+    image1: DataTypes.STRING,
+    image2: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'feedback',
   });
+
+  // feedback.beforeCreate((instance, options) => { // Tạo ra ID có format
+  //   // Get the current maximum number in the database
+  //   return feedback.max('id', { raw: true })
+  //     .then((maxNumber) => {
+  //       console.log(maxNumber);
+  //       const newNumber = maxNumber ? parseInt(maxNumber.substring(1)) + 1 : 1;
+  //       instance.id = `F${newNumber}`;
+  //     });
+  // });
   return feedback;
 };

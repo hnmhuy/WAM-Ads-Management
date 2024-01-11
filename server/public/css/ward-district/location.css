@@ -221,7 +221,9 @@ tbody td.active {
   padding: 3px;
 }
 
-#popup-parent {
+#popup-parent,
+#popup-parent-ads,
+#popup-parent-create {
   position: fixed;
   top: 0;
   left: 0;
@@ -235,7 +237,9 @@ tbody td.active {
   align-items: center;
 }
 
-#form-img {
+#form-img,
+#form-img-ads,
+#form-img-create {
   position: fixed;
   width: 100px;
   top: 10%;
@@ -248,7 +252,9 @@ tbody td.active {
   visibility: hidden;
 }
 
-.popup {
+.popup,
+.popup-ads,
+.popup-create {
   width: 40%;
   height: 80%;
   position: absolute;
@@ -327,4 +333,473 @@ tbody tr.hide td p {
   width: 30%;
   height: auto;
   padding: 5px;
+}
+
+.offcanvas.offcanvas-end {
+  width: 60% !important;
+}
+
+.ads-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.ads-info .form-field-col {
+  width: calc((100% - 20px) / 2);
+}
+
+.form-field-col {
+  text-align: left;
+}
+.ads-amount {
+  font-size: 16px;
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.ads-amount p {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.ads-amount label {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.ads-amount input {
+  border-radius: 10px;
+  padding-left: 12px;
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  outline: none;
+  background-color: transparent;
+  text-align: center;
+}
+
+.ads-type {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.ads-type label {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.ads-type select {
+  border-radius: 10px;
+  padding: 10px 15px;
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  outline: none;
+  background-color: transparent;
+}
+
+/*Image upload*/
+
+.upload-field {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  position: relative;
+}
+
+.drag-drop {
+  width: 90%;
+  height: 90%;
+  padding: 20px;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.holder {
+  text-align: center;
+}
+
+.holder i {
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+  color: #ccc;
+}
+
+.holder h4 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px !important;
+}
+
+.holder p {
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 10px !important;
+}
+
+.holder p:last-child {
+  margin-top: 10px;
+}
+
+.preview {
+  max-width: 80% !important;
+  height: 80% !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  overflow: auto;
+  gap: 20px;
+  position: relative;
+  z-index: 2;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  padding: 0 10px;
+  transform: translate(-50%, -50%);
+}
+
+.fileHolder {
+  width: auto;
+  height: 80%;
+  border-radius: 4px;
+  position: relative;
+}
+
+.fileHolder img {
+  width: auto;
+  max-width: 90%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.fileHolder button {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+  width: 22px;
+  height: 22px;
+  top: 0;
+  right: 0;
+  padding: 0px;
+  border-radius: 50%;
+}
+
+.fileHolder i::before {
+  color: #fff;
+}
+
+.drag-drop-dragging {
+  border: 2px dashed #4f3ed7;
+  width: 95%;
+  height: 95%;
+}
+
+.fileHolder button:hover {
+  background-color: rgba(255, 0, 0, 0.5);
+}
+
+.preview > span {
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 10px;
+  display: block;
+  position: absolute;
+  bottom: 5px;
+  right: 50%;
+  transform: translateX(50%);
+}
+
+.edit-ad-form {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 10px;
+  z-index: inherit;
+}
+
+.edit-ad-form-officer .imgs-field {
+  width: 100%;
+  height: 30%;
+}
+
+.edit-ad-form-officer .info-field {
+  width: 100%;
+  height: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.edit-ad-form-officer .info-field input {
+  width: 20%;
+}
+.edit-ad-form-officer .info-field .ads-amount {
+  width: 50%;
+  text-align: left;
+  margin-bottom: 3%;
+}
+
+.edit-ad-form-officer .info-field .ads-amount label {
+  width: fit-content;
+}
+.edit-ad-form-officer .info-field .form-field {
+  width: 100%;
+  text-align: left;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.edit-ad-form-officer .info-field label {
+  width: 15%;
+}
+
+.view-info-attribute {
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
+}
+
+.upload-field {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  position: relative;
+}
+
+.drag-drop {
+  width: 90%;
+  height: 90%;
+  padding: 20px;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.holder {
+  text-align: center;
+}
+
+.holder i {
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+  color: #ccc;
+}
+
+.holder h4 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px !important;
+}
+
+.holder p {
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 10px !important;
+}
+
+.holder p:last-child {
+  margin-top: 10px;
+}
+
+.preview {
+  max-width: 80% !important;
+  height: 80% !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  overflow: auto;
+  gap: 20px;
+  position: relative;
+  z-index: 2;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  padding: 0 10px;
+  transform: translate(-50%, -50%);
+}
+
+.fileHolder {
+  width: auto;
+  height: 80%;
+  border-radius: 4px;
+  position: relative;
+}
+
+.fileHolder img {
+  width: auto;
+  max-width: 90%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.fileHolder button {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+  width: 22px;
+  height: 22px;
+  top: 0;
+  right: 0;
+  padding: 0px;
+  border-radius: 50%;
+}
+
+.fileHolder i::before {
+  color: #fff;
+}
+
+.drag-drop-dragging {
+  border: 2px dashed #4f3ed7;
+  width: 95%;
+  height: 95%;
+}
+
+.fileHolder button:hover {
+  background-color: rgba(255, 0, 0, 0.5);
+}
+
+.preview > span {
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 10px;
+  display: block;
+  position: absolute;
+  bottom: 5px;
+  right: 50%;
+  transform: translateX(50%);
+}
+
+.submit-btn {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.inside-btns {
+  display: flex;
+  gap: 5px;
+}
+
+.inside-btns button {
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 5px;
+}
+
+.inside-btns button:first-child:hover {
+  background-color: #5da7fc;
+  color: white;
+}
+
+.inside-btns button:last-child:hover {
+  background-color: #fc5d5d;
+  color: white;
+}
+
+.inside-btns button[disabled]:hover {
+  background-color: transparent;
+  color: #ccc;
+}
+
+/* Ad detail information */
+.edit-location-btn {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin: 10px 0px;
+}
+
+.edit-location-btn button {
+  background-color: #fff7dd;
+  color: black;
+  border: none;
+  border-radius: 10px;
+  padding: 5px 10px;
+}
+
+.edit-location-btn button:hover {
+  background-color: #fcac5d;
+  color: white;
+}
+
+.extend-btn .edit-location-btn {
+  justify-content: center;
+}
+
+.ad-detail-imgs {
+  display: flex;
+  padding: 10px;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.ad-detail-imgs img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.ad-detail-info-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px 0px;
+  margin: 0;
+  position: relative;
+  transition: all 1s ease-in-out;
+  border-top: 0.8px solid rgba(0, 0, 0, 0.3);
 }
