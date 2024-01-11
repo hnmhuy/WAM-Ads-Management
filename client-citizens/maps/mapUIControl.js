@@ -116,7 +116,7 @@ function generateSidepeekAd(sidepeek, data, sampleData, isReported)
     let showFeedbackBtn = document.createElement("button");
     showFeedbackBtn.setAttribute("type","button");
     showFeedbackBtn.className = `btn btn-primary show-feedback-button hidden`;
-    showFeedbackBtn.setAttribute("onclick", "openFeedbackDetail()");
+    showFeedbackBtn.setAttribute("onclick", "openFeedbackDetail(this)");
     showFeedbackBtn.setAttribute("id", "show-location-feedback");
     showFeedbackBtn.setAttribute("ad-place-id", `${sampleData.dataid}`);
     showFeedbackBtn.innerHTML = `
