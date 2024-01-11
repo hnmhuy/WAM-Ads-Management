@@ -1,5 +1,6 @@
 const controller = {};
 const models = require("../models");
+const Sequelize = models.Sequelize;
 
 
 controller.reCaptcha = (req, res) => {
@@ -169,9 +170,12 @@ async function isWardExist(ward, geometry, formatedAddress)
     })
     if (data)
     {
+        let temp = JSON.parse(geometry);
+        temp.coordinates[0] = parseFloat(temp.coordinates[0]);
+        temp.coordinates[1] = parseFloat(temp.coordinates[1]);
         
         let createData = await models.place.create({
-            geometry: geometry,
+            geometry: JSON.stringify(temp),
             area_id: data.dataValues.id,
             address_formated: formatedAddress,
         })
@@ -233,12 +237,18 @@ controller.getFeedback = async (req, res) => {
     else
     {
         await models.feedback.findOne({
-            attributes:['id','name', 'email', 'phone', 'content', 'image1', 'image2', 'createdAt'],
-            where: {id: id},
+            attributes:['id','name', 'email', 'phone', 'content', 'image1', 'image2', 'createdAt',
+            [Sequelize.literal('feedback.status'), 'status'],
+            [Sequelize.literal("case when feedback.status = 'sent' then 'Đã gửi' when feedback.status = 'done' then 'Đã xử lý' end"), 'status_VN'],
+            [Sequelize.literal("case when category.name = 'Đóng góp ý kiến' then 'feedback' when category.name = 'Tố giác sai phạm' then 'report' when category.name = 'Giải đáp thắc mắc' then 'question' when  category.name = 'Đăng ký nội dung' then 'registry' end"), 'feedback_type_EN'],
+            [Sequelize.literal('category.name'), 'feedback_type_VN'],    
+        ],
+            where: {id: id}, 
             include: [
                 {model: models.place, attributes: ['address_formated'], as:'place', include: [{
                     model: models.area, attributes: ['formatedName']
-                }]}
+                }]},
+                { model: models.category, attributes: [] },
             ]
         }).then(async (data) => {
             if(includeResponse) {

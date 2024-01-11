@@ -173,15 +173,53 @@ document
 async function restoreFeedback() {
     let feedbackList = JSON.parse(localStorage.getItem("feedbackData"));
     if(feedbackList) {
-        let fd = new FormData();
-        fd.append("feedbackList", JSON.stringify(feedbackList));
-        let response = await fetch("http://localhost:4000/api/mapData/restoreUserFeedback", {
-            method: "POST",
-            body: fd
-        });
-        let fbData = await response.json();
-        // Push new point to data
-        data.features.push(...fbData.data.features);
-        updateMarkers(data, map);
-    }
+        getFeedbackGeoJson(feedbackList);
+        processStorageData();
+    }   
+}
+
+export async function getFeedbackGeoJson(feedbackList)
+{
+    let fd = new FormData();
+    fd.append("feedbackList", JSON.stringify(feedbackList));
+    let response = await fetch("http://localhost:4000/api/mapData/restoreUserFeedback", {
+        method: "POST",
+        body: fd
+    });
+    let fbData = await response.json();
+    // Push new point to data
+    data.features.push(...fbData.data.features);
+    map.getSource('places').setData(data);
+}
+
+function updateGeojsonDataAdPlace(item) {
+    console.log(item);
+    let index = data.features.findIndex(object => object.properties.placeid === item.geojsonId);
+    if (index != - 1) {
+        console.log(data.features[index]);
+        if(!data.features[index].properties.feedbackList)
+        {
+            data.features[index].properties.feedbackList = []
+        }
+        data.features[index].properties.feedbackList.push(item);
+        let temp = data.features[index].properties.detail.number_feedback
+        temp = parseInt(temp);
+        temp += 1;
+        data.features[index].properties.detail.number_feedback = String(temp);
+        if (!data.features[index].properties.isReported) {
+            data.features[index].properties.isReported = true;
+            let temp  = data.features[index].properties.icon
+            temp = temp.replace('ad', 'adReported')
+            data.features[index].properties.icon = temp;
+        }
+    } 
+}
+
+export function processStorageData() {
+    let fbdata = JSON.parse(localStorage.getItem("feedbackData"));
+    fbdata = fbdata.filter(item => item.type === 'ad_content' || item.type === 'ad_place');
+    fbdata.forEach(item => {
+        updateGeojsonDataAdPlace(item);
+    })
+    map.getSource('places').setData(data);
 }

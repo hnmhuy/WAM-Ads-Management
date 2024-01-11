@@ -12,7 +12,7 @@ function toGeoJsonForAdPlace(data) {
             category: data.category,
             icon: data.icon,
             status: data.status,
-            placeid: data.place_id,
+            placeid: data.placeid,
             detail: {
                 dataid: data.dataid,
                 status: data.status,
@@ -35,7 +35,7 @@ function toGeoJsonForFeedback(data) {
             category: data.category,
             icon: `fb-${data.feedback_type_EN}`,
             status: data.status,
-            placeid: data.place_id,
+            placeid: data.placeid,
             detail: {
                 dataid: data.dataid,
                 status: data.status,
@@ -283,25 +283,8 @@ controller.restoreUserFeedback = async (req, res) => {
         },
         raw: true
     });
-    
-    // Finding the place id for content feedbacks
-    let contentIds = contentFeedbacks.map(item => item.ad_id);
-    let contentFeedbackPlaceIds = await models.ad_content.findAll({
-        include: [
-            {model: models.ad_place, attributes: ['place_id']}
-        ], 
-        where: {
-            id: {
-                [Op.in]: contentIds
-            }
-        },
-        attributes: []
-    })
 
-    // Merge to the contentFeedbacks list
-    contentFeedbackPlaceIds = contentFeedbackPlaceIds
-
-    res.json({message: "success", data: toGeoJson(random), temp: contentFeedbackPlaceIds});
+    res.json({message: "success", data: toGeoJson(random)});
 }
 
 module.exports = controller;

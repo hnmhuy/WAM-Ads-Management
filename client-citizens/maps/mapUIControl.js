@@ -70,7 +70,7 @@ export async function openSidePeek(data) {
         let dataAdPlace = await fetch(`http://localhost:4000/api/ad_place/getOne?id=${adId}&includeAdContent=true`).then(res => res.json());
         // console.log("THISS IS DATA PLACE: ", dataAdPlace );
         // let dataAdPlace = await fetch(`http://localhost:4000/api/ad_place/getOne?id=e295a4ee-5591-4270-9c7f-922b33fb7d72&includeAdContent=true`).then(res => res.json());
-        generateSidepeekAd(sidepeek, dataAdPlace, sampleData);
+        generateSidepeekAd(sidepeek, dataAdPlace, sampleData, isReported);
 
     } else if (category === 'fb') {
         fbDetail.querySelector('.header .bi-chevron-double-left').onclick = closeFeedbackDetail
@@ -92,8 +92,10 @@ export async function openSidePeek(data) {
     
 }
 
-function generateSidepeekAd(sidepeek, data, sampleData)
+function generateSidepeekAd(sidepeek, data, sampleData, isReported)
 {
+    let localData = JSON.parse(localStorage.getItem("feedbackData"));
+    console.log("isReported", isReported);
     let areaAddress = sidepeek.querySelector("#area");
     let formatAddress = sidepeek.querySelector("#format-address");
     let capacity = sidepeek.querySelector("#capacity");
@@ -104,7 +106,7 @@ function generateSidepeekAd(sidepeek, data, sampleData)
     
     let feedbackBtn = document.createElement("button");
     feedbackBtn.setAttribute("type","button");
-    feedbackBtn.className = `btn btn-primary feedback-button`;
+    feedbackBtn.className = `btn btn-primary feedback-button hidden`;
     feedbackBtn.setAttribute("onclick", "openFeedbackForm(this)");
     feedbackBtn.setAttribute("ad-place-id", `${sampleData.dataid}`);
     feedbackBtn.innerHTML = `
@@ -118,9 +120,14 @@ function generateSidepeekAd(sidepeek, data, sampleData)
     showFeedbackBtn.setAttribute("id", "show-location-feedback");
     showFeedbackBtn.setAttribute("ad-place-id", `${sampleData.dataid}`);
     showFeedbackBtn.innerHTML = `
-        <i class="bi bi-send-fill"></i>
-        Gửi phản hồi điểm đặt quảng cáo`
+        <i class="bi bi-file-text-fill"></i> Xem phản hồi`
 
+
+    if (isReported) {
+        showFeedbackBtn.classList.remove("hidden");
+    } else {
+        feedbackBtn.classList.remove("hidden");
+    }
     locationContent.appendChild(feedbackBtn);
     locationContent.appendChild(showFeedbackBtn);
 
@@ -136,6 +143,12 @@ function generateSidepeekAd(sidepeek, data, sampleData)
         {
             adContentContainer.innerHTML = `<h5 id="num-ad">Thông tin bảng quảng cáo (${data.data.adContentCapacity})</h5>`
             adCard.forEach(card => {
+                let index = localData.findIndex(item => item.ad_id === card.id);
+                if (index!= -1) {
+                    card.isReported = true;
+                    card.feedback_id = localData[index].feedback_id
+                } else card.isReported = false;
+
                 adContentContainer.appendChild(generateAdCard(sidepeek, card));
             })
         }
@@ -289,7 +302,9 @@ function generateAdCard(sidepeek, data)
     cardContainer.classList.add("adcard-container");
     let formatDateEnd = formatDate(data.end);
     let formatDateStart = formatDate(data.start);
-
+    if (data.isReported) {
+        cardContainer.style = "1px solid red"
+    } 
     cardContainer.innerHTML = `
             <div class="header">
             <h5 id="ad-name">${data.company_name}</h5>
@@ -320,20 +335,24 @@ function generateAdCard(sidepeek, data)
     <button type="button" class="btn btn-primary detail-button" detail-id="${data.id}" onclick="showAdDetail(this)">
         <i class="bi bi-info-circle"></i> Chi tiết
     </button>
-    <button type="button" class="btn btn-primary feedback-button" ad-content-id="${data.id}" onclick="openFeedbackForm(this)">
+    <button type="button" class="btn btn-primary feedback-button ${data.isReported === false ? "" : "hidden"}" ad-content-id="${data.id}" onclick="openFeedbackForm(this)">
         <i class="bi bi-send-fill"></i> Phản hồi
     </button>
 
     <button
         type="button"
-        class="btn btn-primary hidden"
+        class="btn btn-primary ${data.isReported ? "" : "hidden"}"
         id="show-feedback-button"
-        onclick="openFeedbackDetail()"
+        onclick="openFeedbackDetail(this)"
         ad-content-id="${data.id}"
     >
         <i class="bi bi-file-text-fill"></i> Xem phản hồi
     </button>
     `
+    console.log(data);
+    if(data.isReported) {
+        buttonDiv.children[2].setAttribute("ad-place-id", data.feedback_id);
+    }   
     cardContainer.appendChild(buttonDiv);
 
     return cardContainer;
@@ -413,8 +432,6 @@ function generateFeedbackSidepeek(fbDetail,data, sampleData)
     content.innerHTML = 
     `
         ${data.content}
-    `
-
-    
+    `   
 }
 

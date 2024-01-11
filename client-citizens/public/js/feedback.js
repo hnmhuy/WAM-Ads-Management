@@ -1,3 +1,4 @@
+import { getFeedbackGeoJson, processStorageData } from "../../maps/maps.js"; 
 let type;
 let feedbackType;
 document.addEventListener("DOMContentLoaded", () =>{
@@ -107,6 +108,9 @@ form.addEventListener("submit", async (e) => {
         const feedbackData = await res1.json();
         if(feedbackData.success) {
           storeFeedbackData(feedbackData.data);
+          let req = [feedbackData.data];
+          await getFeedbackGeoJson(req);
+          processStorageData();
           alert("Đã gửi phản hồi thành công");
         } else {
           alert("Đã có lỗi xảy ra, vui lòng thử lại sau");
@@ -116,6 +120,7 @@ form.addEventListener("submit", async (e) => {
       } catch (error) {
         console.log(error);
       }
+      clearImgInputField("feedback-upload-img");
     } else {
       console.error("Validation Error!");
     }
@@ -123,12 +128,14 @@ form.addEventListener("submit", async (e) => {
 });
 
 
+document.addEventListener("DOMContentLoaded", () =>{
 fetch("http://localhost:4000/api/category/getCategory?fieldId=T4").then((res) => res.json()).then((data) => {
   data.data.forEach((item) => {
     generateOptions(item);
   })
   eventListenerForDropdown();
 });
+})
 
 function generateOptions(data)
 {
@@ -161,7 +168,7 @@ function getFormAttribute(form)
       wardName : form.getAttribute("ward-name"),
       geometry: {
         type: "Point",
-        coordinates: [latLng[1], latLng[0]],
+        coordinates: [latLng[0], latLng[1]],
       },
       address: address,
     }
@@ -180,3 +187,19 @@ function storeFeedbackData(data) {
     localStorage.setItem("feedbackData", JSON.stringify([data]));
   }
 }
+
+
+// async function getFeedbackGeoJson(feedbackList)
+// {
+//     let fd = new FormData();
+//     fd.append("feedbackList", JSON.stringify(feedbackList));
+//     let response = await fetch("http://localhost:4000/api/mapData/restoreUserFeedback", {
+//         method: "POST",
+//         body: fd
+//     });
+//     let fbData = await response.json();
+//     // Push new point to data
+//     data.features.push(...fbData.data.features);
+//     console.log(data);
+//     map.getSource('places').setData(data);
+// }

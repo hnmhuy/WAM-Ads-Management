@@ -300,10 +300,182 @@ function closeFeedbackForm() {
   grecaptcha.reset();
 }
 
-function openFeedbackDetail() {
-  const feedbacDetail = document.querySelector(".feedbackDetail-container");
-  feedbacDetail.classList.remove("hidden");
-  feedbacDetail.classList.add("feedbackDetail-float");
+function closeFeedbackDetail() {
+  fbDetail.classList.add('hidden');
+}
+
+async function openFeedbackDetail(e) {
+  const fbDetail = document.querySelector("#feedback-detail");
+  fbDetail.querySelector('.header .bi-chevron-double-left').onclick = closeFeedbackDetail
+  fbDetail.className = 'feedbackDetail-container feedbackDetail-float';
+  fbDetail.classList.add('float');
+  let content = fbDetail.querySelector("#feedback-content");
+  let locationImgDiv = fbDetail.querySelector(".location-img");
+  locationImgDiv.innerHTML = `<p>Hình ảnh đính kèm</p>`
+
+  // let status = fbDetail.querySelector("#status");
+  content.innerHTML = "";
+  // status.innerHTML = `<p class="title">Trạng thái phản hồi</p>`
+  let fbId = e.getAttribute("ad-place-id");
+  let fbData = await fetch(`http://localhost:4000/api/feedback/getFeedback?id=${fbId}`).then(res => res.json());
+  let sampleData = {}
+  sampleData.status = fbData.status;
+  sampleData.status_VN = fbData.status_VN;
+  sampleData.feedback_type_VN = fbData.feedback_type_VN
+  generateFeedbackSidepeek(fbDetail, fbData, sampleData)
+}
+
+function generateFeedbackSidepeek(fbDetail,data, sampleData)
+{
+    let locationImgDiv = fbDetail.querySelector(".location-img");
+    let formatAddress = fbDetail.querySelector("#format-address");
+    let fbType = fbDetail.querySelector("#feedbackType");
+    let time = fbDetail.querySelector("#feedback-time");
+    let name = fbDetail.querySelector("#name");
+    let email = fbDetail.querySelector("#email");
+    let phoneNumber = fbDetail.querySelector("#phone-number");
+    let content = fbDetail.querySelector("#feedback-content");
+    let status = fbDetail.querySelector(".detail-feedback-status");
+    let statusIcon = status.querySelector(".status-icon-shadow");
+    let statusIconPoint = status.querySelector(".satus-icon-point");
+    let statusText = status.querySelector(".detail-feedback-status-text");
+
+    status.className = `detail-feedback-status ${sampleData.status}-shadow`
+    statusIcon.className = `status-icon-shadow animate-flicker ${sampleData.status}-shadow`
+    statusIconPoint.className = `satus-icon-point ${sampleData.status}`
+    statusText.textContent = sampleData.status_VN;
+
+    locationImgDiv.appendChild(generateCarousel(data, data.image1, data.image2));
+    if(data.place) {
+      formatAddress.textContent = `${data.place.address_formated}, ${data.place.area.formatedName}`;
+    }
+    fbType.textContent = sampleData.feedback_type_VN;
+    time.textContent = formatDate(data.createdAt, true);
+    name.textContent = data.name;
+    email.textContent = data.email;
+    phoneNumber.textContent = data.phone;
+    content.innerHTML = 
+    `
+        ${data.content}
+    `   
+}
+
+function generateCarousel(data, image1, image2)
+{
+    let imgArr = generateImg(image1, image2);
+    data.id = `_${data.id}`
+
+    let carouselDiv = document.createElement("div");
+    let indicator = document.createElement("div");
+    let carouselInner = document.createElement("div");
+    carouselDiv.classList.add("carousel","slide");
+    carouselDiv.setAttribute("id",data.id);
+    carouselDiv.setAttribute("data-bs-ride", "carousel");
+    indicator.classList.add("carousel-indicators")
+    carouselInner.classList.add("carousel-inner");
+    carouselInner.setAttribute("id", "imageList");
+    carouselInner.setAttribute("role", 'listbox');
+
+    let buttonPrev = document.createElement("button");
+    let buttonNext = document.createElement("button");
+
+    buttonPrev.classList.add("carousel-control-prev")
+    buttonPrev.setAttribute("type", "button");
+    buttonPrev.setAttribute("data-bs-target", `#${data.id}`);
+    buttonPrev.setAttribute("data-bs-slide", "prev");
+    buttonPrev.innerHTML = `
+        <span
+        class="carousel-control-prev-icon"
+        aria-hidden="true"
+    ></span>
+    <span class="visually-hidden">Previous</span>
+    `
+
+    buttonNext.classList.add("carousel-control-next");
+    buttonNext.setAttribute("type", "button");
+    buttonNext.setAttribute("data-bs-target", `#${data.id}`);
+    buttonNext.setAttribute("data-bs-slide", "next");
+    buttonNext.innerHTML = `
+            <span
+            class="carousel-control-next-icon"
+            aria-hidden="true"
+        ></span>
+        <span class="visually-hidden">Next</span>
+    `
+    if(imgArr.length === 0)
+    {
+        carouselDiv.innerHTML = `
+            Chưa có hình ảnh quảng cáo
+        `
+    }
+    else if (imgArr.length === 1)
+    {
+        indicator.innerHTML = `
+        <div
+        data-bs-target="#${data.id}"
+        data-bs-slide-to="0"
+        class="active"
+        aria-current="true"
+        aria-label="First slide"
+        ></div>`
+        carouselInner.innerHTML = `
+        <div class="carousel-item active">
+        <img
+        src="http://localhost:4000/${imgArr[0]}"
+        class="w-100 d-block"
+        alt="First slide"
+        style="width:371px; height:208px"
+        />
+    </div>
+        `
+    }
+    else if(imgArr.length === 2)
+    {
+        indicator.innerHTML = 
+        `
+        <div
+        data-bs-target="#${data.id}"
+        data-bs-slide-to="0"
+        class="active"
+        aria-current="true"
+        aria-label="First slide"
+        ></div>
+        <div
+        data-bs-target="#${data.id}"
+        data-bs-slide-to="1"
+        aria-label="Second slide"
+        ></div>
+        `
+        carouselInner.innerHTML = `
+        <div class="carousel-item active">
+        <img
+            src="http://localhost:4000/${imgArr[0]}"
+            class="w-100 d-block"
+            alt="First slide"
+            style="width:371px; height:208px"
+        />
+        </div>
+        <div class="carousel-item">
+        <img
+            src="http://localhost:4000/${imgArr[1]}"
+            class="w-100 d-block"
+            alt="Second slide"
+            style="width:371px; height:208px"
+        />
+        </div>
+        `
+    }
+
+    carouselDiv.appendChild(indicator);
+    carouselDiv.appendChild(carouselInner);
+    carouselDiv.appendChild(buttonPrev);
+    carouselDiv.appendChild(buttonNext);
+
+    imgArr = [];
+
+    console.log("carousel: ", carouselDiv);
+
+    return carouselDiv;
 }
 
 async function showAdDetail(e) {

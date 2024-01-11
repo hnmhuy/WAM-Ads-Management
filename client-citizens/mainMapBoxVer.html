@@ -642,7 +642,7 @@
           </div>
         </div> -->
         <div style="width: 100%; height: 200px">
-          <div class="upload-field" id="feedback-upload-img">
+          <!-- <div class="upload-field" id="feedback-upload-img">
               <label for="imgFile" class="drag-drop">
                   <input type="file" name="imgFile" id="imgFile" accept=".png, .jpeg, .gif" multiple hidden>
                   <div class="holder">
@@ -651,7 +651,19 @@
                   </div>
               </label>
               <div class="preview" style="display: none;"></div>
-          </div>
+          </div> -->
+          <div class="upload-field" id="feedback-upload-img">
+            <label for="imgFile-for-create" class="drag-drop" ondragover="dragoverHandler(event)" ondragleave="dragleaveHandler(event)" ondrop="dropHandler(event)">
+                <div class="holder">
+                    <i class="bi bi-cloud-arrow-up-fill"></i>
+                    <h4>Kéo và thả ảnh vào đây</h4> hoặc Click để duyệt file
+                </div>
+            </label>
+            <input type="file" name="imgFile" id="imgFile-for-create" accept=".png, .jpeg, .gif, .jpg"
+                multiple hidden onchange="inputChangeHandler(event)">
+            <div class="preview" style="display: none;">
+            </div>
+        </div>
       </div>
         <div class="submit-captcha">
           <div
@@ -754,11 +766,11 @@
       <!-- {{>sidepeek-noAd}} {{>feedback-detail}} {{> random-location}} {{>
       feedback-form}} {{> ad-detail}} -->
     </main>
-    <script src="./public/js/feedback.js"></script>
+    <script type="module" src="./public/js/feedback.js"></script>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    <script>
+    <!-- <script>
       imgInputController("feedback-upload-img");
-    </script>
+    </script> -->
 
 
   </body>
