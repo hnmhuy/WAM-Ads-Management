@@ -1,5 +1,6 @@
 const controller = {}
 const models = require('../../models');
+const sequelize = require('sequelize')
 
 controller.show = async (req, res) => {
     req.session.prev_url = req.originalUrl;
@@ -111,6 +112,25 @@ controller.show = async (req, res) => {
         });
         console.log(err);
     })
+
+    if(req.session.user.areaLevel == 1){
+        let fbData = await models.sequelize.query(
+            'SELECT feedbacks.*, areas."formatedName", places.address_formated, feedback_responses.content FROM feedbacks JOIN ad_contents ON feedbacks.ad_id = ad_contents.id JOIN ad_places ON ad_contents.ad_place_id = ad_places.id JOIN places ON ad_places.place_id = places.id JOIN areas ON areas.id = places.area_id LEFT JOIN feedback_responses ON feedback_responses.id = feedbacks.response_id WHERE areas.parent_id = $1 ',
+            { 
+                bind: [req.session.user.delegation], 
+                type: models.Sequelize.QueryTypes.SELECT 
+            }
+        )
+    } else if (req.session.areaLevel == 2) {
+        let fbData = await models.sequelize.query(
+            'SELECT feedbacks.*, areas."formatedName", places.address_formated, feedback_responses.content FROM feedbacks JOIN ad_contents ON feedbacks.ad_id = ad_contents.id JOIN ad_places ON ad_contents.ad_place_id = ad_places.id JOIN places ON ad_places.place_id = places.id JOIN areas ON areas.id = places.area_id LEFT JOIN feedback_responses ON feedback_responses.id = feedbacks.response_id WHERE areas.id = $1 ',
+            { 
+                bind: [req.session.user.delegation], 
+                type: models.Sequelize.QueryTypes.SELECT 
+            }
+        )
+    }
+
     res.locals.data_rows = data_rows
     res.render('district/reports', { layout: 'district_layout' });
 }
