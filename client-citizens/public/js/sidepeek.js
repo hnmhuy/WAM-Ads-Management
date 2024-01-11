@@ -232,7 +232,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-
 // // Open feedback form handler
 
 async function openFeedbackForm(e) {
@@ -320,6 +319,7 @@ function closeFeedbackForm() {
 }
 
 function closeFeedbackDetail() {
+  const fbDetail = document.querySelector("#feedback-detail");
   fbDetail.classList.add('hidden');
 }
 

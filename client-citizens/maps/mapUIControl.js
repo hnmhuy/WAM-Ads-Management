@@ -32,12 +32,12 @@ export function closeAllSidePeek() {
 }
 
 export async function openSidePeek(data) {
-    console.log("DTA: ", data);
     closeAllSidePeek();
     let category = data.category;
     let status = data.status;
     let isReported = data.isReported;
     let sampleData = JSON.parse(data.detail);
+    let geojsonId = data.placeid;
 
 
     if (category === 'ad') {
@@ -70,7 +70,7 @@ export async function openSidePeek(data) {
         let dataAdPlace = await fetch(`http://localhost:4000/api/ad_place/getOne?id=${adId}&includeAdContent=true`).then(res => res.json());
         // console.log("THISS IS DATA PLACE: ", dataAdPlace );
         // let dataAdPlace = await fetch(`http://localhost:4000/api/ad_place/getOne?id=e295a4ee-5591-4270-9c7f-922b33fb7d72&includeAdContent=true`).then(res => res.json());
-        generateSidepeekAd(sidepeek, dataAdPlace, sampleData, isReported);
+        generateSidepeekAd(sidepeek, dataAdPlace, sampleData, isReported, geojsonId);
 
     } else if (category === 'fb') {
         fbDetail.querySelector('.header .bi-chevron-double-left').onclick = closeFeedbackDetail
@@ -92,7 +92,7 @@ export async function openSidePeek(data) {
     
 }
 
-function generateSidepeekAd(sidepeek, data, sampleData, isReported)
+function generateSidepeekAd(sidepeek, data, sampleData, isReported, geojsonId = undefined)
 {
     let localData = JSON.parse(localStorage.getItem("feedbackData"));
     console.log("isReported", isReported);
@@ -116,9 +116,12 @@ function generateSidepeekAd(sidepeek, data, sampleData, isReported)
     let showFeedbackBtn = document.createElement("button");
     showFeedbackBtn.setAttribute("type","button");
     showFeedbackBtn.className = `btn btn-primary show-feedback-button hidden`;
-    showFeedbackBtn.setAttribute("onclick", "openFeedbackDetail()");
+    showFeedbackBtn.setAttribute("onclick", "openFeedbackDetail(this)");
     showFeedbackBtn.setAttribute("id", "show-location-feedback");
-    showFeedbackBtn.setAttribute("ad-place-id", `${sampleData.dataid}`);
+    if (isReported) {
+        let index = localData.findIndex(item => item.geojsonId === geojsonId);
+        showFeedbackBtn.setAttribute("ad-place-id", `${localData[index].feedback_id}`);
+    }
     showFeedbackBtn.innerHTML = `
         <i class="bi bi-file-text-fill"></i> Xem phản hồi`
 

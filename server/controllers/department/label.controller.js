@@ -18,7 +18,7 @@ controller.show = (req, res) => {
         jsHeader: ["/public/js/department/label_ui_controllers.js"],
     };
     res.render("department/label", {
-        layout: "department_layout",
+        layout: "department_layout",    
         tabTitle: "QUẢN LÝ DANH MỤC",
         jsHeader: componentDependcy.jsHeader,
         css: componentDependcy.css,

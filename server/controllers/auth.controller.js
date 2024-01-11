@@ -5,7 +5,7 @@ const models = require("../models");
 const bcrypt = require('bcrypt');
 const OTPmodel = require('../models').OTP;
 
-const location = require('../testing_vew_data/location.json');
+// const location = require('../testing_vew_data/location.json');
 const {sendOTP} = require("../controllers/otp.controller")
 
 controller.showIndex = (req, res) => {
@@ -125,7 +125,7 @@ controller.showHome = async (req, res) => {
 
 controller.showLocation = (req, res) => {
     res.locals.page_name = "Danh sách điểm quảng cáo"
-    res.locals.data_rows = location.data_rows;
+    //res.locals.data_rows = location.data_rows;
     res.render('district/location', { layout: 'district_layout' });
 }
 
