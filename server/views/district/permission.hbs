@@ -105,11 +105,11 @@
           <div class="d-flex justify-content-center align-items-center">
             <input
               style="margin-right: 10px;width: 100%; border:0; border-box:none; padding: 10px; text-align: left; border-radius: 5px"
-              disabled="disabled" placeholder="" id="review_height">
+              min="0" disabled="disabled" placeholder="" id="review_height">
             x
             <input
               style="margin-left:10px;width: 100%; border:0; border-box:none; padding: 10px; text-align: left; border-radius: 5px"
-              disabled="disabled" placeholder="" id="review_width">
+              min="0" disabled="disabled" placeholder="" id="review_width">
           </div>
           <p style="text-align: left; font-weight: bold;margin-top:25px">Ngày bắt đầu</p>
           <input
@@ -198,11 +198,11 @@
           <div style="text-align: left;margin-top:30px">
             <label style="font-weight: bold;" for="size" class="form-label">Kích thước</label>
             <div class="d-flex justify-content-center align-items-center">
-              <input style="margin-right: 10px;" type="number" class="form-control" tabindex="3" id="height" name="size"
-                required placeholder="Cao" />
+              <input style="margin-right: 10px;" type="number" min="0" class="form-control" tabindex="3" id="height"
+                name="size" required placeholder="Cao" />
               x
-              <input style="margin-left: 10px;" type="number" class="form-control" tabindex="4" id="width" name="size"
-                required placeholder="Rộng" />
+              <input style="margin-left: 10px;" min="0" type="number" class="form-control" tabindex="4" id="width"
+                name="size" required placeholder="Rộng" />
             </div>
           </div>
           <div style="text-align: left;margin-top:30px">

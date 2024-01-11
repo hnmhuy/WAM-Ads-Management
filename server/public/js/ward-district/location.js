@@ -285,7 +285,7 @@ function updateAdReq(adItem) {
 
           setTimeout(function () {
             location.reload()
-          }, 3000);
+          }, 1500);
         }
         else {
           Toastify({
@@ -304,7 +304,7 @@ function updateAdReq(adItem) {
 
           setTimeout(function () {
             location.reload()
-          }, 3000);
+          }, 1500);
         }
       })
       .catch(error => {
@@ -325,7 +325,7 @@ function updateAdReq(adItem) {
 
         setTimeout(function () {
           location.reload()
-        }, 3000);
+        }, 1500);
       });
   })
 }
@@ -643,8 +643,7 @@ function createUpdateLocation(request_data, ad_place_id) {
         }
 
 
-        setImgFileForField(formData, 'upload-img-file');
-        formData.delete('imgFile');
+
         createUpdateRequest(dataCreate)
         if (data.status === 500) {
           Toastify({
@@ -660,6 +659,9 @@ function createUpdateLocation(request_data, ad_place_id) {
             },
             onClick: function () { } // Callback after click
           }).showToast();
+          setTimeout(function () {
+            location.reload()
+          }, 1500);
         }
         else {
           Toastify({
@@ -678,7 +680,9 @@ function createUpdateLocation(request_data, ad_place_id) {
 
           setTimeout(function () {
             location.reload()
-          }, 3000);
+          }, 1500);
+
+
         }
       })
       .catch(error => {
@@ -699,7 +703,7 @@ function createUpdateLocation(request_data, ad_place_id) {
 
         setTimeout(function () {
           location.reload()
-        }, 3000);
+        }, 1500);
       });
   },)
 }
@@ -723,7 +727,46 @@ function createAdContentAndRequest(dataCreate) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(req),
-      }).then(d => console.log(d))
+      }).then(d => {
+        if (d.status === 500) {
+          Toastify({
+            text: "Cập nhật thất bại",
+            duration: 2000,
+            close: false,
+            gravity: "bottom",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+              background: "#FF6969",
+              color: "#000"
+            },
+            onClick: function () { } // Callback after click
+          }).showToast();
+
+          setTimeout(function () {
+            location.reload()
+          }, 1500);
+        }
+        else {
+          Toastify({
+            text: "Cập nhập thành công",
+            duration: 2000,
+            close: false,
+            gravity: "bottom",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+              background: "#C1F2B0",
+              color: "#000"
+            },
+            onClick: function () { } // Callback after click
+          }).showToast();
+
+          setTimeout(function () {
+            location.reload()
+          }, 1500);
+        }
+      })
     })
 
 }
@@ -756,8 +799,8 @@ function createAdReq(ad_place_id) {
     })
 
   const locationType = {}
-  const location_type_selection = document.getElementById('location-type-selection');
-  fetch(`/api/category/getCategory?fieldId=T2`)
+  const location_type_selection = document.getElementById('ad-type-selection');
+  fetch(`/api/category/getCategory?fieldId=T3`)
     .then(res => res.json())
     .then(res => {
       while (location_type_selection.firstChild) {
@@ -826,47 +869,9 @@ function createAdReq(ad_place_id) {
             ad_place_id: ad_place_id,
             ad_type: locationType[`${data.others.locationType}`],
           }
-          console.log(dataCreate)
           createAdContentAndRequest(dataCreate)
 
-          if (data.status === 500) {
-            Toastify({
-              text: "Cập nhật thất bại",
-              duration: 2000,
-              close: false,
-              gravity: "bottom",
-              position: "right",
-              stopOnFocus: true,
-              style: {
-                background: "#FF6969",
-                color: "#000"
-              },
-              onClick: function () { } // Callback after click
-            }).showToast();
 
-            setTimeout(function () {
-              location.reload()
-            }, 3000);
-          }
-          else {
-            Toastify({
-              text: "Cập nhập thành công",
-              duration: 2000,
-              close: false,
-              gravity: "bottom",
-              position: "right",
-              stopOnFocus: true,
-              style: {
-                background: "#C1F2B0",
-                color: "#000"
-              },
-              onClick: function () { } // Callback after click
-            }).showToast();
-
-            setTimeout(function () {
-              location.reload()
-            }, 3000);
-          }
 
         })
         .catch(err => {
@@ -886,7 +891,7 @@ function createAdReq(ad_place_id) {
 
           setTimeout(function () {
             location.reload()
-          }, 3000);
+          }, 1500);
         })
     }
 
@@ -1016,6 +1021,7 @@ function closeOffcanvas() {
                 tabindex="3"
                 id="height"
                 name="height"
+                min="0"
                 required
                 placeholder="Cao"
               />
@@ -1027,6 +1033,7 @@ function closeOffcanvas() {
                 tabindex="4"
                 id="width"
                 name="width"
+                min="0"
                 required
                 placeholder="Rộng"
               />
@@ -1092,10 +1099,10 @@ function closeOffcanvas() {
         </div>
       </div>
       <div class="form-field-col" style="width: 100%">
-        <label for="location-type-selection">Loại ví trị</label>
+        <label for="ad-type-selection">Loại quảng cáo</label>
         <select
           name="locationType"
-          id="location-type-selection"
+          id="ad-type-selection"
           required
         ></select>
       </div>
@@ -1502,10 +1509,10 @@ function handlePopUp(button) {
               </div>
             </div>
             <div class="form-field-col" style="width: 100%">
-              <label for="location-type-selection">Loại ví trị</label>
+              <label for="ad-type-selection">Loại quảng cáo</label>
               <select
                 name="locationType"
-                id="location-type-selection"
+                id="ad-type-selection"
                 required
               ></select>
             </div>

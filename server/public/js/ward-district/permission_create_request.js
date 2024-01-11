@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
         addDataLayer(permissionMap, adPlaceData, 'ad-place', 'ad-place-points', getAdLocationData);
     })
     pin = new mapboxgl.Marker({
-       color: 'blue' 
+        color: 'blue'
     })
 })
 
@@ -59,7 +59,7 @@ popup_parent_.addEventListener('click', (event) => {
             showCancelButton: true,
             confirmButtonText: "Có",
             denyButtonText: `Không`
-            }).then((result) => {
+        }).then((result) => {
             if (result.isConfirmed) {
                 hidePopup();
             }
@@ -73,7 +73,7 @@ close_btn_.addEventListener('click', () => {
         showCancelButton: true,
         confirmButtonText: "Có",
         denyButtonText: `Không`
-        }).then((result) => {
+    }).then((result) => {
         if (result.isConfirmed) {
             hidePopup();
         }
@@ -83,7 +83,7 @@ close_btn_.addEventListener('click', () => {
 async function updateAdPlace(areaId) {
     let res = await fetch(`api/ad_place/getGeojson?areaId=${areaId}`);
     let data = await res.json();
-    if(data.success) {
+    if (data.success) {
         let geojson = data.data;
         permissionMap.getSource('ad-place').setData(geojson);
     } else {
@@ -133,42 +133,44 @@ async function showPopup(delegation) {
     popup_.style.left = '50%';
     popup_.style.transform = 'translate(-50%, -50%) scale(1)';
     fetch('api/category/getCategory?fieldId=T3').then(res => res.json()).then(
-        (data) =>{
-            if(data.data.length == 0){
+        (data) => {
+            if (data.data.length == 0) {
                 const div = document.createElement("div");
                 div.classList.add("permission-dropdown-option-content");
                 div.textContent = "Không có dữ liệu";
                 document.querySelector(".permission-dropdown-option").appendChild(div);
             } else {
                 data.data.forEach((item) => {
-                const div = document.createElement("div");
-                div.classList.add("permission-dropdown-option-content");
-                div.textContent = item.name;
-                div.id = item.id;
-                div.onclick = function () {
-                    showType(this);
-                };
-                document.querySelector(".permission-dropdown-option").appendChild(div);
+                    const div = document.createElement("div");
+                    div.classList.add("permission-dropdown-option-content");
+                    div.textContent = item.name;
+                    div.id = item.id;
+                    div.onclick = function () {
+                        showType(this);
+                    };
+                    document.querySelector(".permission-dropdown-option").appendChild(div);
                 })
             }
         }
-    ).then(()=>{
+    ).then(() => {
         document.getElementById("request-spinner").classList.toggle("d-none");
     });
 }
-function hidePopup(){
+function hidePopup() {
     let inputs = document.querySelectorAll("input");
-    inputs.forEach((input)=>{
+    inputs.forEach((input) => {
         input.value = "";
     })
     document.getElementById("request-spinner").classList.toggle("d-none");
-    let textArea = document.querySelector("textarea");
-    textArea.value="";
+    let textArea = document.querySelector("#content");
+    textArea.value = "";
     const div_list = document.querySelectorAll(".permission-dropdown-option-content");
     div_list.forEach((item) => {
         item.parentNode.removeChild(item);
     })
     locationId = undefined;
+
+
     document.querySelector('body').style.overflowY = 'auto';
     img_.style.marginBottom = originalImg_.marginBottom || '';
     img_.style.visibility = originalImg_.visibility || '';
@@ -331,50 +333,50 @@ async function submitForm(event) {
     const end = new Date(document.getElementById("endDate").value);
     const ad_place = document.getElementById("ad-location").value;
     const adType = document.getElementById("adType").value;
-    if(start >= end){
+    if (start >= end) {
         Toastify({
-          text: "Ngày bắt đầu phải nhỏ hơn ngày kết thúc",
-          duration: 3000,
-          close: false,
-          gravity: "bottom",
-          position: "right",
-          stopOnFocus: true,
-          style: {
-            background: "#FF6969",
-            color: "#000"
-          },
-          onClick: function(){} // Callback after click
+            text: "Ngày bắt đầu phải nhỏ hơn ngày kết thúc",
+            duration: 3000,
+            close: false,
+            gravity: "bottom",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+                background: "#FF6969",
+                color: "#000"
+            },
+            onClick: function () { } // Callback after click
         }).showToast();
         event.preventDefault();
 
     } else if (!ad_place) {
         Toastify({
-          text: "Hãy chọn vị trí điểm đặt quảng cáo",
-          duration: 3000,
-          close: false,
-          gravity: "bottom",
-          position: "right",
-          stopOnFocus: true,
-          style: {
-            background: "#FF6969",
-            color: "#000"
-          },
-          onClick: function(){} // Callback after click
+            text: "Hãy chọn vị trí điểm đặt quảng cáo",
+            duration: 3000,
+            close: false,
+            gravity: "bottom",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+                background: "#FF6969",
+                color: "#000"
+            },
+            onClick: function () { } // Callback after click
         }).showToast();
         event.preventDefault();
-    } else if (!adType){
+    } else if (!adType) {
         Toastify({
-          text: "Hãy chọn loại bảng quảng cáo",
-          duration: 3000,
-          close: false,
-          gravity: "bottom",
-          position: "right",
-          stopOnFocus: true,
-          style: {
-            background: "#FF6969",
-            color: "#000"
-          },
-          onClick: function(){} // Callback after click
+            text: "Hãy chọn loại bảng quảng cáo",
+            duration: 3000,
+            close: false,
+            gravity: "bottom",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+                background: "#FF6969",
+                color: "#000"
+            },
+            onClick: function () { } // Callback after click
         }).showToast();
         event.preventDefault();
     } else {
@@ -386,15 +388,15 @@ async function submitForm(event) {
             body: fd
         })
         res = await res.json();
-        if(res.success){
+        if (res.success) {
             let request = res.request;
             let ad_content = res.ad_content;
             let address = res.address;
             let type = res.type;
             let tr = document.createElement("tr");
-            if(request.status === "sent"){
+            if (request.status === "sent") {
                 request.status = "Đã gửi"
-            } else if (request.status === "accepted"){
+            } else if (request.status === "accepted") {
                 request.status = "Đã cấp phép"
             } else {
                 request.status = "Đã từ chối"
@@ -423,9 +425,9 @@ async function submitForm(event) {
                 </div>
             </td>
             `
-            
-            tr.id= request.id
-            tr.class="tr_in_table_in_location"
+
+            tr.id = request.id
+            tr.class = "tr_in_table_in_location"
             let tbody = document.querySelector("tbody");
             tbody.insertBefore(tr, tbody.firstElementChild);
             document
@@ -445,7 +447,7 @@ async function submitForm(event) {
                     background: "#0dbc79",
                     color: "#000"
                 },
-                onClick: function(){} // Callback after click
+                onClick: function () { } // Callback after click
             }).showToast();
             hidePopup();
         } else {
@@ -460,7 +462,7 @@ async function submitForm(event) {
                     background: "#FF6969",
                     color: "#000"
                 },
-                onClick: function(){} // Callback after click
+                onClick: function () { } // Callback after click
             }).showToast();
         }
     }
