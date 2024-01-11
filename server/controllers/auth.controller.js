@@ -393,7 +393,7 @@ controller.showResetPassword = (req, res)=>{
 
 controller.resetPassword = async (req, res)=>{
   const {password, confirmPassword, email} = req.body;
-  if(password.length < 8){
+  if(password.length >= 8){
     if(password === confirmPassword){
     let user = await User.findOne({
       attributes: [
