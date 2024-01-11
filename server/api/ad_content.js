@@ -5,7 +5,7 @@ const Op = Sequelize.Op;
 
 const queryAdType = Sequelize.literal(`(SELECT name FROM categories WHERE categories.id = ad_content.ad_type)`);
 
-controller.getOne = async (id) =>  {
+controller.getOne = async (id) => {
     try {
         let data = await models.ad_content.findOne({
             attributes: [
@@ -67,7 +67,7 @@ controller.getByAdPlace = async (adId) => {
             message: 'Get ad content successfully',
             data: data
         }
-    } catch(error) {
+    } catch (error) {
         console.log(error);
         return {
             success: false,
@@ -79,9 +79,9 @@ controller.getByAdPlace = async (adId) => {
 
 controller.update = async (req, res) => {
     console.log(req.body);
-    let {id, company_name, width, height, start, end} = req.body;
+    let { id, company_name, width, height, start, end } = req.body;
     let resStatus = req.body.res;
-    try { 
+    try {
         let data = await models.ad_content.update({
             company_name: company_name,
             width: width,
@@ -94,7 +94,7 @@ controller.update = async (req, res) => {
             }
         })
         if (data) {
-            if(resStatus) {
+            if (resStatus) {
                 resStatus = resStatus === 'true' ? true : resStatus === 'false' ? false : null;
                 // Find the create request
                 let createRequest = await models.create_request.findOne({
@@ -103,34 +103,34 @@ controller.update = async (req, res) => {
                     }
                 })
                 console.log(createRequest);
-                if(createRequest) {
+                if (createRequest) {
                     await models.create_request.update({
                         status: resStatus ? 'accepted' : 'cancel'
                     }, {
-                        where: { id : createRequest.id }
+                        where: { id: createRequest.id }
                     })
                     await models.ad_content.update({
                         status: resStatus
                     }, {
-                        where: { id : id }
+                        where: { id: id }
                     })
                 }
             }
 
             let adContent = await controller.getOne(id);
-            if(adContent.success) {
+            if (adContent.success) {
                 res.json({
                     success: true,
                     message: 'Update ad content successfully',
                     data: adContent.data
-                })   
+                })
             } else {
                 res.json({
                     success: false,
                     message: 'Update ad content failed',
                     error: adContent.error
                 })
-            }                
+            }
         } else {
             res.json({
                 success: false,
@@ -138,7 +138,7 @@ controller.update = async (req, res) => {
                 data: null
             })
         }
-    } catch(error) {
+    } catch (error) {
         console.log(error);
         res.json({
             success: false,
@@ -148,7 +148,7 @@ controller.update = async (req, res) => {
     }
 }
 
-controller.get  = async (req, res) => {
+controller.get = async (req, res) => {
     res.json(await controller.getByAdPlace(req.query.adPlaceId));
 }
 
@@ -157,30 +157,30 @@ controller.getOneAdContent = async (req, res) => {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
     })
-    let {id} = req.query;
-    try
-    {
+    let { id } = req.query;
+    try {
         let data = await models.ad_content.findOne({
-            attributes: ['id','company_name', 'width', 'height', 'start', 'end', 'image1', 'image2'],
+            attributes: ['id', 'company_name', 'width', 'height', 'start', 'end', 'image1', 'image2'],
             include: [
-                {model: models.category, attributes:['name']},
-                {model: models.ad_place, attributes: ['id', 'purpose', 'location_type'], include:[
-                    {model: models.place, attributes:['address_formated'], include:[{model: models.area, attributes: ['formatedName']}]}]},
-                ],
-            where: {id: id},
+                { model: models.category, attributes: ['name'] },
+                {
+                    model: models.ad_place, attributes: ['id', 'purpose', 'location_type'], include: [
+                        { model: models.place, attributes: ['address_formated'], include: [{ model: models.area, attributes: ['formatedName'] }] }]
+                },
+            ],
+            where: { id: id },
         })
-        if(data)
-        {
+        if (data) {
             let purposeId = data.dataValues.ad_place.purpose;
             let locationId = data.dataValues.ad_place.location_type;
             console.log(purposeId);
             let purposeData = await models.category.findOne({
                 attributes: ['name'],
-                where: {id: purposeId}
+                where: { id: purposeId }
             })
             let locationData = await models.category.findOne({
                 attributes: ['name'],
-                where: {id: locationId}
+                where: { id: locationId }
             })
             data.dataValues.purpose = purposeData.dataValues.name;
             data.dataValues.location = locationData.dataValues.name;
@@ -188,18 +188,16 @@ controller.getOneAdContent = async (req, res) => {
                 success: true,
                 message: 'Update ad content successfully',
                 data: data
-            })   
+            })
         }
-        else
-        {
+        else {
             res.json({
                 success: false,
                 message: 'Update ad content failed',
                 data: null
             })
         }
-    } catch(err)
-    {
+    } catch (err) {
         res.json({
             success: false,
             message: 'Fetch ad content failed',
@@ -209,4 +207,52 @@ controller.getOneAdContent = async (req, res) => {
 
 }
 
+controller.createAdContent = async (req, res) => {
+    console.log("Hehe", req.body)
+    let { companyName, companyAddress, companyEmail, width, height, description, start, end, image1, image2, ad_place_id, ad_type } = req.body
+    models.ad_content.create({
+        company_name: companyName,
+        company_email: companyEmail,
+        company_address: companyAddress,
+        width: width,
+        height: height,
+        description: description,
+        start: start,
+        end: end,
+        image1: image1,
+        image2: image2,
+        ad_place_id: ad_place_id,
+        ad_type: ad_type,
+    }).then((data) => {
+        res.json({
+            message: "Create ad content successfully",
+            data: data
+        })
+    }).catch((err) => {
+        res.status(500).json({
+            message: err.message,
+        });
+        console.log(err);
+    })
+}
+
+controller.createRequest = async (req, res) => {
+    let delegation = req.session.user.id
+    let { ad_id } = req.body;
+    models.create_request.create({
+        officer: delegation,
+        ad_id: ad_id,
+        status: 'sent'
+    }).then((data) => {
+        res.json({
+            message: "Create create request successfully",
+            data: data
+        })
+    }).catch((err) => {
+        res.status(500).json({
+            message: err.message,
+        });
+        console.log(err);
+    })
+}
 module.exports = controller;

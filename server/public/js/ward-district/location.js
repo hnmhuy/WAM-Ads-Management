@@ -117,7 +117,7 @@ function hidePopupCreate(resquest_data = "", buttonId = "") {
   const show_popup = document.getElementById('showPopUpCreate');
   show_popup.removeEventListener('click', () => {
     showPopupCreate()
-    clearImgInputField('upload-img-file')
+    clearImgInputField('upload-img-file-create')
     createAdReq()
   })
 }
@@ -156,7 +156,7 @@ function hidePopupAds(popup_ads, img_ads, popup_parent_ads) {
   originalImg = {}
   originalStyles_ads = {}
   originalImg_ads = {}
-  clearImgInputField('upload-img-file')
+  clearImgInputField('upload-img-file-ad')
 }
 document
   .querySelectorAll("tbody tr:not(.hide)")
@@ -416,15 +416,15 @@ function createAdViewInfo(adsList) {
         <div class="edit-ad-form-officer">
           <form action="#" class="edit-ad-form-officer">
           <div style="width: 100%; height: 200px">
-          <div class="upload-field" id="upload-img-file">
-            <label for="imgFile-for-create" class="drag-drop" ondragover="dragoverHandler(event)"
+          <div class="upload-field" id="upload-img-file-ad">
+            <label for="imgFile-for-ad" class="drag-drop" ondragover="dragoverHandler(event)"
               ondragleave="dragleaveHandler(event)" ondrop="dropHandler(event)">
               <div class="holder">
                 <i class="bi bi-cloud-arrow-up-fill"></i>
                 <h4>Kéo và thả ảnh vào đây</h4> hoặc Click để duyệt file
               </div>
             </label>
-            <input type="file" name="imgFile" id="imgFile-for-create" accept=".png, .jpeg, .gif, .jpg"
+            <input type="file" name="imgFile" id="imgFile-for-ad" accept=".png, .jpeg, .gif, .jpg"
               multiple hidden onchange="inputChangeHandler(event)">
             <div class="preview" style="display: none;">
             </div>
@@ -538,16 +538,11 @@ function createUpdateLocation(request_data, ad_place_id) {
   close_btn.addEventListener('click', () => {
     hidePopup(request_data, ad_place_id)
     clearImgInputField('upload-img-file')
-    if (popup_parent != undefined)
-      document.body.removeChild(popup_parent)
     return
   });
 
   submit.addEventListener('click', () => {
     hidePopup(request_data, ad_place_id)
-    clearImgInputField('upload-img-file')
-    if (popup_parent != undefined)
-      document.body.removeChild(popup_parent)
     return
   });
   const ads_amount = document.getElementById('ads-amount')
@@ -688,7 +683,31 @@ function createUpdateLocation(request_data, ad_place_id) {
   },)
 }
 
-function createAdReq() {
+function createAdContentAndRequest(dataCreate) {
+  fetch(`/api/ad_content/createAdContent`, {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(dataCreate),
+  }).then(res => res.json())
+    .then(data => {
+      let ad_id = data.data.id;
+      let req = {
+        ad_id: ad_id
+      }
+      fetch(`/api/ad_content/createRequest`, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(req),
+      })
+    })
+
+}
+
+function createAdReq(ad_place_id) {
   let popup = document.getElementById("location-popup-create")
   let img = document.getElementById("form-img-create")
   let close_btn = document.getElementById("close-edit-request-create")
@@ -698,8 +717,6 @@ function createAdReq() {
   close_btn.addEventListener('click', () => {
     hidePopupCreate()
     clearImgInputField('upload-img-file')
-    if (popup_parent != undefined)
-      document.body.removeChild(popup_parent)
     return
   });
 
@@ -708,6 +725,93 @@ function createAdReq() {
     clearImgInputField('upload-img-file')
     return
   });
+
+  const ad_place = document.getElementById('ad_place_field')
+  fetch(`/api/location/getLocationById?ad_place_id=${ad_place_id}`)
+    .then(res => res.json())
+    .then(data => {
+      console.log(data)
+      ad_place.value = data.data[0].place.address_formated.trim()
+    })
+
+  const locationType = {}
+  const location_type_selection = document.getElementById('location-type-selection');
+  fetch(`/api/category/getCategory?fieldId=T1`)
+    .then(res => res.json())
+    .then(res => {
+      while (location_type_selection.firstChild) {
+        location_type_selection.removeChild(location_type_selection.firstChild);
+      }
+      res.data.forEach(item => {
+        locationType[`${item.name}`] = item.id;
+        var newOption = document.createElement('option')
+        newOption.value = item.name;
+        newOption.textContent = item.name;
+        location_type_selection.appendChild(newOption)
+      })
+    })
+  const form = document.getElementById('createForm');
+
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (!form.checkValidity()) {
+      return;
+    }
+
+    const start = new Date(document.getElementById("startDate").value);
+    const end = new Date(document.getElementById("endDate").value);
+
+
+    if (start >= end) {
+      Toastify({
+        text: "Ngày bắt đầu phải nhỏ hơn ngày kết thúc",
+        duration: 3000,
+        close: false,
+        gravity: "bottom",
+        position: "right",
+        stopOnFocus: true,
+        style: {
+          background: "#FF6969",
+          color: "#000"
+        },
+        onClick: function () { } // Callback after click
+      }).showToast();
+    } else {
+      let formData = new FormData(form);
+      fetch('/location/uploadUpdatePlace', {
+        method: 'POST',
+        body: formData
+      }).then(res => res.json())
+        .then(data => {
+
+          let image = [null, null]
+          data.files.forEach((file, index) => {
+            image[index] = (file.path)
+          })
+          console.log(data)
+
+          let dataCreate = {
+            companyName: data.others.inputName,
+            companyAdress: data.others.address,
+            companyEmail: data.others.email,
+            width: data.others.width,
+            height: data.others.height,
+            description: data.others.content,
+            start: data.others.startDate,
+            end: data.others.endDate,
+            image1: image[0],
+            image2: image[1],
+            ad_place_id: ad_place_id,
+            ad_type: locationType[`${data.others.locationType}`],
+          }
+          console.log(dataCreate)
+          createAdContentAndRequest(dataCreate)
+
+        })
+    }
+
+  })
 }
 function closeOffcanvas() {
   originalStyles = {}
@@ -801,7 +905,7 @@ function closeOffcanvas() {
 
     <div style="text-align: left;">
   <label for="content" style="text-align: left; font-weight: bold;margin:15px 0px">Địa điểm</label>
-  <input class="form-control" name="ad_place" id="content" ></input>
+  <input class="form-control" name="ad_place" id="ad_place_field" readonly></input>
 </div>
       <div class="row">
         <div class="col-6">
@@ -815,7 +919,6 @@ function closeOffcanvas() {
               type="text"
               class="form-control"
               id="inputName"
-              name="inputName"
               required
               placeholder="Công ty"
             />
@@ -832,7 +935,7 @@ function closeOffcanvas() {
                 class="form-control"
                 tabindex="3"
                 id="height"
-                name="size"
+                name="height"
                 required
                 placeholder="Cao"
               />
@@ -843,7 +946,7 @@ function closeOffcanvas() {
                 class="form-control"
                 tabindex="4"
                 id="width"
-                name="size"
+                name="width"
                 required
                 placeholder="Rộng"
               />
@@ -1211,7 +1314,7 @@ function handlePopUp(button) {
       
           <div style="text-align: left;">
         <label for="content" style="text-align: left; font-weight: bold;margin:15px 0px">Địa điểm</label>
-        <input class="form-control" name="ad_place" id="content" ></input>
+        <input class="form-control" name="ad_place" id="ad_place_field" readonly></input>
       </div>
             <div class="row">
               <div class="col-6">
@@ -1242,7 +1345,7 @@ function handlePopUp(button) {
                       class="form-control"
                       tabindex="3"
                       id="height"
-                      name="size"
+                      name="height"
                       required
                       placeholder="Cao"
                     />
@@ -1253,7 +1356,7 @@ function handlePopUp(button) {
                       class="form-control"
                       tabindex="4"
                       id="width"
-                      name="size"
+                      name="width"
                       required
                       placeholder="Rộng"
                     />
@@ -1389,7 +1492,7 @@ function handlePopUp(button) {
         show_popup_create.parentNode.insertAdjacentHTML('beforeend', html);
         clearImgInputField('upload-img-file')
         showPopupCreate()
-        createAdReq()
+        createAdReq(buttonId)
       })
     })
 
