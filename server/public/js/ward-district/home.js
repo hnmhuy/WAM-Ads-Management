@@ -20,7 +20,7 @@ async function showAdDetail(e) {
     const adDetail = document.querySelector(".ad-detail");
     const carousel = adDetail.querySelector(".carousel-swipe")
     carousel.innerHTML = `<p class="title">Hình ảnh quảng cáo</p>`
-    let data = await fetch(`http://localhost:4000/api/ad_content/getOne?id=${id}`).then(res => res.json());
+    let data = await fetch(`/api/ad_content/getOne?id=${id}`).then(res => res.json());
     generateAdDetail(adDetail, data.data, carousel)
     const overlay = document.querySelector(".overlay");
     adDetail.classList.remove("hidden");
@@ -72,7 +72,7 @@ function generateAdDetail(container, data, carousel) {
     <div class="swiper-wrapper">
       <div class="swiper-slide">
         <img
-          src="http://localhost:4000/${imgArr[0]}"
+          src="/${imgArr[0]}"
           alt="pic"
         />
       </div>
@@ -88,13 +88,13 @@ function generateAdDetail(container, data, carousel) {
     <div class="swiper-wrapper">
       <div class="swiper-slide">
         <img
-          src="http://localhost:4000/${imgArr[0]}"
+          src="/${imgArr[0]}"
           alt="pic"
         />
       </div>
       <div class="swiper-slide">
         <img
-          src="http://localhost:4000/${imgArr[1]}"
+          src="/${imgArr[1]}"
           alt="pic"
         />
       </div>
@@ -706,9 +706,9 @@ async function openSidePeek(data) {
         let adId = JSON.parse(data.detail).dataid;
         // console.log("THIS IS DTAA DETAIL:", JSON.parse(data.detail));
         // console.log("THIS IS ID:", adId);
-        let dataAdPlace = await fetch(`http://localhost:4000/api/ad_place/getOne?id=${adId}&includeAdContent=true`).then(res => res.json());
+        let dataAdPlace = await fetch(`/api/ad_place/getOne?id=${adId}&includeAdContent=true`).then(res => res.json());
         // console.log("THISS IS DATA PLACE: ", dataAdPlace );
-        // let dataAdPlace = await fetch(`http://localhost:4000/api/ad_place/getOne?id=e295a4ee-5591-4270-9c7f-922b33fb7d72&includeAdContent=true`).then(res => res.json());
+        // let dataAdPlace = await fetch(`/api/ad_place/getOne?id=e295a4ee-5591-4270-9c7f-922b33fb7d72&includeAdContent=true`).then(res => res.json());
         generateSidepeekAd(sidepeek, dataAdPlace, sampleData);
 
     } else if (category === 'fb') {
@@ -723,7 +723,7 @@ async function openSidePeek(data) {
         content.innerHTML = "";
         // status.innerHTML = `<p class="title">Trạng thái phản hồi</p>`
         let fbId = JSON.parse(data.detail).dataid;
-        let fbData = await fetch(`http://localhost:4000/api/feedback/getFeedback?id=${fbId}`).then(res => res.json());
+        let fbData = await fetch(`/api/feedback/getFeedback?id=${fbId}`).then(res => res.json());
         generateFeedbackSidepeek(fbDetail, fbData, sampleData)
 
     }
@@ -834,7 +834,7 @@ function generateCarousel(data, image1, image2) {
         carouselInner.innerHTML = `
             <div class="carousel-item active">
             <img
-            src="http://localhost:4000/${imgArr[0]}"
+            src="/${imgArr[0]}"
             class="w-100 d-block"
             alt="First slide"
             style="width:371px; height:208px"
@@ -861,7 +861,7 @@ function generateCarousel(data, image1, image2) {
         carouselInner.innerHTML = `
             <div class="carousel-item active">
             <img
-                src="http://localhost:4000/${imgArr[0]}"
+                src="/${imgArr[0]}"
                 class="w-100 d-block"
                 alt="First slide"
                 style="width:371px; height:208px"
@@ -869,7 +869,7 @@ function generateCarousel(data, image1, image2) {
             </div>
             <div class="carousel-item">
             <img
-                src="http://localhost:4000/${imgArr[1]}"
+                src="/${imgArr[1]}"
                 class="w-100 d-block"
                 alt="Second slide"
                 style="width:371px; height:208px"
