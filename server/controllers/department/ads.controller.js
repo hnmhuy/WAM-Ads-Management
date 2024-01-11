@@ -4,9 +4,7 @@ const navBarData = require("../../nav_link.json");
 const dataController = require("../../api/update_request")
 
 controller.showAds = (req, res) => {
-    // req.session.prev_url = req.originalUrl;
-    let locations = require("../../testing_vew_data/locations_data.json");
-    
+    // req.session.prev_url = req.originalUrl;    
     navBarData.nav_link.forEach((link) => {
         link.active = false;
     });
@@ -33,14 +31,13 @@ controller.showAds = (req, res) => {
         swap: componentDependcy.swap,
         title: componentDependcy.title,
         nav_link: navBarData.nav_link,
-        table1: locations,
     });
 };
 
 controller.showRequest = (req, res) => {
     req.session.prev_url = req.originalUrl;
-    let locations_collapsible = require("../../testing_vew_data/locations_data_collapsible.json");
-    let req_update = require("../../testing_vew_data/req_update.json");
+    // let locations_collapsible = require("../../testing_vew_data/locations_data_collapsible.json");
+    // let req_update = require("../../testing_vew_data/req_update.json");
     navBarData.nav_link.forEach((link) => {
         link.active = false;
     });
@@ -65,9 +62,6 @@ controller.showRequest = (req, res) => {
         title: componentDependcy.title,
         nav_link: navBarData.nav_link,
         checked: "checked",
-        table1: locations_collapsible,
-        table2: req_update,
-        table3: req_update,
     });
 };
 
@@ -141,8 +135,8 @@ controller.showUpdate = async (req, res) => {
     let data_inprocess = await getUpdateReqData('inprocess-table');
     let date_processed = await getUpdateReqData('processed-table',true);
     req.session.prev_url = req.originalUrl;
-    let locations_collapsible = require("../../testing_vew_data/locations_data_collapsible.json");
-    let req_update = require("../../testing_vew_data/req_update.json");
+    // let locations_collapsible = require("../../testing_vew_data/locations_data_collapsible.json");
+    // let req_update = require("../../testing_vew_data/req_update.json");
     navBarData.nav_link.forEach((link) => {
         link.active = false;
     });
