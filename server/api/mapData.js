@@ -68,7 +68,7 @@ async function getAdPlaceGeoJson(delegation = "", areaLevel = "") {
                 [Sequelize.literal('place.id'), 'placeid'],
                 [Sequelize.literal("'ad'"), 'category'],
                 [Sequelize.literal('FALSE'), 'isReported'],
-                [Sequelize.literal("CASE WHEN (SELECT COUNT(*) FROM ad_contents ac WHERE ac.ad_place_id = ad_place.id) > 0 THEN 'ad' ELSE 'ad-none' END"), 'icon'],
+                [Sequelize.literal("CASE WHEN ad_place.status = true THEN 'ad' ELSE 'ad-none' END"), 'icon'],
                 [Sequelize.literal("CASE WHEN ad_place.status = true THEN 'active' ELSE 'inactive' END"), 'status'],
                 [Sequelize.literal('ad_place.id'), 'dataid'],
                 [Sequelize.literal("CASE WHEN ad_place.status = true THEN 'Đã quy hoạch' ELSE 'Chưa quy hoạch' END"), 'status_VN'],
