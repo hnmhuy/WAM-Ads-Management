@@ -20,6 +20,7 @@ controller.show = (req, res) => {
     };
     res.render("department/dashboard", {
         layout: "department_layout",
+        tabTitle: "THỐNG KÊ",
         css: componentDependcy.css,
         swap: componentDependcy.swap,
         title: componentDependcy.title,
