@@ -130,15 +130,15 @@ function updateSolution(button) {
     solved.innerHTML = "Đã giải quyết"
 
     curRow[1].style.display = 'none';
-    let content = tinymce.get(buttonId).getContent().trim()
+    // let content = tinymce.get(buttonId).getContent().trim()
     let data = {
-        content: content,
+        content: targetTextarea.value,
     }
     const feedback_content = document.createElement('div');
     feedback_content.classList.add('feedback-info')
 
 
-    if (content != "") {
+    if (targetTextarea.value != "") {
         fetch('/api/report/createResponse', {
             method: 'POST',
             headers: {
