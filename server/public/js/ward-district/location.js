@@ -425,7 +425,6 @@ function createAdViewInfo(adsList) {
     </div>`
       item.parentNode.insertAdjacentHTML('beforeend', form);
       clearImgInputField('upload-img-file')
-      initTiny()
 
       let submit_ads = document.querySelector("#submit-request-ads")
       let popup_parent_ads = document.querySelector("#popup-parent-ads")
@@ -629,19 +628,7 @@ function createUpdateLocation(request_data, ad_place_id) {
       });
   },)
 }
-function initTiny() {
-  tinymce.init({
-    selector: "textarea", // Replace all textarea elements with TinyMCE
-    height: 300, // Set the height of the editor
-    plugins:
-      "lists",
-    toolbar:
-      "undo redo | formatselect | " +
-      "bold italic backcolor | alignleft aligncenter " +
-      "alignright alignjustify | bullist numlist outdent indent | " +
-      "removeformat | help",
-  });
-}
+
 function closeOffcanvas() {
   originalStyles = {}
   originalImg = {}
@@ -805,8 +792,6 @@ function closeOffcanvas() {
 `
 
   document.querySelector('.tmp-pop-up').innerHTML = html;
-
-  initTiny()
 }
 
 function handlePopUp(button) {
@@ -926,7 +911,6 @@ function handlePopUp(button) {
       </div>`
         show_popup.parentNode.insertAdjacentHTML('beforeend', html);
         clearImgInputField('upload-img-file')
-        initTiny()
         showPopup()
         createUpdateLocation(resquest_data, buttonId)
       })

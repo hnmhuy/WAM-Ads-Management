@@ -14,7 +14,107 @@ sidebar.addEventListener("mouseenter", () => {
 sidebar.addEventListener("mouseleave", () => {
     sidebar.classList.remove("open");
 });
+async function showAdDetail(e) {
+    let id = e.getAttribute("detail-id").split("_")[1];
 
+    const adDetail = document.querySelector(".ad-detail");
+    const carousel = adDetail.querySelector(".carousel-swipe")
+    carousel.innerHTML = `<p class="title">Hình ảnh quảng cáo</p>`
+    let data = await fetch(`http://localhost:4000/api/ad_content/getOne?id=${id}`).then(res => res.json());
+    generateAdDetail(adDetail, data.data, carousel)
+    const overlay = document.querySelector(".overlay");
+    adDetail.classList.remove("hidden");
+    adDetail.classList.add("ad-detail-float");
+    overlay.classList.remove("hidden");
+}
+
+function closeAdDetail() {
+    const adDetail = document.querySelector(".ad-detail");
+    const overlay = document.querySelector(".overlay");
+    adDetail.classList.add("hidden");
+    overlay.classList.add("hidden");
+}
+
+function generateAdDetail(container, data, carousel) {
+    let companyName = container.querySelector("#ad-name");
+    let formatAddress = container.querySelector("#detail-format-address");
+    let purpose = container.querySelector("#purpose");
+    let typeAd = container.querySelector("#type-ad");
+    let start = container.querySelector("#start");
+    let end = container.querySelector("#end");
+    let infoCol2 = container.querySelector(".info-col2")
+    let startDate = formatDate(data.start);
+    let endDate = formatDate(data.end);
+    let locationType = container.querySelector("#type-location");
+
+    let feedbackDiv = document.createElement("div");
+    feedbackDiv.classList.add("info2");
+    feedbackDiv.innerHTML = `
+    <p class="title">Phản hồi thông tin</p>
+    <button type="button" class="btn btn-primary feedback-button" ad-content-id="${data.id} onclick="openFeedbackForm(this)">
+      <i class="bi bi-send-fill"></i> Phản hồi
+    </button>
+  `
+    infoCol2.appendChild(feedbackDiv);
+
+    let imgArr = generateImg(data.image1, data.image2);
+
+    //generate swiper container
+    let carouselDiv = document.createElement("div");
+    carouselDiv.classList.add("swiper-container")
+
+    if (imgArr.length === 0) {
+        carouselDiv.innerHTML = 'Chưa có hình ảnh cho bảng quảng cáo này.'
+    }
+    else if (imgArr.length === 1) {
+        carouselDiv.innerHTML = `
+      
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <img
+          src="http://localhost:4000/${imgArr[0]}"
+          alt="pic"
+        />
+      </div>
+    </div>
+    <div class="swiper-pagination"></div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+    `
+    }
+    else if (imgArr.length === 2) {
+        carouselDiv.innerHTML = `
+      
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <img
+          src="http://localhost:4000/${imgArr[0]}"
+          alt="pic"
+        />
+      </div>
+      <div class="swiper-slide">
+        <img
+          src="http://localhost:4000/${imgArr[1]}"
+          alt="pic"
+        />
+      </div>
+    </div>
+    <div class="swiper-pagination"></div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+    `
+    }
+
+    carousel.appendChild(carouselDiv);
+    companyName.textContent = data.company_name;
+    formatAddress.textContent = `${data.ad_place.place.address_formated}, ${data.ad_place.place.area.formatedName}`
+    purpose.textContent = data.purpose;
+    typeAd.textContent = data.category.name;
+    start.textContent = startDate;
+    end.textContent = endDate;
+    locationType.textContent = data.location;
+
+}
 function newAdMarkerElement(data) {
     let status = data.properties.status;
     let feedbackAmount = data.properties.number_feedback;
@@ -572,11 +672,12 @@ function closeAllSidePeek() {
 
 async function openSidePeek(data) {
     console.log("DTA: ", data);
-
     closeAllSidePeek();
     let category = data.category;
     let status = data.status;
     let isReported = data.isReported;
+    let sampleData = JSON.parse(data.detail);
+
 
     if (category === 'ad') {
         let sidepeek = status === 'active' ? adSidePeek : noAdSidePeek;
@@ -584,14 +685,47 @@ async function openSidePeek(data) {
         sidepeek.className = 'sidepeek-container';
         sidepeek.classList.add(`${isReported ? 'sticky-left' : 'float'}`);
         let adContentContainer = sidepeek.querySelector(".ad-content");
+        let locationContent = sidepeek.querySelector(".location-content");
+        locationContent.innerHTML =
+            `
+        <div>
+        <p class="title">Số lượng bảng (bảng/vị trí)</p>
+        <p class="content-field" id="capacity"></p>
+      </div>
+      <div>
+        <p class="title">Hình thức quảng cáo</p>
+        <p class="content-field" id="purpose"></p>
+      </div>
+      <div>
+        <p class="title">Loại vị trí</p>
+        <p class="content-field" id="type-location">
+        </p>
+      </div>
+        `
         adContentContainer.innerHTML = "";
-        let dataAd = await fetch(`/api/ad_place/getOne?id=${JSON.parse(data.detail).dataid}&includeAdContent=true`).then(res => res.json());
-        generateSidepeekAd(sidepeek, dataAd);
+        let adId = JSON.parse(data.detail).dataid;
+        // console.log("THIS IS DTAA DETAIL:", JSON.parse(data.detail));
+        // console.log("THIS IS ID:", adId);
+        let dataAdPlace = await fetch(`http://localhost:4000/api/ad_place/getOne?id=${adId}&includeAdContent=true`).then(res => res.json());
+        // console.log("THISS IS DATA PLACE: ", dataAdPlace );
+        // let dataAdPlace = await fetch(`http://localhost:4000/api/ad_place/getOne?id=e295a4ee-5591-4270-9c7f-922b33fb7d72&includeAdContent=true`).then(res => res.json());
+        generateSidepeekAd(sidepeek, dataAdPlace, sampleData);
 
     } else if (category === 'fb') {
         fbDetail.querySelector('.header .bi-chevron-double-left').onclick = closeFeedbackDetail
         fbDetail.className = 'feedbackDetail-container';
         fbDetail.classList.add('float');
+        let content = fbDetail.querySelector("#feedback-content");
+        let locationImgDiv = fbDetail.querySelector(".location-img");
+        locationImgDiv.innerHTML = `<p>Hình ảnh đính kèm</p>`
+
+        // let status = fbDetail.querySelector("#status");
+        content.innerHTML = "";
+        // status.innerHTML = `<p class="title">Trạng thái phản hồi</p>`
+        let fbId = JSON.parse(data.detail).dataid;
+        let fbData = await fetch(`http://localhost:4000/api/feedback/getFeedback?id=${fbId}`).then(res => res.json());
+        generateFeedbackSidepeek(fbDetail, fbData, sampleData)
+
     }
 
 
@@ -785,6 +919,15 @@ function generateAdCard(sidepeek, data) {
         `
     cardContainer.appendChild(generateCarousel(data, data.image1, data.image2));
 
+    let buttonDiv = document.createElement("div");
+    buttonDiv.classList.add("button-container");
+    buttonDiv.innerHTML = `
+    <button type="button" class="btn btn-primary detail-button" detail-id="${data.id}" onclick="showAdDetail(this)">
+        <i class="bi bi-info-circle"></i> Chi tiết
+    </button>
+
+    `
+    cardContainer.appendChild(buttonDiv);
 
     return cardContainer;
 
@@ -817,5 +960,39 @@ function formatDate(inputDate) {
 
     const formattedDate = `Ngày ${day} tháng ${month} năm ${year}`;
     return formattedDate;
+}
+
+function generateFeedbackSidepeek(fbDetail, data, sampleData) {
+    let locationImgDiv = fbDetail.querySelector(".location-img");
+    let formatAddress = fbDetail.querySelector("#format-address");
+    let fbType = fbDetail.querySelector("#feedbackType");
+    let time = fbDetail.querySelector("#feedback-time");
+    let name = fbDetail.querySelector("#name");
+    let email = fbDetail.querySelector("#email");
+    let phoneNumber = fbDetail.querySelector("#phone-number");
+    let content = fbDetail.querySelector("#feedback-content");
+    let status = fbDetail.querySelector(".detail-feedback-status");
+    let statusIcon = status.querySelector(".status-icon-shadow");
+    let statusIconPoint = status.querySelector(".satus-icon-point");
+    let statusText = status.querySelector(".detail-feedback-status-text");
+
+    status.className = `detail-feedback-status ${sampleData.status}-shadow`
+    statusIcon.className = `status-icon-shadow animate-flicker ${sampleData.status}-shadow`
+    statusIconPoint.className = `satus-icon-point ${sampleData.status}`
+    statusText.textContent = sampleData.status_VN;
+
+    locationImgDiv.appendChild(generateCarousel(data, data.image1, data.image2));
+    formatAddress.textContent = `${data.place.address_formated}, ${data.place.area.formatedName}`;
+    fbType.textContent = sampleData.feedback_type_VN;
+    time.textContent = formatDate(data.createdAt, true);
+    name.textContent = data.name;
+    email.textContent = data.email;
+    phoneNumber.textContent = data.phone;
+    content.innerHTML =
+        `
+        ${data.content}
+    `
+
+
 }
 
