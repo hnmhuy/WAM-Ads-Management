@@ -264,6 +264,16 @@ controller.getFeedback = async (req, res) => {
 }
 
 
+controller.getFeedbackOfAdPlace = async(req, res)=>{
+    let {ad_place} = req.query;
+    let data = await models.sequelize.query('SELECT feedbacks.*, feedback_responses.content as response_content, accounts.first_name, accounts.last_name FROM feedbacks LEFT JOIN feedback_responses ON feedback_responses.id = feedbacks.response_id LEFT JOIN accounts ON accounts.id = feedback_responses.officer WHERE feedbacks.place_id = $1',
+    { 
+        bind: [ad_place], 
+        type: models.Sequelize.QueryTypes.SELECT 
+    });
+    res.json(data);
+}
+
 // controller.getResponse = async (req, res) =>
 // {
 //     let {id} = req.query;

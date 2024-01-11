@@ -16,14 +16,13 @@ controller.showIndex = (req, res) => {
 };
 
 controller.showLogin = async (req, res) => {
-  // let reqUrl = req.query.reqUrl ? req.query.reqUrl : "/";
-  let reqUrl;
+  let reqUrl = req.query.reqUrl;
   if(req.session.user){
     if(req.session.user.areaLevel == 1 || req.session.user.areaLevel == 2){
-      reqUrl = req.body.reqUrl ? req.body.reqUrl : "/home";
+      reqUrl = reqUrl ? reqUrl : "/home";
     }
     else if(req.session.user.areaLevel == 0){
-      reqUrl = req.body.reqUrl ? req.body.reqUrl : "/dashboard";
+      reqUrl = reqUrl ? reqUrl : "/dashboard";
     }
     return res.redirect(reqUrl);
   }
@@ -36,6 +35,7 @@ controller.showLogin = async (req, res) => {
 };
 
 controller.login = async (req, res) => {
+  console.log(req.body)
   let { email, password, rememberMe } = req.body;
   if(!email || !password){
     return res.render("partials/login", {
@@ -71,9 +71,7 @@ controller.login = async (req, res) => {
         else if(user.areaLevel == 0){
           reqUrl = req.body.reqUrl ? req.body.reqUrl : "/dashboard";
         }
-
         req.session.user = user;
-        console.log(req.session.user);
         if(rememberMe){
           res.cookie("email", email, {
             maxAge: 60 * 60 * 1000,

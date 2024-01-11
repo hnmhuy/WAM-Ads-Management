@@ -62,7 +62,7 @@ controller.createRequest = async(req, res, next)=>{
             start: startDate,
             end: endDate,
             image1: img[0] ? img[0].path : null,
-            image2: img[1] ? img[0].path : null,
+            image2: img[1] ? img[1].path : null,
             ad_place_id: locationId,
             ad_type: adTypeId,
         });
