@@ -16,8 +16,14 @@ controller.showIndex = (req, res) => {
 };
 
 controller.showLogin = async (req, res) => {
-  let reqUrl = req.query.reqUrl ? req.query.reqUrl : "/";
+  let reqUrl = req.query.reqUrl;
   if(req.session.user){
+    if(req.session.user.areaLevel == 1 || req.session.user.areaLevel == 2){
+      reqUrl = reqUrl ? reqUrl : "/home";
+    }
+    else if(req.session.user.areaLevel == 0){
+      reqUrl = reqUrl ? reqUrl : "/dashboard";
+    }
     return res.redirect(reqUrl);
   }
   res.render("partials/login", { 
@@ -65,7 +71,6 @@ controller.login = async (req, res) => {
         else if(user.areaLevel == 0){
           reqUrl = req.body.reqUrl ? req.body.reqUrl : "/dashboard";
         }
-
         req.session.user = user;
         if(rememberMe){
           res.cookie("email", email, {
