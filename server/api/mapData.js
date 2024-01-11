@@ -178,8 +178,6 @@ async function getFeedbackGeoJson(delegation = "", areaLevel = "") {
     }
 }
 
-
-
 controller.get = async (req, res) => {
     res.set({
         "Content-Type": "application/json",
@@ -221,6 +219,89 @@ controller.getData = async (req, res) => {
         success: true,
         data: toGeoJson(data)
     })
+}
+
+controller.getOnlyAd = async (req, res) => {
+    res.set({
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+    })
+    let adData = await getAdPlaceGeoJson();
+    let data = undefined;
+    if (adData.success) {
+        data = adData.data;
+    }
+    res.json({
+        success: true,
+        data: toGeoJson(data)
+    })
+}
+
+controller.restoreUserFeedback = async (req, res) => { 
+    res.set({
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+    })
+    let userFeedbacks = JSON.parse(req.body.feedbackList);
+    let randomFeedbacks = userFeedbacks.filter(item => item.type === 'random');
+    
+    // Convert randomFeedbacks to list of place_id
+    let randomPlaceIds = randomFeedbacks.map(item => item.place_id);
+
+    // Get the feedbacks randomly
+    let random = await models.feedback.findAll({
+        attributes: [
+            [Sequelize.literal('place.geometry'), 'geometry'],
+            [Sequelize.literal('TRUE'), 'isReported'],
+            [Sequelize.literal("'fb'"), 'category'],
+            [Sequelize.literal('place.id'), 'placeid'],
+            [Sequelize.literal('feedback.status'), 'status'],
+            [Sequelize.literal("case when feedback.status = 'sent' then 'Đã gửi' when feedback.status = 'done' then 'Đã xử lý' end"), 'status_VN'],
+            [Sequelize.literal("case when category.name = 'Đóng góp ý kiến' then 'feedback' when category.name = 'Tố giác sai phạm' then 'report' when category.name = 'Giải đáp thắc mắc' then 'question' when  category.name = 'Đăng ký nội dung' then 'registry' end"), 'feedback_type_EN'],
+            [Sequelize.literal('category.name'), 'feedback_type_VN'],
+            [Sequelize.literal('feedback.id'), 'dataid'],
+            [Sequelize.literal('place.geometry'), 'geometry'],
+        ],
+        include: [
+            {
+                model: models.place,
+                attributes: [],
+                include: [
+                    {
+                        model: models.area,
+                        where: {}
+                    }
+                ],
+                where: {}
+            },
+            { model: models.category, attributes: [] },
+        ],
+        where: {
+            place_id: {
+                [Op.in]: randomPlaceIds
+            }
+        },
+        raw: true
+    });
+    
+    // Finding the place id for content feedbacks
+    let contentIds = contentFeedbacks.map(item => item.ad_id);
+    let contentFeedbackPlaceIds = await models.ad_content.findAll({
+        include: [
+            {model: models.ad_place, attributes: ['place_id']}
+        ], 
+        where: {
+            id: {
+                [Op.in]: contentIds
+            }
+        },
+        attributes: []
+    })
+
+    // Merge to the contentFeedbacks list
+    contentFeedbackPlaceIds = contentFeedbackPlaceIds
+
+    res.json({message: "success", data: toGeoJson(random), temp: contentFeedbackPlaceIds});
 }
 
 module.exports = controller;
