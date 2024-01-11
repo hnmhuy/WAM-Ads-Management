@@ -19,6 +19,7 @@ controller.show = (req, res) => {
     };
     res.render("department/label", {
         layout: "department_layout",
+        tabTitle: "QUẢN LÝ DANH MỤC",
         jsHeader: componentDependcy.jsHeader,
         css: componentDependcy.css,
         title: componentDependcy.title,

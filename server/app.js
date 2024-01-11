@@ -150,6 +150,7 @@ app.get("/delegate", (req, res) => {
   };
   res.render("department/delegate", {
     layout: "department_layout",
+    tabTitle: "KHU VỰC HÀNH CHÍNH",
     css: componentDependcy.css,
     title: componentDependcy.title,
     nav_link: navBarData.nav_link,

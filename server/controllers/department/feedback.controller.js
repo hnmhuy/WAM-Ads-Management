@@ -20,6 +20,7 @@ controller.show = (req, res) => {
   };
   res.render("department/feedback", {
     layout: "department_layout",
+    tabTitle: "ĐƠN PHẢN ÁNH",
     css: componentDependcy.css,
     title: componentDependcy.title,
     nav_link: navBarData.nav_link,
