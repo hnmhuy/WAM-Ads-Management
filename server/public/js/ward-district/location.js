@@ -118,7 +118,6 @@ function hidePopupCreate(resquest_data = "", buttonId = "") {
   show_popup.removeEventListener('click', () => {
     showPopupCreate()
     clearImgInputField('upload-img-file-create')
-    createAdReq()
   })
 }
 
@@ -270,7 +269,7 @@ function updateAdReq(adItem) {
         if (data.status === 500) {
           Toastify({
             text: "Cập nhật thất bại",
-            duration: 3000,
+            duration: 2000,
             close: false,
             gravity: "bottom",
             position: "right",
@@ -280,12 +279,18 @@ function updateAdReq(adItem) {
               color: "#000"
             },
             onClick: function () { } // Callback after click
+
+
           }).showToast();
+
+          setTimeout(function () {
+            location.reload()
+          }, 3000);
         }
         else {
           Toastify({
             text: "Cập nhập thành công",
-            duration: 3000,
+            duration: 2000,
             close: false,
             gravity: "bottom",
             position: "right",
@@ -296,13 +301,17 @@ function updateAdReq(adItem) {
             },
             onClick: function () { } // Callback after click
           }).showToast();
+
+          setTimeout(function () {
+            location.reload()
+          }, 3000);
         }
       })
       .catch(error => {
         console.log("Error: ", error)
         Toastify({
           text: "Có lỗi xảy ra",
-          duration: 3000,
+          duration: 2000,
           close: false,
           gravity: "bottom",
           position: "right",
@@ -313,6 +322,10 @@ function updateAdReq(adItem) {
           },
           onClick: function () { } // Callback after click
         }).showToast();
+
+        setTimeout(function () {
+          location.reload()
+        }, 3000);
       });
   })
 }
@@ -405,7 +418,7 @@ function createAdViewInfo(adsList) {
         return ad.id == ad_id
       })
 
-      const form = `<div id="popup-parent-ads">
+      const form = `<div id="popup-parent-ads" style="z-index: 10">
       <img id="form-img-ads" src="/public/images/form.png" alt="" />
       <div class="popup-ads" id="location-popup-ads">
         <h2 style="margin-top: 60px">Yêu cầu chỉnh sửa</h2>
@@ -417,14 +430,14 @@ function createAdViewInfo(adsList) {
           <form action="#" class="edit-ad-form-officer">
           <div style="width: 100%; height: 200px">
           <div class="upload-field" id="upload-img-file-ad">
-            <label for="imgFile-for-ad" class="drag-drop" ondragover="dragoverHandler(event)"
+            <label for="imgFile" class="drag-drop" ondragover="dragoverHandler(event)"
               ondragleave="dragleaveHandler(event)" ondrop="dropHandler(event)">
               <div class="holder">
                 <i class="bi bi-cloud-arrow-up-fill"></i>
                 <h4>Kéo và thả ảnh vào đây</h4> hoặc Click để duyệt file
               </div>
             </label>
-            <input type="file" name="imgFile" id="imgFile-for-ad" accept=".png, .jpeg, .gif, .jpg"
+            <input type="file" name="imgFile" id="imgFile" accept=".png, .jpeg, .gif, .jpg"
               multiple hidden onchange="inputChangeHandler(event)">
             <div class="preview" style="display: none;">
             </div>
@@ -636,7 +649,7 @@ function createUpdateLocation(request_data, ad_place_id) {
         if (data.status === 500) {
           Toastify({
             text: "Cập nhật thất bại",
-            duration: 3000,
+            duration: 2000,
             close: false,
             gravity: "bottom",
             position: "right",
@@ -651,7 +664,7 @@ function createUpdateLocation(request_data, ad_place_id) {
         else {
           Toastify({
             text: "Cập nhập thành công",
-            duration: 3000,
+            duration: 2000,
             close: false,
             gravity: "bottom",
             position: "right",
@@ -662,13 +675,17 @@ function createUpdateLocation(request_data, ad_place_id) {
             },
             onClick: function () { } // Callback after click
           }).showToast();
+
+          setTimeout(function () {
+            location.reload()
+          }, 3000);
         }
       })
       .catch(error => {
         console.log("Error: ", error)
         Toastify({
           text: "Có lỗi xảy ra",
-          duration: 3000,
+          duration: 2000,
           close: false,
           gravity: "bottom",
           position: "right",
@@ -679,6 +696,10 @@ function createUpdateLocation(request_data, ad_place_id) {
           },
           onClick: function () { } // Callback after click
         }).showToast();
+
+        setTimeout(function () {
+          location.reload()
+        }, 3000);
       });
   },)
 }
@@ -702,7 +723,7 @@ function createAdContentAndRequest(dataCreate) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(req),
-      })
+      }).then(d => console.log(d))
     })
 
 }
@@ -766,7 +787,7 @@ function createAdReq(ad_place_id) {
     if (start >= end) {
       Toastify({
         text: "Ngày bắt đầu phải nhỏ hơn ngày kết thúc",
-        duration: 3000,
+        duration: 2000,
         close: false,
         gravity: "bottom",
         position: "right",
@@ -793,7 +814,7 @@ function createAdReq(ad_place_id) {
 
           let dataCreate = {
             companyName: data.others.inputName,
-            companyAdress: data.others.address,
+            companyAddress: data.others.address,
             companyEmail: data.others.email,
             width: data.others.width,
             height: data.others.height,
@@ -808,11 +829,70 @@ function createAdReq(ad_place_id) {
           console.log(dataCreate)
           createAdContentAndRequest(dataCreate)
 
+          if (data.status === 500) {
+            Toastify({
+              text: "Cập nhật thất bại",
+              duration: 2000,
+              close: false,
+              gravity: "bottom",
+              position: "right",
+              stopOnFocus: true,
+              style: {
+                background: "#FF6969",
+                color: "#000"
+              },
+              onClick: function () { } // Callback after click
+            }).showToast();
+
+            // setTimeout(function () {
+            //   location.reload()
+            // }, 3000);
+          }
+          else {
+            Toastify({
+              text: "Cập nhập thành công",
+              duration: 2000,
+              close: false,
+              gravity: "bottom",
+              position: "right",
+              stopOnFocus: true,
+              style: {
+                background: "#C1F2B0",
+                color: "#000"
+              },
+              onClick: function () { } // Callback after click
+            }).showToast();
+
+            // setTimeout(function () {
+            //   location.reload()
+            // }, 3000);
+          }
+
+        })
+        .catch(err => {
+          Toastify({
+            text: "Cập nhật thất bại",
+            duration: 2000,
+            close: false,
+            gravity: "bottom",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+              background: "#FF6969",
+              color: "#000"
+            },
+            onClick: function () { } // Callback after click
+          }).showToast();
+
+          setTimeout(function () {
+            location.reload()
+          }, 3000);
         })
     }
 
   })
 }
+
 function closeOffcanvas() {
   originalStyles = {}
   originalImg = {}
@@ -886,11 +966,11 @@ function closeOffcanvas() {
           </table>
         </div>
 
-        <div class="d-flex justify-content-end w-100 align-item">
+        <div class="d-flex justify-content-end w-100 align-item m-1">
   <div class="btn btn-outline-secondary" id="showPopUpCreate">
     <i class="bi bi-pencil-square"></i> Yêu cầu cấp phép
   </div>
-  <div id="popup-parent-create">
+  <div id="popup-parent-create" style="z-index: 10">
   <img id="form-img-create" src="/public/images/form.png" alt="" />
   <div class="popup-create" id="location-popup-create">
     <h2 style="margin-top: 60px">Yêu cầu cấp phép</h2>
@@ -1035,9 +1115,9 @@ function closeOffcanvas() {
       </div>
 
       <div style="width: 100%; height: 200px">
-        <div class="upload-field" id="upload-img-file">
+        <div class="upload-field" id="upload-img-file-create">
           <label
-            for="imgFile-for-create"
+            for="imgFile"
             class="drag-drop"
             ondragover="dragoverHandler(event)"
             ondragleave="dragleaveHandler(event)"
@@ -1052,7 +1132,7 @@ function closeOffcanvas() {
           <input
             type="file"
             name="imgFile"
-            id="imgFile-for-create"
+            id="imgFile"
             accept=".png, .jpeg, .gif, .jpg"
             multiple
             hidden
@@ -1082,11 +1162,11 @@ function closeOffcanvas() {
 </div>
 
 
-        <div class="d-flex justify-content-end w-100 align-item">
+        <div class="d-flex justify-content-end w-100 align-item m-1">
           <div class="btn btn-outline-secondary" id="showPopUp">
             <i class="bi bi-pencil-square"></i> Yêu cầu chỉnh sửa
           </div>
-          <div id="popup-parent">
+          <div id="popup-parent" style="z-index: 10">
             <img id="form-img" src="/public/images/form.png" alt="" />
             <div class="popup" id="location-popup">
               <h2 style="margin-top: 60px">Yêu cầu chỉnh sửa</h2>
@@ -1119,14 +1199,14 @@ function closeOffcanvas() {
                   </div>
                   <div style="width: 100%; height: 200px">
                     <div class="upload-field" id="upload-img-file">
-                      <label for="imgFile-for-create" class="drag-drop" ondragover="dragoverHandler(event)"
+                      <label for="imgFilee" class="drag-drop" ondragover="dragoverHandler(event)"
                         ondragleave="dragleaveHandler(event)" ondrop="dropHandler(event)">
                         <div class="holder">
                           <i class="bi bi-cloud-arrow-up-fill"></i>
                           <h4>Kéo và thả ảnh vào đây</h4> hoặc Click để duyệt file
                         </div>
                       </label>
-                      <input type="file" name="imgFile" id="imgFile-for-create" accept=".png, .jpeg, .gif, .jpg"
+                      <input type="file" name="imgFile" id="imgFile" accept=".png, .jpeg, .gif, .jpg"
                         multiple hidden onchange="inputChangeHandler(event)">
                       <div class="preview" style="display: none;">
                       </div>
@@ -1218,7 +1298,7 @@ function handlePopUp(button) {
 
 
       show_popup.addEventListener('click', () => {
-        const html = `<div id="popup-parent">
+        const html = `<div id="popup-parent" style="z-index: 10">
         <img id="form-img" src="/public/images/form.png" alt="" />
         <div class="popup" id="location-popup">
           <h2 style="margin-top: 60px">Yêu cầu chỉnh sửa</h2>
@@ -1251,14 +1331,14 @@ function handlePopUp(button) {
               </div>
               <div style="width: 100%; height: 200px">
                 <div class="upload-field" id="upload-img-file">
-                  <label for="imgFile-for-create" class="drag-drop" ondragover="dragoverHandler(event)"
+                  <label for="imgFile" class="drag-drop" ondragover="dragoverHandler(event)"
                     ondragleave="dragleaveHandler(event)" ondrop="dropHandler(event)">
                     <div class="holder">
                       <i class="bi bi-cloud-arrow-up-fill"></i>
                       <h4>Kéo và thả ảnh vào đây</h4> hoặc Click để duyệt file
                     </div>
                   </label>
-                  <input type="file" name="imgFile" id="imgFile-for-create" accept=".png, .jpeg, .gif, .jpg"
+                  <input type="file" name="imgFile" id="imgFile" accept=".png, .jpeg, .gif, .jpg"
                     multiple hidden onchange="inputChangeHandler(event)">
                   <div class="preview" style="display: none;">
                   </div>
@@ -1299,7 +1379,7 @@ function handlePopUp(button) {
 
 
       show_popup_create.addEventListener('click', () => {
-        const html = `<div id="popup-parent-create">
+        const html = `<div id="popup-parent-create" style="z-index: 10">
         <img id="form-img-create" src="/public/images/form.png" alt="" />
         <div class="popup-create" id="location-popup-create">
           <h2 style="margin-top: 60px">Yêu cầu cấp phép</h2>
@@ -1445,9 +1525,9 @@ function handlePopUp(button) {
             </div>
       
             <div style="width: 100%; height: 200px">
-              <div class="upload-field" id="upload-img-file">
+              <div class="upload-field" id="upload-img-file-create">
                 <label
-                  for="imgFile-for-create"
+                  for="imgFile"
                   class="drag-drop"
                   ondragover="dragoverHandler(event)"
                   ondragleave="dragleaveHandler(event)"
@@ -1462,7 +1542,7 @@ function handlePopUp(button) {
                 <input
                   type="file"
                   name="imgFile"
-                  id="imgFile-for-create"
+                  id="imgFile"
                   accept=".png, .jpeg, .gif, .jpg"
                   multiple
                   hidden
