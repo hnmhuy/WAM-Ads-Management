@@ -255,11 +255,12 @@ controller.getFeedback = async (req, res) => {
     else
     {
         await models.feedback.findOne({
-            attributes:['id','name', 'email', 'phone', 'content', 'image1', 'image2', 'createdAt',
+            attributes:['id','name', 'email', 'phone', 'content', 'image1', 'image2', 'createdAt','response_id',
             [Sequelize.literal('feedback.status'), 'status'],
             [Sequelize.literal("case when feedback.status = 'sent' then 'Đã gửi' when feedback.status = 'done' then 'Đã xử lý' end"), 'status_VN'],
             [Sequelize.literal("case when category.name = 'Đóng góp ý kiến' then 'feedback' when category.name = 'Tố giác sai phạm' then 'report' when category.name = 'Giải đáp thắc mắc' then 'question' when  category.name = 'Đăng ký nội dung' then 'registry' end"), 'feedback_type_EN'],
-            [Sequelize.literal('category.name'), 'feedback_type_VN'],    
+            [Sequelize.literal('category.name'), 'feedback_type_VN'],
+                
         ],
             where: {id: id}, 
             include: [

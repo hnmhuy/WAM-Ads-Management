@@ -348,7 +348,7 @@ function generateFeedbackDetail(data)
   content[0].textContent = data.name;
   content[1].textContent = data.phone;
   content[2].textContent = data.email;
-  content[3].textContent = data.category.name;
+  content[3].textContent = data.feedback_type_VN;
   description.innerHTML = data.content;
   imgDiv.innerHTML ="";
   if(!data.image1 && !data.image2)

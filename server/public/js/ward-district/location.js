@@ -757,7 +757,7 @@ function createAdReq(ad_place_id) {
 
   const locationType = {}
   const location_type_selection = document.getElementById('location-type-selection');
-  fetch(`/api/category/getCategory?fieldId=T1`)
+  fetch(`/api/category/getCategory?fieldId=T2`)
     .then(res => res.json())
     .then(res => {
       while (location_type_selection.firstChild) {
@@ -844,9 +844,9 @@ function createAdReq(ad_place_id) {
               onClick: function () { } // Callback after click
             }).showToast();
 
-            // setTimeout(function () {
-            //   location.reload()
-            // }, 3000);
+            setTimeout(function () {
+              location.reload()
+            }, 3000);
           }
           else {
             Toastify({
@@ -863,9 +863,9 @@ function createAdReq(ad_place_id) {
               onClick: function () { } // Callback after click
             }).showToast();
 
-            // setTimeout(function () {
-            //   location.reload()
-            // }, 3000);
+            setTimeout(function () {
+              location.reload()
+            }, 3000);
           }
 
         })
