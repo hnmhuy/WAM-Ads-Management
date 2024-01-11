@@ -161,6 +161,7 @@ controller.showUpdate = async (req, res) => {
     };
     res.render("department/update", {
         layout: "department_layout",
+        tabTitle: "QUẢN LÝ QUẢNG CÁO",
         jsHeader: componentDependcy.jsHeader,
         css: componentDependcy.css,
         swap: componentDependcy.swap,

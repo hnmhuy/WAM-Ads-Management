@@ -87,7 +87,9 @@ controller.update = async (req, res) => {
             width: width,
             height: height,
             start: start,
-            end: end
+            end: end,
+            image1: req.files[0] ? req.files[0].filename : null,
+            image2: req.files[1] ? req.files[1].filename : null,
         }, {
             where: {
                 id: id

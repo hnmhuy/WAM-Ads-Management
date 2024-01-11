@@ -394,6 +394,8 @@ controller.updateAdPlace = async (req, res) => {
                 location_type: newAdPlaceData.location_type,
                 purpose: newAdPlaceData.purpose,
                 status: newAdPlaceData.status,
+                image1: req.files[0] ? req.files[0].path : null,
+                image2: req.files[1] ? req.files[1].path : null,
             }, {
                 where: {
                     id: req.body.id
