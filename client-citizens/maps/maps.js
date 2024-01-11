@@ -148,7 +148,7 @@ const iconName = ['ad', 'ad-none', 'adReported-none', 'adReported', 'fb-feedback
 
 map.on('load', async () => {
     console.log("Loading data");
-    let response = await fetch("http://localhost:4000/api/mapData/getOnlyAd");
+    let response = await fetch("https://wam-ssqw.onrender.com/api/mapData/getOnlyAd");
     response = await response.json();
     if(response.success) {
         console.log("Data loaded");
@@ -183,7 +183,7 @@ export async function getFeedbackGeoJson(feedbackList)
 {
     let fd = new FormData();
     fd.append("feedbackList", JSON.stringify(feedbackList));
-    let response = await fetch("http://localhost:4000/api/mapData/restoreUserFeedback", {
+    let response = await fetch("https://wam-ssqw.onrender.com/api/mapData/restoreUserFeedback", {
         method: "POST",
         body: fd
     });

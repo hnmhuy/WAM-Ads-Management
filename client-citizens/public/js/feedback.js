@@ -101,7 +101,7 @@ form.addEventListener("submit", async (e) => {
   
   const params = new URLSearchParams(fd);
 
-  const res = await fetch("http://localhost:4000/api/feedback/reCaptcha", {
+  const res = await fetch("https://wam-ssqw.onrender.com/api/feedback/reCaptcha", {
     method: "POST",
     body: params,
   })
@@ -109,7 +109,7 @@ form.addEventListener("submit", async (e) => {
 
   if (data.captchaSuccess && content) {
     try {
-      const res1 = await fetch("http://localhost:4000/api/feedback/sendFeedback", {
+      const res1 = await fetch("https://wam-ssqw.onrender.com/api/feedback/sendFeedback", {
         method: 'POST',
         body: fd, // Convert the object to a JSON string
       });
@@ -140,7 +140,7 @@ form.addEventListener("submit", async (e) => {
 
 
 document.addEventListener("DOMContentLoaded", () =>{
-fetch("http://localhost:4000/api/category/getCategory?fieldId=T4").then((res) => res.json()).then((data) => {
+fetch("https://wam-ssqw.onrender.com/api/category/getCategory?fieldId=T4").then((res) => res.json()).then((data) => {
   data.data.forEach((item) => {
     generateOptions(item);
   })
@@ -204,7 +204,7 @@ function storeFeedbackData(data) {
 // {
 //     let fd = new FormData();
 //     fd.append("feedbackList", JSON.stringify(feedbackList));
-//     let response = await fetch("http://localhost:4000/api/mapData/restoreUserFeedback", {
+//     let response = await fetch("https://wam-ssqw.onrender.com/api/mapData/restoreUserFeedback", {
 //         method: "POST",
 //         body: fd
 //     });

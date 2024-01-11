@@ -246,7 +246,7 @@ async function openFeedbackForm(e) {
   let flag = true;
   if(e.hasAttribute("ward-name")) {
     let wardName = e.getAttribute("ward-name");
-    let response = await fetch(`http://localhost:4000/api/feedback/verifyPlace?ward=${wardName}`)
+    let response = await fetch(`https://wam-ssqw.onrender.com/api/feedback/verifyPlace?ward=${wardName}`)
     response = await response.json();
     flag = response.success;
   }
@@ -336,7 +336,7 @@ async function openFeedbackDetail(e) {
   content.innerHTML = "";
   // status.innerHTML = `<p class="title">Trạng thái phản hồi</p>`
   let fbId = e.getAttribute("ad-place-id");
-  let fbData = await fetch(`http://localhost:4000/api/feedback/getFeedback?id=${fbId}`).then(res => res.json());
+  let fbData = await fetch(`https://wam-ssqw.onrender.com/api/feedback/getFeedback?id=${fbId}`).then(res => res.json());
   let sampleData = {}
   sampleData.status = fbData.status;
   sampleData.status_VN = fbData.status_VN;
@@ -440,7 +440,7 @@ function generateCarousel(data, image1, image2)
         carouselInner.innerHTML = `
         <div class="carousel-item active">
         <img
-        src="http://localhost:4000/${imgArr[0]}"
+        src="https://wam-ssqw.onrender.com/${imgArr[0]}"
         class="w-100 d-block"
         alt="First slide"
         style="width:371px; height:208px"
@@ -468,7 +468,7 @@ function generateCarousel(data, image1, image2)
         carouselInner.innerHTML = `
         <div class="carousel-item active">
         <img
-            src="http://localhost:4000/${imgArr[0]}"
+            src="https://wam-ssqw.onrender.com/${imgArr[0]}"
             class="w-100 d-block"
             alt="First slide"
             style="width:371px; height:208px"
@@ -476,7 +476,7 @@ function generateCarousel(data, image1, image2)
         </div>
         <div class="carousel-item">
         <img
-            src="http://localhost:4000/${imgArr[1]}"
+            src="https://wam-ssqw.onrender.com/${imgArr[1]}"
             class="w-100 d-block"
             alt="Second slide"
             style="width:371px; height:208px"
@@ -510,7 +510,7 @@ async function showAdDetail(e) {
   <p class="content" id="type-ad"></p>
 </div>
   `
-  let data = await fetch(`http://localhost:4000/api/ad_content/getOne?id=${id}`).then(res => res.json());
+  let data = await fetch(`https://wam-ssqw.onrender.com/api/ad_content/getOne?id=${id}`).then(res => res.json());
   generateAdDetail(adDetail, data.data, carousel)
   const overlay = document.querySelector(".overlay");
   adDetail.classList.remove("hidden");
@@ -566,7 +566,7 @@ function generateAdDetail(container, data, carousel)
     <div class="swiper-wrapper">
       <div class="swiper-slide">
         <img
-          src="http://localhost:4000/${imgArr[0]}"
+          src="https://wam-ssqw.onrender.com/${imgArr[0]}"
           alt="pic"
         />
       </div>
@@ -583,13 +583,13 @@ function generateAdDetail(container, data, carousel)
     <div class="swiper-wrapper">
       <div class="swiper-slide">
         <img
-          src="http://localhost:4000/${imgArr[0]}"
+          src="https://wam-ssqw.onrender.com/${imgArr[0]}"
           alt="pic"
         />
       </div>
       <div class="swiper-slide">
         <img
-          src="http://localhost:4000/${imgArr[1]}"
+          src="https://wam-ssqw.onrender.com/${imgArr[1]}"
           alt="pic"
         />
       </div>
