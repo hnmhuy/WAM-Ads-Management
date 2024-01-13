@@ -116,11 +116,11 @@ controller.show = async (req, res) => {
             }
          );
          console.log(wards);
-         res.render('district/permission', { layout: 'district_layout', data: data, wards: wards});
+         res.render('district/permission', { layout: 'district_layout', data: data, wards: wards, token: process.env.mapbox_token });
         //  res.render('district/permission', { layout: 'district_layout', wards: wards});
     } else {
         console.log(data);
-        res.render('district/permission', { layout: 'district_layout', data: data});
+        res.render('district/permission', { layout: 'district_layout', data: data, token: process.env.mapbox_token });
     }
 }
 
