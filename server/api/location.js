@@ -3,165 +3,164 @@
 const controller = {}
 const models = require('../models');
 
+// controller.createTypeAndPurpose = async (req, res) => {
+//     // Type id
+//     let data_type_id = [
+//         {
+//             name: "Đất công/ Công viên/Hành lang an toàn giao thông",
+//             description: "Đất công/ Công viên/Hành lang an toàn giao thông",
+//         },
+//         {
+//             name: "Đất tư nhân/Nhà ở riêng lẻ",
+//             description: "Đất tư nhân/Nhà ở riêng lẻ",
+//         },
+//         {
+//             name: "Trung tâm thương mại",
+//             description: "Trung tâm thương mại",
+//         },
+//         {
+//             name: "Chợ",
+//             description: "Chợ",
+//         },
+//         {
+//             name: "Nhà chờ xe buýt",
+//             description: "Nhà chờ xe buýt",
+//         },
+//         {
+//             name: "Cây xăng",
+//             description: "Cây xăng",
+//         }
+//     ];
 
+//     let field_type_id = await models.field.findOne({
+//         attribute: ['id'],
+//         where: {
+//             name: "Vị trí"
+//         }
+//     }).then(result => result.id);
 
-controller.createTypeAndPurpose = async (req, res) => {
-    // Type id
-    let data_type_id = [
-        {
-            name: "Đất công/ Công viên/Hành lang an toàn giao thông",
-            description: "Đất công/ Công viên/Hành lang an toàn giao thông",
-        },
-        {
-            name: "Đất tư nhân/Nhà ở riêng lẻ",
-            description: "Đất tư nhân/Nhà ở riêng lẻ",
-        },
-        {
-            name: "Trung tâm thương mại",
-            description: "Trung tâm thương mại",
-        },
-        {
-            name: "Chợ",
-            description: "Chợ",
-        },
-        {
-            name: "Nhà chờ xe buýt",
-            description: "Nhà chờ xe buýt",
-        },
-        {
-            name: "Cây xăng",
-            description: "Cây xăng",
-        }
-    ];
+//     for (let i = 0; i < data_type_id.length; i++) {
+//         data_type_id[i].field_id = field_type_id;
+//         await models.category.create(data_type_id[i]);
+//     }
 
-    let field_type_id = await models.field.findOne({
-        attribute: ['id'],
-        where: {
-            name: "Vị trí"
-        }
-    }).then(result => result.id);
+//     // Purpose Id
 
-    for (let i = 0; i < data_type_id.length; i++) {
-        data_type_id[i].field_id = field_type_id;
-        await models.category.create(data_type_id[i]);
-    }
+//     let data_purpose_id = [
+//         {
+//             name: "Cổ động chính trị",
+//             description: "Cổ động chính trị",
+//         },
+//         {
+//             name: "Quảng cáo thương mại",
+//             description: "Quảng cáo thương mại",
+//         },
+//         {
+//             name: "Xã hội hóa",
+//             description: "Xã hội hóa",
+//         }
+//     ];
 
-    // Purpose Id
+//     let field_purpose_id = await models.field.findOne({
+//         attribute: ['id'],
+//         where: {
+//             name: "Mục đích"
+//         }
+//     }).then(result => result.id);
 
-    let data_purpose_id = [
-        {
-            name: "Cổ động chính trị",
-            description: "Cổ động chính trị",
-        },
-        {
-            name: "Quảng cáo thương mại",
-            description: "Quảng cáo thương mại",
-        },
-        {
-            name: "Xã hội hóa",
-            description: "Xã hội hóa",
-        }
-    ];
+//     for (let i = 0; i < data_purpose_id.length; i++) {
+//         data_purpose_id[i].field_id = field_purpose_id;
+//         await models.category.create(data_purpose_id[i]);
+//     }
 
-    let field_purpose_id = await models.field.findOne({
-        attribute: ['id'],
-        where: {
-            name: "Mục đích"
-        }
-    }).then(result => result.id);
+//     res.redirect("/api/location/createTypeAd");
+// };
 
-    for (let i = 0; i < data_purpose_id.length; i++) {
-        data_purpose_id[i].field_id = field_purpose_id;
-        await models.category.create(data_purpose_id[i]);
-    }
+// controller.createTypeAdContent = async (req, res) => {
+//     let data = [
+//         {
+//             name: "Trụ bảng hiflex",
+//             description: "Trụ bảng hiflex",
+//         },
+//         {
+//             name: "Trụ màn hình điện tử LED",
+//             description: "Trụ màn hình điện tử LED"
+//         },
+//         {
+//             name: "Trụ hộp đèn",
+//             description: "Trụ hộp đèn"
+//         },
+//         {
+//             name: "Bảng hiflex ốp tường",
+//             description: "Bảng hiflex ốp tường"
+//         },
+//         {
+//             name: "Trụ treo băng rôn dọc",
+//             description: "Trụ treo băng rôn ngang"
+//         },
+//         {
+//             name: "Trụ/Cụm pano",
+//             description: "Trụ/Cụm pano"
+//         },
+//         {
+//             name: "Cổng chào",
+//             description: "Cổng chào"
+//         },
+//         {
+//             name: "Trung tâm thương mại",
+//             description: "Trung tâm thương mại"
+//         },
+//     ]
 
-    res.redirect("/api/location/createTypeAd");
-};
+//     let type_id = await models.field.findOne({
+//         attribute: ['id'],
+//         where: {
+//             name: "Loại QC"
+//         }
+//     }).then(result => result.id);
 
-controller.createTypeAdContent = async (req, res) => {
-    let data = [
-        {
-            name: "Trụ bảng hiflex",
-            description: "Trụ bảng hiflex",
-        },
-        {
-            name: "Trụ màn hình điện tử LED",
-            description: "Trụ màn hình điện tử LED"
-        },
-        {
-            name: "Trụ hộp đèn",
-            description: "Trụ hộp đèn"
-        },
-        {
-            name: "Bảng hiflex ốp tường",
-            description: "Bảng hiflex ốp tường"
-        },
-        {
-            name: "Trụ treo băng rôn dọc",
-            description: "Trụ treo băng rôn ngang"
-        },
-        {
-            name: "Trụ/Cụm pano",
-            description: "Trụ/Cụm pano"
-        },
-        {
-            name: "Cổng chào",
-            description: "Cổng chào"
-        },
-        {
-            name: "Trung tâm thương mại",
-            description: "Trung tâm thương mại"
-        },
-    ]
+//     for (let i = 0; i < data.length; i++) {
+//         data[i].field_id = type_id;
+//         await models.category.create(data[i]);
+//     }
 
-    let type_id = await models.field.findOne({
-        attribute: ['id'],
-        where: {
-            name: "Loại QC"
-        }
-    }).then(result => result.id);
+//     res.redirect("/api/location/createFeedbackCategory");
+// }
 
-    for (let i = 0; i < data.length; i++) {
-        data[i].field_id = type_id;
-        await models.category.create(data[i]);
-    }
+// controller.createFeedbackCategory = async (req, res) => {
+//     let data = [
+//         {
+//             name: "Tố giác sai phạm",
+//             description: "Tố giác sai phạm"
+//         },
+//         {
+//             name: "Đóng góp ý kiến",
+//             description: "Đóng góp ý kiến"
+//         },
+//         {
+//             name: "Giải đáp thắc mắc",
+//             description: "Giải đáp thắc mắc"
+//         },
+//         {
+//             name: "Đăng ký nội dung",
+//             description: "Đăng ký nội dung"
+//         }
+//     ]
 
-    res.redirect("/api/location/createFeedbackCategory");
-}
+//     let type_id = await models.field.findOne({
+//         attribute: ['id'],
+//         where: {
+//             name: "Phản ánh"
+//         }
+//     }).then(result => result.id);
 
-controller.createFeedbackCategory = async (req, res) => {
-    let data = [
-        {
-            name: "Tố giác sai phạm",
-            description: "Tố giác sai phạm"
-        },
-        {
-            name: "Đóng góp ý kiến",
-            description: "Đóng góp ý kiến"
-        },
-        {
-            name: "Giải đáp thắc mắc",
-            description: "Giải đáp thắc mắc"
-        },
-        {
-            name: "Đăng ký nội dung",
-            description: "Đăng ký nội dung"
-        }
-    ]
+//     for (let i = 0; i < data.length; i++) {
+//         data[i].field_id = type_id;
+//         await models.category.create(data[i]);
+//     }
+//     res.send("Create successfully");
+// }
 
-    let type_id = await models.field.findOne({
-        attribute: ['id'],
-        where: {
-            name: "Phản ánh"
-        }
-    }).then(result => result.id);
-
-    for (let i = 0; i < data.length; i++) {
-        data[i].field_id = type_id;
-        await models.category.create(data[i]);
-    }
-    res.send("Create successfully");
-}
 controller.getLocations = (req, res) => {
     let delegation = req.query.delegation;
     models.ad_place.findAll({

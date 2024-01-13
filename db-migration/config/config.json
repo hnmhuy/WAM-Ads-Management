@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "m03H032003@",
+    "database": "wam",
+    "host": "localhost",
+    "dialect": "postgres",
+    "dialectOptions": {  }
+  },
+  "test": {
+    "username": "postgres",
+    "password": "m03H032003@",
+    "database": "wam",
+    "host": "localhost",
+    "dialect": "postgres",
+    "dialectOptions": {  }
+  },
+  "production": {
+    "username": "postgres",
+    "password": "m03H032003@",
+    "database": "wam",
+    "host": "localhost",
+    "dialect": "postgres",
+    "dialectOptions": {  }
+  }
+}

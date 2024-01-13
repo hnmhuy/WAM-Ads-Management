@@ -24,13 +24,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/public", express.static(path.join(__dirname, "public")));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// Restore the database
-app.get("/createTables", (req, res) => {
-  let models = require("./models");
-  models.sequelize.sync().then(() => {
-    res.redirect("/api/category/restoreField")
-  });
-});
+// // Restore the database
+// app.get("/createTables", (req, res) => {
+//   let models = require("./models");
+//   models.sequelize.sync().then(() => {
+//     res.redirect("/api/category/restoreField")
+//   });
+// });
 
 app.use(cookiesParser(process.env.cookie_secret));
 app.use(
