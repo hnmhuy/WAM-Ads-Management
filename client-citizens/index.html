@@ -60,7 +60,6 @@
 
     <script src="./public/js/sidepeek.js"></script>
     <script src="./public/js/upload-file.js""></script>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script
       src="https://cdn.tiny.cloud/1/z15wuwmhtc8coizy33qx1oppjpdm36f6otli5z73q45d3ih2/tinymce/6/tinymce.min.js"
       referrerpolicy="origin"
@@ -70,8 +69,10 @@
         tinymce.init({
           selector: "#mytextarea",
         });
+        document.getElementById('recaptcha').setAttribute('data-sitekey', config.recaptchaKey);
       });
     </script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
     <link
       rel="stylesheet"
@@ -372,11 +373,11 @@
             </div>
         </div>
       </div>
-        <div class="submit-captcha" id="recaptcha">
+        <div class="submit-captcha">
           <div
             class="g-recaptcha"
             id="recaptcha"
-            data-sitekey="6Lf3MDopAAAAAHflU59FHbEpSejyjGXIvb1rAgnq"
+            data-sitekey="yourKEY"
           ></div>
           <button type="submit" class="btn btn-primary" id="confirm-button">
             <i class="bi bi-send-fill"></i> Xác nhận
