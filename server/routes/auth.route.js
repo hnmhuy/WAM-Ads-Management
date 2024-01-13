@@ -9,7 +9,6 @@ router.get("/", controller.isLoggedIn, controller.showIndex);
 router.get("/profile", controller.isLoggedIn, controller.showProfile);
 router.put("/profile", upload.none(), controller.changeProfile);
 router.post("/profile", upload.none(), controller.changePassword);
-
 router.get("/logout", controller.logout);
 
 router.get("/login", controller.showLogin);

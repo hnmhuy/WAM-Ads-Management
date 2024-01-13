@@ -31,6 +31,7 @@ controller.showAds = (req, res) => {
         swap: componentDependcy.swap,
         title: componentDependcy.title,
         nav_link: navBarData.nav_link,
+        token: process.env.mapbox_token,
     });
 };
 
@@ -56,6 +57,7 @@ controller.showRequest = (req, res) => {
     };
     res.render("department/request", {
         layout: "department_layout",
+        tabTitle: "Quản lý yêu cầu cấp phép",
         jsHeader: componentDependcy.jsHeader,
         css: componentDependcy.css,
         swap: componentDependcy.swap,
@@ -155,7 +157,7 @@ controller.showUpdate = async (req, res) => {
     };
     res.render("department/update", {
         layout: "department_layout",
-        tabTitle: "QUẢN LÝ QUẢNG CÁO",
+        tabTitle: "Quản lý yêu cầu cập nhật",
         jsHeader: componentDependcy.jsHeader,
         css: componentDependcy.css,
         swap: componentDependcy.swap,

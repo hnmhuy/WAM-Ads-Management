@@ -133,7 +133,9 @@ controller.show = async (req, res) => {
             }
         )
     }
-    console.log(fbData)
+    if (fbData == null) {
+        fbData = []
+    }
     fbData.forEach(item => {
         let tmp = {}
         tmp.id = item.id;

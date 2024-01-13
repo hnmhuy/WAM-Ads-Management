@@ -480,8 +480,8 @@ function buildRandomMarkerContent(
 let data = undefined;
 
 // Init maps box and filter box
-mapboxgl.accessToken =
-    "pk.eyJ1IjoiZGV2LWhubWh1eSIsImEiOiJjbHBwYXY3ZW8weTdvMnBxbm85cnV2ZTFvIn0.6e8fwVmpoLxVSkyBWksYBg";
+mapboxgl.accessToken = token;
+
 const map = new mapboxgl.Map({
     container: "map",
     style: "mapbox://styles/mapbox/standard",

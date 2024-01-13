@@ -75,9 +75,7 @@ controller.createTypeAndPurpose = async (req, res) => {
         await models.category.create(data_purpose_id[i]);
     }
 
-    res.json({
-        message: "Create Successfully"
-    });
+    res.redirect("/api/location/createTypeAd");
 };
 
 controller.createTypeAdContent = async (req, res) => {
@@ -128,9 +126,7 @@ controller.createTypeAdContent = async (req, res) => {
         await models.category.create(data[i]);
     }
 
-    res.json({
-        message: "Create Successfully"
-    });
+    res.redirect("/api/location/createFeedbackCategory");
 }
 
 controller.createFeedbackCategory = async (req, res) => {
@@ -164,10 +160,7 @@ controller.createFeedbackCategory = async (req, res) => {
         data[i].field_id = type_id;
         await models.category.create(data[i]);
     }
-
-    res.json({
-        message: "Create Successfully"
-    });
+    res.send("Create successfully");
 }
 controller.getLocations = (req, res) => {
     let delegation = req.query.delegation;

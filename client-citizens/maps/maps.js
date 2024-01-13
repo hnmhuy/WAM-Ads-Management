@@ -7,9 +7,11 @@ import { addMarkers, updateMarkers } from "./markers.js";
 
 let data = undefined;
 
+const token = config.mapboxToken;
+const serverHost = config.serverHost;
+
 // Init maps box and filter box
-mapboxgl.accessToken =
-    "pk.eyJ1IjoiZGV2LWhubWh1eSIsImEiOiJjbHBwYXY3ZW8weTdvMnBxbm85cnV2ZTFvIn0.6e8fwVmpoLxVSkyBWksYBg";
+mapboxgl.accessToken = token;
 const map = new mapboxgl.Map({
     container: "map",
     style: "mapbox://styles/mapbox/standard",
@@ -148,7 +150,7 @@ const iconName = ['ad', 'ad-none', 'adReported-none', 'adReported', 'fb-feedback
 
 map.on('load', async () => {
     console.log("Loading data");
-    let response = await fetch("http://localhost:4000/api/mapData/getOnlyAd");
+    let response = await fetch(`${serverHost}/api/mapData/getOnlyAd`);
     response = await response.json();
     if(response.success) {
         console.log("Data loaded");
@@ -183,7 +185,7 @@ export async function getFeedbackGeoJson(feedbackList)
 {
     let fd = new FormData();
     fd.append("feedbackList", JSON.stringify(feedbackList));
-    let response = await fetch("http://localhost:4000/api/mapData/restoreUserFeedback", {
+    let response = await fetch(`${serverHost}/api/mapData/restoreUserFeedback`, {
         method: "POST",
         body: fd
     });

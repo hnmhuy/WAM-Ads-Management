@@ -25,9 +25,7 @@ controller.restoreField = async (req, res) => {
         await models.field.create(data[i]);
     }
 
-    res.json({
-        message: "Restore field successfully"
-    })
+    res.redirect("/api/location/createTypeAndPurpose");
 }
 
 controller.getField = (req, res) => {

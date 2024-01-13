@@ -1,4 +1,4 @@
-mapboxgl.accessToken = "pk.eyJ1IjoiZGV2LWhubWh1eSIsImEiOiJjbHBwYXY3ZW8weTdvMnBxbm85cnV2ZTFvIn0.6e8fwVmpoLxVSkyBWksYBg";
+mapboxgl.accessToken = token
 
 function initMap(elementId, centerMaker = true) {
     let map = new mapboxgl.Map({

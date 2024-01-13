@@ -5,7 +5,7 @@ const Sequelize = models.Sequelize;
 
 controller.reCaptcha = (req, res) => {
     const params = new URLSearchParams({
-        secret: "6Lf3MDopAAAAAE617VRXJ87gQ_4fdmksat-yKfB6",
+        secret: process.env.GG_RECAPTCHA_SECRET_KEY,
         response: req.body["g-recaptcha-response"],
         remoteip: req.ip,
     });
@@ -292,17 +292,5 @@ controller.getFeedbackOfAdPlace = async(req, res)=>{
     });
     res.json(data);
 }
-
-// controller.getResponse = async (req, res) =>
-// {
-//     let {id} = req.query;
-//     await models.feedback_response.findOne({
-//         attributes: ['officer', 'createdAt', 'content'],
-//         where: {id: id},
-//         include: [
-//             {model: models.account, attributes:['first_name', 'last_name']},
-//         ]
-//     }).then((data) => res.json(data)).catch((err) => res.json(err));
-// }
 
 module.exports = controller;

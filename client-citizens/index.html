@@ -45,6 +45,8 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/public/images/favicon/favicon-16x16.png">
     <link rel="manifest" href="/public/images/favicon/site.webmanifest">
 
+    <script src="./config.js"></script>
+
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <!-- Map Box library -->
     <script src="https://api.mapbox.com/mapbox-gl-js/v3.0.0/mapbox-gl.js"></script>
@@ -58,7 +60,6 @@
 
     <script src="./public/js/sidepeek.js"></script>
     <script src="./public/js/upload-file.js""></script>
-
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script
       src="https://cdn.tiny.cloud/1/z15wuwmhtc8coizy33qx1oppjpdm36f6otli5z73q45d3ih2/tinymce/6/tinymce.min.js"
@@ -84,20 +85,6 @@
       <div class="header-citizens">
         <img src="./public/images/logo.svg" alt="Not found" />
         <div class="search"></div>
-
-        <!-- <form action="" class="search">
-          <div id="geocoding-container" class="searchbar-box">
-            <i class="bi bi-search icon-searchbar"></i>
-            <input
-              type="text"
-              placeholder="Search..."
-              class="searchbar"
-              id="geocoder-input"
-            />
-            <i class="bi bi-x icon-searchbar"></i>
-            <i class="bi bi-search icon-searchbar"></i>
-          </div>
-        </form> -->
       </div>
       <div
         class="map-container"
@@ -115,80 +102,6 @@
         </div>
         <div class="sidepeek-container-data">
           <div class="location-img">
-            <!--           
-            <p>Hình ảnh điểm đặt quảng cáo</p>
-            <div
-              id="carouselId1"
-              class="carousel slide"
-              data-bs-ride="carousel"
-            >
-              <div class="carousel-indicators">
-                <div
-                  data-bs-target="#carouselId1"
-                  data-bs-slide-to="0"
-                  class="active"
-                  aria-current="true"
-                  aria-label="First slide"
-                ></div>
-                <div
-                  data-bs-target="#carouselId1"
-                  data-bs-slide-to="1"
-                  aria-label="Second slide"
-                ></div>
-                <div
-                  data-bs-target="#carouselId1"
-                  data-bs-slide-to="2"
-                  aria-label="Third slide"
-                ></div>
-              </div>
-              <div class="carousel-inner" id="imageList" role="listbox">
-                <div class="carousel-item active">
-                  <img
-                    src="https://thedrum-media.imgix.net/thedrum-prod/s3/news/tmp/349138/uk_0.jpg?w=1280&ar=default&fit=crop&crop=faces,edges&auto=format"
-                    class="w-100 d-block"
-                    alt="First slide"
-                  />
-                </div>
-                <div class="carousel-item">
-                  <img
-                    src="https://thedrum-media.imgix.net/thedrum-prod/s3/news/tmp/349138/uk_0.jpg?w=1280&ar=default&fit=crop&crop=faces,edges&auto=format"
-                    class="w-100 d-block"
-                    alt="Second slide"
-                  />
-                </div>
-                <div class="carousel-item">
-                  <img
-                    src="https://thedrum-media.imgix.net/thedrum-prod/s3/news/tmp/349138/uk_0.jpg?w=1280&ar=default&fit=crop&crop=faces,edges&auto=format"
-                    class="w-100 d-block"
-                    alt="Third slide"
-                  />
-                </div>
-              </div>
-              <button
-                class="carousel-control-prev"
-                type="button"
-                data-bs-target="#carouselId1"
-                data-bs-slide="prev"
-              >
-                <span
-                  class="carousel-control-prev-icon"
-                  aria-hidden="true"
-                ></span>
-                <span class="visually-hidden">Previous</span>
-              </button>
-              <button
-                class="carousel-control-next"
-                type="button"
-                data-bs-target="#carouselId1"
-                data-bs-slide="next"
-              >
-                <span
-                  class="carousel-control-next-icon"
-                  aria-hidden="true"
-                ></span>
-                <span class="visually-hidden">Next</span>
-              </button>
-            </div> -->
             </div>
 
           <div class="address">
@@ -235,119 +148,6 @@
 
           <div class="ad-content">
             <h5 id="num-ad">Thông tin bảng quảng cáo (4)</h5>
-<!-- 
-            <div class="adcard-container">
-              <div class="header">
-                <h5 id="ad-name">Bảng quảng cáo 1</h5>
-                <i class="bi bi-exclamation-octagon-fill icon hidden"></i>
-              </div>
-
-              <div class="size">
-                <b>Kích thước</b>
-                <p id="ad-size">2.5m x 10m</p>
-              </div>
-
-              <div class="contrast">
-                <p><b>Thời hạn hợp đồng</b></p>
-                <div class="date-container">
-                  <img src="./public/images/Line 7.png" alt="Not found!" />
-                  <div class="date">
-                    <p id="start">Ngày 15 tháng 10 năm 2023</p>
-                    <p id="end">Ngày 16 tháng 10 năm 2023</p>
-                  </div>
-                </div>
-              </div>
-              <div
-                id="carouselId2"
-                class="carousel slide"
-                data-bs-ride="carousel"
-              >
-                <div class="carousel-indicators">
-                  <div
-                    data-bs-target="#carouselId2"
-                    data-bs-slide-to="0"
-                    class="active"
-                    aria-current="true"
-                    aria-label="First slide"
-                  ></div>
-                  <div
-                    data-bs-target="#carouselId2"
-                    data-bs-slide-to="1"
-                    aria-label="Second slide"
-                  ></div>
-                  <div
-                    data-bs-target="#carouselId2"
-                    data-bs-slide-to="2"
-                    aria-label="Third slide"
-                  ></div>
-                </div>
-                <div class="carousel-inner" id="imageList" role="listbox">
-                  <div class="carousel-item active">
-                    <img
-                      src="https://thedrum-media.imgix.net/thedrum-prod/s3/news/tmp/349138/uk_0.jpg?w=1280&ar=default&fit=crop&crop=faces,edges&auto=format"
-                      class="w-100 d-block"
-                      alt="First slide"
-                    />
-                  </div>
-                  <div class="carousel-item">
-                    <img
-                      src="https://thedrum-media.imgix.net/thedrum-prod/s3/news/tmp/349138/uk_0.jpg?w=1280&ar=default&fit=crop&crop=faces,edges&auto=format"
-                      class="w-100 d-block"
-                      alt="Second slide"
-                    />
-                  </div>
-                  <div class="carousel-item">
-                    <img
-                      src="https://thedrum-media.imgix.net/thedrum-prod/s3/news/tmp/349138/uk_0.jpg?w=1280&ar=default&fit=crop&crop=faces,edges&auto=format"
-                      class="w-100 d-block"
-                      alt="Third slide"
-                    />
-                  </div>
-                </div>
-                <button
-                  class="carousel-control-prev"
-                  type="button"
-                  data-bs-target="#carouselId2"
-                  data-bs-slide="prev"
-                >
-                  <span
-                    class="carousel-control-prev-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="visually-hidden">Previous</span>
-                </button>
-                <button
-                  class="carousel-control-next"
-                  type="button"
-                  data-bs-target="#carouselId2"
-                  data-bs-slide="next"
-                >
-                  <span
-                    class="carousel-control-next-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="visually-hidden">Next</span>
-                </button>
-              </div>
-              <div class="button-container">
-                <button type="button" class="btn btn-primary detail-button" onclick="showAdDetail()">
-                  <i class="bi bi-info-circle"></i> Chi tiết
-                </button>
-                <button type="button" class="btn btn-primary feedback-button" onclick="openFeedbackForm()">
-                  <i class="bi bi-send-fill"></i> Phản hồi
-                </button>
-
-                <button
-                  type="button"
-                  class="btn btn-primary hidden"
-                  id="show-feedback-button"
-                  onclick="openFeedbackDetail()"
-                >
-                  <i class="bi bi-file-text-fill"></i> Xem phản hồi
-                </button>
-              </div>
-            </div>
-             -->
           </div>
         </div>
       </div>
@@ -429,80 +229,6 @@
         <div class="feedbackDetail-container-data">
           <div class="location-img">
             <p>Hình ảnh đính kèm</p>
-<!-- 
-            <div
-              id="carouselId6"
-              class="carousel slide"
-              data-bs-ride="carousel"
-            >
-              <div class="carousel-indicators">
-                <div
-                  data-bs-target="#carouselId6"
-                  data-bs-slide-to="0"
-                  class="active"
-                  aria-current="true"
-                  aria-label="First slide"
-                ></div>
-                <div
-                  data-bs-target="#carouselId6"
-                  data-bs-slide-to="1"
-                  aria-label="Second slide"
-                ></div>
-                <div
-                  data-bs-target="#carouselId6"
-                  data-bs-slide-to="2"
-                  aria-label="Third slide"
-                ></div>
-              </div>
-              <div class="carousel-inner" id="imageList" role="listbox">
-                <div class="carousel-item active">
-                  <img
-                    src="https://thedrum-media.imgix.net/thedrum-prod/s3/news/tmp/349138/uk_0.jpg?w=1280&ar=default&fit=crop&crop=faces,edges&auto=format"
-                    class="w-100 d-block"
-                    alt="First slide"
-                  />
-                </div>
-                <div class="carousel-item">
-                  <img
-                    src="https://thedrum-media.imgix.net/thedrum-prod/s3/news/tmp/349138/uk_0.jpg?w=1280&ar=default&fit=crop&crop=faces,edges&auto=format"
-                    class="w-100 d-block"
-                    alt="Second slide"
-                  />
-                </div>
-                <div class="carousel-item">
-                  <img
-                    src="https://thedrum-media.imgix.net/thedrum-prod/s3/news/tmp/349138/uk_0.jpg?w=1280&ar=default&fit=crop&crop=faces,edges&auto=format"
-                    class="w-100 d-block"
-                    alt="Third slide"
-                  />
-                </div>
-              </div>
-              <button
-                class="carousel-control-prev"
-                type="button"
-                data-bs-target="#carouselId6"
-                data-bs-slide="prev"
-              >
-                <span
-                  class="carousel-control-prev-icon"
-                  aria-hidden="true"
-                ></span>
-                <span class="visually-hidden">Previous</span>
-              </button>
-              <button
-                class="carousel-control-next"
-                type="button"
-                data-bs-target="#carouselId6"
-                data-bs-slide="next"
-              >
-                <span
-                  class="carousel-control-next-icon"
-                  aria-hidden="true"
-                ></span>
-                <span class="visually-hidden">Next</span>
-              </button>
-            </div>
-             -->
           </div>
           <div class="address">
             <i class="bi bi-geo-alt-fill"></i>
@@ -632,35 +358,7 @@
           <div id="tooltip" class="hidden">Vui lòng điền Nội dung báo cáo.</div>
         </div>
 
-
-        <!-- <div class="upload-file">
-          <label for="upload-file">Hình ảnh báo cáo</label>
-          <div class="drop_box">
-            <header>
-              <h4>Chọn ảnh hoặc kéo thả ảnh vào đây</h4>
-            </header>
-            <p>Chỉ chấp nhận: PNG, JPEG (tối đa 2 ảnh)</p>
-            <input
-              type="file"
-              hidden
-              accept=".png, .jpeg"
-              id="upload-file"
-              style="display: none"
-            />
-            <button class="btn">Chọn ảnh</button>
-          </div>
-        </div> -->
         <div style="width: 100%; height: 200px">
-          <!-- <div class="upload-field" id="feedback-upload-img">
-              <label for="imgFile" class="drag-drop">
-                  <input type="file" name="imgFile" id="imgFile" accept=".png, .jpeg, .gif" multiple hidden>
-                  <div class="holder">
-                      <i class="bi bi-cloud-arrow-up-fill"></i>
-                      <h4>Kéo và thả ảnh vào đây</h4> hoặc Click để duyệt file
-                  </div>
-              </label>
-              <div class="preview" style="display: none;"></div>
-          </div> -->
           <div class="upload-field" id="feedback-upload-img">
             <label for="imgFile-for-create" class="drag-drop" ondragover="dragoverHandler(event)" ondragleave="dragleaveHandler(event)" ondrop="dropHandler(event)">
                 <div class="holder">
@@ -674,7 +372,7 @@
             </div>
         </div>
       </div>
-        <div class="submit-captcha">
+        <div class="submit-captcha" id="recaptcha">
           <div
             class="g-recaptcha"
             id="recaptcha"
@@ -775,15 +473,8 @@
         </div>
       </div>
       <!-- ---------------------AD-DETAIL End ---------------------  -->
-      <!-- {{>sidepeek-noAd}} {{>feedback-detail}} {{> random-location}} {{>
-      feedback-form}} {{> ad-detail}} -->
     </main>
     <script type="module" src="./public/js/feedback.js"></script>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    <!-- <script>
-      imgInputController("feedback-upload-img");
-    </script> -->
-
-
   </body>
 </html>
